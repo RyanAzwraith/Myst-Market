@@ -1,4 +1,4 @@
-PRAGMA foreign_keys = OFF;
+
 
 BEGIN TRANSACTION;
 
@@ -127,13 +127,12 @@ INSERT INTO media_entity (media_id, entity_type, entity_id) VALUES
 -- =========================
 -- SALE
 -- =========================
-INSERT INTO sale (id, discount_percent, start_at, end_at) VALUES
-(1, 20, '2026-05-01', '2026-05-31');
+INSERT INTO sale (id, discount_percent, start_at, end_at, name, description) VALUES
+(1, 20, '2026-05-01', '2026-05-31', 'summer sale', NULL);
 
-INSERT INTO sale_product (product_id, sale_id, status) VALUES
-(1, 1, 'active'),
-(3, 1, 'active');
+INSERT INTO sale_product (product_id, sale_id) VALUES
+(1, 1),
+(3, 1);
 
 COMMIT;
 
-PRAGMA foreign_keys = ON;
