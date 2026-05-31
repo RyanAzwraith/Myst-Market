@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import { getHello } from "@/api/api";
+import { api } from "../api/api";
 
 
 function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-      getHello()
-          .then((data) => {
-              setMessage(data.message);
-          })
-          .catch((error) => {
-              console.error(error);
-          });
+      api.getHealth()
+          .then((data) => setMessage(data.message))
+          .catch((error) => console.error(error));
   }, []);
 
   return (

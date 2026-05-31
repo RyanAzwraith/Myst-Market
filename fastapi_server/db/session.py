@@ -1,5 +1,5 @@
 from sqlalchemy.orm import sessionmaker
-from fastapi_server.db.database import engine
+from db.database import engine
 from typing import Generator
 
 SessionLocal = sessionmaker(
