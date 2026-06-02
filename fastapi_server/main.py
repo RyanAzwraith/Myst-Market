@@ -1,10 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import logging
 
+from core.logging import setup_logging
 from db.database import engine
 from db.base import Base
+from dotenv import load_dotenv
+from core.exceptions import setup_exception_handlers
+
+load_dotenv()
+
+setup_logging()
 
 app = FastAPI()
+
+setup_exception_handlers(app)
+logger = logging.getLogger(__name__)
 
 origins = [
     "http://localhost:5173",
@@ -18,7 +29,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# TEMP: create tables automatically (dev only)
 Base.metadata.create_all(bind=engine)
 
 @app.get("/")

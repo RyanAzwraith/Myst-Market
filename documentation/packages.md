@@ -7,6 +7,7 @@ react-client
 - framer-motion
 - @tanstack/react-query
 - tailwindcss
+- @biomejs/biome
 
 fastapi-server
 - fastapi

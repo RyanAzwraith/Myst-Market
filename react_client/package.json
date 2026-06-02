@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"check": "biome check .",
+    "biome": "biome check --write ./src"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^6.5.0",
@@ -23,6 +26,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
+    "@biomejs/biome": "^2.4.16",
     "@eslint/js": "^10.0.1",
     "@rolldown/plugin-babel": "^0.2.3",
     "@types/babel__core": "^7.20.5",

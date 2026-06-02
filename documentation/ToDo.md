@@ -8,8 +8,8 @@ x Create database connection
 x Setup a hello world routes  
 x Finalize folder structure  
 x Finalize env config  
-- Setup litting/formating  
-- Setup logging  
+x Setup litting/formating  
+x Setup logging  
 - Setup error handling and testing  
 - Initialize strip, cors and authorization
 - make themes
