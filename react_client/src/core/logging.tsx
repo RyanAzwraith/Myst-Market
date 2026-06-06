@@ -1,11 +1,11 @@
-const isDev = import.meta.env.DEV;
+import { config } from './config';
 
 const prefix = (level: "debug" | "info" | "warn" | "error") => 
     `[${level.toUpperCase()} ${new Date().toISOString()}]` ;
 
 export const logger = {
   debug: (msg: string, ...args: any[]) => 
-    isDev && console.debug(prefix("debug"), msg, ...args),
+    config.PRODUCT_TYPE && console.debug(prefix("debug"), msg, ...args),
   info: (msg: string, ...args: any[]) => 
     console.info(prefix("info"), msg, ...args),
   warn: (msg: string, ...args: any[]) => 
@@ -13,4 +13,9 @@ export const logger = {
   error: (msg: string, ...args: any[]) => 
     console.error(prefix("error"), msg, ...args),
 };
+
+export type LogFunc = (
+    message: string,
+    details?: Record<string, any>
+) => void
 

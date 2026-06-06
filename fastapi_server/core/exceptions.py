@@ -1,26 +1,40 @@
-from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-import logging
+
+class AppException(Exception):
+    message:str = "Application Error"
+    status_code:int = 500
+
+    def __init_subclass__(cls):
+        if any([
+            not isinstance(cls.status_code, int),
+            not isinstance(cls.message, str)
+        ]):
+            raise TypeError(f"{cls.__name__} class properties type validation failed")
+
+    def __init__(self, details:dict|None):
+        self.message = self.__class__.message
+        self.status_code = self.__class__.status_code
+        self.details = details or {}
+        super().__init__(self.message)
+
+    def response(self) -> JSONResponse:
+        return JSONResponse( status_code=self.status_code, content={
+            "error": {
+                "status_code": self.status_code,
+                "message": self.message,
+                "details": self.details,
+            }
+        },)
 
 
-logger = logging.getLogger("api")
+class AppValidationError(AppException):
+    status_code = 500 
+    message = "Argument validation failed."
 
+class AppTypeError(AppValidationError):
+    status_code = 500 
+    message = "Argument validation failed, incorrect type."
 
-def setup_exception_handlers(app: FastAPI):
-
-    @app.exception_handler(Exception)
-    async def global_exception_handler(
-        request: Request,
-        exc: Exception,
-    ):
-        logger.error(
-            f"Unhandled exception: {str(exc)}",
-            exc_info=True,
-        )
-
-        return JSONResponse(
-            status_code=500,
-            content={
-                "detail": "Internal server error"
-            },
-        )
+class AppMissingFieldError(AppValidationError):
+    status_code = 500 
+    message = "Argument validation failed, missing field."

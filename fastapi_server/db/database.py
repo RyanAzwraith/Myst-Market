@@ -1,14 +1,23 @@
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-from dotenv import load_dotenv
-import os
+class Database:
+    Base = declarative_base()
 
-load_dotenv()
+    def __init__(self, config):
+        self.url = config.database_url
+        self.engine = create_engine(
+            self.url,
+            connect_args={"check_same_thread": False},
+        )
 
+        self.Base.metadata.create_all(bind=self.engine) #remove
+ 
+        self.Session_Local = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False},  # required for SQLite + FastAPI
-)
+    def get_session(self):
+        db = self.Session_Local()
+        try:
+            yield db
+        finally:
+            db.close()

@@ -1,5 +1,5 @@
 31/5
-
+Initilization
 x Setup github  
 x Install modules  
 x Initialize fast api  
@@ -10,7 +10,9 @@ x Finalize folder structure
 x Finalize env config  
 x Setup litting/formating  
 x Setup logging  
-- Setup error handling and testing  
+- Setup error handling
+- testing  
 - Initialize strip, cors and authorization
 - make themes
+- hello world to db
 
