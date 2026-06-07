@@ -11,11 +11,15 @@ class AppException(Exception):
         ]):
             raise TypeError(f"{cls.__name__} class properties type validation failed")
 
-    def __init__(self, details:dict|None):
+    def __init__(self, details:dict|None=None):
+        self.name = self.__class__.__name__
         self.message = self.__class__.message
         self.status_code = self.__class__.status_code
         self.details = details or {}
         super().__init__(self.message)
+    
+    def __str__(self):
+        return f"{self.name} | {self.message} | {self.details}"
 
     def response(self) -> JSONResponse:
         return JSONResponse( status_code=self.status_code, content={

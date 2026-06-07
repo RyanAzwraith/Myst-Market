@@ -5,7 +5,7 @@ export class AppError extends Error {
     statusCode: number
     details?: Record<string, any>
 
-    constructor({ details = {} }: { details?: Record<string, any> } = {}) {
+    constructor(details: Record<string, any>  = {}) {
         const cls = new.target as typeof AppError
         super(cls.defaultMessage)
         this.name = cls.name
@@ -13,9 +13,13 @@ export class AppError extends Error {
         this.statusCode = cls.statusCode
         this.details = details
     }   
+    
+    toString() {
+        return `${this.name}: ${this.message} | ${JSON.stringify(this.details)}`
+    }
 }
 
-export class ValidationError extends AppError {
+export class AppValidationError extends AppError {
     static defaultMessage = "Validation failed"
     static statusCode = 400
 }

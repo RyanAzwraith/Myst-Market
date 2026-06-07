@@ -14,8 +14,4 @@ export const logger = {
     console.error(prefix("error"), msg, ...args),
 };
 
-export type LogFunc = (
-    message: string,
-    details?: Record<string, any>
-) => void
 

@@ -1,10 +1,10 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
-from .core.config import init_config
-from .core.logger import init_logger
-from .core import exceptions
-from .db.database import Database
+from app.core.config import init_config
+from app.core.logger import init_logger
+from app.core import exceptions
+from app.db.database import Database
 
 class Context:
     def __init__(self):

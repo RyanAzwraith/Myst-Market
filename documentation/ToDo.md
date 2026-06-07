@@ -10,9 +10,8 @@ x Finalize folder structure
 x Finalize env config  
 x Setup litting/formating  
 x Setup logging  
-- Setup error handling
-- testing  
+x Setup error handling
+x testing  
 - Initialize strip, cors and authorization
-- make themes
-- hello world to db
+x make themes
 

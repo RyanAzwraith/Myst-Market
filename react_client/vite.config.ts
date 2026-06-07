@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
 import path from "path";
@@ -9,6 +9,10 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  test: {
+    environment: "jsdom",
+    globals: true,
+  },
   resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
@@ -16,3 +20,4 @@ export default defineConfig({
     },
 
 })
+

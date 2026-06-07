@@ -8,6 +8,10 @@ react-client
 - @tanstack/react-query
 - tailwindcss
 - @biomejs/biome
+- vitest 
+- @testing-library/react 
+- @testing-library/jest-dom jsdom
+- typescript
 
 fastapi-server
 - fastapi
@@ -21,7 +25,6 @@ fastapi-server
 - python-multipart
 - stripe
 - pytest
-    mabye later
-    - ruff
-    - mypy
+- pytest httpx2
+- ruff
 
