@@ -27,4 +27,4 @@ fastapi-server
 - pytest
 - pytest httpx2
 - ruff
-
+- sqlacodegen

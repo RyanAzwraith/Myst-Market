@@ -6,14 +6,13 @@ import stripe
 from app.core.config import init_config
 from app.core.logger import init_logger
 from app.core import exceptions
-from app.db.database import Database
-
+from app.db.database import Database, Base
+import app.db.models
 
 def create_app():
     config = init_config()
     logger = init_logger(config)
     db = Database(config)
-    db.Base.metadata.create_all(bind=db.engine) #remove
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):

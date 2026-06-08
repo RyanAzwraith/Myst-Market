@@ -1,0 +1,144 @@
+{
+  "media_entity": [
+    {
+      "entity_type": null,
+      "entity_id": null,
+      "media_id": null
+    }
+  ],
+  "order": [
+    {
+      "id": null,
+      "user_id": null,
+      "status_id": null,
+      "address_id": null,
+      "created_at": null,
+      "updated_at": null,
+      "cost_aud_cent": null,
+      "sent_at": null,
+      "delivery_note": null
+    }
+  ],
+  "order_product": [
+    {
+      "order_id": null,
+      "product_id": null,
+      "quantity": null,
+      "unit_price_aud_cent": null
+    }
+  ],
+  "category": [
+    {
+      "id": null,
+      "name": null
+    }
+  ],
+  "status": [
+    {
+      "id": null,
+      "name": null
+    }
+  ],
+  "rarity": [
+    {
+      "id": null,
+      "name": null
+    }
+  ],
+  "sale": [
+    {
+      "id": null,
+      "discount_percent": null,
+      "start_at": null,
+      "end_at": null,
+      "name": null,
+      "description": null
+    }
+  ],
+  "payment": [
+    {
+      "id": null,
+      "amount_cent": null,
+      "reference": null,
+      "provider": null,
+      "currency_code": null,
+      "status": null,
+      "created_at": null,
+      "updated_at": null,
+      "order_id": null,
+      "user_id": null
+    }
+  ],
+  "user": [
+    {
+      "id": null,
+      "email": null,
+      "is_admin": null,
+      "is_registered": null,
+      "name": null,
+      "password_hash": null,
+      "created_at": null,
+      "deleted_at": null
+    }
+  ],
+  "article": [
+    {
+      "id": null,
+      "created_at": null,
+      "slug": null,
+      "title": null,
+      "desciption": null
+    }
+  ],
+  "address": [
+    {
+      "id": null,
+      "user_id": null,
+      "country_code": null,
+      "state": null,
+      "city": null,
+      "street": null,
+      "postcode": null
+    }
+  ],
+  "review": [
+    {
+      "id": null,
+      "user_id": null,
+      "product_id": null,
+      "created_at": null,
+      "rating": null,
+      "description": null
+    }
+  ],
+  "stock": [
+    {
+      "product_id": null,
+      "current": null,
+      "updated_at": null
+    }
+  ],
+  "product": [
+    {
+      "id": null,
+      "name": null,
+      "category_id": null,
+      "rarity_id": null,
+      "price_aud_cent": null,
+      "created_at": null,
+      "slug": null,
+      "description": null,
+      "discontinued_at": null
+    }
+  ],
+  "media": [
+    {
+      "id": null,
+      "type": null,
+      "file_name": null,
+      "created_at": null,
+      "alt_text": null,
+      "sort_order": null
+    }
+  ]
+}
