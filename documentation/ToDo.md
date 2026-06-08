@@ -11,7 +11,9 @@ x Finalize env config
 x Setup litting/formating  
 x Setup logging  
 x Setup error handling
-x testing  
-- Initialize strip, cors and authorization
+x setup testing  
+x Initialize strip, cors
 x make themes
+x initialize migrations
+x Document
 

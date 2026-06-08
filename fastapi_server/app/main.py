@@ -2,27 +2,23 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-from app.context import ctx
+from app.app import create_app
+from app.api.strip.checkout import router
 
-ORIGINS = [
-    "http://localhost:5173",
-]
+app = create_app()
 
-app = FastAPI(lifespan=ctx.lifespan)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.include_router(router)
 
 @app.get("/")
 def root():
-    ctx.logger.init.debug('hello world, this is ctx.logger.init.debug')
-    exc = ctx.exceptions.AppException({"message":"hello world, this is ctx.logger.init.debug(ctx.exceptions.AppException"})
-    ctx.logger.init.info(exc)
+
     return {"message": "Myst Market API running with DB"}
+
+@app.get("/hello")
+def hello():
+    app.state.logger.init.debug('hello world, this is ctx.logger.init.debug')
+    exc = app.state.exceptions.AppException({"message":"hello world, this is ctx.logger.init.debug(ctx.exceptions.AppException"})
+    app.state.logger.init.info(exc)
 
 # uvicorn main:app --reload
 # python -m uvicorn app.main:app --reload
