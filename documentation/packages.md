@@ -12,6 +12,7 @@ react-client
 - @testing-library/react 
 - @testing-library/jest-dom jsdom
 - typescript
+- @tailwindcss/vite
 
 fastapi-server
 - fastapi
@@ -27,4 +28,5 @@ fastapi-server
 - pytest
 - pytest httpx2
 - ruff
-
+- sqlacodegen
+- faker

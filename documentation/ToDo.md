@@ -1,5 +1,6 @@
-31/5
+
 Initilization
+31/5 - 8/6
 x Setup github  
 x Install modules  
 x Initialize fast api  
@@ -17,3 +18,23 @@ x make themes
 x initialize migrations
 x Document
 
+Desgin and Scaffold
+8/6
+x Customer flow
+x Website desgin
+x Database design
+x core React models
+x Shared Components
+x sqlalchemy modelling
+x migration
+x dev seeding
+
+Features
+9/6
+- Scaffold
+- User
+- Cart
+- Catalogue
+- Shop
+- Checkout
+- Admin

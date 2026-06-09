@@ -1,6 +1,3 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import os
 
 from app.app import create_app
 from app.api.strip.checkout import router

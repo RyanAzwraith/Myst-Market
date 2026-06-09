@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-class Database:
-    Base = declarative_base()
+Base = declarative_base()
 
+class Database:
     def __init__(self, config):
         self.url = config.database_url
         self.engine = create_engine(

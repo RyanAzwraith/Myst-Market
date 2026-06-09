@@ -29,7 +29,10 @@ create migration:
 run migration:
 > alembic upgrade head
 
-test Strip card number: 4242 4242 4242 4242
+seeding:
+1. edit run_seed.py
+2. > python -m app.db.seeds.run_seed --clear
+    - --clear is optional
 
 ## /react_client
 Setup:
@@ -39,3 +42,5 @@ Setup:
 
 Run Server:
 > npm run dev
+
+test Strip card number: 4242 4242 4242 4242

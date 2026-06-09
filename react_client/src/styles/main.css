@@ -1,12 +1,12 @@
-body {
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  font-family: system-ui, sans-serif;
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
 }
 
-button {
-  background: var(--primary);
-  color: white;
-  border: 1px solid var(--border);
+body {
+  background: #1f2937;
+  color: #000000;
+  margin: 0;
+  font-family: system-ui, sans-serif;
 }
