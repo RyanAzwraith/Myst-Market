@@ -1,30 +1,42 @@
 import { useEffect, useState } from "react";
-import { api } from "./api/api";
-import { logger, AppError, AppValidationError } from "./core";
-import checkout from "./api/stripe/checkout";
-logger.info("Log working");
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-const error = new AppError({ details: "error working" });
-logger.info(error.toString());
+import "./styles/themes.css"
+import "./styles/main.css"
 
-function App() {
-	const [message, setMessage] = useState("");
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import { UserProvider } from "@/providers/UserProvider";
+import { CartProvider } from "@/providers/CartProvider";
+import { Scaffold } from "./features/scaffold/Scaffold";
 
-	useEffect(() => {
-		api
-			.getHealth()
-			.then((data) => setMessage(data.message))
-			.catch((error) => console.error(error));
-	}, []);
+import { Catalogue } from "./features/catalogue/Catalogue";
+import { Shop } from "./features/shop/Shop";
+import { CheckOut } from "./features/checkout/CheckOut";
 
-	return (
-		<div>
-			<h1>Myst Market</h1>
-
-			<p>{message}</p>
-			<button onClick={checkout}>hello stripe</button>
-		</div>
-	);
+export function AppRoutes() {
+    return (
+        <Routes>
+			<Route path="*" element={<Catalogue />} />
+			<Route path="/catalogue" element={<Catalogue />} />
+			<Route path="/shop" element={<Shop />} />
+			<Route path="/checkout" element={<CheckOut />} />
+        </Routes>
+    )
 }
 
-export default App;
+export function App() {
+
+	return (
+		<BrowserRouter>
+			<ThemeProvider>
+				<UserProvider>
+					<CartProvider>
+						<Scaffold>
+							<AppRoutes />
+						</Scaffold>
+					</CartProvider>
+				</UserProvider>
+			</ThemeProvider>
+		</BrowserRouter>
+	);
+}

@@ -12,6 +12,7 @@ react-client
 - @testing-library/react 
 - @testing-library/jest-dom jsdom
 - typescript
+- @tailwindcss/vite
 
 fastapi-server
 - fastapi

@@ -21,10 +21,20 @@ x Document
 Desgin and Scaffold
 8/6
 x Customer flow
-- Website desgin
+x Website desgin
 x Database design
-- core React models
-- Shared Components
+x core React models
+x Shared Components
 x sqlalchemy modelling
 x migration
 x dev seeding
+
+Features
+9/6
+- Scaffold
+- User
+- Cart
+- Catalogue
+- Shop
+- Checkout
+- Admin

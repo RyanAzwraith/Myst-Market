@@ -26,9 +26,12 @@ def parse_args():
     return parser.parse_args()
 
 
+
 if __name__ == "__main__":
     args = parse_args()
     config = init_config()
+    if config.environment != "development":
+        raise RuntimeError( f"Database seeding only allowed when ENVIRONMENT=development, not {config.environment}")
     db = next(Database(config).get_session())
 
     if args.clear:

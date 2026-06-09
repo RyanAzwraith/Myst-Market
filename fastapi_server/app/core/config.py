@@ -23,6 +23,7 @@ def init_config():
         log_level=validate_env_var("LOG_LEVEL", required=False, default="WARNING"),
         log_to_file=to_bool(validate_env_var("LOG_TO_FILE", required=False, default="false")),
         cors_origins=to_list(validate_env_var("CORS_ORIGINS", required=True)),
-        stripe_secret_key=validate_env_var("STRIPE_SECRET_KEY", required=True)
+        stripe_secret_key=validate_env_var("STRIPE_SECRET_KEY", required=True),
+        environment=validate_env_var("ENVIRONMENT", required=True)
     )
 
