@@ -15,8 +15,8 @@ function Evar(
 }
 
 const configEntries  = [
-    Evar("VITE_LAUNCH_TYPE", false,"DEV"),
-    Evar("VITE_SERVER_URL")
+    Evar("VITE_LAUNCH_TYPE", false, "DEV"),
+    Evar("VITE_SERVER_URL"),
 ] 
 
 export const config = Object.fromEntries(

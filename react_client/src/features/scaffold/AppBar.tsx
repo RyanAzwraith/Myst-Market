@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { Cart } from "../cart/Cart";
-import { User } from "../user/User";
+import { ProfileButton } from "./ProfileButton";
 
 
 
@@ -13,7 +13,7 @@ export function AppBar() {
                 <button className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-900" onClick={() => navigate("/catalogue")}>Catalogue</button>
                 <button className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-900" onClick={() => navigate("/shop")}>Shopping</button>
                 <Cart />
-                <User />
+                <ProfileButton />
             </div>
         </div>
     )

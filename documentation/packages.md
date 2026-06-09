@@ -13,6 +13,7 @@ react-client
 - @testing-library/jest-dom jsdom
 - typescript
 - @tailwindcss/vite
+- @heroicons/react
 
 fastapi-server
 - fastapi

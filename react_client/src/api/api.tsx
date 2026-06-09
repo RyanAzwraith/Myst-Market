@@ -1,10 +1,11 @@
-const API_BASE_URL = import.meta.env.VITE_SERVER_URL as string;
+import type { User } from "@/models/user";
+import { config } from "../core/config"
 
 async function request<T>(
     endpoint: string,
     options: RequestInit = {}
 ): Promise<T> {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    const response = await fetch(`${config.VITE_SERVER_URL}${endpoint}`, {
         headers: {
             "Content-Type": "application/json",
             ...options.headers,
@@ -34,4 +35,8 @@ export interface HealthResponse {
  */
 export const api = {
     getHealth: () => request<HealthResponse>("/"),
+    getUser: (email: string, password: string) => request<User>("/user", {
+        method: "GET",
+        body: JSON.stringify({ email, password }),
+    }),
 };

@@ -12,6 +12,8 @@ import { Scaffold } from "./features/scaffold/Scaffold";
 import { Catalogue } from "./features/catalogue/Catalogue";
 import { Shop } from "./features/shop/Shop";
 import { CheckOut } from "./features/checkout/CheckOut";
+import { Register } from "./features/register/Register";
+import { Profile } from "./features/profile/Profile";
 
 export function AppRoutes() {
     return (
@@ -20,6 +22,9 @@ export function AppRoutes() {
 			<Route path="/catalogue" element={<Catalogue />} />
 			<Route path="/shop" element={<Shop />} />
 			<Route path="/checkout" element={<CheckOut />} />
+			<Route path="/register" element={<Register />} />
+			<Route path="/profile" element={<Profile />} />
+
         </Routes>
     )
 }
