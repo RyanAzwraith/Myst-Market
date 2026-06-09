@@ -19,4 +19,8 @@ class Article(Base):
     title: Mapped[str | None] = mapped_column(Text)
     desciption: Mapped[str | None] = mapped_column(Text)
 
-    product: Mapped[list['Product']] = relationship('Product', secondary='article_product', back_populates='article')
+    products: Mapped[list['Product']] = relationship(
+        'Product',
+        secondary='article_product',
+        back_populates='articles',
+    )

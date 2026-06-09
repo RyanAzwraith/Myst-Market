@@ -28,3 +28,4 @@ fastapi-server
 - pytest httpx2
 - ruff
 - sqlacodegen
+- faker

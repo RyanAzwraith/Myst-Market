@@ -27,4 +27,4 @@ x Database design
 - Shared Components
 x sqlalchemy modelling
 x migration
-- dev seeding
+x dev seeding
