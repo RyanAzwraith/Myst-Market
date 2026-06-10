@@ -1,5 +1,7 @@
 import type { User } from "@/models/user";
-import { config } from "../core/config"
+import { config, logger } from "../core"
+import { ServerError } from "../core/errors"
+
 
 async function request<T>(
     endpoint: string,
@@ -15,12 +17,15 @@ async function request<T>(
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => null);
-        throw new Error(
-            errorData?.detail || `API error: ${response.status}`
-        );
+        throw new ServerError({
+            responseStatus: response.status,
+            details : errorData
+        });
     }
-
-    return response.json();
+    const json = response.json()
+    logger.info(`req: ${endpoint} - ${JSON.stringify(options)}`)
+    logger.info(JSON.stringify(json))
+    return json;
 }
 
 /**
@@ -34,9 +39,11 @@ export interface HealthResponse {
  * API functions
  */
 export const api = {
-    getHealth: () => request<HealthResponse>("/"),
-    getUser: (email: string, password: string) => request<User>("/user", {
-        method: "GET",
+
+    getHealth: () => request<HealthResponse>("/health"),
+
+    login: (email: string, password: string) => request<User>("/login", {
+        method: "POST",
         body: JSON.stringify({ email, password }),
     }),
 };

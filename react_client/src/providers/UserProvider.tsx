@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import type { User } from "@/models/user"
-import { useQuery } from "node_modules/@tanstack/react-query/build/modern/_tsup-dts-rollup"
-import { api } from "@/api/api"
 
 interface UserContextType {
     user: User | undefined,
@@ -13,19 +11,6 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | undefined>(undefined) 
 
-    const query = useQuery({
-        queryKey: ["me"],
-        queryFn: api.getUser,
-        retry: false,
-    })
-
-    // sync query → context
-    useEffect(() => {
-        if (query.data) {
-            setUser(query.data)
-        }
-    }, [query.data])
-    
     return (
         <UserContext.Provider value={{ user, setUser}}>
             {children}

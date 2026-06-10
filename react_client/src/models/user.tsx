@@ -6,4 +6,5 @@ export interface User {
     isAdmin: boolean,
     isRegistered: boolean,
     name: string
+    accessToken: string
 }    

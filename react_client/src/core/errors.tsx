@@ -23,3 +23,8 @@ export class AppValidationError extends AppError {
     static defaultMessage = "Validation failed"
     static statusCode = 400
 }
+
+export class ServerError extends AppError {
+    static defaultMessage = "Server error"
+    static statusCode = 500
+}

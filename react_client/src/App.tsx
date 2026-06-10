@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, data } from "react-router-dom"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./styles/themes.css"
 import "./styles/main.css"
@@ -14,6 +15,8 @@ import { Shop } from "./features/shop/Shop";
 import { CheckOut } from "./features/checkout/CheckOut";
 import { Register } from "./features/register/Register";
 import { Profile } from "./features/profile/Profile";
+
+import { api } from "@/api/api";
 
 export function AppRoutes() {
     return (
@@ -31,17 +34,28 @@ export function AppRoutes() {
 
 export function App() {
 
+	const queryClient = new QueryClient()
+	const [health, setHealth] = useState("")
+
+	useEffect(() => {
+		api.getHealth().then((data) => setHealth(data.message))
+	}, [])
+
 	return (
-		<BrowserRouter>
-			<ThemeProvider>
-				<UserProvider>
-					<CartProvider>
-						<Scaffold>
-							<AppRoutes />
-						</Scaffold>
-					</CartProvider>
-				</UserProvider>
-			</ThemeProvider>
-		</BrowserRouter>
+		<QueryClientProvider client={queryClient}>
+			<BrowserRouter>
+				<ThemeProvider>
+					<UserProvider>
+						<CartProvider>
+							<Scaffold>
+								<h1>{health}</h1>
+								<AppRoutes />
+							</Scaffold>
+						</CartProvider>
+					</UserProvider>
+				</ThemeProvider>
+			</BrowserRouter>
+		</QueryClientProvider>
+		
 	);
 }

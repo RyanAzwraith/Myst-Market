@@ -38,3 +38,12 @@ Features
 - Shop
 - Checkout
 - Admin
+
+User
+10/6
+- user route
+- auth route
+- auth model
+- appbar button
+- profile page
+- register page
