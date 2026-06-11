@@ -40,3 +40,7 @@ class AppTypeError(AppValidationError):
 
 class AppMissingFieldError(AppValidationError):
     message = "Argument validation failed, missing field."
+
+
+class ContentNotFound(Exception):
+    pass

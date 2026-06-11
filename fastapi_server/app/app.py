@@ -5,8 +5,8 @@ import stripe
 from app.core.config import init_config
 from app.core.logger import init_logger
 from app.core.middleware import init_middleware
-from app.db.database import Database, Base
-import app.db.models
+from app.db.database import Database
+from app.exception_handlers import init_exception_handlers
 
 def create_app():
     config = init_config()
@@ -21,6 +21,7 @@ def create_app():
     app = FastAPI(lifespan=lifespan)
 
     init_middleware(app, config)
+    init_exception_handlers(app)
 
     stripe.api_key = config.stripe_key
 
