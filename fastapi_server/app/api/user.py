@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request
 
-router = APIRouter()
+router = APIRouter("/user")
 
-@router.post("/user")
+@router.post("")
 async def postUser(request: Request):
     body = await request.json()
     return 204, {
@@ -14,7 +14,7 @@ async def postUser(request: Request):
         "accessToken": "abcdefg123456"
     }
 
-@router.get("/user/{user_id}")
+@router.get("/{user_id}")
 async def get(request: Request, user_id: int):
     return 200, {
         "id": user_id,
@@ -25,7 +25,7 @@ async def get(request: Request, user_id: int):
         "accessToken": "abcdefg123456"
     }
 
-@router.put("/user/{user_id}")
+@router.put("/{user_id}")
 async def putUser(request: Request, user_id):
     return 200, {
         "id": user_id,
@@ -36,6 +36,6 @@ async def putUser(request: Request, user_id):
         "accessToken": "abcdefg123456"
     }
 
-@router.delete("/user/{user_id}")
+@router.delete("/{user_id}")
 async def deleteUser(request: Request):
     return 204

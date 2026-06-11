@@ -21,11 +21,9 @@ def make_filter(prefix: str):
         return record.name == f"app.{prefix}" or record.name.startswith(f"app.{prefix}.")
     return _filter
 
-logger = None
-
-def init_logger(config):
-        log_level = getattr(logging, config.log_level.upper(), logging.INFO)
-        log_to_file = config.log_to_file
+def init_logger(log_level, log_to_file):
+        log_level = getattr(logging, log_level.upper(), logging.INFO)
+        log_to_file = log_to_file
 
         root_logger = logging.getLogger()
         root_logger.setLevel(logging.DEBUG)
@@ -50,4 +48,7 @@ def init_logger(config):
                 handler.addFilter(make_filter(name))
                 root_logger.addHandler(handler)
         
-        return SimpleNamespace(**{n: logging.getLogger(f"app.{n}") for n in LOG_NAMES})
+        global logger
+        logger = SimpleNamespace(**{n: logging.getLogger(f"app.{n}") for n in LOG_NAMES})
+        return logger
+logger = None

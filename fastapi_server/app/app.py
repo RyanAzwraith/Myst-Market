@@ -5,14 +5,13 @@ import stripe
 from app.core.config import init_config
 from app.core.logger import init_logger
 from app.core.middleware import init_middleware
-from app.core import exceptions
 from app.db.database import Database, Base
 import app.db.models
 
 def create_app():
     config = init_config()
-    logger = init_logger(config)
-    db = Database(config)
+    init_logger(config.log_level, config.log_to_file)
+    db = Database(config.database_url)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -23,10 +22,8 @@ def create_app():
 
     init_middleware(app, config)
 
-    stripe.api_key = config.stripe_secret_key
+    stripe.api_key = config.stripe_key
 
-    app.state.logger = logger
-    app.state.exceptions = exceptions
     app.state.get_session = db.get_session
 
     return app
