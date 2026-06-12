@@ -31,3 +31,4 @@ fastapi-server
 - ruff
 - sqlacodegen
 - faker
+- pydantic[email]

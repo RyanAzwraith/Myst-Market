@@ -11,10 +11,10 @@ class Database:
             connect_args={"check_same_thread": False},
             
         ) 
-        self.Session_Local = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+        self.make_session = sessionmaker(autobegin=True, autocommit=False, autoflush=False, bind=self.engine)
 
     def get_session(self):
-        db = self.Session_Local()
+        db = self.make_session()
         try:
             yield db
         finally:

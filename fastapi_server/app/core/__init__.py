@@ -1,5 +1,5 @@
-from .config import config
-from .logger import logger
-from .dependencies import get_session
+from .config import get_config
+from .logger import get_logger
+from . import exceptions
 
-all = [config, logger, get_session]
+all = [get_config, get_logger, exceptions]

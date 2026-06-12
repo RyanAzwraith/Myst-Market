@@ -12,7 +12,8 @@ LOG_NAMES = [
     "payment",
     "security",
     "services",
-    "app"
+    "app",
+    "requests"
 ]
 
 CONSOLE_LOG_FORMATTER = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
@@ -53,4 +54,4 @@ def create_logger(log_level, log_to_file):
         logger = SimpleNamespace(**{n: logging.getLogger(f"app.{n}") for n in LOG_NAMES})
         return logger
 
-init_logger, logger = create_singleton(create_logger)
+init_logger, get_logger = create_singleton(create_logger)

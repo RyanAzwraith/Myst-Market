@@ -15,6 +15,9 @@ def validate_env_var(name:str, required:bool=True, default:str|bool=None):
 def to_bool(var:str):
     return var.lower() in {"1", "true", "yes", "y", "on"}
 
+def to_int(var:str):
+    return int(var)
+
 def to_list(var:str):
     return [v.strip() for v in var.split(",") if v.strip()]
         
@@ -27,8 +30,10 @@ def create_config():
         cors_origins=to_list(validate_env_var("CORS_ORIGINS", required=True)),
         stripe_key=validate_env_var("STRIPE_KEY", required=True),
         environment=validate_env_var("ENVIRONMENT", required=True),
-        jwt_key=validate_env_var("JWT_KEY", required=True)
+        jwt_key=validate_env_var("JWT_KEY", required=True),
+        access_token_minutes=to_int(validate_env_var("ACCESS_TOKEN_MINUTES", required=False, default="15")),
+        refresh_token_hours=to_int(validate_env_var("REFRESH_TOKEN_HOURS", required=False, default="12"))
     )
 
 
-init_config, config = create_singleton(create_config)
+init_config, get_config = create_singleton(create_config)
