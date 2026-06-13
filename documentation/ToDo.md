@@ -41,9 +41,9 @@ Features
 
 User
 10/6
-- user route
-- auth route
-- auth model
+x user route
+x auth route
+x auth model
 - appbar button
 - profile page
 - register page

@@ -1,7 +1,11 @@
-export function Cart() {
-    return (
-        <button className="cart">
-            <h2>Cart</h2>
-        </button>
-    )
+
+export interface Cart {
+    items: CartItem[],
+    total_price_aud_cent: number
+}
+
+export type CartItem = {
+    product_id: number,
+    quantity: number,
+    unit_price_aud_cent: number
 }

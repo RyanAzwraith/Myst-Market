@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from fastapi import Response, HTTPException
+from fastapi import Response
 import jwt
 
 from app.core import get_config

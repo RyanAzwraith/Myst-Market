@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Cookie, Response
 from pydantic import BaseModel, ConfigDict, EmailStr
 
+from app.utils.to_camel import to_camel
 from app.api.dependencies import get_session, get_current_user, get_admin_user
 from app.core.exceptions import (
     AuthenticationException
@@ -23,73 +24,69 @@ from .auth_service import (
 
 router = APIRouter()
 
-# Schemas
-## Requests
-class UserPostRequest(BaseModel):
-    email: EmailStr
-    password: str
-    name: str
 
-class UserPatchRequest(BaseModel):
-    email: EmailStr | None = None
-    name: str | None = None
-    password: str | None = None  
+# Routes
+#   PATCH /user/me
+#   DELETE /user/me
+#   DELETE /users/{user_id}
+#   POST /auth/login
+#   GET /auth/logout
+#   GET /auth/refresh
+#   PUT /auth/register
 
-class LoginRequest(BaseModel):
-    email: EmailStr
-    password: str
+## Sub Types
 
-## Reponses
 class UserResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True, alias_generator=to_camel)
     id: int
     email: str
     is_admin: bool
     is_registered: bool
     name: str
 
-class LoginResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    access_token: str
-    user: UserResponse
 
-class RefreshResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    access_token: str
-    
-# Routes
-#   PATCH /user/{user_id}
-#   DELETE /user/{user_id}
-#   POST /auth/login
-#   GET /auth/logout
-#   GET /auth/refresh
-#   PUT /auth/register
+# PATCH /user/me
+class UserPatchRequest(BaseModel):
+    email: EmailStr | None = None
+    name: str | None = None
+    password: str | None = None  
 
-# /user
+type UserPatchResponse = UserResponse
 
-@router.patch("/user/me", status_code=200, response_model=UserResponse)
-async def patch_user_route(req: UserPatchRequest, current_user=Depends(get_current_user),session=Depends(get_session)):
+@router.patch("/user/me", status_code=200, response_model=UserPatchResponse)
+async def patch_user_route(req: UserPatchRequest, current_user=Depends(get_current_user), session=Depends(get_session)):
     return update_user(session, current_user.id, req)
 
+# DELETE /user/me
 @router.delete("/user/me", status_code=204)
 async def delete_user_route(current_user=Depends(get_current_user), session=Depends(get_session)):
     delete_user(session, current_user.id)
     return None
 
-@router.delete("/users/{user_id}", status_code=204)
+# DELETE /admin/users/{user_id}
+@router.delete("/admin/users/{user_id}", status_code=204)
 async def admin_delete_user_route(user_id:int, _=Depends(get_admin_user), session=Depends(get_session)):
     delete_user(session, user_id)
     return None
 
-# /auth
+# POST /auth/login
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+class LoginResponse(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+    access_token: str
+    userResponse: UserResponse
 
 @router.post("/auth/login", status_code=200, response_model=LoginResponse)
 async def login_route(req: LoginRequest, res: Response, session=Depends(get_session)):
-    user = get_user_by_email(session, req.email)
-    verify_password(req.password, user.password_hash)
-    access_token = issue_tokens(user.id, res)
-    return LoginResponse( access_token=access_token, user=user)
+    db_user = get_user_by_email(session, req.email)
+    verify_password(req.password, db_user.password_hash)
+    access_token = issue_tokens(db_user.id, res)
+    return LoginResponse( access_token=access_token, userResponse=db_user)
 
+# GET /auth/logout
 @router.get("/auth/logout", status_code=200)
 async def logout_route(res: Response):
     res.delete_cookie(
@@ -97,6 +94,11 @@ async def logout_route(res: Response):
         path="/",
     )
     return None
+
+# // GET /auth/refresh
+class RefreshResponse(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+    access_token: str
 
 @router.get("/auth/refresh", status_code=200, response_model=RefreshResponse)
 async def refresh_route(refresh_token=Cookie(default=None)):
@@ -112,8 +114,16 @@ async def refresh_route(refresh_token=Cookie(default=None)):
     
     return RefreshResponse(access_token=access_token,)
 
-@router.post("/auth/register", status_code=201, response_model=LoginResponse)
-async def register_route(req: UserPostRequest, res: Response, session=Depends(get_session)):
-    user = create_user(session, req)
-    access_token = issue_tokens(user.id, res)
-    return LoginResponse(access_token=access_token, user=user)   
+# PUT /auth/register
+class RegisterRequest(BaseModel):
+    email: EmailStr
+    password: str
+    name: str
+
+type RegisterResponse = LoginResponse
+
+@router.post("/auth/register", status_code=201, response_model=RegisterResponse)
+async def register_route(req: RegisterRequest, res: Response, session=Depends(get_session)):
+    db_user = create_user(session, req)
+    access_token = issue_tokens(db_user.id, res)
+    return RegisterResponse(access_token=access_token, userResponse=db_user)   
