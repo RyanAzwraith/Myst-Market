@@ -31,7 +31,7 @@ def decode_token(token: str) -> dict:
     try:
         return jwt.decode(token, get_config().jwt_key, algorithms=[ALGORITHM])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationException("Expired Token")
+        raise AuthenticationException("Expired Token", status_code=451 )
     except jwt.InvalidTokenError:
         raise AuthenticationException("Invalid Token")
         

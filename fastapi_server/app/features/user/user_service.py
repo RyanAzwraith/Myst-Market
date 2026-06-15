@@ -1,4 +1,5 @@
 import bcrypt
+import datetime
 from app.db.models import User
 from app.core.exceptions import (
     AuthenticationException,
@@ -50,6 +51,9 @@ def update_user(session, user_id, data):
     db_user = get_user(session, user_id)
 
     for key, value in data.model_dump(exclude_unset=True).items():
+        strip = value.strip()
+        if not strip: 
+            continue
         match key:
             case "password": 
                 db_user.password_hash = hash_password(value)
@@ -60,7 +64,11 @@ def update_user(session, user_id, data):
     session.refresh(db_user)
     return db_user
 
-def delete_user(session, user_id) -> None:
+def deactivate_user(session, user_id) -> None:
     db_user = get_user(session, user_id)
-    session.delete(db_user)
+    db_user.name = None
+    db_user.password = None
+    db_user.is_registered = False
+    db_user.is_admin = False
+    db_user.deleted_at = datetime.now()
     session.commit()

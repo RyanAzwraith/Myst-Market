@@ -12,7 +12,7 @@ from .user_service import (
     get_user_by_email, 
     create_user, 
     update_user, 
-    delete_user, 
+    deactivate_user, 
     verify_password
 )
 
@@ -51,7 +51,7 @@ class UserPatchRequest(BaseModel):
     name: str | None = None
     password: str | None = None  
 
-type UserPatchResponse = UserResponse
+UserPatchResponse = UserResponse
 
 @router.patch("/user/me", status_code=200, response_model=UserPatchResponse)
 async def patch_user_route(req: UserPatchRequest, current_user=Depends(get_current_user), session=Depends(get_session)):
@@ -59,14 +59,18 @@ async def patch_user_route(req: UserPatchRequest, current_user=Depends(get_curre
 
 # DELETE /user/me
 @router.delete("/user/me", status_code=204)
-async def delete_user_route(current_user=Depends(get_current_user), session=Depends(get_session)):
-    delete_user(session, current_user.id)
+async def deactivate_user_route(res: Response, current_user=Depends(get_current_user), session=Depends(get_session)):
+    deactivate_user(session, current_user.id)
+    res.delete_cookie(
+        key="refresh_token",
+        path="/",
+    )
     return None
 
 # DELETE /admin/users/{user_id}
 @router.delete("/admin/users/{user_id}", status_code=204)
-async def admin_delete_user_route(user_id:int, _=Depends(get_admin_user), session=Depends(get_session)):
-    delete_user(session, user_id)
+async def admin_deactivate_user_route(user_id:int, _=Depends(get_admin_user), session=Depends(get_session)):
+    deactivate_user(session, user_id)
     return None
 
 # POST /auth/login
@@ -120,7 +124,7 @@ class RegisterRequest(BaseModel):
     password: str
     name: str
 
-type RegisterResponse = LoginResponse
+RegisterResponse = LoginResponse
 
 @router.post("/auth/register", status_code=201, response_model=RegisterResponse)
 async def register_route(req: RegisterRequest, res: Response, session=Depends(get_session)):

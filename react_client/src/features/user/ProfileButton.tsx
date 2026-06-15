@@ -8,20 +8,24 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ServerException } from "@/core"
-import { PopUpModalComponent } from "@/shared/PopUpModalComponent";
-import { ToggleComponent } from "@/shared/ToggleComponent";
-import { useAuthState } from "./userState";
+import { PopUpModalComponent } from "@/shared/PopUpModalComponent"
+import { ToggleComponent } from "@/shared/ToggleComponent"
+import { useFormFields } from "@/utils/useFormFields"
+import { InputLabelComponent } from "@/shared/InputLableComponent";
+import { AppRoutes } from "@/AppRoutes";
+import { useAuthState } from "./authState";
 
 function ProfileButtonComponent() {
 	const navigate = useNavigate();
+	const accessToken = useAuthState(state => state.accessToken)
 
 	return (
 		<ToggleComponent
-		state={useAuthState().userModel != null}
+		state={accessToken != null}
 		onChild={
 			<SolidIcon 
 			className="h-6 w-6" 
-			onClick={() => navigate("/profile")} 
+			onClick={() => navigate(AppRoutes.profile)} 
 			/>
 		}
 		offChild={
@@ -35,74 +39,79 @@ function ProfileButtonComponent() {
 	)
 }
 
-function LoginModalContent(props: {
-	onClose: () => void 
+function LoginModalContent(props:{
+	onClose: () => void
 }) {
-	const login = useAuthState().login;
+	const login = useAuthState(state => state.login);
 	const navigate = useNavigate();
 	const firstInputRef = useRef<HTMLInputElement>(null);
 
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-	useEffect(() => firstInputRef.current?.focus(),[])
-	
-
-	const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		if (!email) return setErrorMsg("Email required");
-		if (!password) return setErrorMsg("Password required");
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErrorMsg("Invalid email");
-
-		setErrorMsg(null);
-
-		try {
-			await login(email, password);
-			props.onClose();
-		} catch (error) {
-			if (error instanceof ServerException)
-				setErrorMsg(error.message);
+	const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
+		{
+			name:"email",
+			validateFunc: (v) => !v ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
+		},{
+			name:"password",
+			validateFunc: (v) => !v ? "Password required" : null
 		}
-	};
-
+	])
+	
+	const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
+			event.preventDefault();
+			if (!validate()) return
+			try {
+				await login(values.email, values.password);
+				props.onClose();
+				reset()
+			} catch (error) {
+				if (error instanceof ServerException)
+					setErrorMsg(error.message);
+			}
+		};
+	
 	return (
 		<>
 			<h2>Sign in</h2>
 			<form onSubmit={handleSubmit} className="space-y-4">
-				<label className="block text-sm text-slate-700">
-					<span className="sr-only">Email</span>
+				<InputLabelComponent
+				name="email"
+				>
 					<input
 						ref={firstInputRef}
 						type="text"
-						value={email}
-						onChange={(event) => setEmail(event.target.value)}
+						value={values.email}
+						onChange={(e) => setters.email(e.target.value)}
 						className="w-full border p-2"
 						placeholder="Email"
 					/>
-				</label>
-				<label className="block text-sm text-slate-700">
-					<span className="sr-only">Password</span>
+				</InputLabelComponent>
+				<InputLabelComponent
+				name="password"
+				>
 					<input
 						type="password"
-						value={password}
-						onChange={(event) => setPassword(event.target.value)}
+						value={values.password}
+						onChange={(e) => setters.password(e.target.value)}
 						className="w-full border p-2"
 						placeholder="Password"
 					/>
-				</label>
+				</InputLabelComponent>
+
 				{errorMsg && <p className="text-sm text-red-600">{errorMsg}</p>}
 				<button type="submit">Login</button>
 			</form>
 
 			<button onClick={() => {
-				navigate("/register")
 				props.onClose()
-			}}>Register</button>
+				navigate(AppRoutes.register)
+			}}>
+				Register
+			</button>
 
 			<button onClick={props.onClose}> Cancel </button>
 		</>
 	);
+
 }
 
 export { ProfileButtonComponent };
