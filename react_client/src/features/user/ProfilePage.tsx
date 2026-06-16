@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect} from 'react'
 
 import { useAuthState } from './authState'
 import { logger, ServerException } from '@/core'
@@ -51,12 +51,13 @@ function ProfilePage() {
 
 
 function UpdateProfileComponent () {
-    const AuthState = useAuthState()
+    const AuthState = useAuthState(state => state)
+
     const [isEditing, setIsEditing] = useState(false)
     
     const firstInputRef = useRef<HTMLInputElement>(null);
 
-    const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
+    const { values, setters, errorMsg, setErrorMsg, reset, syncInitialValues, clearFields, validate} = useFormFields([
 		{
 			name:"name",
 			validateFunc: (v) => !v ? "Name required" : null,
@@ -80,6 +81,8 @@ function UpdateProfileComponent () {
             try {
                 await AuthState.patch(values.email, values.password, values.name);
                 setIsEditing(false)
+                syncInitialValues(values)
+                clearFields(["password", "passwordSecond"])
             } catch (error) {
                 if (error instanceof ServerException)
                     setErrorMsg(error.message);
@@ -87,16 +90,20 @@ function UpdateProfileComponent () {
         };
     
     return (
-        <div>
+        <div className="max-w-md mx-auto mt-8 p-4">
             
             <span>Edit: </span>
             <input 
             type="checkbox" 
             name="edit"
-            onClick={() => setIsEditing(prev => !prev)}
+            checked={isEditing}
+            onChange={(e) => setIsEditing(e.target.checked)}
             />
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form 
+            onSubmit={handleSubmit} 
+            className="space-y-4"
+            >
 				<InputLabelComponent
 				name="name"
 				>

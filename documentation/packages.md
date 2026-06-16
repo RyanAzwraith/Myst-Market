@@ -32,3 +32,4 @@ fastapi-server
 - sqlacodegen
 - faker
 - pydantic[email]
+- resend

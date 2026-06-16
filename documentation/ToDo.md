@@ -44,6 +44,7 @@ User
 x user route
 x auth route
 x auth model
-- appbar button
-- profile page
-- register page
+x appbar button
+x profile page
+x register page
+- email system

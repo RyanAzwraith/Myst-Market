@@ -32,7 +32,8 @@ def create_config():
         environment=validate_env_var("ENVIRONMENT", required=True),
         jwt_key=validate_env_var("JWT_KEY", required=True),
         access_token_minutes=to_int(validate_env_var("ACCESS_TOKEN_MINUTES", required=False, default="15")),
-        refresh_token_hours=to_int(validate_env_var("REFRESH_TOKEN_HOURS", required=False, default="12"))
+        refresh_token_hours=to_int(validate_env_var("REFRESH_TOKEN_HOURS", required=False, default="12")),
+        resend_key=validate_env_var("RESEND_KEY", required=True)
     )
 
 

@@ -20,14 +20,23 @@ def get_current_user(session=Depends(get_session), credentials=Depends(bearer_sc
     payload = decode_token(access_token)
     if payload["type"] != "access":
         raise AuthenticationException("Invalid Token Type")
-
     db_user = get_user(session, payload["sub"])
     return db_user
 
 def get_admin_user(session=Depends(get_session), credentials=Depends(bearer_scheme)) -> User:
     access_token = credentials.credentials
     payload = decode_token(access_token)
+    if payload["type"] != "access":
+        raise AuthenticationException("Invalid Token Type")
     db_user = get_user(session, payload["sub"])
     if not db_user.isAdmin:
         raise AuthorizationException("Admin Authorization Required")
+    return db_user
+
+def get_set_password_user(session=Depends(get_session), credentials=Depends(bearer_scheme)) -> User:
+    set_password_token = credentials.credentials
+    payload = decode_token(set_password_token)
+    db_user = get_user(session, payload["sub"])
+    if payload["type"] != "set_password":
+        raise AuthenticationException("Invalid Token Type")
     return db_user

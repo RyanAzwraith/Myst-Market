@@ -12,7 +12,6 @@ from app.core.exceptions import (
 
 def init_exception_handlers(app):
 
-
     @app.exception_handler(AppError)
     async def app_error_handler(request: Request, exc: AppError):
         get_logger().app.error(exc)

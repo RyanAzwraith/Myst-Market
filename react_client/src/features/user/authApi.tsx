@@ -1,14 +1,16 @@
 import { request } from "@/api";
 
 
-//  Routes
-//    PATCH /user/me
-//    DELETE /user/me
-//    DELETE /users/{user_id}
-//    POST /auth/login
-//    GET /auth/logout
-//    GET /auth/refresh
-//   PUT /auth/register
+// Routes
+//   POST /login
+//   POST /logout
+//   GET /refresh
+//   PUT /register
+//   POST /user/me/set-password-email
+//   PATCH /user/me
+//   PATCH /user/me/password
+//   DELETE /users/{user_id}
+//   DELETE /user/me
 
 // sub types
 type UserResponse = {
@@ -19,36 +21,7 @@ type UserResponse = {
 	name: string;
 };
 
-// PATCH /user/me
-type UserPatchRequest = {
-	email?: string;
-	password?: string;
-	name?: string;
-};
-type UserPatchResponse = UserResponse
-
-async function patch_user_route(data: UserPatchRequest) {
-	return request<UserPatchResponse>("/user/me", {
-		method: "PATCH",
-		body: JSON.stringify(data),
-	});
-}
-
-// DELETE /user/me
-async function delete_user_route() {
-	return request("/user/me", {
-		method: "DELETE",
-	});
-}
-
-// DELETE /admin/users/{user_id}
-async function admin_delete_user_route(user_id: number) {
-	return request(`/admin/users/${user_id}`, {
-		method: "DELETE",
-	});
-}
-
-// POST /auth/login
+// POST /login
 type LoginRequest = {
 	email: string;
 	password: string;
@@ -57,50 +30,101 @@ type LoginResponse = {
 	accessToken: string;
 	userResponse: UserResponse;
 };
-async function login_route(data: LoginRequest) {
-	return request<LoginResponse>("/auth/login", {
+async function loginRoute(data: LoginRequest) {
+	return request<LoginResponse>("/login", {
 		method: "POST",
 		body: JSON.stringify(data),
 	});
 }
 
-// GET /auth/logout
-async function logout_route() {
-	return request("/auth/logout", {
-		method: "GET",
+// POST /logout
+async function logoutRoute() {
+	return request("/logout", {
+		method: "POST",
 	});
 }
 
-// GET /auth/refresh
+// GET /refresh
 type RefreshResponse = {
 	accessToken: string;
 };
-async function refresh_route() {
-	return request<RefreshResponse>("/auth/refresh", {
+async function refreshRoute() {
+	return request<RefreshResponse>("/refresh", {
 		method: "GET",
 	});
 }
 
-// PUT /auth/register
+// PUT /register
 type RegisterRequest = {
 	email: string;
 	password: string;
 	name: string;
 }
 type RegisterResponse = LoginResponse
-async function register_route(data: RegisterRequest) {
-	return request<RegisterResponse>("/auth/register", {
+async function registerRoute(data: RegisterRequest) {
+	return request<RegisterResponse>("/register", {
 		method: "POST",
 		body: JSON.stringify(data),
 	});
 }
 
+// POST /user/me/set-password-email
+async function postSetPasswordEmailRoute() {
+	return request("/user/me/set-password-email", {
+		method: "POST",
+	});
+}
+
+// PATCH /user/me
+type UserPatchRequest = {
+	email?: string;
+	password?: string;
+	name?: string;
+};
+type UserPatchResponse = UserResponse
+
+async function patchUserRoute(data: UserPatchRequest) {
+	return request<UserPatchResponse>("/user/me", {
+		method: "PATCH",
+		body: JSON.stringify(data),
+	});
+}
+
+// PATCH /user/me/password
+type UserPatchPasswordRequest = {
+	password: string;
+}
+type UserPatchPasswordResponse = LoginResponse
+async function patchUserPasswordRoute(data: UserPatchPasswordRequest){
+	return request<UserPatchPasswordResponse>("/user/me/password", {
+		method: "PATCH",
+		body: JSON.stringify(data),
+	});
+}
+
+
+// DELETE /user/me
+async function deleteUserRoute() {
+	return request("/user/me", {
+		method: "DELETE",
+	});
+}
+
+// DELETE /users/{user_id}
+async function adminDeleteUserRoute(user_id: number) {
+	return request(`/users/${user_id}`, {
+		method: "DELETE",
+	});
+}
+
 export {
-	admin_delete_user_route,
-	delete_user_route,
-	login_route,
-	logout_route,
-	patch_user_route,
-	refresh_route,
-	register_route,
+	adminDeleteUserRoute,
+	deleteUserRoute,
+	loginRoute,
+	logoutRoute,
+	patchUserRoute,
+	refreshRoute,
+	registerRoute,
+	postSetPasswordEmailRoute,
+	patchUserPasswordRoute
 };

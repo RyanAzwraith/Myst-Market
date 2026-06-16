@@ -42,9 +42,9 @@ function RegisterPage() {
             }
         };
 
-    return (
-        <div>
-            <h1>Register</h1>
+	return (
+		<div className="max-w-md mx-auto mt-8 p-4">
+			<h1 className="text-lg font-semibold mb-4">Register</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<InputLabelComponent
 				name="name"

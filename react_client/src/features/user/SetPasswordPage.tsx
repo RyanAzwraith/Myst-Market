@@ -1,24 +1,29 @@
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { ServerException } from "@/core"
 import { useFormFields } from "@/utils/useFormFields"
 import { InputLabelComponent } from "@/shared/InputLableComponent";
 import { AppRoutes } from '@/AppRoutes'
 import { useAuthState } from "./authState";
+import { patchUserPasswordRoute } from "./authApi";
 
-function LoginPage() {
+function SetPasswordPage() {
     const login = useAuthState(state => state.login);
 	const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+    useEffect(() => {if (!token) navigate("/login")}, [token]);
+
 	const firstInputRef = useRef<HTMLInputElement>(null);
 
 	const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
 		{
-			name:"email",
-			validateFunc: (v) => !v ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
-		}, {
 			name:"password",
 			validateFunc: (v) => !v ? "Password required" : null
+		}, {
+			name:"SecondaryPassword",
+			validateFunc: (v) => v !== values.password ? "Password must match" : null
 		}
 	])
 	
@@ -26,53 +31,48 @@ function LoginPage() {
         event.preventDefault();
         if (!validate()) return
         try {
-            await login(values.email, values.password);
-            reset()
-			navigate(AppRoutes.profile)
+            const LoginResponse = await patchUserPasswordRoute({ password: values.password});
+			login(LoginResponse)
+            navigate(AppRoutes.profile)
         } catch (error) {
             if (error instanceof ServerException)
                 setErrorMsg(error.message);
         }
     };
 	
-
     return (
 		<div className="max-w-md mx-auto mt-8 p-4">
-			<h2 className="text-lg font-semibold mb-4">Sign in</h2>
+			<h2 className="text-lg font-semibold mb-4">Set Password</h2>
 			<form onSubmit={handleSubmit} className="space-y-4">
-				<InputLabelComponent
-				name="email"
-				>
-					<input
-						ref={firstInputRef}
-						type="text"
-						value={values.email}
-						onChange={(e) => setters.email(e.target.value)}
-						className="w-full border p-2"
-						placeholder="Email"
-					/>
-				</InputLabelComponent>
 				<InputLabelComponent
 				name="password"
 				>
 					<input
+                    ref={firstInputRef}
+                    type="password"
+                    value={values.password}
+                    onChange={(e) => setters.password(e.target.value)}
+                    className="w-full border p-2"
+                    placeholder="Password"
+					/>
+				</InputLabelComponent>
+				<InputLabelComponent
+				name="Re-enter"
+				>
+					<input
 						type="password"
-						value={values.password}
-						onChange={(e) => setters.password(e.target.value)}
+						value={values.SecondaryPassword}
+						onChange={(e) => setters.SecondaryPassword(e.target.value)}
 						className="w-full border p-2"
-						placeholder="Password"
+						placeholder="Re-enter"
 					/>
 				</InputLabelComponent>
 
 				{errorMsg && <p className="text-sm text-red-600">{errorMsg}</p>}
-				<button type="submit">Login</button>
+				<button type="submit">Submit</button>
 			</form>
-
-			<button onClick={() => {
-				navigate(AppRoutes.register)
-			}}>Register</button>
 		</div>
     )
 }
 
-export { LoginPage };
+export { SetPasswordPage };

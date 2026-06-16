@@ -4,8 +4,7 @@ from app.db.models import User
 from app.core.exceptions import (
     AuthenticationException,
     ContentNotFoundException,
-    ConflictException,
-    AppError
+    ConflictException
 )
 # Logic
 def hash_password(password: str) -> str:
@@ -32,16 +31,22 @@ def get_user_by_email(session, user_email) -> User:
     return db_user
 
 def create_user(session, data) -> User:
-    if session.query(User).filter(User.email == data.email).first():
+    db_user = session.query(User).filter(User.email == data.email).first()
+    if not db_user:
+        db_user = User(
+            email=data.email,
+            name=data.name,
+            is_registered=True
+        )
+        session.add(db_user)
+
+    elif not db_user.is_registered:
+        db_user.name = data.name
+        db_user.is_registered = True
+
+    elif db_user.is_registered:
         raise ConflictException("User with email already exists", details={"user_email": data.email})
     
-    db_user = User(
-        email=data.email,
-        name=data.name,
-        password_hash=hash_password(data.password)
-    )
-
-    session.add(db_user)
     session.commit()
     session.refresh(db_user)
 
@@ -70,5 +75,5 @@ def deactivate_user(session, user_id) -> None:
     db_user.password = None
     db_user.is_registered = False
     db_user.is_admin = False
-    db_user.deleted_at = datetime.now()
+    db_user.deleted_at = datetime.datetime.now()
     session.commit()

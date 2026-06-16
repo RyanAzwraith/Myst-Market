@@ -7,6 +7,7 @@ import { CheckOut } from "./features/checkout/CheckOut";
 import { RegisterPage } from "./features/user/RegisterPage";
 import { ProfilePage } from "./features/user/ProfilePage";
 import { LoginPage } from "./features/user/LoginPage";
+import { SetPasswordPage } from "./features/user/setPasswordPage"
 
 
 export const AppRoutes = {
@@ -16,7 +17,8 @@ export const AppRoutes = {
 	checkout: "/checkout",
 	register: "/register",
 	profile: "/profile",
-	login: "/login"
+	login: "/login",
+	setPassword: "/set-password"
 } as const;
 
 export function AppRoutesComponent() {
@@ -54,6 +56,10 @@ export function AppRoutesComponent() {
 				<ProtectedRoute allowed={!accessToken} redirect={AppRoutes.profile} child={
 					<LoginPage /> 
 			}/> }/>
+
+			<Route path={AppRoutes.setPassword} element={
+				<SetPasswordPage />
+			} />
 
 		</Routes>
 	);
