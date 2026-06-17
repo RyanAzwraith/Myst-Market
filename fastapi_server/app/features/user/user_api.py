@@ -126,7 +126,6 @@ async def post_set_password_email_route(current_user=Depends(get_current_user)):
 class UserPatchRequest(BaseModel):
     email: EmailStr | None = None
     name: str | None = None
-    password: str | None = None  
 UserPatchResponse = UserResponse
 
 @router.patch("/user/me", status_code=200, response_model=UserPatchResponse)

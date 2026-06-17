@@ -1,5 +1,5 @@
 import { config, logger } from "@/core";
-import { ServerException } from "@/core/errors";
+import { ServerException, AppException } from "@/core/errors";
 import { useAuthState } from '@/features/user/authState';
 
 const createRequestConfig = (
@@ -29,26 +29,16 @@ async function refreshToken(): Promise<string | null> {
 
 async function request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    token?: string | null
 ): Promise<T> {
-
-    const accessToken = useAuthState.getState().accessToken;
 	
 	logger.info(`req: ${endpoint} - ${JSON.stringify(options)}`);
 
-    let response = await fetch(
+    const response = await fetch(
         `${config.VITE_SERVER_URL}${endpoint}`,
-        createRequestConfig(options, accessToken)
+        createRequestConfig(options, token)
     );
-
-    if (response.status === 451 ) {
-        const newToken = await refreshToken();
-        if (newToken) 
-            response = await fetch(
-                `${config.VITE_SERVER_URL}${endpoint}`,
-                createRequestConfig(options, newToken)
-			)
-    }
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
@@ -63,7 +53,35 @@ async function request<T>(
     return data;
 }
 
+async function authRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+): Promise<T> {
+    const accessToken = useAuthState.getState().accessToken
+    try{
+        return await request(endpoint, options, accessToken)
+    } catch (error) {
+        if (error instanceof ServerException && error.statusCode === 451){
+            const newToken = await refreshToken();
+            if (newToken) {
+                return await request(endpoint, options, newToken)
+            }
+        }
+        throw error;
+    }
+}
+    
+async function actionRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+): Promise<T> {
+    const setPasswordToken =new URLSearchParams(window.location.search).get("token");
+    if (!setPasswordToken) 
+        throw new AppException({message:"Missing action token"});
+    return await request(endpoint, options, setPasswordToken)
+}
+
 
 const getHealth = async (): Promise<string> => request("/health");
 
-export { refreshToken, request, getHealth}
+export { refreshToken, request, getHealth, authRequest, actionRequest}

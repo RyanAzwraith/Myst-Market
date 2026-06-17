@@ -1,5 +1,4 @@
-import { request } from "@/api";
-
+import { request, authRequest, actionRequest } from "@/api";
 
 // Routes
 //   POST /login
@@ -16,8 +15,6 @@ import { request } from "@/api";
 type UserResponse = {
 	id: number;
 	email: string;
-	isAdmin: boolean;
-	isRegistered: boolean;
 	name: string;
 };
 
@@ -57,20 +54,19 @@ async function refreshRoute() {
 // PUT /register
 type RegisterRequest = {
 	email: string;
-	password: string;
 	name: string;
 }
-type RegisterResponse = LoginResponse
 async function registerRoute(data: RegisterRequest) {
-	return request<RegisterResponse>("/register", {
+	return request("/register", {
 		method: "POST",
 		body: JSON.stringify(data),
 	});
 }
 
 // POST /user/me/set-password-email
+
 async function postSetPasswordEmailRoute() {
-	return request("/user/me/set-password-email", {
+	return authRequest("/user/me/set-password-email", {
 		method: "POST",
 	});
 }
@@ -78,13 +74,12 @@ async function postSetPasswordEmailRoute() {
 // PATCH /user/me
 type UserPatchRequest = {
 	email?: string;
-	password?: string;
 	name?: string;
 };
 type UserPatchResponse = UserResponse
 
 async function patchUserRoute(data: UserPatchRequest) {
-	return request<UserPatchResponse>("/user/me", {
+	return authRequest<UserPatchResponse>("/user/me", {
 		method: "PATCH",
 		body: JSON.stringify(data),
 	});
@@ -94,9 +89,10 @@ async function patchUserRoute(data: UserPatchRequest) {
 type UserPatchPasswordRequest = {
 	password: string;
 }
+
 type UserPatchPasswordResponse = LoginResponse
 async function patchUserPasswordRoute(data: UserPatchPasswordRequest){
-	return request<UserPatchPasswordResponse>("/user/me/password", {
+	return actionRequest<UserPatchPasswordResponse>("/user/me/password", {
 		method: "PATCH",
 		body: JSON.stringify(data),
 	});
@@ -105,14 +101,14 @@ async function patchUserPasswordRoute(data: UserPatchPasswordRequest){
 
 // DELETE /user/me
 async function deleteUserRoute() {
-	return request("/user/me", {
+	return authRequest("/user/me", {
 		method: "DELETE",
 	});
 }
 
 // DELETE /users/{user_id}
 async function adminDeleteUserRoute(user_id: number) {
-	return request(`/users/${user_id}`, {
+	return authRequest(`/users/${user_id}`, {
 		method: "DELETE",
 	});
 }

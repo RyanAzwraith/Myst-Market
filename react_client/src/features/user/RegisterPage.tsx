@@ -6,9 +6,9 @@ import { useFormFields } from '@/utils/useFormFields'
 import { ServerException } from '@/core';
 import { InputLabelComponent } from '@/shared/InputLableComponent'
 import { AppRoutes } from "@/AppRoutes"
+import { registerRoute } from './authApi';
 
 function RegisterPage() {
-    const register = useAuthState(state => state.register);
 	const navigate = useNavigate();
     const firstInputRef = useRef<HTMLInputElement>(null);
 
@@ -19,13 +19,6 @@ function RegisterPage() {
 		}, {
 			name:"email",
 			validateFunc: (v) => !v ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
-		}, {
-			name:"password",
-			validateFunc: (v) => !v ? "Password required" : null
-			
-		}, {
-            name:"passwordSecond",
-			validateFunc: (v) => !v ? "Re enter password" : values.password !== v ? "Passwords must match" : null
 		}
 	])
 
@@ -33,12 +26,13 @@ function RegisterPage() {
             event.preventDefault();
             if (!validate()) return
             try {
-                await register(values.email, values.password, values.name);
-                reset()
-				navigate(AppRoutes.profile)
+                await registerRoute({email: values.email, name: values.name});
+				reset()
+				navigate(AppRoutes.login)
             } catch (error) {
-                if (error instanceof ServerException)
-                    setErrorMsg(error.message);
+                if (error instanceof ServerException) {
+					setErrorMsg(error.message);
+				}
             }
         };
 
@@ -70,32 +64,9 @@ function RegisterPage() {
 						placeholder="Email"
 					/>
 				</InputLabelComponent>
-				<InputLabelComponent
-				name="password"
-				>
-					<input
-						type="password"
-						value={values.password}
-						onChange={(e) => setters.password(e.target.value)}
-						className="w-full border p-2"
-						placeholder="Password"
-					/>
-				</InputLabelComponent>
-
-                <InputLabelComponent
-				name="Re Enter Password"
-				>
-					<input
-						type="password"
-						value={values.passwordSecond}
-						onChange={(e) => setters.passwordSecond(e.target.value)}
-						className="w-full border p-2"
-						placeholder="Password"
-					/>
-				</InputLabelComponent>
                 
 				{errorMsg && <p className="text-sm text-red-600">{errorMsg}</p>}
-				<button type="submit">Register</button>
+				<button type="submit">Send set password email</button>
 			</form>
 
 			<button onClick={() => {

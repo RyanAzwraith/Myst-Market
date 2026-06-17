@@ -11,11 +11,11 @@ import { patchUserPasswordRoute } from "./authApi";
 function SetPasswordPage() {
     const login = useAuthState(state => state.login);
 	const navigate = useNavigate();
+	const firstInputRef = useRef<HTMLInputElement>(null);
+	
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
     useEffect(() => {if (!token) navigate("/login")}, [token]);
-
-	const firstInputRef = useRef<HTMLInputElement>(null);
 
 	const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
 		{
@@ -31,8 +31,8 @@ function SetPasswordPage() {
         event.preventDefault();
         if (!validate()) return
         try {
-            const LoginResponse = await patchUserPasswordRoute({ password: values.password});
-			login(LoginResponse)
+            const {accessToken, userResponse} = await patchUserPasswordRoute({password: values.password});
+			login(accessToken, userResponse)
             navigate(AppRoutes.profile)
         } catch (error) {
             if (error instanceof ServerException)

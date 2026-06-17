@@ -47,4 +47,7 @@ x auth model
 x appbar button
 x profile page
 x register page
-- email system
+x email system
+- test
+
+Loose Ends

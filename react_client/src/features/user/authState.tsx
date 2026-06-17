@@ -1,6 +1,5 @@
 import { create,} from 'zustand'
 import { persist } from "zustand/middleware";
-import { login_route, logout_route, refresh_route } from './authApi'
 
 type UserModel = {
 	id: number;
@@ -11,9 +10,10 @@ type UserModel = {
 export type AuthState = {
     accessToken: string | null
     userModel: UserModel| null
-    login: (email:string, password:string) => Promise<void>
-    logout: () => Promise<void>
-    refresh: () => Promise<void>
+    setUserModel: (id:number, email:string, name:string) => void
+    login: (accessToken:string, userModel:UserModel) => void
+    logout: () => void
+    refresh: (accessToken:string) => void
 }
 
 const useAuthState = create<AuthState>()(
@@ -21,16 +21,16 @@ const useAuthState = create<AuthState>()(
         (set) => ({
             accessToken: null,
             userModel: null,
-            login: async (email, password) => {
-                const {accessToken, userResponse} = await login_route({email, password})
-                set({ accessToken, userModel: userResponse})
+            setUserModel: (id, email, name) => {
+                set({ userModel: { id, email, name } })
+            } ,
+            login: (accessToken, userModel) => {
+                set({ accessToken, userModel})
             },
-            logout: async () => {
-                await logout_route()
+            logout: () => {
                 set({ accessToken: null, userModel: null})
             },
-            refresh: async () => {
-                const { accessToken } = await refresh_route()
+            refresh: (accessToken) => {
                 set({ accessToken })
             },
         }),

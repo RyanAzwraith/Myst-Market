@@ -14,6 +14,7 @@ import { useFormFields } from "@/utils/useFormFields"
 import { InputLabelComponent } from "@/shared/InputLableComponent";
 import { AppRoutes } from "@/AppRoutes";
 import { useAuthState } from "./authState";
+import { loginRoute } from "./authApi";
 
 function ProfileButtonComponent() {
 	const navigate = useNavigate();
@@ -60,7 +61,8 @@ function LoginModalContent(props:{
 			event.preventDefault();
 			if (!validate()) return
 			try {
-				await login(values.email, values.password);
+				const {accessToken, userResponse } = await loginRoute({email: values.email, password: values.password})
+				login(accessToken, userResponse);
 				props.onClose();
 				reset()
 			} catch (error) {

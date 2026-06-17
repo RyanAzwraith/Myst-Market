@@ -24,12 +24,12 @@ function PopUpModalComponent(props: {
 				{props.children}
 			</button>
 
-			{open && <Model onClose={closeModal}>{props.content(closeModal)}</Model>}
+			{open && <Modal onClose={closeModal}>{props.content(closeModal)}</Modal>}
 		</>
 	);
 }
 
-function Model(props: { 
+function Modal(props: { 
     children: ReactNode
     onClose: () => void 
 }) {

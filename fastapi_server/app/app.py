@@ -8,6 +8,7 @@ from app.api.middleware import init_middleware
 from app.db.database import Database
 from app.api.exception_handlers import init_exception_handlers
 from app.api.router import router
+import resend
 
 def create_app():
     config = init_config()
@@ -25,7 +26,7 @@ def create_app():
     init_exception_handlers(app)
 
     stripe.api_key = config.stripe_key
-
+    resend.api_key = config.resend_key
     app.state.db = db
     
     app.include_router(router)

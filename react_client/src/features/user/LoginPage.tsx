@@ -6,6 +6,7 @@ import { useFormFields } from "@/utils/useFormFields"
 import { InputLabelComponent } from "@/shared/InputLableComponent";
 import { AppRoutes } from '@/AppRoutes'
 import { useAuthState } from "./authState";
+import { loginRoute } from "./authApi";
 
 function LoginPage() {
     const login = useAuthState(state => state.login);
@@ -26,7 +27,8 @@ function LoginPage() {
         event.preventDefault();
         if (!validate()) return
         try {
-            await login(values.email, values.password);
+            const {accessToken, userResponse} = await loginRoute({email: values.email, password: values.password});
+			login(accessToken, userResponse)
             reset()
 			navigate(AppRoutes.profile)
         } catch (error) {

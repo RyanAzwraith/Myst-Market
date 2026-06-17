@@ -8,35 +8,27 @@ from app.core.exceptions import (
     AuthenticationException
 )
 
-config = get_config()
-
-ACCESS_TOKEN_MINUTES = config.access_token_minutes
-REFRESH_TOKEN_MINUTES = config.refresh_token_hours
-JWT_KEY = config.jwt_key
 ALGORITHM = "HS256"
-
-CORS_ORIGINS = get_config().cors_origins
-RESEND_KEY = get_config().resend_key
 
 def create_access_token(user_id: int) -> str:
     payload = {
         "sub": str(user_id),
         "type": "access",
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_MINUTES),
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=get_config().access_token_minutes),
     }
-    return jwt.encode(payload, JWT_KEY, algorithm=ALGORITHM)
+    return jwt.encode(payload, get_config().jwt_key, algorithm=ALGORITHM)
 
 def create_refresh_token(user_id: int) -> str:
     payload = {
         "sub": str(user_id),
         "type": "refresh",
-        "exp": datetime.now(timezone.utc) + timedelta(hours=REFRESH_TOKEN_MINUTES),
+        "exp": datetime.now(timezone.utc) + timedelta(hours=get_config().refresh_token_hours),
     }
-    return jwt.encode(payload, JWT_KEY, algorithm=ALGORITHM)
+    return jwt.encode(payload, get_config().jwt_key, algorithm=ALGORITHM)
 
 def decode_token(token: str) -> dict:
     try:
-        return jwt.decode(token, JWT_KEY, algorithms=[ALGORITHM])
+        return jwt.decode(token, get_config().jwt_key, algorithms=[ALGORITHM])
     except jwt.ExpiredSignatureError:
         raise AuthenticationException("Expired Token", status_code=451 )
     except jwt.InvalidTokenError:
@@ -53,7 +45,7 @@ def issue_tokens(user_id: int, res: Response) -> str:
         httponly=True,
         secure=True,
         samesite="strict",
-        max_age=REFRESH_TOKEN_MINUTES * 60 * 60,
+        max_age=get_config().refresh_token_hours * 60 * 60,
         path="/"
     )
     return access_token
@@ -62,15 +54,15 @@ def create_set_password_token(user_id):
     payload = {
         "sub": str(user_id),
         "type": "set_password",
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_MINUTES),
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=get_config().access_token_minutes),
     }
-    return jwt.encode(payload, JWT_KEY, algorithm=ALGORITHM)
+    return jwt.encode(payload, get_config().jwt_key, algorithm=ALGORITHM)
 
 
 def send_set_password_email(email: str, token: str) -> None:
-    link = (f"{CORS_ORIGINS}" f"/set-password?token={token}")
+    link = (f"{get_config().cors_origins[0]}" f"/set-password?token={token}")
     resend.Emails.send({
-        "from": "ryanAzwraith@gmail.com",
+        "from": "set_password@resend.dev",
         "to": email,
         "subject": "Reset Password",
         "html": f"""
@@ -78,5 +70,6 @@ def send_set_password_email(email: str, token: str) -> None:
             <a href="{link}">
                 Reset Password
             </a>
+            <h3> {link} </h3>
         """
     })
