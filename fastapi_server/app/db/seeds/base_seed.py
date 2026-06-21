@@ -1,6 +1,6 @@
 from app.db.models import *
 
-def seed(db):
+def base_seed(db):
     categories = [
         Category(name="Artifacts"),
         Category(name="Consumables"),

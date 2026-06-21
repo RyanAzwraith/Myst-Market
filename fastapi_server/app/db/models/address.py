@@ -20,7 +20,6 @@ class Address(Base):
 
     user_id: Mapped[int] = mapped_column(
         ForeignKey("user.id", ondelete="RESTRICT", onupdate="CASCADE"),
-        index=True,
     )
 
     country_code: Mapped[str] = mapped_column(Text, nullable=False)

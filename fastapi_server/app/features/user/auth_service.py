@@ -10,6 +10,8 @@ from app.core.exceptions import (
 
 ALGORITHM = "HS256"
 
+# Logic
+
 def create_access_token(user_id: int) -> str:
     payload = {
         "sub": str(user_id),

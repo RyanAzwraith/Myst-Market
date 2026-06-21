@@ -14,8 +14,8 @@ class Database:
         self.make_session = sessionmaker(autobegin=True, autocommit=False, autoflush=False, bind=self.engine)
 
     def get_session(self):
-        db = self.make_session()
+        session = self.make_session()
         try:
-            yield db
+            yield session
         finally:
-            db.close()
+            session.close()

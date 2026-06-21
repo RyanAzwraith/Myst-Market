@@ -32,13 +32,11 @@ class Product(Base):
     category_id: Mapped[int] = mapped_column(
         ForeignKey("category.id", ondelete="RESTRICT", onupdate="CASCADE"),
         nullable=False,
-        index=True,
     )
 
     rarity_id: Mapped[int] = mapped_column(
         ForeignKey("rarity.id", ondelete="RESTRICT", onupdate="CASCADE"),
         nullable=False,
-        index=True,
     )
 
     price_aud_cent: Mapped[int] = mapped_column(Integer, nullable=False)

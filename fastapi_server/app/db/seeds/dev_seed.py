@@ -14,23 +14,28 @@ from app.db.models import (
     Stock,
     User,
 )
+from app.features.user.user_service import hash_password
 
 
-def seed(db):
+def dev_seed(db):
     users = [
         User(
             email="admin@mystmarket.com",
             name="Admin User",
             is_admin=True,
             is_registered=True,
-            password_hash="dev-password",
+            password_hash=hash_password("password"),
         ),
         User(
             email="customer@mystmarket.com",
             name="Myst Customer",
             is_registered=True,
-            password_hash="customer-password",
+            password_hash=hash_password("password"),
         ),
+        User(
+            email="customer_two@mystmarket.com",
+            deleted_at=datetime.now()
+        )
     ]
 
     db.add_all(users)
@@ -210,7 +215,7 @@ def seed(db):
             products=[products[2], products[4], products[7]],
         )
     ]
-    
+
     db.add_all(sales)
     db.flush()
 
@@ -287,7 +292,7 @@ def seed(db):
     db.add_all(medias)
     db.flush()
 
-    media_entitys = [ 
+    media_entitys = [
         MediaEntity(
             entity_type="product",
             entity_id=products[0].id,
@@ -299,7 +304,7 @@ def seed(db):
     db.flush()
 
     articles = [
-            Article(
+        Article(
             created_at="2026-06-09",
             slug="sword-of-dawn-origin",
             title="Origins of the Sword of Dawn",
@@ -312,7 +317,7 @@ def seed(db):
             title="Mystic Cloak: A History",
             desciption="The tale behind the enchanted cloak.",
             products=[products[3], products[5]],
-        )
+        ),
     ]
 
     db.add_all(articles)

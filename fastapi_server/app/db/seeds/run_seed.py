@@ -5,8 +5,8 @@ from sqlalchemy import delete
 from app.core.config import init_config
 from app.db.database import Base, Database
 
-from .base_seed import seed as base_seed
-from .dev_seed import seed as dev_seed
+from .base_seed import base_seed
+from .dev_seed import dev_seed
 from .stress_seed import seed as stress_seed
 
 

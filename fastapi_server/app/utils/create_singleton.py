@@ -1,5 +1,4 @@
 
-
 def create_singleton(create_fn):
     instance = None
     initialised = False

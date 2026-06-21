@@ -51,3 +51,8 @@ x email system
 - test
 
 Loose Ends
+
+Can Do
+- User testing
+- start products
+- plan checkout
