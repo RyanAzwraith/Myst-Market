@@ -17,8 +17,6 @@ from app.features.user.user_service import (
     update_user,
     create_user
 )
-"""
-
 # FIXTURES
 @pytest.fixture
 def sample_user_payload():
@@ -169,7 +167,6 @@ def test_register_flow(client):
     })
 
     assert response.status_code == 200
-
 """
 """
 MOST IMPORTANT TESTS (if you do NOTHING ELSE)

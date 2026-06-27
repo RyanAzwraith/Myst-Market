@@ -9,7 +9,6 @@ class Database:
         self.engine = create_engine(
             self.url,
             connect_args={"check_same_thread": False},
-            
         ) 
         self.make_session = sessionmaker(autobegin=True, autocommit=False, autoflush=False, bind=self.engine)
 

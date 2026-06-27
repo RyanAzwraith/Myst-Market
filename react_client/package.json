@@ -12,13 +12,15 @@
     "check": "biome check .",
     "biome": "biome check --write ./src",
     "test": "vitest",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@stripe/react-stripe-js": "^6.5.0",
     "@stripe/stripe-js": "^9.7.0",
     "@tanstack/react-query": "^5.100.14",
+    "@testing-library/user-event": "^14.6.1",
     "axios": "^1.16.1",
     "framer-motion": "^12.40.0",
     "react": "^19.2.6",

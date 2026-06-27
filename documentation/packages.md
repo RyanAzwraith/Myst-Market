@@ -14,6 +14,8 @@ react-client
 - typescript
 - @tailwindcss/vite
 - @heroicons/react
+- jsdom  
+- @testing-library/user-event 
 
 fastapi-server
 - fastapi
@@ -33,3 +35,4 @@ fastapi-server
 - faker
 - pydantic[email]
 - resend
+- pytest-asyncio

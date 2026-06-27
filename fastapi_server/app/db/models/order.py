@@ -27,8 +27,8 @@ class Order(Base):
     status_id: Mapped[int] = mapped_column(ForeignKey("status.id"))
     address_id: Mapped[int] = mapped_column(ForeignKey("address.id"))
 
-    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(default=func.now())
 
     cost_aud_cent: Mapped[int] = mapped_column(Integer)
 

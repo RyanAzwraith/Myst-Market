@@ -1,6 +1,6 @@
 from app.db.models import *
 
-def base_seed(db):
+def base_seed(session):
     categories = [
         Category(name="Artifacts"),
         Category(name="Consumables"),
@@ -25,8 +25,8 @@ def base_seed(db):
         Status(name="Error"),
     ]
 
-    db.add_all(categories)
-    db.add_all(rarities)
-    db.add_all(statuses)
+    session.add_all(categories)
+    session.add_all(rarities)
+    session.add_all(statuses)
 
-    db.commit()
+    session.commit()

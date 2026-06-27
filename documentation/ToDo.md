@@ -51,6 +51,7 @@ x email system
 - test
 
 Loose Ends
+- tests: dependency, external
 
 Can Do
 - User testing

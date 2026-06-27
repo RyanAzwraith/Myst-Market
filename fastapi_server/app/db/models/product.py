@@ -41,7 +41,7 @@ class Product(Base):
 
     price_aud_cent: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    created_at: Mapped[datetime] = mapped_column(nullable=False, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(nullable=False, default=func.now())
 
     slug: Mapped[str] = mapped_column(Text, nullable=False)
 

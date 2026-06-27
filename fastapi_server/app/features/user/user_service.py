@@ -72,7 +72,7 @@ def update_user(session, user_id, data):
 def deactivate_user(session, user_id) -> None:
     db_user = get_user(session, user_id)
     db_user.name = None
-    db_user.password = None
+    db_user.password_hash = None
     db_user.is_registered = False
     db_user.is_admin = False
     db_user.deleted_at = datetime.datetime.now()

@@ -35,7 +35,7 @@ def create_config():
             database_url=validate_env_var("TEST_DATABASE_URL", required=True)
             stripe_key = "stripe_key_dummy_test"
             resend_key = "stripe_key_dummy_test"
-            jwt_key = "jwt_key_dummy_test"
+            jwt_key = "jwt_key_very_very_very_long_stupid_stupid_dummy_test_for_testing"
         case _:
             raise RuntimeError("Missing required env var: ENVIRONMENT={environment}")
 

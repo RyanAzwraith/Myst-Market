@@ -13,7 +13,7 @@ class Stock(Base):
 
     product_id: Mapped[int] = mapped_column( ForeignKey("product.id", ondelete="CASCADE"), primary_key=True,)
     current: Mapped[int] = mapped_column(Integer, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(default=func.now())
 
     product: Mapped["Product"] = relationship("Product", back_populates="stock",)
 

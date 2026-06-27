@@ -17,7 +17,7 @@ from app.db.models import (
 from app.features.user.user_service import hash_password
 
 
-def dev_seed(db):
+def dev_seed(session):
     users = [
         User(
             email="admin@mystmarket.com",
@@ -38,8 +38,8 @@ def dev_seed(db):
         )
     ]
 
-    db.add_all(users)
-    db.flush()
+    session.add_all(users)
+    session.flush()
 
     addresses = [
         Address(
@@ -60,8 +60,8 @@ def dev_seed(db):
         ),
     ]
 
-    db.add_all(addresses)
-    db.flush()
+    session.add_all(addresses)
+    session.flush()
 
     products = [
         Product(
@@ -146,8 +146,8 @@ def dev_seed(db):
         ),
     ]
 
-    db.add_all(products)
-    db.flush()
+    session.add_all(products)
+    session.flush()
 
     stocks = [
         Stock(
@@ -202,8 +202,8 @@ def dev_seed(db):
         ),
     ]
 
-    db.add_all(stocks)
-    db.flush()
+    session.add_all(stocks)
+    session.flush()
 
     sales = [
         Sale(
@@ -216,8 +216,8 @@ def dev_seed(db):
         )
     ]
 
-    db.add_all(sales)
-    db.flush()
+    session.add_all(sales)
+    session.flush()
 
     reviews = [
         Review(
@@ -228,8 +228,8 @@ def dev_seed(db):
         )
     ]
 
-    db.add_all(reviews)
-    db.flush()
+    session.add_all(reviews)
+    session.flush()
 
     orders = [
         Order(
@@ -241,8 +241,8 @@ def dev_seed(db):
         )
     ]
 
-    db.add_all(orders)
-    db.flush()
+    session.add_all(orders)
+    session.flush()
 
     order_products = [
         OrderProduct(
@@ -259,8 +259,8 @@ def dev_seed(db):
         ),
     ]
 
-    db.add_all(order_products)
-    db.flush()
+    session.add_all(order_products)
+    session.flush()
 
     payments = [
         Payment(
@@ -276,8 +276,8 @@ def dev_seed(db):
         )
     ]
 
-    db.add_all(payments)
-    db.flush()
+    session.add_all(payments)
+    session.flush()
 
     medias = [
         Media(
@@ -289,8 +289,8 @@ def dev_seed(db):
         )
     ]
 
-    db.add_all(medias)
-    db.flush()
+    session.add_all(medias)
+    session.flush()
 
     media_entitys = [
         MediaEntity(
@@ -300,8 +300,8 @@ def dev_seed(db):
         )
     ]
 
-    db.add_all(media_entitys)
-    db.flush()
+    session.add_all(media_entitys)
+    session.flush()
 
     articles = [
         Article(
@@ -320,7 +320,7 @@ def dev_seed(db):
         ),
     ]
 
-    db.add_all(articles)
-    db.flush()
+    session.add_all(articles)
+    session.flush()
 
-    db.commit()
+    session.commit()

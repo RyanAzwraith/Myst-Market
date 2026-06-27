@@ -1,47 +1,28 @@
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 
 from app.create_app import create_app
 from app.db.database import Base
 from app.db.seeds.base_seed import base_seed
-from app.db.seeds.dev_seed import dev_seed
 from app.api.dependencies import get_session
+
+from tests.user_feature.user_fixtures import *
 
 def pytest_configure():
     os.environ["ENVIRONMENT"] = "test"
-
-def create_dependency_override_get_session(app):
-    def test_get_session():
-        db = app.state.db
-        session = db.make_session()
-        try:
-            yield session
-        finally:
-            session.rollback()
-            session.close()
-    return test_get_session
 
 @pytest.fixture(scope="session", autouse=True)
 def app():
     app = create_app()
     db=app.state.db
+    
     Base.metadata.drop_all(db.engine)
-    db.engine.dispose()
     Base.metadata.create_all(db.engine)
     
-    session = db.get_session()
-    base_seed(session)
-    dev_seed(session)
-    
-    app.dependency_overrides[get_session] = db_session
-
     yield app
 
-    app.dependency_overrides.clear()
     Base.metadata.drop_all(db.engine)
-    db.engine.dispose()
 
 @pytest.fixture(scope="session")
 def client(app):
@@ -49,13 +30,35 @@ def client(app):
 
 @pytest.fixture()
 def db_session(app):
-    db = app.state.db
-    session = db.make_session()
+    connection = app.state.db.engine.connect()
+    transaction = connection.begin()
+
+    session = app.state.db.make_session(bind=connection)
+    app.dependency_overrides[get_session] = lambda: session
+
     try:
         yield session
     finally:
-        session.rollback()
         session.close()
+        transaction.rollback()
+        connection.close()
+        app.dependency_overrides.clear()
+
+@pytest.fixture(scope="class")
+def persistant_db_session(app):
+    connection = app.state.db.engine.connect()
+    transaction = connection.begin()
+
+    session = app.state.db.make_session(bind=connection)
+    app.dependency_overrides[get_session] = lambda: session
+
+    try:
+        yield session
+    finally:
+        session.close()
+        transaction.rollback()
+        connection.close()
+        app.dependency_overrides.clear()
 
 @pytest.fixture(autouse=True)
 def mock_external_services(monkeypatch):
