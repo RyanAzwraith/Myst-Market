@@ -29,7 +29,7 @@ def create_config():
             database_url=validate_env_var("DATABASE_URL", required=True)
             stripe_key=validate_env_var("STRIPE_KEY", required=True)
             resend_key=validate_env_var("RESEND_KEY", required=True)
-            jwt_key=validate_env_var("JWT_KEY", required=True),
+            jwt_key=validate_env_var("JWT_KEY", required=True)
 
         case "test" | "testing":
             database_url=validate_env_var("TEST_DATABASE_URL", required=True)

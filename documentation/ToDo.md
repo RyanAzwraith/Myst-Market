@@ -32,7 +32,7 @@ x dev seeding
 Features
 9/6
 - Scaffold
-- User
+x User
 - Cart
 - Catalogue
 - Shop
@@ -48,12 +48,11 @@ x appbar button
 x profile page
 x register page
 x email system
-- test
+x test
 
 Loose Ends
 - tests: dependency, external
 
 Can Do
-- User testing
 - start products
 - plan checkout

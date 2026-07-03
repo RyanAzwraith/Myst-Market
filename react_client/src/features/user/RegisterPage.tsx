@@ -15,10 +15,10 @@ function RegisterPage() {
     const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
 		{
 			name:"name",
-			validateFunc: (v) => !v ? "Name required" : null
+			validateFunc: (v) => !v.trim() ? "Name required" : null
 		}, {
 			name:"email",
-			validateFunc: (v) => !v ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
+			validateFunc: (v) => !v.trim() ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
 		}
 	])
 
@@ -56,7 +56,6 @@ function RegisterPage() {
 				name="email"
 				>
 					<input
-						ref={firstInputRef}
 						type="text"
 						value={values.email}
 						onChange={(e) => setters.email(e.target.value)}

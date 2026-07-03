@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/a11y/useButtonType: <explanation> */
 import { useNavigate } from "react-router-dom";
 import { Cart } from "../features/cart/CartComponent";
-import { ProfileButtonComponent } from "../features/user/ProfileButton";
+import { ProfileButtonComponent } from "../features/user/ProfileButtonComponent";
 import { useAuthState } from "@/features/user/authState";
 import {AppRoutes} from '@/AppRoutes.tsx'
 
@@ -11,7 +11,7 @@ export function AppBar() {
 	return (
 		<div className="app-bar flex items-center justify-between bg-slate-300 px-4 py-3">
 			<h1 className="text-xl font-semibold">Myst Market</h1>
-			<span>- {authState.userModel?.name} - {authState.accessToken} -</span>
+			<span>- {authState.userModel?.name} -</span>
 				
 
 			<div className="flex items-center gap-2">

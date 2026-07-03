@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect} from 'react'
+import { useState} from 'react'
 
 import { useAuthState } from './authState'
 import { logger, ServerException } from '@/core'
@@ -34,6 +34,8 @@ function ProfilePage() {
 
     return (
         <div>
+			<h2 className="text-lg font-semibold mb-4">Profile</h2>
+
             <button
             onClick={handleLogout}>
                 Logout
@@ -54,33 +56,34 @@ function ProfilePage() {
 }
 
 function UpdateProfileComponent () {
-    const AuthState = useAuthState(state => state)
+    const userModel = useAuthState(state => state.userModel)
+    const setUserModel = useAuthState(state => state.setUserModel)
+
     const [isEditing, setIsEditing] = useState(false)
 
     const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
 		{
 			name:"name",
-			validateFunc: (v) => !v ? "Name required" : null,
-            initial: AuthState.userModel?.name
+			validateFunc: (v) => !v.trim() ? "Name required" : null,
+            initial: userModel?.name
 		},{
 			name:"email",
-			validateFunc: (v) => !v ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null,
-            initial: AuthState.userModel?.email
-		
+			validateFunc: (v) => !v.trim() ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null,
+            initial: userModel?.email
         }
 	])
 	
 	const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!validate()) return
+        if (!validate()) return 
         try {
             const {id, name, email} = await patchUserRoute({email: values.email, name: values.name});
-            AuthState.setUserModel(id, email, name) 
+            setUserModel(id, email, name) 
+            setIsEditing(false)
         } catch (error) {
             if (error instanceof ServerException)
                 setErrorMsg(error.message);
         }
-        setIsEditing(false)
 
     };
 
@@ -113,6 +116,7 @@ function UpdateProfileComponent () {
 
             { !isEditing ?
             <button 
+            type="button"
             onClick={() => setIsEditing(true)}>
                 Update
             </button>
@@ -124,6 +128,7 @@ function UpdateProfileComponent () {
                     Save
                 </button>
                 <button 
+                type="button"
                 onClick={() => {setIsEditing(false); reset()}}>
                     Cancel
                 </button>
@@ -139,7 +144,6 @@ function ConfirmDeletePopupContent(props:{
     onClose: () => void
 }) {
     const logout = useAuthState(state => state.logout)
-	const navigate = useNavigate();
     
     const handleDelete = async () => {
         try {
@@ -149,7 +153,6 @@ function ConfirmDeletePopupContent(props:{
             logger.error("Unexpected server error, unable to delete profile")
         }
         props.onClose()
-        navigate(AppRoutes.register)
     } 
 
     return(

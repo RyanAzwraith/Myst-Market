@@ -1,0 +1,89 @@
+import { describe, expect, vi, beforeEach, test } from "vitest"
+import { screen } from "@testing-library/react"
+import {userEvent, type UserEvent} from "@testing-library/user-event"
+
+import { AppRoutes } from '@/AppRoutes'
+import { ServerException } from "@/core"
+import { useAuthState } from '@/features/user/authState'
+import { LoginPage } from '@/features/user/LoginPage'
+
+import { 
+    renderWithRouter, 
+    resetAuthState, 
+    getByRole,
+    getByText,
+} from "../utils";
+
+const mockNavigate = vi.fn()
+vi.mock("react-router-dom", async () => ({
+    ...await vi.importActual("react-router-dom"), 
+    useNavigate: () => mockNavigate 
+}))
+
+const mockLoginRoute = vi.hoisted(() => vi.fn())
+vi.mock("@/features/user/authApi", () => ({
+    loginRoute: mockLoginRoute,
+}))
+
+let user: UserEvent
+
+describe("LoginPage", () => {
+
+    beforeEach(() => {
+        resetAuthState()
+        renderWithRouter(<LoginPage />)
+        user = userEvent.setup()
+    })
+
+    const sampleData = {
+        email: "email@mail.com",
+        password: "password"
+    }
+    const emailInput = () => screen.getByPlaceholderText("Email")
+    const passwordInput = () => screen.getByPlaceholderText("Password")
+    const loginButton = () => getByRole("button", "Login")
+
+    async function fillForm ({email, password} : {email?:string, password?:string|null} = {}) {
+        await user.clear(emailInput())
+        await user.clear(passwordInput())
+        await user.type(emailInput(), email ?? sampleData.email)
+        if (password !== null)
+            await user.type(passwordInput(), password ?? sampleData.password)
+        await user.click(loginButton())
+    } 
+
+    test("validation", async () => {
+        await fillForm({email:" "})
+        expect(getByText("Email required"))
+        await  fillForm({email:"invalid email"})
+        expect(getByText("Invalid email"))
+        await  fillForm({password: null})
+        expect(getByText("Password required"))
+        expect(mockLoginRoute).not.toHaveBeenCalled()
+    })
+
+    test ("submit", async () => {
+        const resolved = {
+            accessToken: "ItsAnAccessToken",
+            userResponse: {
+                id : 4,
+                email : "some@mail.com",
+                name : "someone",
+            }
+        }
+        mockLoginRoute.mockResolvedValue(resolved)
+        await  fillForm()
+        expect(mockLoginRoute).toHaveBeenCalledWith(sampleData)
+        expect(useAuthState.getState().accessToken).toBe(resolved.accessToken)
+        expect(useAuthState.getState().userModel).toBe(resolved.userResponse)
+        expect(mockNavigate).toHaveBeenCalledWith(AppRoutes.profile)
+    })
+
+    test("request error", async () => {
+        const rejected = new ServerException({message: "Authentication Error"})
+        mockLoginRoute.mockRejectedValue(rejected)
+        await fillForm()
+        expect(getByText(rejected.message))
+    })
+    
+})

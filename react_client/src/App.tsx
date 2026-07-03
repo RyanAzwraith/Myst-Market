@@ -13,6 +13,7 @@ export function App() {
 	const queryClient = new QueryClient();
 
 	useEffect(() => {
+		document.title = "Myst Market"
 		refreshToken();
 	}, []);
 

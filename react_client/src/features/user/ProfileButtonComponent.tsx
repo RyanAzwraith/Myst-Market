@@ -1,7 +1,3 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: <explanation> */
-/** biome-ignore-all lint/a11y/useButtonType: <explanation> */
-/** biome-ignore-all assist/source/organizeImports: <explanation> */
-/** biome-ignore-all lint/a11y/useSemanticElements: <explanation> */
 import { UserCircleIcon as OutlineIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon as SolidIcon } from "@heroicons/react/24/solid";
 import { useEffect, useRef, useState } from "react";
@@ -25,6 +21,8 @@ function ProfileButtonComponent() {
 		state={accessToken != null}
 		onChild={
 			<SolidIcon 
+			aria-label="solidIcon"
+			aria-hidden="false"
 			className="h-6 w-6" 
 			onClick={() => navigate(AppRoutes.profile)} 
 			/>
@@ -33,7 +31,11 @@ function ProfileButtonComponent() {
 			<PopUpModalComponent
 			content={onClose => <LoginModalContent onClose={onClose}/>}
 			>
-				<OutlineIcon className="h-6 w-6" />
+				<OutlineIcon
+				aria-label="outLineIcon"
+				aria-hidden="false"
+				className="h-6 w-6" 
+				/>
 			</PopUpModalComponent>
 		}
 		/>
@@ -50,7 +52,7 @@ function LoginModalContent(props:{
 	const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
 		{
 			name:"email",
-			validateFunc: (v) => !v ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
+			validateFunc: (v) => !v.trim() ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
 		},{
 			name:"password",
 			validateFunc: (v) => !v ? "Password required" : null

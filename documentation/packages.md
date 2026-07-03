@@ -16,6 +16,9 @@ react-client
 - @heroicons/react
 - jsdom  
 - @testing-library/user-event 
+- playwright@latest
+- uvicorn
+- dotenv
 
 fastapi-server
 - fastapi

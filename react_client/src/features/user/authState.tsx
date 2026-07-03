@@ -7,7 +7,7 @@ type UserModel = {
 	name: string;
 };
 
-export type AuthState = {
+type AuthState = {
     accessToken: string | null
     userModel: UserModel| null
     setUserModel: (id:number, email:string, name:string) => void
@@ -36,8 +36,12 @@ const useAuthState = create<AuthState>()(
         }),
         {
             name: "auth-storage",
+             partialize: (state) => ({
+                userModel: state.userModel
+            }),
         }
     )
 );
 
-export { useAuthState }
+
+export { useAuthState, type AuthState, type UserModel }

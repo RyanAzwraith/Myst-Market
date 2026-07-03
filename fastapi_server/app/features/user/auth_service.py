@@ -5,7 +5,8 @@ import resend
 
 from app.core import get_config
 from app.core.exceptions import (
-    AuthenticationException
+    AuthenticationException,
+    AppError
 )
 
 ALGORITHM = "HS256"
@@ -63,15 +64,18 @@ def create_set_password_token(user_id):
 
 def send_set_password_email(email: str, token: str) -> None:
     link = (f"{get_config().cors_origins[0]}" f"/set-password?token={token}")
-    resend.Emails.send({
-        "from": "set_password@resend.dev",
-        "to": email,
-        "subject": "Reset Password",
-        "html": f"""
-            <h1>Reset Password</h1>
-            <a href="{link}">
-                Reset Password
-            </a>
-            <h3> {link} </h3>
-        """
-    })
+    try:
+        resend.Emails.send({
+            "from": "set_password@resend.dev",
+            "to": email,
+            "subject": "Reset Password",
+            "html": f"""
+                <h1>Reset Password</h1>
+                <a href="{link}">
+                    Reset Password
+                </a>
+                <h3> {link} </h3>
+            """
+        })
+    except Exception:
+        raise AppError("Resend not working")

@@ -29,7 +29,7 @@ def get_admin_user(session=Depends(get_session), credentials=Depends(bearer_sche
     if payload["type"] != "access":
         raise AuthenticationException("Invalid Token Type")
     db_user = get_user(session, payload["sub"])
-    if not db_user.isAdmin:
+    if not db_user.is_admin:
         raise AuthorizationException("Admin Authorization Required")
     return db_user
 

@@ -16,7 +16,7 @@ function LoginPage() {
 	const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
 		{
 			name:"email",
-			validateFunc: (v) => !v ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
+			validateFunc: (v) => !v.trim() ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
 		}, {
 			name:"password",
 			validateFunc: (v) => !v ? "Password required" : null
@@ -36,7 +36,6 @@ function LoginPage() {
                 setErrorMsg(error.message);
         }
     };
-	
 
     return (
 		<div className="max-w-md mx-auto mt-8 p-4">

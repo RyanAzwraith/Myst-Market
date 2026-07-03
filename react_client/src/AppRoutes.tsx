@@ -7,7 +7,7 @@ import { CheckOut } from "./features/checkout/CheckOut";
 import { RegisterPage } from "./features/user/RegisterPage";
 import { ProfilePage } from "./features/user/ProfilePage";
 import { LoginPage } from "./features/user/LoginPage";
-import { SetPasswordPage } from "./features/user/setPasswordPage"
+import { SetPasswordPage } from "./features/user/SetPasswordPage"
 
 
 export const AppRoutes = {
@@ -27,7 +27,7 @@ export function AppRoutesComponent() {
 		<Routes>
 
 			<Route path={AppRoutes.default} element={
-				<Catalogue />
+				<Navigate to={AppRoutes.catalogue} replace />
 			} />
 
 			<Route path={AppRoutes.catalogue} element={

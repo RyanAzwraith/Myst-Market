@@ -89,7 +89,7 @@ class RefreshResponse(BaseModel):
     model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
     access_token: str
 
-@router.get("/refresh", status_code=200, response_model=RefreshResponse)
+@router.get("/refresh", status_code=201, response_model=RefreshResponse)
 async def refresh_route(refresh_token=Cookie(default=None), session=Depends(get_session)):
     if not refresh_token:
         raise AuthenticationException("Missing Refresh Token")

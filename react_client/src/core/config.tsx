@@ -1,4 +1,7 @@
-const env = import.meta.env
+const env =
+  typeof process !== 'undefined'
+    ? process.env
+    : (import.meta as any).env
 
 function Evar(
   name: Extract<keyof ImportMetaEnv, string>,

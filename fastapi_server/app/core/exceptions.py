@@ -34,7 +34,7 @@ class AuthenticationException(AppException):
 
 class AuthorizationException(AppException):
     message = "Unauthorized"
-    status_code = 401
+    status_code = 403
 
 class ContentNotFoundException(AppException):
     message = "Content Not Found"

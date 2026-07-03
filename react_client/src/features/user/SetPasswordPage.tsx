@@ -15,14 +15,14 @@ function SetPasswordPage() {
 	
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
-    useEffect(() => {if (!token) navigate("/login")}, [token]);
+    useEffect(() => {if (!token) navigate(AppRoutes.login)}, [token]);
 
 	const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
 		{
 			name:"password",
 			validateFunc: (v) => !v ? "Password required" : null
 		}, {
-			name:"SecondaryPassword",
+			name:"secondaryPassword",
 			validateFunc: (v) => v !== values.password ? "Password must match" : null
 		}
 	])
@@ -61,8 +61,8 @@ function SetPasswordPage() {
 				>
 					<input
 						type="password"
-						value={values.SecondaryPassword}
-						onChange={(e) => setters.SecondaryPassword(e.target.value)}
+						value={values.secondaryPassword}
+						onChange={(e) => setters.secondaryPassword(e.target.value)}
 						className="w-full border p-2"
 						placeholder="Re-enter"
 					/>
