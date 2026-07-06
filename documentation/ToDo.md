@@ -52,6 +52,7 @@ x test
 
 Loose Ends
 - tests: dependency, external
+- security: set-password-token, local storage
 
 Can Do
 - start products
