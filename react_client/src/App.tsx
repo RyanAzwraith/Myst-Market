@@ -1,42 +1,31 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
+import "@/app.css";
 
-import "./styles/themes.css"
-import "./styles/main.css"
+import { ThemeProvider } from "@/ThemeProvider";
+import { Scaffold } from "./scaffold/Scaffold";
 
-import { ThemeProvider } from "@/providers/ThemeProvider";
-import { UserProvider } from "@/providers/UserProvider";
-import { CartProvider } from "@/providers/CartProvider";
-import { Scaffold } from "./features/scaffold/Scaffold";
-
-import { Catalogue } from "./features/catalogue/Catalogue";
-import { Shop } from "./features/shop/Shop";
-import { CheckOut } from "./features/checkout/CheckOut";
-
-export function AppRoutes() {
-    return (
-        <Routes>
-			<Route path="*" element={<Catalogue />} />
-			<Route path="/catalogue" element={<Catalogue />} />
-			<Route path="/shop" element={<Shop />} />
-			<Route path="/checkout" element={<CheckOut />} />
-        </Routes>
-    )
-}
+import { AppRoutesComponent } from '@/AppRoutes.tsx';
+import { refreshToken } from "@/api"
 
 export function App() {
+	const queryClient = new QueryClient();
+
+	useEffect(() => {
+		document.title = "Myst Market"
+		refreshToken();
+	}, []);
 
 	return (
-		<BrowserRouter>
-			<ThemeProvider>
-				<UserProvider>
-					<CartProvider>
+		<QueryClientProvider client={queryClient}>
+			<BrowserRouter>
+				<ThemeProvider>
 						<Scaffold>
-							<AppRoutes />
+							<AppRoutesComponent />
 						</Scaffold>
-					</CartProvider>
-				</UserProvider>
-			</ThemeProvider>
-		</BrowserRouter>
+				</ThemeProvider>
+			</BrowserRouter>
+		</QueryClientProvider>
 	);
 }

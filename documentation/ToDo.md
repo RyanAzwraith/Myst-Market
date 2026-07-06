@@ -32,9 +32,28 @@ x dev seeding
 Features
 9/6
 - Scaffold
-- User
+x User
 - Cart
 - Catalogue
 - Shop
 - Checkout
 - Admin
+
+User
+10/6
+x user route
+x auth route
+x auth model
+x appbar button
+x profile page
+x register page
+x email system
+x test
+
+Loose Ends
+- tests: dependency, external
+- security: set-password-token, local storage
+
+Can Do
+- start products
+- plan checkout

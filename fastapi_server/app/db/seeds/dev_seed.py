@@ -14,27 +14,32 @@ from app.db.models import (
     Stock,
     User,
 )
+from app.features.user.user_service import hash_password
 
 
-def seed(db):
+def dev_seed(session):
     users = [
         User(
             email="admin@mystmarket.com",
             name="Admin User",
             is_admin=True,
             is_registered=True,
-            password_hash="dev-password",
+            password_hash=hash_password("password"),
         ),
         User(
             email="customer@mystmarket.com",
             name="Myst Customer",
             is_registered=True,
-            password_hash="customer-password",
+            password_hash=hash_password("password"),
         ),
+        User(
+            email="customer_two@mystmarket.com",
+            deleted_at=datetime.now()
+        )
     ]
 
-    db.add_all(users)
-    db.flush()
+    session.add_all(users)
+    session.flush()
 
     addresses = [
         Address(
@@ -55,8 +60,8 @@ def seed(db):
         ),
     ]
 
-    db.add_all(addresses)
-    db.flush()
+    session.add_all(addresses)
+    session.flush()
 
     products = [
         Product(
@@ -141,8 +146,8 @@ def seed(db):
         ),
     ]
 
-    db.add_all(products)
-    db.flush()
+    session.add_all(products)
+    session.flush()
 
     stocks = [
         Stock(
@@ -197,8 +202,8 @@ def seed(db):
         ),
     ]
 
-    db.add_all(stocks)
-    db.flush()
+    session.add_all(stocks)
+    session.flush()
 
     sales = [
         Sale(
@@ -210,9 +215,9 @@ def seed(db):
             products=[products[2], products[4], products[7]],
         )
     ]
-    
-    db.add_all(sales)
-    db.flush()
+
+    session.add_all(sales)
+    session.flush()
 
     reviews = [
         Review(
@@ -223,8 +228,8 @@ def seed(db):
         )
     ]
 
-    db.add_all(reviews)
-    db.flush()
+    session.add_all(reviews)
+    session.flush()
 
     orders = [
         Order(
@@ -236,8 +241,8 @@ def seed(db):
         )
     ]
 
-    db.add_all(orders)
-    db.flush()
+    session.add_all(orders)
+    session.flush()
 
     order_products = [
         OrderProduct(
@@ -254,8 +259,8 @@ def seed(db):
         ),
     ]
 
-    db.add_all(order_products)
-    db.flush()
+    session.add_all(order_products)
+    session.flush()
 
     payments = [
         Payment(
@@ -271,8 +276,8 @@ def seed(db):
         )
     ]
 
-    db.add_all(payments)
-    db.flush()
+    session.add_all(payments)
+    session.flush()
 
     medias = [
         Media(
@@ -284,10 +289,10 @@ def seed(db):
         )
     ]
 
-    db.add_all(medias)
-    db.flush()
+    session.add_all(medias)
+    session.flush()
 
-    media_entitys = [ 
+    media_entitys = [
         MediaEntity(
             entity_type="product",
             entity_id=products[0].id,
@@ -295,11 +300,11 @@ def seed(db):
         )
     ]
 
-    db.add_all(media_entitys)
-    db.flush()
+    session.add_all(media_entitys)
+    session.flush()
 
     articles = [
-            Article(
+        Article(
             created_at="2026-06-09",
             slug="sword-of-dawn-origin",
             title="Origins of the Sword of Dawn",
@@ -312,10 +317,10 @@ def seed(db):
             title="Mystic Cloak: A History",
             desciption="The tale behind the enchanted cloak.",
             products=[products[3], products[5]],
-        )
+        ),
     ]
 
-    db.add_all(articles)
-    db.flush()
+    session.add_all(articles)
+    session.flush()
 
-    db.commit()
+    session.commit()

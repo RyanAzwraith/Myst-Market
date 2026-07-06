@@ -1,4 +1,7 @@
-const env = import.meta.env
+const env =
+  typeof process !== 'undefined'
+    ? process.env
+    : (import.meta as any).env
 
 function Evar(
   name: Extract<keyof ImportMetaEnv, string>,
@@ -15,8 +18,8 @@ function Evar(
 }
 
 const configEntries  = [
-    Evar("VITE_LAUNCH_TYPE", false,"DEV"),
-    Evar("VITE_SERVER_URL")
+    Evar("VITE_LAUNCH_TYPE", false, "DEV"),
+    Evar("VITE_SERVER_URL"),
 ] 
 
 export const config = Object.fromEntries(

@@ -24,14 +24,13 @@ class Review(Base):
 
     product_id: Mapped[int] = mapped_column(
         ForeignKey("product.id", ondelete="CASCADE"),
-        index=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        server_default=func.now()
+        default=func.now()
     )
 
-    rating: Mapped[int | None] = mapped_column(Integer, server_default=text("0"))
+    rating: Mapped[int | None] = mapped_column(Integer, default=text("0"))
 
     description: Mapped[str | None] = mapped_column(Text)
 

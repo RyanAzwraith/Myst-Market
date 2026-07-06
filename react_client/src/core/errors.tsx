@@ -1,17 +1,24 @@
-export class AppError extends Error {
+
+type ExceptionData = {
+    message?: string|null 
+    statusCode?: number|null, 
+    details?: Record<string, any>|null
+}
+
+export class AppException extends Error {
     static defaultMessage = "Application Error"
     static statusCode = 500
 
     statusCode: number
     details?: Record<string, any>
 
-    constructor(details: Record<string, any>  = {}) {
-        const cls = new.target as typeof AppError
-        super(cls.defaultMessage)
+    constructor(data:ExceptionData) {
+        const cls = new.target as typeof AppException
+        super(data.message || cls.defaultMessage)
         this.name = cls.name
-        this.message = cls.defaultMessage
-        this.statusCode = cls.statusCode
-        this.details = details
+        this.message = data.message || cls.defaultMessage
+        this.statusCode = data.statusCode || cls.statusCode
+        this.details = data.details || {}
     }   
     
     toString() {
@@ -19,7 +26,12 @@ export class AppError extends Error {
     }
 }
 
-export class AppValidationError extends AppError {
+export class AppValidationException extends AppException {
     static defaultMessage = "Validation failed"
     static statusCode = 400
+}
+
+export class ServerException extends AppException {
+    static defaultMessage = "Server error"
+    static statusCode = 500
 }

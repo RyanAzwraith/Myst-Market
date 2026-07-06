@@ -1,44 +1,53 @@
-from fastapi.responses import JSONResponse
-
 class AppException(Exception):
-    message:str = "Application Error"
+    message:str = "Application Exception"
     status_code:int = 500
 
-    def __init_subclass__(cls):
-        if any([
-            not isinstance(cls.status_code, int),
-            not isinstance(cls.message, str)
-        ]):
-            raise TypeError(f"{cls.__name__} class properties type validation failed")
-
-    def __init__(self, details:dict|None=None):
-        self.name = self.__class__.__name__
-        self.message = self.__class__.message
-        self.status_code = self.__class__.status_code
+    def __init__(self, message=None, details:dict|None=None, status_code=None, ):
+        self.message = message or self.__class__.message
+        self.status_code = status_code or self.__class__.status_code
         self.details = details or {}
         super().__init__(self.message)
-    
+
+    @property
+    def name(self):
+        return self.__class__.__name__
+
     def __str__(self):
         return f"{self.name} | {self.message} | {self.details}"
 
-    def response(self) -> JSONResponse:
-        return JSONResponse( status_code=self.status_code, content={
-            "error": {
-                "status_code": self.status_code,
-                "message": self.message,
-                "details": self.details,
-            }
-        },)
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "message": self.message,
+            "details": self.details,
+        }
 
+# Errors
+class AppError(AppException):
+    message:str = "Unexpected Internal Error"
+    status_code:int = 500
 
-class AppValidationError(AppException):
-    status_code = 500 
+# Exceptions
+class AuthenticationException(AppException):
+    message = "Unauthenticated"
+    status_code = 401
+
+class AuthorizationException(AppException):
+    message = "Unauthorized"
+    status_code = 403
+
+class ContentNotFoundException(AppException):
+    message = "Content Not Found"
+    status_code = 404
+
+class ConflictException(AppException):
+    message = "Internal Conflict"
+    status_code = 409
+
+class ValidationException(AppException):
     message = "Argument validation failed."
+    status_code:int = 500
 
-class AppTypeError(AppValidationError):
-    status_code = 500 
-    message = "Argument validation failed, incorrect type."
-
-class AppMissingFieldError(AppValidationError):
-    status_code = 500 
-    message = "Argument validation failed, missing field."
+# module exceptions
+#   Pydantic - ValidationError
+#   Fastapi - RequestValidationError

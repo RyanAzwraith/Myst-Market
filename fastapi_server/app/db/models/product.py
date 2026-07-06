@@ -32,18 +32,16 @@ class Product(Base):
     category_id: Mapped[int] = mapped_column(
         ForeignKey("category.id", ondelete="RESTRICT", onupdate="CASCADE"),
         nullable=False,
-        index=True,
     )
 
     rarity_id: Mapped[int] = mapped_column(
         ForeignKey("rarity.id", ondelete="RESTRICT", onupdate="CASCADE"),
         nullable=False,
-        index=True,
     )
 
     price_aud_cent: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    created_at: Mapped[datetime] = mapped_column(nullable=False, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(nullable=False, default=func.now())
 
     slug: Mapped[str] = mapped_column(Text, nullable=False)
 

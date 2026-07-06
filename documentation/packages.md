@@ -13,6 +13,12 @@ react-client
 - @testing-library/jest-dom jsdom
 - typescript
 - @tailwindcss/vite
+- @heroicons/react
+- jsdom  
+- @testing-library/user-event 
+- playwright@latest
+- uvicorn
+- dotenv
 
 fastapi-server
 - fastapi
@@ -30,3 +36,6 @@ fastapi-server
 - ruff
 - sqlacodegen
 - faker
+- pydantic[email]
+- resend
+- pytest-asyncio

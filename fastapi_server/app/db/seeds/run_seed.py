@@ -5,16 +5,14 @@ from sqlalchemy import delete
 from app.core.config import init_config
 from app.db.database import Base, Database
 
-from .base_seed import seed as base_seed
-from .dev_seed import seed as dev_seed
+from .base_seed import base_seed
+from .dev_seed import dev_seed
 from .stress_seed import seed as stress_seed
 
 
 def clear_tables(db):
-    for table in reversed(Base.metadata.sorted_tables):
-        db.execute(delete(table))
-    db.commit()
-
+    Base.metadata.drop_all(db.engine)
+    Base.metadata.create_all(db.engine)
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Run database seeds.")
@@ -32,13 +30,13 @@ if __name__ == "__main__":
     config = init_config()
     if config.environment != "development":
         raise RuntimeError( f"Database seeding only allowed when ENVIRONMENT=development, not {config.environment}")
-    db = next(Database(config).get_session())
-
+    db = Database(config.database_url)
+    session = next(db.get_session())
     if args.clear:
         clear_tables(db)
 
-    base_seed(db)
-    dev_seed(db)
+    base_seed(session)
+    dev_seed(session)
 
     # stress_seed(db)
 
