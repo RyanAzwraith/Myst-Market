@@ -1,32 +1,28 @@
 /** biome-ignore-all lint/a11y/useButtonType: <explanation> */
 import { useNavigate } from "react-router-dom";
-import { Cart } from "../features/cart/CartComponent";
-import { ProfileButtonComponent } from "../features/user/ProfileButtonComponent";
-import { useAuthState } from "@/features/user/authState";
+
 import {AppRoutes} from '@/AppRoutes.tsx'
+import { ProfileButtonComponent } from "../features/user/ProfileButtonComponent";
+import { CategoryBarComponent } from "@/features/shop/CategoryBarComponent";
+import { SearchBarComponent } from "@/features/shop/SearchBarComponent";
 
 export function AppBar() {
 	const navigate = useNavigate();
-	const authState = useAuthState();
 	return (
-		<div className="app-bar flex items-center justify-between bg-slate-300 px-4 py-3">
-			<h1 className="text-xl font-semibold">Myst Market</h1>
-			<span>- {authState.userModel?.name} -</span>
-				
+		<div className="app-bar flex items-center 
+			justify-between bg-slate-100 px-4 py-3 shadow-sm">
+			<button
+			className="rounded px-3 py-1 
+				text-sm hover:bg-slate-200"
+			onClick={() => navigate(AppRoutes.catalogue)}>
+				<h1 className="text-xl font-semibold">Myst Market</h1>
+			</button>
+			<div className='flex flex-col'>
+				<SearchBarComponent />
+				<CategoryBarComponent/>
+			</div>
 
 			<div className="flex items-center gap-2">
-				<button
-					className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-900"
-					onClick={() => navigate(AppRoutes.catalogue)}
-				>
-					Catalogue
-				</button>
-				<button
-					className="rounded bg-slate-800 px-3 py-1 text-sm text-white hover:bg-slate-900"
-					onClick={() => navigate("/shop")}
-				>
-					Shopping
-				</button>
 				<ProfileButtonComponent />
 			</div>
 		</div>

@@ -42,7 +42,7 @@ function SetPasswordPage() {
 	
     return (
 		<div className="max-w-md mx-auto mt-8 p-4">
-			<h2 className="text-lg font-semibold mb-4">Set Password</h2>
+			<h1 className="text-lg font-semibold mb-4">Set Password</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<InputLabelComponent
 				name="password"

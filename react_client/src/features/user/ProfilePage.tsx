@@ -34,7 +34,7 @@ function ProfilePage() {
 
     return (
         <div>
-			<h2 className="text-lg font-semibold mb-4">Profile</h2>
+			<h1 className="text-lg font-semibold mb-4">Profile</h1>
 
             <button
             onClick={handleLogout}>

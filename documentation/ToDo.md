@@ -31,12 +31,13 @@ x dev seeding
 
 Features
 9/6
-- Scaffold
 x User
-- Cart
-- Catalogue
 - Shop
+- Cart
 - Checkout
+- Orders
+- Reviews
+- Catalogue
 - Admin
 
 User
@@ -50,10 +51,36 @@ x register page
 x email system
 x test
 
+Shop
+7/7
+- shop api
+- shop state
+- shop page
+- search functionality
+- product Page
+- tests
+
+
+--------------------------------------
+
+Plan
+x Initiliazation
+x Desgin
+x User feature
+- Shop feature
+- Cart feature
+- Checkout feature
+- Orders feature
+- Reviews feature
+- Media
+- Catalogue feature
+- Admin feature
+- Styling
+- Deploy
+
 Loose Ends
 - tests: dependency, external
 - security: set-password-token, local storage
 
 Can Do
-- start products
 - plan checkout
