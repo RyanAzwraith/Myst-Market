@@ -1,18 +1,19 @@
 from datetime import datetime
-from sqlalchemy import and_, func, contains_eager
-from sqlalchemy.orm import Query
+from sqlalchemy import and_, func
+from sqlalchemy.orm import Query, contains_eager
 from app.db.models import (
     Product,
     Sale,
     Category,
     Rarity,
+    Stock,
     sale_product
 )
 from app.core.exceptions import (
     ContentNotFoundException,
 )
 
-from .shop_api import (
+from .shop_schemas import (
     SortBy,
     SaleDetail,
     ProductDetail,
@@ -65,9 +66,11 @@ def product_query(session) -> Query:
         )
         .join(Product.category)
         .join(Product.rarity)
+        .join(Product.stock)
         .options(
             contains_eager(Product.category),
-            contains_eager(Product.rarity)
+            contains_eager(Product.rarity),
+            contains_eager(Product.stock),
         )
         .outerjoin(
             sale_query,
@@ -75,7 +78,7 @@ def product_query(session) -> Query:
                 sale_query.c.product_id == Product.id,
                 sale_query.c.row_num == 1
             )
-        ),
+        )
     )
     return query
 
@@ -98,7 +101,7 @@ def get_product_by_slug(session, slug) -> ProductDetail:
         price_aud_cent=db_product.price_aud_cent,
         slug=db_product.slug,
         description=db_product.description,
-        stock=db_product.stock,
+        stock=db_product.stock.current,
         sale_slug=sale_slug,
     )
 
@@ -106,14 +109,26 @@ def apply_product_filters(
     query, 
     categories=None, 
     rarities=None,
-    is_deactivated=False
+    is_discontinued=False,
+    is_stock=False
 ) -> Query:
     if categories:
         query = query.filter(Category.name.in_(categories))
     if rarities:
         query = query.filter(Rarity.name.in_(rarities))
-    if not is_deactivated:
-        query = query.filter(not Product.is_deactivated)
+    if not is_discontinued:
+        query = query.filter(Product.discontinued_at is not None)
+    if not is_stock:
+        query = query.filter(Stock.current > 0)
+    return query
+
+def apply_product_search(query, 
+    search=None
+) -> Query:
+    if search:
+        query = query.filter(
+            Product.name.ilike(f"%{search}%")
+        )
     return query
     
 def apply_product_sorting(
@@ -134,7 +149,7 @@ def apply_product_sorting(
         case SortBy.popularity | _:
             sort_column = Product.units_sold
 
-    if is_ascending:
+    if is_ascending or is_ascending is None:
         return query.order_by(sort_column.asc())
     else:
         return query.order_by(sort_column.desc())
@@ -145,6 +160,7 @@ def apply_pagination(
     offset=None
 ) -> tuple[list, bool]:
     result = None
+    has_more = False
 
     if offset is not None:
         query = query.offset(offset)
@@ -169,6 +185,10 @@ def search_products(session, options) -> ProductsSearch:
         options.categories, 
         options.rarities
     )
+    query = apply_product_search(
+        query, 
+        options.search
+    )
     query = apply_product_sorting(
         query, 
         options.sort_by, 
@@ -179,7 +199,6 @@ def search_products(session, options) -> ProductsSearch:
         options.limit, 
         options.offset
     )
-
     return ProductsSearch(
         products=[
             ProductDetail(
@@ -190,7 +209,7 @@ def search_products(session, options) -> ProductsSearch:
                 price_aud_cent=p.price_aud_cent,
                 slug=p.slug,
                 description=p.description,
-                stock=p.stock,
+                stock=p.stock.current,
                 sale_slug=sale_slug,
             ) for p, sale_slug in db_products],
         has_more=has_more

@@ -2,8 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppRoutes } from '@/AppRoutes'
 
 import { ImageComponent } from "@/shared/ImageComponent"
-import  { PriceComponent } from "./priceComponent"
 
+import  { PriceComponent } from "./PriceComponent"
 import { useProductQuery } from "./shopService"
 import { useEffect } from "react";
 
@@ -30,9 +30,8 @@ function ProductPage() {
                     {product.rarityName} - {product.rarityName}
                 </p>
                 <PriceComponent product={product} />
-
                 <p className="text-sm text-slate-600">
-                    stock: {product.stock}
+                    Stock {product.stock}
                 </p>
                 <p className="text-sm text-slate-600">
                     {product.description}

@@ -1,6 +1,6 @@
-from app.api_model import APIModel
+from app.api.api_model import APIModel
 from enum import Enum
-from datetime import date
+from datetime import datetime
 
 class SaleDetail(APIModel):
     id: int
@@ -8,8 +8,8 @@ class SaleDetail(APIModel):
     slug: str
     description: str
     discount_percent: int
-    start_at: date
-    end_at: date
+    start_at: datetime
+    end_at: datetime
     
 class ProductDetail(APIModel):
     id: int
@@ -19,7 +19,7 @@ class ProductDetail(APIModel):
     price_aud_cent: int
     slug: str
     description: str
-    stock: int
+    stock:int
     sale_slug: str | None
 
 class ProductsSearch(APIModel):
@@ -57,4 +57,4 @@ class PostProductsSearchRequest(APIModel):
 
 class PostProductsSearchResponse(APIModel):
     products: list[ProductDetail]
-    has_more: bool
+    has_more: bool 

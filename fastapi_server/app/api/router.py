@@ -1,14 +1,13 @@
 from fastapi import APIRouter
 
-from app.core import get_config
-from app.core.exceptions import AuthorizationException
-
-from app.features.user.user_api import router as user_router
 from app.api.test_api import router as test_router
+from app.features.user.user_api import router as user_router
+from app.features.shop.shop_api import router as shop_router
 
 router = APIRouter()
-router.include_router(user_router)
 router.include_router(test_router)
+router.include_router(user_router)
+router.include_router(shop_router)
 
 
 @router.get("/health")

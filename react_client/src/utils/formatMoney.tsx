@@ -1,9 +1,8 @@
 
 
 
-
 function formatMoney (cents: number) {
-    return `$ ${cents/100}`
+    return `$ ${Math.round(cents/100)}`
 }
 
 export {formatMoney}

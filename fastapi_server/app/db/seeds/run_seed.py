@@ -7,7 +7,7 @@ from app.db.database import Base, Database
 
 from .base_seed import base_seed
 from .dev_seed import dev_seed
-from .stress_seed import seed as stress_seed
+from .stress_seed import stress_seed
 
 
 def clear_tables(db):

@@ -78,9 +78,9 @@ async def post_products_search_route(
     req: PostProductsSearchRequest, 
     session=Depends(get_session)
 ):
-    db_products, has_more = search_products(session, req)
+    products_search = search_products(session, req)
     return PostProductsSearchResponse(
-        products= db_products,
-        has_more= has_more
+        products= products_search.products,
+        has_more= products_search.has_more
     )
 

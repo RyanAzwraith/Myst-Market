@@ -20,20 +20,20 @@ from app.features.user.user_service import hash_password
 def dev_seed(session):
     users = [
         User(
-            email="admin@mystmarket.com",
+            email="admin@mail.com",
             name="Admin User",
             is_admin=True,
             is_registered=True,
             password_hash=hash_password("password"),
         ),
         User(
-            email="customer@mystmarket.com",
+            email="customer_one@mail.com",
             name="Myst Customer",
             is_registered=True,
             password_hash=hash_password("password"),
         ),
         User(
-            email="customer_two@mystmarket.com",
+            email="customer_two@mail.com",
             deleted_at=datetime.now()
         )
     ]
@@ -71,6 +71,7 @@ def dev_seed(session):
             price_aud_cent=25000,
             slug="sword-of-dawn",
             description="Ancient enchanted sword",
+            units_sold= 0
         ),
         Product(
             name="Healing Potion",
@@ -79,6 +80,7 @@ def dev_seed(session):
             price_aud_cent=500,
             slug="healing-potion",
             description="Restores health",
+            units_sold= 1242
         ),
         Product(
             name="Silver Amulet",
@@ -87,6 +89,7 @@ def dev_seed(session):
             price_aud_cent=7500,
             slug="silver-amulet",
             description="A charm for good fortune",
+            units_sold= 5
         ),
         Product(
             name="Mystic Cloak",
@@ -95,6 +98,7 @@ def dev_seed(session):
             price_aud_cent=12000,
             slug="mystic-cloak",
             description="A cloak woven from enchanted threads.",
+            units_sold= 26
         ),
         Product(
             name="Flame Essence",
@@ -103,6 +107,7 @@ def dev_seed(session):
             price_aud_cent=18000,
             slug="flame-essence",
             description="Pure elemental fire in a crystal vial.",
+            units_sold= 2
         ),
         Product(
             name="Crystal Orb",
@@ -111,6 +116,7 @@ def dev_seed(session):
             price_aud_cent=16000,
             slug="crystal-orb",
             description="A shimmering focus for arcane sight.",
+            units_sold= 75
         ),
         Product(
             name="Ranger's Bow",
@@ -119,6 +125,7 @@ def dev_seed(session):
             price_aud_cent=14000,
             slug="rangers-bow",
             description="A finely balanced bow for skilled archers.",
+            units_sold= 1294
         ),
         Product(
             name="Potion of Luck",
@@ -127,6 +134,7 @@ def dev_seed(session):
             price_aud_cent=900,
             slug="potion-of-luck",
             description="A small tonic that brings good fortune.",
+            units_sold= 21542
         ),
         Product(
             name="Guardian Shield",
@@ -135,6 +143,7 @@ def dev_seed(session):
             price_aud_cent=30000,
             slug="guardian-shield",
             description="A shield blessed to protect its wielder.",
+            units_sold= 6
         ),
         Product(
             name="Elixir of Speed",
@@ -143,6 +152,7 @@ def dev_seed(session):
             price_aud_cent=8500,
             slug="elixir-of-speed",
             description="A bright potion that quickens your pace.",
+            units_sold= 574
         ),
     ]
 
@@ -152,7 +162,7 @@ def dev_seed(session):
     stocks = [
         Stock(
             product_id=products[0].id,
-            current=10,
+            current=1,
             updated_at=datetime.now(),
         ),
         Stock(
@@ -211,6 +221,7 @@ def dev_seed(session):
             start_at=datetime.now() - timedelta(days=1),
             end_at=datetime.now() + timedelta(days=7),
             name="Spring Sale",
+            slug="spring-sale",
             description="Save 20% on selected items.",
             products=[products[2], products[4], products[7]],
         )

@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom"
-import { SortByOptions, useShopParams, type SortBy} from "./shopService"
 
 import { 
     useCategoriesQuery,
     useRaritiesQuery
 } from "./shopService"
+import { useShopParams } from "./shopService"
+import type { SortByType} from './shopSchemas'
+import { SortBy } from './shopSchemas'
 
 function SearchParamComponents() {
 
@@ -117,13 +118,13 @@ function AscendingCheckBox () {
     const shopParams = useShopParams()
     return (
         <div>
-            <label htmlFor="Ascending"> Ascending</label>
+            <label htmlFor="isAscending"> Ascending</label>
             <input 
             type="checkbox" 
             className="rounded" 
-            checked={shopParams.ascending.value}
+            checked={shopParams.isAscending.value}
             onChange={(e) => {
-                shopParams.ascending.set(() => e.target.checked)
+                shopParams.isAscending.set(() => e.target.checked)
                 shopParams.navigateShop()
             }}
             />
@@ -138,10 +139,10 @@ function SortByDropDown () {
         name='sortBy'
         value={shopParams.sortBy.value}
         onChange={(e) => {
-            shopParams.sortBy.set(() => e.target.value as SortBy)
+            shopParams.sortBy.set(() => e.target.value as SortByType)
             shopParams.navigateShop()
         }}>
-        {Object.values(SortByOptions).map(option => 
+        {Object.values(SortBy).map(option => 
             <option key={option} value={option}>{option}</option>
         )}
         </select>

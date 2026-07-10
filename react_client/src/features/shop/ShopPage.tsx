@@ -5,14 +5,18 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { AppRoutes } from "@/AppRoutes"
 import { ImageComponent } from "@/shared/ImageComponent"
 
-import {type Product, useShopParams, useProductsInfiniteQuery } from "./shopService"
+import {
+    useShopParams, 
+    useProductsInfiniteQuery
+} from "./shopService"
+import type {ProductDetail} from './shopSchemas'
 import { SearchParamComponents } from './SearchParamsComponent'
-import {PriceComponent} from './priceComponent'
+import { PriceComponent } from './PriceComponent'
 
 function ShopPage() {
     const {categories, search, shopParams} = useShopParams()
 
-    const limit = 5
+    const limit = 20
 
     const {data, fetchNextPage, hasNextPage } = 
         useProductsInfiniteQuery(limit, shopParams)
@@ -44,7 +48,7 @@ function ShopPage() {
 
 function ProductCard(
     { product }: 
-    { product: Product }
+    { product: ProductDetail }
 ) {
     const navigate = useNavigate()
     return (
@@ -54,7 +58,9 @@ function ProductCard(
         <ImageComponent 
         altText={product.name} />
         <h2 className="mt-2 font-semibold">{product.name}</h2>
-        <p className="text-sm text-slate-600">{product.categoryName} - {product.rarityName}</p>
+        <p className="text-sm text-slate-600">
+            {product.categoryName} - {product.rarityName}
+        </p>
         <PriceComponent product={product} />
     </div>
     )
