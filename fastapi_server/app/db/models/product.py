@@ -48,6 +48,8 @@ class Product(Base):
     description: Mapped[str | None] = mapped_column(Text)
 
     discontinued_at: Mapped[datetime | None] = mapped_column()
+    
+    units_sold: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     # relationships
     category: Mapped["Category"] = relationship("Category", back_populates="products")
