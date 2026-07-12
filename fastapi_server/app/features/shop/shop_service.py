@@ -66,7 +66,7 @@ def product_query(session) -> Query:
         )
         .join(Product.category)
         .join(Product.rarity)
-        .join(Product.stock)
+        .outerjoin(Product.stock)
         .options(
             contains_eager(Product.category),
             contains_eager(Product.rarity),
@@ -101,7 +101,7 @@ def get_product_by_slug(session, slug) -> ProductDetail:
         price_aud_cent=db_product.price_aud_cent,
         slug=db_product.slug,
         description=db_product.description,
-        stock=db_product.stock.current,
+        stock= db_product.stock.current if db_product.stock else 0,
         sale_slug=sale_slug,
     )
 
@@ -110,7 +110,7 @@ def apply_product_filters(
     categories=None, 
     rarities=None,
     is_discontinued=False,
-    is_stock=False
+    is_stock=True
 ) -> Query:
     if categories:
         query = query.filter(Category.name.in_(categories))
@@ -118,11 +118,12 @@ def apply_product_filters(
         query = query.filter(Rarity.name.in_(rarities))
     if not is_discontinued:
         query = query.filter(Product.discontinued_at is not None)
-    if not is_stock:
+    if is_stock:
         query = query.filter(Stock.current > 0)
     return query
 
-def apply_product_search(query, 
+def apply_product_search(
+    query, 
     search=None
 ) -> Query:
     if search:
@@ -134,7 +135,7 @@ def apply_product_search(query,
 def apply_product_sorting(
     query, 
     sort_by=SortBy.popularity, 
-    is_ascending=True
+    is_ascending=False
 ) -> Query:
     sort_column = Product.units_sold
     match sort_by:
@@ -209,7 +210,7 @@ def search_products(session, options) -> ProductsSearch:
                 price_aud_cent=p.price_aud_cent,
                 slug=p.slug,
                 description=p.description,
-                stock=p.stock.current,
+                stock= p.stock.current if p.stock else 0,
                 sale_slug=sale_slug,
             ) for p, sale_slug in db_products],
         has_more=has_more

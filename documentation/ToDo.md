@@ -81,6 +81,6 @@ x User feature
 Loose Ends
 - tests: dependency, external
 - security: set-password-token, local storage
-
-Can Do
-- plan checkout
+- add loading circles
+- hard code static tables
+- fix logger

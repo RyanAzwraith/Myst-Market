@@ -9,21 +9,21 @@ def default_password():
     return "password"
 
 @pytest.fixture
-def normal_user(db_session):
+def normal_user(session):
     user = User(
         name="kyle",
         email="kyle@mail.com",
         is_registered=True,
         password_hash=hash_password("password"),
     )
-    db_session.add(user)
-    db_session.commit()
-    db_session.refresh(user)
+    session.add(user)
+    session.commit()
+    session.refresh(user)
     return user
 
 
 @pytest.fixture
-def deactivated_user(db_session):
+def deactivated_user(session):
     user = User(
         name="mark",
         email="mark@mail.com",
@@ -31,7 +31,7 @@ def deactivated_user(db_session):
         password_hash=None,
         deleted_at=datetime.now()
     )
-    db_session.add(user)
-    db_session.commit()
-    db_session.refresh(user)
+    session.add(user)
+    session.commit()
+    session.refresh(user)
     return user
