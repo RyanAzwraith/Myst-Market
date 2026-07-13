@@ -11,8 +11,11 @@ function SalePage() {
 	const navigate = useNavigate()
 
     const { slug } = useParams()
-    useEffect(() => {!slug ? navigate(AppRoutes.catalogue): null}, [])
-
+  useEffect(() => {
+        if (!slug) 
+            navigate(AppRoutes.catalogue);
+    }, [slug, navigate])
+    
     const {data: sales} = useSalesQuery()
 
     if (sales && slug) {

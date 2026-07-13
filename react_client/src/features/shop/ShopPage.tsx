@@ -10,7 +10,7 @@ import {
     useProductsInfiniteQuery
 } from "./shopService"
 import type {ProductDetail} from './shopSchemas'
-import { SearchParamComponents } from './SearchParamsComponent'
+import { SearchParamsComponent } from './SearchParamsComponent'
 import { PriceComponent } from './PriceComponent'
 
 function ShopPage() {
@@ -28,7 +28,7 @@ function ShopPage() {
 
     return (
         <div> 
-            <SearchParamComponents />
+            <SearchParamsComponent />
             <h1 className="mb-2 text-lg font-semibold">{title}</h1> 
             <div className="flex flex-wrap gap-4">
             { products.map((p) => 
@@ -38,6 +38,7 @@ function ShopPage() {
             )}
             { hasNextPage ? 
                 <ChevronDownIcon 
+                aria-label="ChevronDownIcon"
                 className="h-24 w-24" 
                 onClick={() => fetchNextPage()} />
             : null}

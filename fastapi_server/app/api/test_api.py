@@ -10,6 +10,8 @@ from app.features.user.user_api import LoginResponse
 from app.api.dependencies import get_session
 from app.features.user.auth_service import create_access_token, create_set_password_token, decode_token
 from app.utils.to_camel import to_camel
+from app.db.seeds.base_seed import base_seed
+from app.db.seeds.dev_seed import dev_seed
 
 router = APIRouter()
 
@@ -23,12 +25,15 @@ def getHealth():
     return 200
 
 @router.post("/test/reset-db", status_code=200)
-def reset_db(request: Request):
+def reset_db(request: Request, session=Depends(get_session)):
     isTestEnvironment()
     engine=request.app.state.db.engine
     with engine.begin() as conn:
         Base.metadata.drop_all(conn)
         Base.metadata.create_all(conn)
+        dev_seed(session)
+        base_seed(session)
+
     return None
 
 class CreateUserRequest(BaseModel):
@@ -43,7 +48,7 @@ def create_user_route(req:CreateUserRequest, session= Depends(get_session)):
     try:
         db_user = create_user(session, req)
         db_user = update_user(session, db_user.id, req)
-    
+
     except ConflictException:
         db_user = get_user_by_email(session, req.email)
 

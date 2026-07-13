@@ -7,7 +7,7 @@ import { useShopParams } from "./shopService"
 import type { SortByType} from './shopSchemas'
 import { SortBy } from './shopSchemas'
 
-function SearchParamComponents() {
+function SearchParamsComponent() {
 
     return (
         <div className="mb-4">
@@ -49,6 +49,7 @@ function CategoryCheckBoxesDiv () {
                     <input 
                     type="checkbox" 
                     className="rounded"
+                    id={category}
                     checked={shopParams.categories.value.includes(category)}
                     onChange={(e) => makeHandleChange(category)(e)} />
                     <label htmlFor={category}> {category}</label>
@@ -97,6 +98,7 @@ function RarityCheckBoxesDiv () {
                     <input 
                     type="checkbox" 
                     className="rounded"
+                    id={rarity}
                     checked={shopParams.rarities.value.includes(rarity)}
                     onChange={(e) => makeHandleChange(rarity)(e)} />
                     <label htmlFor={rarity}>{rarity}</label>
@@ -122,6 +124,7 @@ function AscendingCheckBox () {
             <input 
             type="checkbox" 
             className="rounded" 
+            id="isAscending"
             checked={shopParams.isAscending.value}
             onChange={(e) => {
                 shopParams.isAscending.set(() => e.target.checked)
@@ -135,19 +138,29 @@ function AscendingCheckBox () {
 function SortByDropDown () {
     const shopParams = useShopParams()
     return (
-        <select 
-        name='sortBy'
-        value={shopParams.sortBy.value}
-        onChange={(e) => {
-            shopParams.sortBy.set(() => e.target.value as SortByType)
-            shopParams.navigateShop()
-        }}>
-        {Object.values(SortBy).map(option => 
-            <option key={option} value={option}>{option}</option>
-        )}
-        </select>
+        <div>
+            <label htmlFor="sortBy">Sort by</label>
+            <select 
+            name='sortBy'
+            id='sortBy'
+            value={shopParams.sortBy.value}
+            onChange={(e) => {
+                shopParams.sortBy.set(() => e.target.value as SortByType)
+                shopParams.navigateShop()
+            }}>
+            {Object.values(SortBy).map(option => 
+                <option key={option} value={option}>{option}</option>
+            )}
+            </select>
+        </div>
     )
             
 }
 
-export {SearchParamComponents}
+export {
+    SearchParamsComponent,
+    RarityCheckBoxesDiv,
+    CategoryCheckBoxesDiv,
+    SortByDropDown,
+    AscendingCheckBox,
+}

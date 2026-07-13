@@ -16,7 +16,7 @@ function PriceComponent(
         return <span>{formatMoney(product.priceAudCent)}</span>
     
     const discountedPriceCent= Math.round(
-        product.priceAudCent * (100 - sale.discountPercent)/100
+        product.priceAudCent * (100 - sale.discountPercent)
     )
 
     return (

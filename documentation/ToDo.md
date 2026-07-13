@@ -84,3 +84,8 @@ Loose Ends
 - add loading circles
 - hard code static tables
 - fix logger
+- add date formatter
+- refactor user Feature
+- change datetimes to dates
+- improve shop testing
+- remove unnecssery mocking of navigate fastapi server testing

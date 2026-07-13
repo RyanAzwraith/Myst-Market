@@ -11,10 +11,12 @@ function ProductPage() {
 	const navigate = useNavigate()
 
     const { slug } = useParams()
-    useEffect(() => {!slug ? navigate(AppRoutes.shop): null}, [])
-    
+    useEffect(() => {
+        if (!slug) 
+            navigate(AppRoutes.shop);
+    }, [slug, navigate])
 
-    const {data: product} = useProductQuery(slug!)
+    const {data: product} = useProductQuery(slug)
     if (product ) {
 
         return (
@@ -26,8 +28,6 @@ function ProductPage() {
                 altText={product.name} />
                 <p className="text-sm text-slate-600">
                     {product.categoryName} - {product.rarityName}
-                </p><p className="text-sm text-slate-600">
-                    {product.rarityName} - {product.rarityName}
                 </p>
                 <PriceComponent product={product} />
                 <p className="text-sm text-slate-600">

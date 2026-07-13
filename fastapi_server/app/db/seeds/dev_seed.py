@@ -16,6 +16,7 @@ from app.db.models import (
 )
 from app.features.user.user_service import hash_password
 
+someDate = datetime.fromisoformat("2026-07-13T12:00:00")
 
 def dev_seed(session):
     users = [
@@ -34,7 +35,7 @@ def dev_seed(session):
         ),
         User(
             email="customer_two@mail.com",
-            deleted_at=datetime.now()
+            deleted_at=someDate
         )
     ]
 
@@ -163,52 +164,52 @@ def dev_seed(session):
         Stock(
             product_id=products[0].id,
             current=1,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[1].id,
             current=500,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[2].id,
             current=25,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[3].id,
             current=15,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[4].id,
             current=8,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[5].id,
             current=12,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[6].id,
             current=18,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[7].id,
             current=200,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[8].id,
             current=5,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
         Stock(
             product_id=products[9].id,
             current=30,
-            updated_at=datetime.now(),
+            updated_at=someDate,
         ),
     ]
 
@@ -218,12 +219,12 @@ def dev_seed(session):
     sales = [
         Sale(
             discount_percent=20,
-            start_at=datetime.now() - timedelta(days=1),
-            end_at=datetime.now() + timedelta(days=7),
+            start_at=someDate - timedelta(weeks=52),
+            end_at=someDate + timedelta(weeks=520),
             name="Spring Sale",
             slug="spring-sale",
             description="Save 20% on selected items.",
-            products=[products[2], products[4], products[7]],
+            products=[products[1], products[4], products[7]],
         )
     ]
 
@@ -280,8 +281,8 @@ def dev_seed(session):
             provider="stripe",
             currency_code=36,
             status="completed",
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
+            created_at=someDate,
+            updated_at=someDate,
             order_id=orders[0].id,
             user_id=users[1].id,
         )
@@ -294,7 +295,7 @@ def dev_seed(session):
         Media(
             type="image",
             file_name="sword_of_dawn.png",
-            created_at=datetime.now(),
+            created_at=someDate,
             alt_text="Sword of Dawn",
             sort_order=1,
         )

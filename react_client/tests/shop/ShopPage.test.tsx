@@ -1,17 +1,59 @@
-import { describe, expect, vi, beforeEach, test } from "vitest"
-import { screen } from "@testing-library/react"
+import { describe, vi, beforeEach, test, expect } from "vitest"
+import { waitFor } from "@testing-library/react"
 import {userEvent, type UserEvent} from "@testing-library/user-event"
 
 import { 
     renderWithRouter, 
-    resetAuthState, 
-    getByRole,
     getByText,
-    expectIsNullByText,
+    getByLabelText,
+    expectIsNullByLabelText,
 } from "../utils";
 
-import { AppRoutes } from '@/AppRoutes'
-import { ServerException } from "@/core"
-import { useCategoriesQuery } from '@/features/shop/shopService'
-import type { details } from '@/features/shop/shopSchemas'
 import { ShopPage } from '@/features/shop/ShopPage'
+
+
+const mockRequest = vi.hoisted(() => vi.fn())
+vi.mock('@/api', async () => ({
+    request: mockRequest 
+}))
+
+let user: UserEvent
+
+describe("ShopPage", () => {
+
+    const sampleProducts = Array.from({ length: 30 }, (_, i) => ({
+        id: i + 1,
+        name: `product-${i + 1}`,
+        categoryName: 'catOne',
+        rarityName: 'catTwo',
+        priceAudCent: 10000,
+        slug: "sword-of-dawn",
+        description: "Ancient enchanted sword",
+        stock: 1,
+        saleSlug: null,
+    }))
+
+    beforeEach(async () => {
+        mockRequest
+        .mockResolvedValueOnce({categories: ['catOne']})
+        .mockResolvedValueOnce({rarities: ['rarTwo']})
+        .mockResolvedValueOnce({
+            products: sampleProducts.slice(0, 20),
+            hasMore: true,
+        })
+        .mockResolvedValueOnce({sales: []})
+        .mockResolvedValueOnce({
+            products: sampleProducts.slice(20),
+            hasMore: false,
+        })
+        renderWithRouter( <ShopPage />)
+        user = userEvent.setup()
+    })
+
+    test("pageination works", async () => {
+        await waitFor(() => getByText(sampleProducts[0].name))
+        await user.click(getByLabelText('ChevronDownIcon'))
+        await waitFor(() => getByText(sampleProducts[25].name))
+        expectIsNullByLabelText('ChevronDownIcon')
+    })
+}) 

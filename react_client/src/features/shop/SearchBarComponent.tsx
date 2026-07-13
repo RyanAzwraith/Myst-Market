@@ -21,9 +21,11 @@ function SearchBarComponent() {
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
             onBlur={handleSearch}
+            placeholder='search'
             className="w-full rounded border border-slate-300 p-2"
             /> 
             <XMarkIcon 
+            aria-label='xmarkicon'
             className="h-6 w-6" 
             onClick={() => { 
                 setSearch('')

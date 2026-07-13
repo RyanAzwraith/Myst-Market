@@ -108,7 +108,7 @@ function useSalesQuery(){
     })
 }
 
-function useProductQuery(productSlug: string)  {
+function useProductQuery(productSlug?: string)  {
     return useQuery({
         queryKey: ["product", productSlug],
         queryFn: () => request<GetProductBySlugResponse>(
