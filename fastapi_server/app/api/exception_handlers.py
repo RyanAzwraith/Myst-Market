@@ -43,7 +43,7 @@ def init_exception_handlers(app):
             status_code=500,
             content={
                 "name": exc.__class__.__name__,
-                "message": exc.message,
+                "message": "ValidationError",
                 "details": exc.errors(),
             }
         )

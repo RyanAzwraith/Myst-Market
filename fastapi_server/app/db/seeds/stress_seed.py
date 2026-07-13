@@ -21,7 +21,7 @@ from app.db.models import (
 fake = Faker()
 
 
-def seed(db, num_users=1000, num_products=5000):
+def stress_seed(db, num_users=1000, num_products=5000):
     users = []
 
     for _ in range(num_users):

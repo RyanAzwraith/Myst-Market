@@ -1,19 +1,23 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthState } from "./features/user/authState";
 
-import { Catalogue } from "./features/catalogue/Catalogue";
-import { Shop } from "./features/shop/Shop";
-import { CheckOut } from "./features/checkout/CheckOut";
-import { RegisterPage } from "./features/user/RegisterPage";
-import { ProfilePage } from "./features/user/ProfilePage";
-import { LoginPage } from "./features/user/LoginPage";
-import { SetPasswordPage } from "./features/user/SetPasswordPage"
+import { Catalogue } from "@/features/catalogue/Catalogue";
+import { ShopPage } from "@/features/shop/ShopPage";
+import { ProductPage } from "@/features/shop/ProductPage";
+import { SalePage } from "@/features/shop/SalePage";
+import { CheckOut } from "@/features/checkout/CheckOut";
+import { RegisterPage } from "@/features/user/RegisterPage";
+import { ProfilePage } from "@/features/user/ProfilePage";
+import { LoginPage } from "@/features/user/LoginPage";
+import { SetPasswordPage } from "@/features/user/SetPasswordPage"
 
 
 export const AppRoutes = {
 	default: "*",
 	catalogue: "/catalogue",
 	shop: "/shop",
+	product: "/product",
+	sale: "/sale",
 	checkout: "/checkout",
 	register: "/register",
 	profile: "/profile",
@@ -23,6 +27,7 @@ export const AppRoutes = {
 
 export function AppRoutesComponent() {
 	const accessToken = useAuthState(state => state.accessToken)
+	
 	return (
 		<Routes>
 
@@ -35,7 +40,15 @@ export function AppRoutesComponent() {
 			} />
 
 			<Route path={AppRoutes.shop} element={
-				<Shop />
+				<ShopPage />
+			} />
+
+			<Route path={AppRoutes.product+'/:slug'} element={
+				<ProductPage />
+			} />
+
+			<Route path={AppRoutes.sale+'/:slug'} element={
+				<SalePage />
 			} />
 
 			<Route path={AppRoutes.checkout} element={

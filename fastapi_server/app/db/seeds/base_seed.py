@@ -1,4 +1,8 @@
-from app.db.models import *
+from app.db.models import (
+    Category,
+    Rarity,
+    Status,
+)
 
 def base_seed(session):
     categories = [
@@ -9,11 +13,11 @@ def base_seed(session):
     ]
 
     rarities = [
-        Rarity(name="Common"),
-        Rarity(name="Uncommon"),
-        Rarity(name="Rare"),
-        Rarity(name="Epic"),
-        Rarity(name="Legendary"),
+        Rarity(name="Common", order=5),
+        Rarity(name="Uncommon", order=4),
+        Rarity(name="Rare", order=3),
+        Rarity(name="Epic", order=2),
+        Rarity(name="Legendary", order=1),
     ]
 
     statuses = [

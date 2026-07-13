@@ -4,10 +4,10 @@ import os
 
 from app.create_app import create_app
 from app.db.database import Base
-from app.db.seeds.base_seed import base_seed
 from app.api.dependencies import get_session
 
 from tests.user_feature.user_fixtures import *
+from tests.shop_feature.shop_fixtures import *
 
 def pytest_configure():
     os.environ["ENVIRONMENT"] = "test"
@@ -29,7 +29,7 @@ def client(app):
     yield TestClient(app)
 
 @pytest.fixture()
-def db_session(app):
+def session(app):
     connection = app.state.db.engine.connect()
     transaction = connection.begin()
 
@@ -45,7 +45,7 @@ def db_session(app):
         app.dependency_overrides.clear()
 
 @pytest.fixture(scope="class")
-def persistant_db_session(app):
+def persistant_session(app):
     connection = app.state.db.engine.connect()
     transaction = connection.begin()
 

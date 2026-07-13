@@ -3,11 +3,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import "@/app.css";
 
-import { ThemeProvider } from "@/ThemeProvider";
-import { Scaffold } from "./scaffold/Scaffold";
-
 import { AppRoutesComponent } from '@/AppRoutes.tsx';
 import { refreshToken } from "@/api"
+import { ThemeProvider } from "@/ThemeProvider";;
+import { Scaffold } from "@/scaffold/Scaffold";
+
 
 export function App() {
 	const queryClient = new QueryClient();

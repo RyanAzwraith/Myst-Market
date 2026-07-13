@@ -42,14 +42,13 @@ async function request<T>(
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-		logger.info("- status not ok");
+		logger.warn(`${response.status} - ${data?.message}`)
         throw new ServerException({
             message: data?.message,
             statusCode: response.status,
             details: data?.details,
         });
     }
-	logger.info("- status OK");
     return data;
 }
 

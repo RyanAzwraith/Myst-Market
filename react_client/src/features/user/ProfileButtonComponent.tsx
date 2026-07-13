@@ -75,7 +75,7 @@ function LoginModalContent(props:{
 	
 	return (
 		<>
-			<h2>Sign in</h2>
+			<h1>Sign in</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<InputLabelComponent
 				name="email"

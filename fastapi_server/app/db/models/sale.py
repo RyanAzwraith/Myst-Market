@@ -16,11 +16,13 @@ class Sale(Base):
 
     discount_percent: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    start_at: Mapped[datetime | None] = mapped_column()
+    start_at: Mapped[datetime] = mapped_column()
 
-    end_at: Mapped[datetime | None] = mapped_column()
+    end_at: Mapped[datetime] = mapped_column()
 
-    name: Mapped[str | None] = mapped_column(Text)
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+
+    slug: Mapped[str] = mapped_column(Text, nullable=False)
 
     description: Mapped[str | None] = mapped_column(Text)
 
