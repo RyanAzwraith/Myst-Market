@@ -10,33 +10,35 @@ import { ToggleComponent } from "@/shared/ToggleComponent"
 import { formatMoney } from "@/utils/formatMoney"
 import { ImageComponent } from "@/shared/ImageComponent";
 import { AppRoutes } from "@/AppRoutes";
-import { useCartState } from "./CartService";
+import { useCartState } from "./cartService";
 import type { CartItem } from "./cartSchemas";
+import { AddToCartButton } from "./addToCartButton";
 
 function CartButtonComponent() {
     const isEmpty = useCartState(state => state.isEmpty())
 	
     return (
-        <PopUpModalComponent
-        content={onClose => <CartModalContent onClose={onClose}/>}
-        >
-            <ToggleComponent
-            state={isEmpty}
-            onChild={
-                <OutlineIcon 
-                aria-label="OutlineIcon"
-                aria-hidden="false"
-                className="h-6 w-6"
-                />
-            }
-            offChild={
+        <ToggleComponent
+		state={isEmpty}
+		onChild={
+            <OutlineIcon 
+            aria-label="OutlineIcon"
+            aria-hidden="false"
+            className="h-6 w-6"
+            />
+		}
+		offChild={
+			<PopUpModalComponent
+			content={onClose => <CartModalContent onClose={onClose}/>}
+			>
                 <SolidIcon
                 aria-label="SolidIcon"
                 aria-hidden="false"
                 className="h-6 w-6" 
                 />
-            } />
-        </PopUpModalComponent>
+			</PopUpModalComponent>
+		}
+		/>
     )
 }
 
@@ -49,7 +51,7 @@ function CartModalContent(props:{
 	return (
 		<>
 			<h1>Cart</h1>
-
+        
 			<button onClick={() => {
 				cartState.clearCart()
 				props.onClose()
@@ -85,33 +87,37 @@ function CardItemCard(
     const product = cartItem.product
     return (
         <div 
-        className="rounded border border-slate-200 bg-white p-3 shadow-sm">
+        className="rounded border border-slate-200 bg-white p-3 shadow-sm"
+        >
             
             <div
-            onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}>
+            onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}
+            >
                 <ImageComponent altText={product.name}/>
             </div>
             
             <h2 className="mt-2 font-semibold">{product.name}</h2>
             
-            <p>{formatMoney(product.priceAudCent)}</p>
+            <p
+            className={cartItem.onSale ? "bg-red-200" : ""}
+            >
+                {formatMoney(cartItem.priceCent)}
+            </p>
             
-            <input
-            value={cartItem.quantity}
-            onChange={(e) => 
-                cartState.updateQuantity(product, Number(e.target.value))
-            }
-            type="text"
-            className="w-full border p-2"
-            placeholder="quantity"/>
+            <AddToCartButton product={product}/>
             
-            <p>{formatMoney(product.priceAudCent * cartItem.quantity)}</p>
+            <p
+            className={cartItem.onSale ? "bg-red-200" : ""}
+            >
+                {formatMoney(cartItem.priceCent * cartItem.quantity)}
+            </p>
             
             <XMarkIcon
             aria-label="XMarkIcon"
             aria-hidden="false"
             className="h-6 w-6" 
-            onClick={() => cartState.removeItem(product) } />
+            onClick={() => cartState.removeItem(product) } 
+            />
 
         </div>
     )

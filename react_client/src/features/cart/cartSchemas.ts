@@ -12,11 +12,11 @@ type CartState = {
     
     getTotal: () => number,
     addItem: (product: ProductDetail, quantity: number) => void,
-    removeItem: (productId: number) => void,
+    removeItem: (product: ProductDetail) => void,
     clearCart: () => void,
     isEmpty: () => boolean,
 
-    getCartItem: (productId: number) => CartItem | null,
+    getCartItem: (product: ProductDetail) => CartItem | null,
     updateQuantity: (product: ProductDetail, quantity: number) => void,
     addQuantity: (product: ProductDetail, quantity: number) => void
 

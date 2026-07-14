@@ -2,7 +2,6 @@ import { create,} from 'zustand'
 import { persist } from "zustand/middleware";
 
 import type { ProductDetail } from '@/features/shop/shopSchemas';
-import { useDiscountedPrice } from '@/features/shop/shopService';
 
 import type { CartState } from "./cartSchemas"
 
@@ -12,7 +11,7 @@ const useCartState = create<CartState>()(
             items: [],
 
             getTotal: () => get().items.reduce(
-                (t, v) => t + v.quantity * v.product.priceAudCent, 0
+                (t, v) => t + v.quantity * v.priceCent, 0
             ),
 
             addItem: (  product: ProductDetail, quantity: number) => 
@@ -21,8 +20,8 @@ const useCartState = create<CartState>()(
                         {
                             product,
                             quantity,
-                            priceCent: useDiscountedPrice(product),
-                            onSale: product.saleSlug != null
+                            priceCent: product.discountedPrice ?? product.priceAudCent,
+                            onSale: product.sale != null
                         } 
                     ],
                 })),
@@ -42,15 +41,15 @@ const useCartState = create<CartState>()(
                         items: state.items.map(
                             item => item.product.id == product.id
                                 ? { ...item, quantity } : item
-                        ).filter(item => item.quantity <= 1),
+                        ).filter(item => item.quantity > 0),
                     }))
                 else get().addItem(product, quantity)
             },
 
-            addQuantity: ( product: ProductDetail, quantity: number) =>
-                get().updateQuantity(
-                    product, get().getCartItem(product)?.quantity ?? quantity
-                ),
+            addQuantity: ( product: ProductDetail, quantity: number) =>{
+                const current = get().getCartItem(product)?.quantity ?? 0
+                get().updateQuantity(product, current + quantity)
+            },
 
             clearCart: () => set(() => ({items: []})),
 
