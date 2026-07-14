@@ -41,7 +41,6 @@ describe("ShopPage", () => {
             products: sampleProducts.slice(0, 20),
             hasMore: true,
         })
-        .mockResolvedValueOnce({sales: []})
         .mockResolvedValueOnce({
             products: sampleProducts.slice(20),
             hasMore: false,

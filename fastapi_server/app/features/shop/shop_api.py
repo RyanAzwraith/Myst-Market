@@ -7,14 +7,14 @@ from app.api.dependencies import (
 from .shop_service import (
     get_category_names,
     get_rarity_names,
-    get_sales,
+    get_sale_by_slug,
     get_product_by_slug,
     search_products,
 )
 from .shop_schemas import (
     GetCategoriesResponse,
     GetRaritiesResponse,
-    GetSalesResponse,
+    GetSaleBySlugResponse,
     GetProductBySlugResponse,
     PostProductsSearchRequest,
     PostProductsSearchResponse,
@@ -48,13 +48,16 @@ async def get_rarities_route(session=Depends(get_session)):
 
 
 @router.get(
-    "/sales", 
+    "/sale/{sale_slug}", 
     status_code=200, 
-    response_model=GetSalesResponse
+    response_model=GetSaleBySlugResponse
 )
-async def get_sales_route(session=Depends(get_session)):
-    db_sales = get_sales(session)
-    return GetSalesResponse( sales=db_sales )
+async def get_sale_by_slug_route(
+    sale_slug:str, 
+    session=Depends(get_session)
+):
+    db_sale = get_sale_by_slug(session, sale_slug)
+    return GetSaleBySlugResponse( sale=db_sale )
 
 
 @router.get(

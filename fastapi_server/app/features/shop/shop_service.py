@@ -15,6 +15,7 @@ from app.core.exceptions import (
 
 from .shop_schemas import (
     SortBy,
+    SaleSummary,
     SaleDetail,
     ProductDetail,
     ProductsSearch,
@@ -28,17 +29,16 @@ def get_rarity_names(session) -> list[str]:
     db_rarities = session.query(Rarity.name).all()
     return [r[0]  for r in db_rarities]
 
-def get_sales(session) -> list[SaleDetail]:
-    db_sales = session.query(Sale).all()
-    return db_sales
-
+def get_sale_by_slug(session, slug) -> SaleDetail:
+    db_sale = session.query(Sale).filter(Sale.slug == slug).first()
+    return db_sale
 
 def active_sale_subquery(session) -> Query:
     now = datetime.now()
     return (
         session.query(
             sale_product.c.product_id,
-            Sale.slug.label("sale_slug"),
+            Sale.id.label("sale_id"),
             func.row_number()
             .over(
                 partition_by=sale_product.c.product_id,
@@ -62,7 +62,7 @@ def product_query(session) -> Query:
     query = (
         session.query(
             Product,
-            sale_query.c.sale_slug
+            Sale,
         )
         .join(Product.category)
         .join(Product.rarity)
@@ -79,8 +79,20 @@ def product_query(session) -> Query:
                 sale_query.c.row_num == 1
             )
         )
+        .outerjoin(
+            Sale,
+            Sale.id == sale_query.c.sale_id,
+        )
     )
     return query
+
+def get_discounted_price(product: int, sale: int | None):
+    price = product.price_aud_cent
+    if not sale:
+        return None
+    
+    discount=sale.discount_percent
+    return round((100 - discount)/100 * price )
 
 def get_product_by_slug(session, slug) -> ProductDetail:
     query = product_query(session)
@@ -91,7 +103,7 @@ def get_product_by_slug(session, slug) -> ProductDetail:
             "Product Not Found", 
             details={"product_slug":slug}
         )
-    db_product, sale_slug = query
+    db_product, db_sale  = query
 
     return ProductDetail(
         id=db_product.id,
@@ -102,7 +114,12 @@ def get_product_by_slug(session, slug) -> ProductDetail:
         slug=db_product.slug,
         description=db_product.description,
         stock= db_product.stock.current if db_product.stock else 0,
-        sale_slug=sale_slug,
+        discounted_price=get_discounted_price( db_product, db_sale),
+        sale=SaleSummary(
+            name = db_sale.name,
+            slug = db_sale.slug,
+            discount_percent = db_sale.discount_percent
+        ) if db_sale else None,
     )
 
 def apply_product_filters(
@@ -211,7 +228,12 @@ def search_products(session, options) -> ProductsSearch:
                 slug=p.slug,
                 description=p.description,
                 stock= p.stock.current if p.stock else 0,
-                sale_slug=sale_slug,
-            ) for p, sale_slug in db_products],
+                discounted_price=get_discounted_price(p, s),
+                sale=SaleSummary(
+                    name = s.name,
+                    slug = s.slug,
+                    discount_percent = s.discount_percent
+                ) if s else None,
+            ) for p, s in db_products],
         has_more=has_more
     )
