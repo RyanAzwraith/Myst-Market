@@ -1,6 +1,7 @@
 import { AppRoutes } from '@/AppRoutes'
 import {useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
+import { formatMoney } from "@/utils/formatMoney"
 
 import { request } from "@/api";
 
@@ -17,7 +18,6 @@ import type {
     PostProductsSearchRequest,
     PostProductsSearchResponse,
 } from './shopSchemas'
-
 
 function useShopParams() {
     const navigate = useNavigate()
@@ -78,6 +78,18 @@ function useShopParams() {
         navigateShop,
         shopParams,
     }
+}
+
+function useDiscountedPrice (product: ProductDetail) {
+    const {data: sales} = useSalesQuery() 
+    const sale = product.saleSlug ? sales?.[product.saleSlug] : null
+    
+    if (!sale) 
+        return product.priceAudCent
+
+    return Math.round(
+        product.priceAudCent * (100 - sale.discountPercent)
+    )
 }
 
 function useCategoriesQuery() {
@@ -146,6 +158,7 @@ function useProductsInfiniteQuery(
 
 export { 
     useShopParams, 
+    useDiscountedPrice,
     useCategoriesQuery,
     useRaritiesQuery,
     useSaleQuery,

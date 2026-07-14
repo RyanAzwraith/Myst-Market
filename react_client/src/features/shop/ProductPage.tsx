@@ -7,6 +7,8 @@ import  { PriceComponent } from "./PriceComponent"
 import { useProductQuery } from "./shopService"
 import { useEffect } from "react";
 
+import { AddToCartButton } from "@/features/cart/addToCartButton";
+
 function ProductPage() {
 	const navigate = useNavigate()
 
@@ -33,6 +35,7 @@ function ProductPage() {
                 <p className="text-sm text-slate-600">
                     Stock {product.stock}
                 </p>
+                <AddToCartButton product={product}/>
                 <p className="text-sm text-slate-600">
                     {product.description}
                 </p>

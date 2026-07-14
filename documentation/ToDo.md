@@ -89,3 +89,4 @@ Loose Ends
 - change datetimes to dates
 - improve shop testing
 - remove unnecssery mocking of navigate fastapi server testing
+- refactor product has discounted cost from backend
