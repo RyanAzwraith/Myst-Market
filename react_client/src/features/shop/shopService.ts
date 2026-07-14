@@ -6,13 +6,13 @@ import { request } from "@/api";
 
 import { SortBy } from './shopSchemas'
 import type {
+    SaleDetail,
     ProductDetail,
     SortByType,
     ShopParams,
-    SalesState,
     GetCategoriesResponse,
     GetRaritiesResponse,
-    GetSalesRouteResponse,
+    GetSaleBySlugResponse,
     GetProductBySlugResponse,
     PostProductsSearchRequest,
     PostProductsSearchResponse,
@@ -97,14 +97,13 @@ function useRaritiesQuery() {
     })
 }
 
-function useSalesQuery(){
+function useSaleQuery(saleSlug?: string){
     return useQuery({
-        queryKey: ["sales"],
-        queryFn: () =>  request<GetSalesRouteResponse>("/sales"),
-        select: data =>
-            Object.fromEntries(
-                data.sales.map(sale => [sale.slug, sale])
-            ) satisfies SalesState
+        queryKey: ["sale", saleSlug],
+        queryFn: () =>  request<GetSaleBySlugResponse>(
+             `/sale/${saleSlug}`
+        ),
+        select: data => data.sale satisfies SaleDetail
     })
 }
 
@@ -149,7 +148,7 @@ export {
     useShopParams, 
     useCategoriesQuery,
     useRaritiesQuery,
-    useSalesQuery,
+    useSaleQuery,
     useProductQuery,
     useProductsInfiniteQuery,
 }

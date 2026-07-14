@@ -4,8 +4,6 @@ from pydantic import BaseModel, EmailStr
 from app.core.exceptions import (
     ContentNotFoundException
 )
-from app.db.models import Product, Rarity, Stock, Category
-
 from app.features.shop.shop_schemas import (
     ProductDetail,
     SortBy,
@@ -15,7 +13,7 @@ from app.features.shop.shop_schemas import (
 from app.features.shop.shop_service import (
     get_category_names,
     get_rarity_names,
-    get_sales,
+    get_sale_by_slug,
     active_sale_subquery,
     product_query,
     get_product_by_slug,
@@ -36,10 +34,10 @@ class get_rarity_names_test:
         db_rarities = get_rarity_names(session)
         assert db_rarities == [rarity.name]
     
-class get_sales_test:
+class get_sale_by_slug_test:
     def functionality_test(_, session, sale):
-        db_sales = get_sales(session)
-        assert db_sales == [sale]
+        db_sale = get_sale_by_slug(session, sale.slug)
+        assert db_sale == sale
     
 class active_sale_subquery_test:
     def functionality_test(_, session, sale):
@@ -48,7 +46,7 @@ class active_sale_subquery_test:
         
         assert results
         assert results[0][0] == sale.products[0].id
-        assert results[0][1] == sale.slug
+        assert results[0][1] == sale.id
         assert results[0][2] == 1
 
 class product_query_test:
@@ -58,7 +56,7 @@ class product_query_test:
         assert results
         assert len(results) > 0
         assert results[0][0] == product
-        assert results[0][1] == sale.slug
+        assert results[0][1] == sale
     
 class get_product_by_slug_test:
     def functionality_test(_, session, category, rarity, product, stock, sale):
@@ -68,7 +66,7 @@ class get_product_by_slug_test:
         assert product_detail.category_name == category.name
         assert product_detail.rarity_name == rarity.name
         assert product_detail.stock == stock.current
-        assert product_detail.sale_slug == sale.slug
+        assert product_detail.sale.name == sale.name
     
     def missing_product_test(_, session, seed):
         with pytest.raises(ContentNotFoundException):

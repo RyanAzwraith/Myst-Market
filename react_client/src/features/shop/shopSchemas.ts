@@ -1,4 +1,10 @@
 
+type SaleSummary = {
+    name: string,
+    slug: string
+    discountPercent: number,
+}
+
 type SaleDetail = {
     id: number,
     name: string,
@@ -18,7 +24,8 @@ type ProductDetail = {
     slug: string
     description: string
     stock:number
-    saleSlug: string | null
+    discountedPrice: number | null
+    sale: SaleSummary | null
 }
 
 type ProductsSearch = {
@@ -44,10 +51,6 @@ type ShopParams = {
     search?: string,
 }
 
-type SalesState = {
-    [slug: string]: SaleDetail
-}
-
 // Routes
 type GetCategoriesResponse = {
     categories: string[]
@@ -55,8 +58,8 @@ type GetCategoriesResponse = {
 type GetRaritiesResponse = {
     rarities: string[]
 }
-type GetSalesRouteResponse = {
-    sales: SaleDetail[]
+type GetSaleBySlugResponse = {
+    sale: SaleDetail
 }
 type GetProductBySlugResponse = {
     product: ProductDetail
@@ -77,15 +80,15 @@ type PostProductsSearchResponse = {
 
 
 export type {
+    SaleSummary,
     SaleDetail,
     ProductDetail,
     ProductsSearch,
     SortByType,
     ShopParams,
-    SalesState,
     GetCategoriesResponse,
     GetRaritiesResponse,
-    GetSalesRouteResponse,
+    GetSaleBySlugResponse,
     GetProductBySlugResponse,
     PostProductsSearchRequest,
     PostProductsSearchResponse,

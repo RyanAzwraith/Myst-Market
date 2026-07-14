@@ -38,7 +38,7 @@ describe("SalePage", () => {
     
 
     beforeEach(async () => {
-        mockRequest.mockResolvedValue({sales: [sampleSale]})
+        mockRequest.mockResolvedValue({sale: sampleSale})
         renderWithRouter(
             <SalePage />, 
             {

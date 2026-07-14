@@ -2,6 +2,11 @@ from app.api.api_model import APIModel
 from enum import Enum
 from datetime import datetime
 
+class SaleSummary(APIModel):
+    name: str
+    slug: str
+    discount_percent: int
+
 class SaleDetail(APIModel):
     id: int
     name: str
@@ -20,7 +25,8 @@ class ProductDetail(APIModel):
     slug: str
     description: str
     stock:int
-    sale_slug: str | None
+    discounted_price: int | None
+    sale: SaleSummary | None
 
 class ProductsSearch(APIModel):
     products: list[ProductDetail]
@@ -40,8 +46,8 @@ class GetCategoriesResponse(APIModel):
 class GetRaritiesResponse(APIModel):
     rarities: list[str]
 
-class GetSalesResponse(APIModel):
-    sales: list[SaleDetail]
+class GetSaleBySlugResponse(APIModel):
+    sale: SaleDetail
 
 class GetProductBySlugResponse(APIModel):
     product: ProductDetail
