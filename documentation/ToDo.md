@@ -79,7 +79,7 @@ x User feature
 - Deploy
 
 Loose Ends
-- tests: dependency, external
+- tests: dependency, external, service files
 - security: set-password-token, local storage
 - add loading circles
 - hard code static tables
@@ -89,3 +89,4 @@ Loose Ends
 - change datetimes to dates
 - improve shop testing
 - remove unnecssery mocking of navigate fastapi server testing
+- refactor product has discounted cost from backend

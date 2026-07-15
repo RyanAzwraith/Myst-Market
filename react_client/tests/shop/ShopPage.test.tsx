@@ -30,7 +30,6 @@ describe("ShopPage", () => {
         slug: "sword-of-dawn",
         description: "Ancient enchanted sword",
         stock: 1,
-        saleSlug: null,
     }))
 
     beforeEach(async () => {

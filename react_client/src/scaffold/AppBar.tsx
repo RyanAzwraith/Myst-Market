@@ -5,6 +5,7 @@ import {AppRoutes} from '@/AppRoutes.tsx'
 import { ProfileButtonComponent } from "../features/user/ProfileButtonComponent";
 import { CategoryBarComponent } from "@/features/shop/CategoryBarComponent";
 import { SearchBarComponent } from "@/features/shop/SearchBarComponent";
+import { CartButtonComponent } from "@/features/cart/cartButtonComponent";
 
 export function AppBar() {
 	const navigate = useNavigate();
@@ -23,6 +24,7 @@ export function AppBar() {
 			</div>
 
 			<div className="flex items-center gap-2">
+				<CartButtonComponent />
 				<ProfileButtonComponent />
 			</div>
 		</div>

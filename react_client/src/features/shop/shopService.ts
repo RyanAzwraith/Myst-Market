@@ -18,7 +18,6 @@ import type {
     PostProductsSearchResponse,
 } from './shopSchemas'
 
-
 function useShopParams() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()

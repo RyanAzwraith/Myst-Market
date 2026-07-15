@@ -3,16 +3,38 @@ import {
 } from '@playwright/test'
 
 import { AppRoutes} from '@/AppRoutes'
+
 const sampleUserData  = {
     name: 'joe',
     email: 'joe@mail.com',
     password: 'password'
 }
 
+// variables copied from fastapi_server\app\db\see\ base_seed.py and dev_seed.py
+const sampleSale = {
+    name: "Spring Sale",
+    slug: "spring-sale",
+    discountPercent: 20,
+}
+
+const sampleProduct = {
+    id: 1,
+    name: "Sword of Dawn",
+    categoryName: 'Artifacts',
+    rarityName: "Legendary",
+    priceAudCent: 25000,
+    slug: "sword-of-dawn",
+    description: "Ancient enchanted sword",
+    stock:1,
+    discountedPrice: 20000,
+    sale: sampleSale,
+}
+
 type Fixtures = {
     api: APIRequestContext
     createUser: typeof sampleUserData
     getSetPasswordToken: (email:string) => Promise<string>
+    seededProduct:typeof sampleProduct
 }
 
 const test = base.extend<Fixtures>({
@@ -39,7 +61,8 @@ const test = base.extend<Fixtures>({
             const {setPasswordToken} = await res.json()
             return(setPasswordToken)
         })
-    }
+    },
+    seededProduct: sampleProduct
 })
 
 
@@ -60,4 +83,15 @@ async function login (
   await expect(page.getByLabel("solidIcon")).toBeVisible()
 }
 
-export {test, login}
+async function addToCart (
+  page: Page, seededProduct: typeof sampleProduct
+) {
+    await page.goto(
+        `${AppRoutes.shop}?search=${seededProduct.name}`
+    )
+    await page.getByRole('button', { name: 'Add to Cart' }).click()
+    await page.getByLabel("plusicon").click()
+    await page.getByPlaceholder('quantity').fill('3')
+}
+
+export {test, login, addToCart}

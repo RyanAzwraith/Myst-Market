@@ -13,6 +13,8 @@ import type {ProductDetail} from './shopSchemas'
 import { SearchParamsComponent } from './SearchParamsComponent'
 import { PriceComponent } from './PriceComponent'
 
+import { AddToCartButton } from "@/features/cart/addToCartButton";
+
 function ShopPage() {
     const {categories, search, shopParams} = useShopParams()
 
@@ -54,15 +56,19 @@ function ProductCard(
     const navigate = useNavigate()
     return (
     <div 
-    className="rounded border border-slate-200 bg-white p-3 shadow-sm"
-    onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}>
-        <ImageComponent 
-        altText={product.name} />
-        <h2 className="mt-2 font-semibold">{product.name}</h2>
+    className="rounded border border-slate-200 bg-white p-3 shadow-sm">
+        <div
+        onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}>
+            <ImageComponent 
+            altText={product.name} />
+            <h2 className="mt-2 font-semibold">{product.name}</h2>
+        </div>
+        
         <p className="text-sm text-slate-600">
             {product.categoryName} - {product.rarityName}
         </p>
         <PriceComponent product={product} />
+        <AddToCartButton product={product}/>
     </div>
     )
 }
