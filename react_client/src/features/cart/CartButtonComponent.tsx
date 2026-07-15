@@ -22,7 +22,7 @@ function CartButtonComponent() {
 		state={isEmpty}
 		onChild={
             <OutlineIcon 
-            aria-label="OutlineIcon"
+            aria-label="outlinecarticon"
             aria-hidden="false"
             className="h-6 w-6"
             />
@@ -32,7 +32,7 @@ function CartButtonComponent() {
 			content={onClose => <CartModalContent onClose={onClose}/>}
 			>
                 <SolidIcon
-                aria-label="SolidIcon"
+                aria-label="solidcarticon"
                 aria-hidden="false"
                 className="h-6 w-6" 
                 />
@@ -61,7 +61,7 @@ function CartModalContent(props:{
 
             <div>
                 { cartState.items.map(item => 
-                    <CardItemCard cartItem={item} />
+                    <CardItemCard key={item.product.name} cartItem={item} />
                 )}
             </div>
 
@@ -94,9 +94,8 @@ function CardItemCard(
             onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}
             >
                 <ImageComponent altText={product.name}/>
+                <h2 className="mt-2 font-semibold">{product.name}</h2>
             </div>
-            
-            <h2 className="mt-2 font-semibold">{product.name}</h2>
             
             <p
             className={cartItem.onSale ? "bg-red-200" : ""}
@@ -113,7 +112,7 @@ function CardItemCard(
             </p>
             
             <XMarkIcon
-            aria-label="XMarkIcon"
+            aria-label="xmarkicon"
             aria-hidden="false"
             className="h-6 w-6" 
             onClick={() => cartState.removeItem(product) } 
@@ -123,4 +122,8 @@ function CardItemCard(
     )
 }
 
-export { CartButtonComponent }
+export { 
+    CartButtonComponent,
+    CartModalContent,
+    CardItemCard,
+}

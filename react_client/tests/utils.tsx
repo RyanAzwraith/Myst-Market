@@ -1,11 +1,14 @@
 ///////////////////////////////////////////////////////////////////////////////
-import { describe, it, expect, vi, beforeEach, test } from "vitest"
+import { expect } from "vitest"
 import { cleanup } from "@testing-library/react"
 import { render } from "@testing-library/react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useAuthState, type AuthState } from '@/features/user/authState'
 import { screen } from "@testing-library/react"
+import { useCartState } from "@/features/cart/cartService";
+import type { ProductDetail } from "@/features/shop/shopSchemas"
+
 
 function LocationDisplay() {
     const location = useLocation();
@@ -25,6 +28,7 @@ function renderWithRouter(
 
 ) {
     cleanup()
+    localStorage.clear()
     const queryClient = new QueryClient({
         defaultOptions: {queries: { retry: false}},
     })
@@ -49,6 +53,13 @@ function resetAuthState (state: Partial<AuthState> = {
 }) {
     localStorage.removeItem("auth-storage")
     useAuthState.setState(state)
+}
+
+function resetCartState (products: ProductDetail[]) {
+    localStorage.removeItem("cart-storage")
+    useCartState.setState({ items: [] })
+    const cartState = useCartState.getState()
+    products.forEach((e, i) => cartState.addItem(e, 2))
 }
 
 function getByRole(role:string, name:string):HTMLElement {
@@ -105,6 +116,7 @@ function expectIsNullByLabelText(text:string) {
 export {
     renderWithRouter, 
     resetAuthState, 
+    resetCartState,
     getByRole, 
     getByText, 
     getByPlaceholder,

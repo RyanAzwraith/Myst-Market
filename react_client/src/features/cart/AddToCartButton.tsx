@@ -29,7 +29,7 @@ function AddToCartButton(
 	return (
 		<>
             <MinusIcon
-            aria-label="SolidIcon"
+            aria-label="minusicon"
             aria-hidden="false"
             className="h-6 w-6"
             onClick={() => cartState.addQuantity(product, -1)} />
@@ -46,7 +46,7 @@ function AddToCartButton(
             />
 
 			<PlusIcon
-            aria-label="SolidIcon"
+            aria-label="plusicon"
             aria-hidden="false"
             className="h-6 w-6" 
             onClick={() => cartState.addQuantity(product, 1)} 

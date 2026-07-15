@@ -1,46 +1,19 @@
 import { expect} from '@playwright/test';
 
 import { AppRoutes } from '@/AppRoutes';
-import {test, login} from './fixtures'
-
-const dateString = "2026-07-13T12:00:00"
+import {test} from './fixtures'
 
 // varaibles copied from fastapi_server\app\db\see\ base_seed.py and dev_seed.py
 const sampleCategoryNames = ['Artifacts', "Consumables", "Weapons", "Accessories"]
 const sampleRarityNames = ['Common', "Uncommon", "Rare", "Epic", "Legendary"]
 
-const sampleSale = {
-    id: 1,
-    name: "Spring Sale",
-    slug: "spring-sale",
-    description: "Save 20% on selected items.",
-    discountPercent: 20,
-    startAt: new Date("2025-07-13T12:00:00"),
-    endAt: new Date("2036-07-13T12:00:00"),
-}
 
-const sampleProduct = {
-    id: 1,
-    name: "Sword of Dawn",
-    categoryName: sampleCategoryNames[2],
-    rarityName: sampleRarityNames[4],
-    priceAudCent: 25000,
-    slug: "sword-of-dawn",
-    description: "Ancient enchanted sword",
-    stock:1,
-    saleSlug: sampleSale.slug,
-}
-
-test.beforeAll(async () => {
-
-})
-
-test("category app bar button", async ({page}) => {
+test("category app bar button", async ({page, seededProduct}) => {
     await page.goto(
         `${AppRoutes.shop}?categories=${sampleCategoryNames[0]}`
     )
     await page.getByRole('button', { name: sampleCategoryNames[2] }).click()
-    await expect(page.getByText(sampleProduct.name)).toBeVisible()
+    await expect(page.getByText(seededProduct.name)).toBeVisible()
     await expect(page).toHaveURL(
         `${AppRoutes.shop}?categories=${sampleCategoryNames[2]}`
     )
@@ -76,16 +49,16 @@ test("search params", async ({page}) => {
     )
 })
 
-test("search bar", async ({page}) => {
+test("search bar", async ({page, seededProduct}) => {
     await page.goto(
         `${AppRoutes.shop}`
     )
-    await page.getByPlaceholder('search').fill(sampleProduct.name)
+    await page.getByPlaceholder('search').fill(seededProduct.name)
     await page.keyboard.press("Enter")
     await expect(page).toHaveURL(
         `${AppRoutes.shop}?search=Sword+of+Dawn`
     )
-    await expect(page.getByText(sampleProduct.name).nth(1)).toBeVisible()
+    await expect(page.getByText(seededProduct.name).nth(1)).toBeVisible()
     await page.getByLabel("xmarkicon").click()
     await expect(page).toHaveURL(
         `${AppRoutes.shop}`

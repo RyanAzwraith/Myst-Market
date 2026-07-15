@@ -14,17 +14,19 @@ const useCartState = create<CartState>()(
                 (t, v) => t + v.quantity * v.priceCent, 0
             ),
 
-            addItem: (  product: ProductDetail, quantity: number) => 
-                set((state: CartState) => ({
-                    items: [...state.items, 
-                        {
-                            product,
-                            quantity,
-                            priceCent: product.discountedPrice ?? product.priceAudCent,
-                            onSale: product.sale != null
-                        } 
-                    ],
-                })),
+            addItem: (  product: ProductDetail, quantity: number) => {
+                if (!get().getCartItem(product))
+                    set((state: CartState) => ({
+                        items: [...state.items, 
+                            {
+                                product,
+                                quantity,
+                                priceCent: product.discountedPrice ?? product.priceAudCent,
+                                onSale: product.sale != null
+                            } 
+                        ],
+                    }))
+                },
 
             removeItem: (product: ProductDetail) => set((state: CartState) => ({
                 items: state.items.filter(c => c.product.id !== product.id),
