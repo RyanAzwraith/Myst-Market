@@ -5,7 +5,7 @@ type UserModel = {
 	id: number;
 	email: string;
 	name: string;
-};
+}
 
 type AuthState = {
     accessToken: string | null

@@ -48,7 +48,7 @@ class Product(Base):
     description: Mapped[str | None] = mapped_column(Text)
 
     discontinued_at: Mapped[datetime | None] = mapped_column()
-    
+
     units_sold: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     # relationships
@@ -69,7 +69,9 @@ class Product(Base):
 
     reviews: Mapped[list["Review"]] = relationship("Review", back_populates="product")
 
-    order_products: Mapped[list["OrderProduct"]] = relationship("OrderProduct", back_populates="product")
+    order_products: Mapped[list["OrderProduct"]] = relationship(
+        "OrderProduct", back_populates="product"
+    )
 
     stock: Mapped["Stock"] = relationship(
         "Stock",

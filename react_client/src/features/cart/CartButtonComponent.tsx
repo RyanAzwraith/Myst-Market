@@ -12,7 +12,7 @@ import { ImageComponent } from "@/shared/ImageComponent";
 import { AppRoutes } from "@/AppRoutes";
 import { useCartState } from "./cartService";
 import type { CartItem } from "./cartSchemas";
-import { AddToCartButton } from "./addToCartButton";
+import { AddToCartButton } from "./AddToCartButton";
 
 function CartButtonComponent() {
     const isEmpty = useCartState(state => state.isEmpty())

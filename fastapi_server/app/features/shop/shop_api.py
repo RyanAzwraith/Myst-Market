@@ -16,7 +16,7 @@ from .shop_schemas import (
     GetRaritiesResponse,
     GetSaleBySlugResponse,
     GetProductBySlugResponse,
-    PostProductsSearchRequest,
+        PostProductsSearchRequest,
     PostProductsSearchResponse,
 )
 

@@ -10,6 +10,7 @@ LOG_NAMES = [
     "database",
     "api",
     "payment",
+    "resend",
     "security",
     "services",
     "app",

@@ -13,7 +13,7 @@ import type {ProductDetail} from './shopSchemas'
 import { SearchParamsComponent } from './SearchParamsComponent'
 import { PriceComponent } from './PriceComponent'
 
-import { AddToCartButton } from "@/features/cart/addToCartButton";
+import { AddToCartButton } from "@/features/cart/AddToCartButton";
 
 function ShopPage() {
     const {categories, search, shopParams} = useShopParams()

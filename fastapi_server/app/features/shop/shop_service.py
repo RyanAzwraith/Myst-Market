@@ -57,6 +57,7 @@ def active_sale_subquery(session) -> Query:
         .subquery()
     )
 
+
 def product_query(session) -> Query:
     sale_query = active_sale_subquery(session)
     query = (
@@ -86,10 +87,10 @@ def product_query(session) -> Query:
     )
     return query
 
-def get_discounted_price(product: int, sale: int | None):
+def get_discounted_price(product: Product, sale: Sale | None):
     price = product.price_aud_cent
     if not sale:
-        return None
+        return price
     
     discount=sale.discount_percent
     return round((100 - discount)/100 * price )

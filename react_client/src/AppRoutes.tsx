@@ -1,15 +1,17 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuthState } from "./features/user/authState";
+import { Routes, Route, Navigate } from "react-router-dom"
+import { useAuthState } from "./features/user/authState"
 
-import { Catalogue } from "@/features/catalogue/Catalogue";
-import { ShopPage } from "@/features/shop/ShopPage";
-import { ProductPage } from "@/features/shop/ProductPage";
-import { SalePage } from "@/features/shop/SalePage";
-import { CheckOut } from "@/features/checkout/CheckOut";
-import { RegisterPage } from "@/features/user/RegisterPage";
-import { ProfilePage } from "@/features/user/ProfilePage";
-import { LoginPage } from "@/features/user/LoginPage";
+import { Catalogue } from "@/features/catalogue/Catalogue"
+import { ShopPage } from "@/features/shop/ShopPage"
+import { ProductPage } from "@/features/shop/ProductPage"
+import { SalePage } from "@/features/shop/SalePage"
+import { CheckOutPage } from "@/features/checkout/CheckOutPage"
+import { RegisterPage } from "@/features/user/RegisterPage"
+import { ProfilePage } from "@/features/user/ProfilePage"
+import { OrderPage } from "@/features/checkout/OrderPage"
+import { LoginPage } from "@/features/user/LoginPage"
 import { SetPasswordPage } from "@/features/user/SetPasswordPage"
+import { SuccessPage } from "./features/checkout/SuccessPage"
 
 
 export const AppRoutes = {
@@ -21,8 +23,11 @@ export const AppRoutes = {
 	checkout: "/checkout",
 	register: "/register",
 	profile: "/profile",
+	order: "/order",
 	login: "/login",
-	setPassword: "/set-password"
+	setPassword: "/set-password",
+	success: "/success",
+
 } as const;
 
 export function AppRoutesComponent() {
@@ -52,7 +57,7 @@ export function AppRoutesComponent() {
 			} />
 
 			<Route path={AppRoutes.checkout} element={
-				<CheckOut />
+				<CheckOutPage />
 			} />
 
 			<Route path={AppRoutes.register} element={
@@ -65,6 +70,11 @@ export function AppRoutesComponent() {
 				<ProfilePage />
 			}/> }/>
 
+			<Route path={AppRoutes.order+'/:id'} element={
+				<ProtectedRoute allowed={!!accessToken} redirect={AppRoutes.login} child={
+				<OrderPage />
+			}/> }/>
+
 			<Route path={AppRoutes.login} element={
 				<ProtectedRoute allowed={!accessToken} redirect={AppRoutes.profile} child={
 					<LoginPage /> 
@@ -72,6 +82,10 @@ export function AppRoutesComponent() {
 
 			<Route path={AppRoutes.setPassword} element={
 				<SetPasswordPage />
+			} />
+
+			<Route path={AppRoutes.success} element={
+				<SuccessPage />
 			} />
 
 		</Routes>

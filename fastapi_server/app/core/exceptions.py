@@ -48,6 +48,9 @@ class ValidationException(AppException):
     message = "Argument validation failed."
     status_code:int = 500
 
+class RequestException(AppException):
+    message = "Request missing something."
+    status_code:int = 400
 # module exceptions
 #   Pydantic - ValidationError
 #   Fastapi - RequestValidationError

@@ -123,4 +123,8 @@ export {
 	registerRoute,
 	postSetPasswordEmailRoute,
 	patchUserPasswordRoute
-};
+}
+
+export type {
+	RegisterRequest
+}

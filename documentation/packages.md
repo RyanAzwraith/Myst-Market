@@ -39,3 +39,4 @@ fastapi-server
 - pydantic[email]
 - resend
 - pytest-asyncio
+- @stripe/cli
