@@ -19,8 +19,6 @@ type CartState = {
     getCartItem: (product: ProductDetail) => CartItem | null,
     updateQuantity: (product: ProductDetail, quantity: number) => void,
     addQuantity: (product: ProductDetail, quantity: number) => void
-
-
 }
 
 export type {

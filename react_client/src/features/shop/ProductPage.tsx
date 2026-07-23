@@ -1,13 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AppRoutes } from '@/AppRoutes'
+import { useEffect } from "react"
 
 import { ImageComponent } from "@/shared/ImageComponent"
 
 import  { PriceComponent } from "./PriceComponent"
 import { useProductQuery } from "./shopService"
-import { useEffect } from "react";
 
-import { AddToCartButton } from "@/features/cart/addToCartButton";
+import { AddToCartButton } from "@/features/cart/AddToCartButton"
 
 function ProductPage() {
 	const navigate = useNavigate()

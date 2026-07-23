@@ -2,8 +2,8 @@ import { useState } from "react";
 
 function useFormFields(fields:{
     name: string
-    initial?: string
-    validateFunc?: (v:string) => string | null
+    initial?: any
+    validateFunc?: (v:any) => string | null
 }[]) {
     const initialValues = Object.fromEntries( fields.map((field) => [field.name, field.initial || ""] ))
     const [ values, setValues] = useState(initialValues)
@@ -38,6 +38,12 @@ function useFormFields(fields:{
         validate
     };
 }
+const validateEmail = (v: string) => 
+    !v.trim() 
+    ? "Email required"
+    : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) 
+        ? "Invalid email" 
+        : null
 
-export { useFormFields }
+export { useFormFields, validateEmail }
 

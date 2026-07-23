@@ -32,33 +32,14 @@ x dev seeding
 Features
 9/6
 x User
-- Shop
-- Cart
+x Shop
+x Cart
 - Checkout
 - Orders
 - Reviews
 - Catalogue
 - Admin
 
-User
-10/6
-x user route
-x auth route
-x auth model
-x appbar button
-x profile page
-x register page
-x email system
-x test
-
-Shop
-7/7
-- shop api
-- shop state
-- shop page
-- search functionality
-- product Page
-- tests
 
 
 --------------------------------------
@@ -67,8 +48,8 @@ Plan
 x Initiliazation
 x Desgin
 x User feature
-- Shop feature
-- Cart feature
+x Shop feature
+x Cart feature
 - Checkout feature
 - Orders feature
 - Reviews feature
@@ -90,3 +71,12 @@ Loose Ends
 - improve shop testing
 - remove unnecssery mocking of navigate fastapi server testing
 - refactor product has discounted cost from backend
+- refactor useFormFields
+- add address autocomplete and mail fees, tax
+- improve success page
+- finish checkout tests
+- add barrels to manage what features can export
+- give item warnings for item resolutions in checkout
+
+Bugs
+- user logged in without accessToken

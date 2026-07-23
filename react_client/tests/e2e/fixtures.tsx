@@ -10,6 +10,7 @@ const sampleUserData  = {
     password: 'password'
 }
 
+
 // variables copied from fastapi_server\app\db\see\ base_seed.py and dev_seed.py
 const sampleSale = {
     name: "Spring Sale",

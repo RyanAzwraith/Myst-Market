@@ -16,7 +16,7 @@ const createRequestConfig = (
 });
 
 async function refreshToken(): Promise<string | null> {
-    const res = await fetch(`${config.VITE_SERVER_URL}/auth/refresh`, {
+    const res = await fetch(`${config.VITE_SERVER_URL}/refresh`, {             
         method: "GET",
         credentials: "include",
     });

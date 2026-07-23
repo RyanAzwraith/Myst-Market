@@ -7,6 +7,8 @@ import { InputLabelComponent } from "@/shared/InputLableComponent";
 import { PopUpModalComponent } from "@/shared/PopUpModalComponent";
 import { useFormFields } from "@/utils/useFormFields";
 import { AppRoutes } from "@/AppRoutes";
+import { UserOrdersComponent } from "@/features/checkout/UserOrdersComponent";
+
 import { logoutRoute, deleteUserRoute, postSetPasswordEmailRoute, patchUserRoute} from './authApi'
 
 function ProfilePage() {
@@ -51,6 +53,8 @@ function ProfilePage() {
             content={onClose => <ConfirmDeletePopupContent onClose={onClose} />}>
                 <span> Delete Profile</span>
             </PopUpModalComponent>
+
+            <UserOrdersComponent />
         </div>
     )
 }

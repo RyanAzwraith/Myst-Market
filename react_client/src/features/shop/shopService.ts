@@ -18,6 +18,7 @@ import type {
     PostProductsSearchResponse,
 } from './shopSchemas'
 
+// Hooks
 function useShopParams() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
@@ -79,6 +80,8 @@ function useShopParams() {
     }
 }
 
+
+// Queries
 function useCategoriesQuery() {
     return useQuery ({
         queryKey: ["categories"],

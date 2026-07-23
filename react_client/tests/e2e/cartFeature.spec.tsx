@@ -11,6 +11,7 @@ test("add to cart button", async ({page, seededProduct}) => {
     await page.getByLabel("plusicon").click()
     await expect(await page.getByPlaceholder('quantity').inputValue()).toBe('2')
     await page.getByPlaceholder('quantity').fill('3')
+
     await expect(await page.getByPlaceholder('quantity').inputValue()).toBe('3')
 })
 
