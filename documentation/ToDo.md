@@ -77,6 +77,7 @@ Loose Ends
 - finish checkout tests
 - add barrels to manage what features can export
 - give item warnings for item resolutions in checkout
+- wrap icons in buttons
 
 Bugs
 - user logged in without accessToken
