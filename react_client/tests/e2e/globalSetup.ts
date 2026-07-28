@@ -53,7 +53,7 @@ export default async function globalSetup() {
 
   const res = await api.post('/test/reset-db', {
     timeout: 120000,
-})
+  })
   console.log("RES:", res.url(), res.statusText())
   expect(res.ok()).toBeTruthy()
   console.log('Backend Connected')

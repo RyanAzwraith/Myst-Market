@@ -36,20 +36,20 @@ class verify_password_test:
             verify_password("not password", hashed)
 
 class get_user_test:
-    def functionality_test(self, session, normal_user):
-        db_user = get_user(session, normal_user.id)
+    def functionality_test(self, session, user):
+        db_user = get_user(session, user.id)
         assert db_user
-        assert db_user.id == normal_user.id
+        assert db_user.id == user.id
 
     def missing_user_test(self, session):
         with pytest.raises(ContentNotFoundException):
             get_user(session, 55)
 
 class get_user_by_email_test:
-    def functionality_test(self, session, normal_user):
-        db_user = get_user_by_email(session, normal_user.email)
+    def functionality_test(self, session, user):
+        db_user = get_user_by_email(session, user.email)
         assert db_user
-        assert db_user.id == normal_user.id
+        assert db_user.id == user.id
 
     def missing_user(self, session):
         with pytest.raises(ContentNotFoundException):
@@ -75,9 +75,9 @@ class create_user_test:
         assert db_user.created_at is not None
         assert db_user.deleted_at is None
 
-    def already_exists_test(self, session, normal_user):
+    def already_exists_test(self, session, user):
         with pytest.raises(ConflictException):
-            create_user( session,self.Data(name=normal_user.name, email=normal_user.email))
+            create_user( session,self.Data(name=user.name, email=user.email))
 
     def reactivativation_test(self, session, deactivated_user):
         db_user = create_user(session, self.Data(email=deactivated_user.email, name=deactivated_user.name))
@@ -100,12 +100,12 @@ class update_user_test:
         password = "new password"
     )
 
-    def functionality_test(self, session, normal_user):
-        db_user = update_user(session, normal_user.id, self.normal_data)
+    def functionality_test(self, session, user):
+        db_user = update_user(session, user.id, self.normal_data)
 
         assert db_user.name == self.normal_data.name
 
-        db_user = get_user(session, normal_user.id)
+        db_user = get_user(session, user.id)
 
         assert db_user.name == self.normal_data.name
         assert db_user.email == self.normal_data.email
@@ -114,14 +114,14 @@ class update_user_test:
 
     blank_data = Data(name=" ")
 
-    def blank_string_test(self, session, normal_user):
-        db_user = update_user(session, normal_user.id, self.blank_data)
-        assert db_user.name == normal_user.name
+    def blank_string_test(self, session, user):
+        db_user = update_user(session, user.id, self.blank_data)
+        assert db_user.name == user.name
 
 class deactivate_user_test:
-    def functionality_test(self, session, normal_user):
-        deactivate_user(session, normal_user.id)
-        db_user = get_user(session, normal_user.id)
+    def functionality_test(self, session, user):
+        deactivate_user(session, user.id)
+        db_user = get_user(session, user.id)
         assert db_user.email
         assert db_user.name is None
         assert db_user.password_hash is None

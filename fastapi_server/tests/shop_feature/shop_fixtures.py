@@ -67,7 +67,7 @@ def sale(session, product):
     return sale
 
 @pytest.fixture
-def seed(session, category, rarity, product, stock, sale):
+def shop_seed(session, category, rarity, product, stock, sale):
     categories = [
         Category(name="Consumables"),
         Category(name="Weapons"),

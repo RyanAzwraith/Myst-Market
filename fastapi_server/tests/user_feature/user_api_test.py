@@ -31,11 +31,11 @@ from app.features.user.user_api import (
 )
 
 @pytest.fixture
-def refresh_cookie_factory(normal_user):
+def refresh_cookie_factory(user):
     def factory(
         res,
         key = "refresh_token",
-        value = create_refresh_token(normal_user.id),
+        value = create_refresh_token(user.id),
         max_age = 4 * 60 * 60
     ):
         res.set_cookie(key, value, max_age)
@@ -44,20 +44,20 @@ def refresh_cookie_factory(normal_user):
 
 class login_route_test:
     @pytest.mark.asyncio
-    async def functionality_test(self, session, normal_user, default_password):
-        req = LoginRequest(email=normal_user.email, password=default_password)
+    async def functionality_test(self, session, user, default_password):
+        req = LoginRequest(email=user.email, password=default_password)
         res = Response()
         result = await login_route(req=req, res=res, session=session)
 
         assert result.access_token is not None
-        assert result.userResponse.email == normal_user.email
+        assert result.userResponse.email == user.email
 
         cookies = res.headers.getlist("set-cookie")
         assert any("refresh_token=" in c for c in cookies)
 
     @pytest.mark.asyncio
-    async def incorrect_password_test(self, session, normal_user):
-        req = LoginRequest(email=normal_user.email, password="wrong password")
+    async def incorrect_password_test(self, session, user):
+        req = LoginRequest(email=user.email, password="wrong password")
         res = Response()
         with pytest.raises(AuthenticationException):
             await login_route(req=req, res=res, session=session )
@@ -88,8 +88,8 @@ class logout_route_test:
 
 class refresh_route_test:
     @pytest.mark.asyncio
-    async def functionality_test(self, session, normal_user):
-        token = create_refresh_token(normal_user.id)
+    async def functionality_test(self, session, user):
+        token = create_refresh_token(user.id)
         result = await refresh_route(refresh_token=token, session=session)
         assert result.access_token
 
@@ -126,35 +126,35 @@ class post_set_password_email_route:
 
 class patch_user_route_test:
     @pytest.mark.asyncio
-    async def functionality_test(self, session, normal_user):
+    async def functionality_test(self, session, user):
         name = "dan"
         req = UserPatchRequest(name=name)
-        result = await patch_user_route(req=req, current_user=normal_user, session=session )
-        db_user = get_user(session, normal_user.id)
+        result = await patch_user_route(req=req, current_user=user, session=session )
+        db_user = get_user(session, user.id)
         
         assert result.name == name
         assert db_user.name == name
 
 class patch_user_password_route_test:
     @pytest.mark.asyncio
-    async def functionality_test(self, session, normal_user):
+    async def functionality_test(self, session, user):
         password = "new password"
         req = UserPatchPasswordRequest(password=password)
         res=Response()
-        result = await patch_user_password_route(req=req, res=res, current_user=normal_user, session=session )
-        db_user = get_user(session, normal_user.id)
+        result = await patch_user_password_route(req=req, res=res, current_user=user, session=session )
+        db_user = get_user(session, user.id)
 
         assert result.access_token is not None
         assert verify_password(password, db_user.password_hash)
 
 class deactivate_user_route_test:
     @pytest.mark.asyncio
-    async def functionality_test(self, session, normal_user, refresh_cookie_factory):
+    async def functionality_test(self, session, user, refresh_cookie_factory):
         res = refresh_cookie_factory(Response())
-        result = await deactivate_user_route(res=res, current_user=normal_user, session=session)
+        result = await deactivate_user_route(res=res, current_user=user, session=session)
         assert result is None
 
-        db_user = get_user(session, normal_user.id)
+        db_user = get_user(session, user.id)
         assert db_user.is_registered is False
 
         cookies = res.headers.getlist("set-cookie")
@@ -162,11 +162,11 @@ class deactivate_user_route_test:
 
 class admin_deactivate_user_route_test:
     @pytest.mark.asyncio
-    async def functionality_test(self, session, normal_user):
-        result = await admin_deactivate_user_route(user_id=normal_user.id, _=None, session=session)
+    async def functionality_test(self, session, user):
+        result = await admin_deactivate_user_route(user_id=user.id, _=None, session=session)
         assert result is None
 
-        db_user = get_user(session, normal_user.id)
+        db_user = get_user(session, user.id)
         assert db_user.is_registered is False
 
     

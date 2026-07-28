@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState} from 'react'
+import { Profiler, useState} from 'react'
 
 import { useAuthState } from './authState'
 import { logger, ServerException } from '@/core'
@@ -10,6 +10,7 @@ import { AppRoutes } from "@/AppRoutes";
 import { UserOrdersComponent } from "@/features/checkout/UserOrdersComponent";
 
 import { logoutRoute, deleteUserRoute, postSetPasswordEmailRoute, patchUserRoute} from './authApi'
+import { ProfileReviewsComponent } from "../review";
 
 function ProfilePage() {
     const logout = useAuthState(state => state.logout)
@@ -24,7 +25,7 @@ function ProfilePage() {
         }
         navigate(AppRoutes.login)
     } 
- // add are u sure delete popup
+
 
     const handleSetPassword = async () => {
         try {
@@ -55,6 +56,7 @@ function ProfilePage() {
             </PopUpModalComponent>
 
             <UserOrdersComponent />
+            <ProfileReviewsComponent />
         </div>
     )
 }

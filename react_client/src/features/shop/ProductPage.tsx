@@ -8,7 +8,7 @@ import  { PriceComponent } from "./PriceComponent"
 import { useProductQuery } from "./shopService"
 
 import { AddToCartButton } from "@/features/cart/AddToCartButton"
-
+import { ProductReviewsComponent } from "@/features/review/ProductReviewsComponent"
 function ProductPage() {
 	const navigate = useNavigate()
 
@@ -39,6 +39,7 @@ function ProductPage() {
                 <p className="text-sm text-slate-600">
                     {product.description}
                 </p>
+                <ProductReviewsComponent productId={product.id} />
             </div>
         )
     }

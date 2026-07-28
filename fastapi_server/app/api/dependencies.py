@@ -12,10 +12,15 @@ from app.features.user.user_service import get_user
 
 bearer_scheme = HTTPBearer()
 
+optional_bearer_scheme = HTTPBearer(auto_error=False)
+
 def get_session(req: Request) -> Session:
     yield from req.app.state.db.get_session() 
 
-def get_current_user(session=Depends(get_session), credentials=Depends(bearer_scheme)) -> User:
+def get_current_user(
+    session=Depends(get_session), 
+    credentials=Depends(bearer_scheme)
+) -> User:
     access_token = credentials.credentials
     payload = decode_token(access_token)
     if payload["type"] != "access":
@@ -23,7 +28,27 @@ def get_current_user(session=Depends(get_session), credentials=Depends(bearer_sc
     db_user = get_user(session, payload["sub"])
     return db_user
 
-def get_admin_user(session=Depends(get_session), credentials=Depends(bearer_scheme)) -> User:
+
+def get_optional_user(
+    session=Depends(get_session), 
+    credentials=Depends(optional_bearer_scheme)
+) -> User | None:
+    if not credentials:
+        return None
+    access_token = credentials.credentials
+    if not access_token:
+        return None
+    payload = decode_token(access_token)
+    if payload["type"] != "access":
+        raise AuthenticationException("Invalid Token Type")
+    db_user = get_user(session, payload["sub"])
+    return db_user
+
+
+def get_admin_user(
+    session=Depends(get_session), 
+    credentials=Depends(bearer_scheme)
+) -> User:
     access_token = credentials.credentials
     payload = decode_token(access_token)
     if payload["type"] != "access":
@@ -33,7 +58,10 @@ def get_admin_user(session=Depends(get_session), credentials=Depends(bearer_sche
         raise AuthorizationException("Admin Authorization Required")
     return db_user
 
-def get_set_password_user(session=Depends(get_session), credentials=Depends(bearer_scheme)) -> User:
+def get_set_password_user(
+    session=Depends(get_session), 
+    credentials=Depends(bearer_scheme)
+) -> User:
     set_password_token = credentials.credentials
     payload = decode_token(set_password_token)
     db_user = get_user(session, payload["sub"])

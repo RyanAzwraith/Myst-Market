@@ -68,7 +68,7 @@ class get_product_by_slug_test:
         assert product_detail.stock == stock.current
         assert product_detail.sale.name == sale.name
     
-    def missing_product_test(_, session, seed):
+    def missing_product_test(_, session, shop_seed):
         with pytest.raises(ContentNotFoundException):
             get_product_by_slug(session, 'Not a Slug')
 
@@ -77,7 +77,7 @@ class get_product_by_slug_test:
         assert product_detail.stock == 0
 
 class apply_product_filters_test:
-    def functionality_test(_, session, seed, category, rarity):
+    def functionality_test(_, session, shop_seed, category, rarity):
         query = product_query(session)
         query = apply_product_filters(
             query, 
@@ -86,7 +86,7 @@ class apply_product_filters_test:
         )
         results = query.all()
         assert len(results) > 0
-        assert next(
+        assert next(    
             (x for x in results if x[0].category.name != category.name), None
         )  is None
         assert next(
@@ -95,7 +95,7 @@ class apply_product_filters_test:
         assert next((x for x in results if x[0].discontinued_at), None)  is None
         assert next((x for x in results if x[0].stock.current < 1), None)  is None
 
-    def empty_list_allows_all_test(_, session, seed):
+    def empty_list_allows_all_test(_, session, shop_seed):
         query = product_query(session)
         query = apply_product_filters(
             query, 
@@ -105,7 +105,7 @@ class apply_product_filters_test:
         results = query.all()
         assert len(results) > 0
 
-    def allows_discontinued_stock_test(_, session, seed):
+    def allows_discontinued_stock_test(_, session, shop_seed):
         query = product_query(session)
         query = apply_product_filters(
             query, 
@@ -117,7 +117,7 @@ class apply_product_filters_test:
         assert next((True for x in results if x[0].stock.current < 1), False)
     
 class apply_product_search_test:
-    def functionality_test(_, session, product, seed):
+    def functionality_test(_, session, product, shop_seed):
         query = product_query(session)
         query = apply_product_search(
             query, 
@@ -127,7 +127,7 @@ class apply_product_search_test:
         assert len(results) == 1
         assert next((x for x in results if x[0].name != product.name), None)  is None
     
-    def none_allows_all_test(_, session, seed):
+    def none_allows_all_test(_, session, shop_seed):
         query = product_query(session)
         query = apply_product_search(
             query, 
@@ -137,7 +137,7 @@ class apply_product_search_test:
         assert len(results) > 1
 
 class apply_product_sorting_test:
-    def functionality_test(_, session, seed):
+    def functionality_test(_, session, shop_seed):
         query = product_query(session)
         query = apply_product_sorting(
             query, 
@@ -146,7 +146,7 @@ class apply_product_sorting_test:
         assert results
         assert results[0][0].units_sold > results[1][0].units_sold
     
-    def ascending_order_test(_, session, seed):
+    def ascending_order_test(_, session, shop_seed):
         query = product_query(session)
         query = apply_product_sorting(
             query, 
@@ -157,7 +157,7 @@ class apply_product_sorting_test:
         assert results[0][0].units_sold < results[1][0].units_sold
     
 class apply_pagination_test:
-    def functionality_test(_, session, seed):
+    def functionality_test(_, session, shop_seed):
         query = product_query(session)
         results = apply_pagination(
             query, 
@@ -170,7 +170,7 @@ class apply_pagination_test:
         assert len(db_products) == 2
         assert has_more
 
-    def none_limit_offest_test(_, session, seed):
+    def none_limit_offest_test(_, session, shop_seed):
         query = product_query(session)
         results = apply_pagination(
             query, 
@@ -178,12 +178,12 @@ class apply_pagination_test:
         assert results
         db_products, has_more = results
 
-        assert len(db_products) == len(seed['products']) + 1
+        assert len(db_products) == len(shop_seed['products']) + 1
         assert not has_more
     
 class search_products_test:
     def functionality_test(
-        _, session, category, rarity, product, seed
+        _, session, category, rarity, product, shop_seed
     ):
         options = PostProductsSearchRequest(        
             categories=[category.name], 
