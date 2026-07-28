@@ -8,6 +8,7 @@ from app.api.dependencies import get_session
 
 from tests.user_feature.user_fixtures import *
 from tests.shop_feature.shop_fixtures import *
+from tests.review_feature.review_fixtures import *
 
 def pytest_configure():
     os.environ["ENVIRONMENT"] = "test"

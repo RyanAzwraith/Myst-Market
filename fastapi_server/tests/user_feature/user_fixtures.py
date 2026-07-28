@@ -8,8 +8,31 @@ from app.features.user.user_service import hash_password
 def default_password():
     return "password"
 
+
 @pytest.fixture
-def normal_user(session):
+def user_factory(
+    session
+) :
+    def create_user( *,
+        name="kyle",
+        email="kyle@mail.com",
+        is_registered=True,
+        password_hash=hash_password("password"),
+    ):
+        user_entity = User(
+            name=name,
+            email=email,
+            is_registered=is_registered,
+            password_hash=password_hash,
+        )
+        session.add(user_entity)
+        session.commit()
+        session.refresh(user_entity)
+        return user_entity
+    return create_user
+
+@pytest.fixture
+def user(session):
     user = User(
         name="kyle",
         email="kyle@mail.com",
@@ -35,3 +58,20 @@ def deactivated_user(session):
     session.commit()
     session.refresh(user)
     return user
+
+
+@pytest.fixture
+def user_seed(user_factory):
+    user_entities = [
+        user_factory( 
+            name='jake', email='jake@mail.com' 
+        ),
+        user_factory( 
+            name='don', email='don@mail.com' 
+        ),
+        user_factory( 
+            name='mike', email='mike@mail.com', is_registered = False 
+        ),
+    ]
+    return user_entities
+

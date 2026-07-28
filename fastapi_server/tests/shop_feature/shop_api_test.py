@@ -1,12 +1,4 @@
 import pytest
-from pydantic import BaseModel, EmailStr
-
-from app.db.models import User
-from app.core.exceptions import (
-    AuthenticationException,
-    ConflictException,
-    ContentNotFoundException
-)
 
 from app.features.shop.shop_api import (
     get_categories_route,
@@ -45,7 +37,7 @@ class get_product_by_slug_route_test:
     
 class post_products_search_route_test:
     @pytest.mark.asyncio
-    async  def functionality_test(_, session, seed):
+    async  def functionality_test(_, session, shop_seed):
         req = PostProductsSearchRequest( 
             limit=2,
             offest=2,       

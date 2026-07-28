@@ -15,11 +15,10 @@ type ReviewSummary = {
 }
 
 // Routes
-// GET /products/productId/reviews
-// POST /products/productId/reviews`
-// GET /users/userId/reviews
-// DELETE /reviews/orderId
-
+// GET /products/{product_id}/reviews
+// POST /products/{product_id}/reviews
+// GET /user/me/reviews
+// DELETE /reviews/{review_id}  
 
 type GetProductReviewsResponse = {
     reviewDetails: ReviewDetail[],
@@ -27,7 +26,7 @@ type GetProductReviewsResponse = {
     userHasReview:boolean,
 }
 
-type PostReviewRequest = {
+type PostProductReviewRequest = {
     reviewSummary: ReviewSummary
 }
 
@@ -38,7 +37,7 @@ type GetUserReviewsResponse = {
 export type {
     ReviewDetail,
     GetProductReviewsResponse,
-    PostReviewRequest,
+    PostProductReviewRequest,
     GetUserReviewsResponse,
     ReviewSummary
 }

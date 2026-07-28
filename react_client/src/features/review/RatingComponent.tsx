@@ -14,8 +14,12 @@ function RatingComponent(
         {Array.from({ length: 5 }, (_, i) =>
             <ToggleComponent 
             state={i+1 <= rating}
-            onChild={<SolidStarIcon aria-label="solidstaricon" key={i} />}
-            offChild={<OutlineStarIcon aria-label="outlinestaricon" key={i} />}
+            onChild={<SolidStarIcon 
+                aria-label="solidstaricon" key={i} className="h-6 w-6"  
+            />}
+            offChild={<OutlineStarIcon 
+                aria-label="outlinestaricon" key={i} className="h-6 w-6" 
+            />}
             />
         )}
 

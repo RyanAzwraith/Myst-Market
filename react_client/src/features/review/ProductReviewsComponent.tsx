@@ -11,9 +11,9 @@ import { ToggleComponent } from "@/shared/ToggleComponent"
 import { ExpandableContent } from "@/shared/ExpandableContent"
 
 
-import { RatingComponent } from "./ratingComponent"
+import { RatingComponent } from "./RatingComponent"
 import type {
-    PostReviewRequest,
+    PostProductReviewRequest,
     ReviewDetail,
     ReviewSummary,
 } from "./ReviewSchemas"
@@ -92,11 +92,11 @@ function CreateReviewComponent(
             reviewSummary: {
                 rating, description
             } as ReviewSummary
-        } as PostReviewRequest)
+        } as PostProductReviewRequest)
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} aria-label="review-form">
             <CreateReviewStarIcon value={1} rating={rating} setRating={setRating}/>
             <CreateReviewStarIcon value={2} rating={rating} setRating={setRating}/>
             <CreateReviewStarIcon value={3} rating={rating} setRating={setRating}/>
@@ -131,8 +131,12 @@ function CreateReviewStarIcon(
         >
             <ToggleComponent 
             state={value <= rating}
-            onChild={<SolidStarIcon aria-label="solidstaricon" />}
-            offChild={<OutlineStarIcon aria-label="outlinestaricon" />}
+            onChild={<SolidStarIcon 
+                aria-label="solidstaricon" className="h-6 w-6" 
+            />}
+            offChild={<OutlineStarIcon 
+                aria-label="outlinestaricon" className="h-6 w-6" 
+            />}
             />
         </button>
     )

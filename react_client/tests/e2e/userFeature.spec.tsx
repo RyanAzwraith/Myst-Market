@@ -70,7 +70,7 @@ test("Login Page", async ({page, createUser}) => {
   await expect(page).toHaveURL(AppRoutes.profile)
 })
 
-test.describe("update page", () => {
+test.describe("profile page", () => {
   test.beforeEach(async ({page, createUser}) => {
     await login(page, createUser)
     await page.getByLabel("solidIcon").click()

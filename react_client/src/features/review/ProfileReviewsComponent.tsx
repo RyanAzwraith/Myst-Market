@@ -12,12 +12,9 @@ import type {
 } from "./ReviewSchemas"
 import { RatingComponent } from "./ProductReviewsComponent"
 
-function ProfileReviewsComponent(
-    {userId}:
-    {userId:number}
-) {
+function ProfileReviewsComponent() {
 
-    const { data } = useUserReviewsQuery(userId)
+    const { data } = useUserReviewsQuery()
     if (!data) return null
 
     return (

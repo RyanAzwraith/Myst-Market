@@ -34,9 +34,8 @@ Features
 x User
 x Shop
 x Cart
-- Checkout
-- Orders
-- Reviews
+x Checkout
+x Reviews
 - Catalogue
 - Admin
 
@@ -78,6 +77,7 @@ Loose Ends
 - add barrels to manage what features can export
 - give item warnings for item resolutions in checkout
 - wrap icons in buttons
+- Profile orders make expandable
 
 Bugs
 - user logged in without accessToken

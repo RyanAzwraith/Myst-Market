@@ -5,7 +5,7 @@ import { authRequest } from "@/api"
 import type {
     GetProductReviewsResponse,
     GetUserReviewsResponse,
-    PostReviewRequest,
+    PostProductReviewRequest,
 } from "@/features/review/ReviewSchemas"
 
 
@@ -22,7 +22,7 @@ function useProductReviewsQuery(productId:number) {
 function useCreateReviewMutation(productId:number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn (req: PostReviewRequest) {
+        mutationFn (req: PostProductReviewRequest) {
             return authRequest(`/products/${productId}/reviews`, {
                 method: "POST",
                 body: JSON.stringify(req)
@@ -36,11 +36,11 @@ function useCreateReviewMutation(productId:number) {
     })
 } 
 
-function useUserReviewsQuery(userId:number) {
+function useUserReviewsQuery() {
     return useQuery({
-        queryKey: ["user-reviews", userId],
+        queryKey: ["user-reviews"],
         queryFn: () => 
-            authRequest<GetUserReviewsResponse>(`/users/${userId}/reviews`),
+            authRequest<GetUserReviewsResponse>('/user/me/reviews'),
     })
 }
 
