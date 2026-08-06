@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run FastAPI",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "app.main:app",
+                "--reload"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/fastapi_server"
+            },
+            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/fastapi_server"
+        },
+        {
+            "name": "Pytest File",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "${file}",
+                "-x",
+                "-s",
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/fastapi_server"
+            },
+            "console": "internalConsole",
+            "cwd": "${workspaceFolder}/fastapi_server"
+        }
+    ]
+}

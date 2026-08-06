@@ -150,7 +150,7 @@ def shop_seed(session, category, rarity, product, stock, sale):
         ),
         Stock(
             product=products[2],
-            current=0,
+            current=5,
             updated_at=now,
         ),
         Stock(

@@ -135,7 +135,7 @@ def apply_product_filters(
     if rarities:
         query = query.filter(Rarity.name.in_(rarities))
     if not is_discontinued:
-        query = query.filter(Product.discontinued_at is not None)
+        query = query.filter(Product.discontinued_at.is_(None))
     if is_stock:
         query = query.filter(Stock.current > 0)
     return query

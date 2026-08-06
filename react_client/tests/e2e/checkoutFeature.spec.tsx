@@ -13,9 +13,9 @@ const sampleAddressData  = {
 
 const sampleDeliveryNote = "leave on porch"
 
-test("checkoutPage", async ({page, seededProduct, createUser}) => {
+test("checkoutPage", async ({page, createUser}) => {
     await login(page, createUser)
-    await addToCart(page, seededProduct)
+    await addToCart(page)
 
     await page.getByLabel("solidcarticon").click()
     await page.getByText('Checkout').click()

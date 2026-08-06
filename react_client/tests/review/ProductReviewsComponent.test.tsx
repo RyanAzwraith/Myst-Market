@@ -16,7 +16,7 @@ import {
 
 import type {
     GetProductReviewsResponse,
-    PostReviewRequest,
+    PostProductReviewRequest,
     ReviewDetail,
     ReviewSummary,
 } from "@/features/review/ReviewSchemas"
@@ -201,7 +201,7 @@ describe("CreateReviewComponent", () => {
                         rating: rating,
                         description: description,
                     } as ReviewSummary
-                } as PostReviewRequest),
+                } as PostProductReviewRequest),
             }
         ))
     })
@@ -228,7 +228,7 @@ describe("CreateReviewComponent", () => {
                         rating: rating,
                         description: "",
                     } as ReviewSummary
-                } as PostReviewRequest),
+                } as PostProductReviewRequest),
             }
         ))
     })

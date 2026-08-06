@@ -27,14 +27,13 @@ def get_product_reviews_response(
         .all()
     )
 
-    average_rating= (
+    average_rating = round(
         session.query(
             func.coalesce(func.avg(Review.rating), 0)
         )
         .filter(Review.product_id == product_id)
         .scalar()
     )
-    average_rating = round(average_rating)
 
     user_has_review = False
     if user_id:
@@ -49,7 +48,7 @@ def get_product_reviews_response(
         )
 
     return GetProductReviewsResponse(
-        reviewDetails = map(ReviewDetail.from_.Review, review_entities),
+        reviewDetails = map(ReviewDetail.from_Review, review_entities),
         average = average_rating,
         user_has_review = user_has_review
     )
@@ -95,7 +94,7 @@ def get_review_details_with_user_id(
         )
         .all()
     )
-    return list(map(ReviewDetail.from_.Review, review_entities))
+    return list(map(ReviewDetail.from_Review, review_entities))
 
 def delete_review(
     session: Session, 
