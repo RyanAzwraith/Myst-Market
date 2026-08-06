@@ -9,16 +9,16 @@ class ReviewDetail(APIModel):
     rating: int
     description: str = None
 
-    class from_:
-        def Review(o):
-            return ReviewDetail(
-                review_id = o.id,
-                user_name = o.user.name,
-                product_id = o.product_id,
-                created_at = o.created_at,
-                rating = o.rating,
-                description = o.description
-            )
+    @staticmethod
+    def from_Review(o):
+        return ReviewDetail(
+            review_id = o.id,
+            user_name = o.user.name,
+            product_id = o.product_id,
+            created_at = o.created_at,
+            rating = o.rating,
+            description = o.description
+        )
 
 class ReviewSummary(APIModel):
     rating: int

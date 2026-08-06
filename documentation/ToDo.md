@@ -49,9 +49,9 @@ x Desgin
 x User feature
 x Shop feature
 x Cart feature
-- Checkout feature
-- Orders feature
-- Reviews feature
+x Checkout feature
+x Orders feature
+x Reviews feature
 - Media
 - Catalogue feature
 - Admin feature
@@ -78,6 +78,11 @@ Loose Ends
 - give item warnings for item resolutions in checkout
 - wrap icons in buttons
 - Profile orders make expandable
+- data format
+- sort by rating
+
 
 Bugs
 - user logged in without accessToken
+- order id and address id may not point to same user id
+- catalogue page shows same sale

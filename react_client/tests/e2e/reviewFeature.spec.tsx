@@ -1,7 +1,7 @@
 import { expect} from '@playwright/test';
 
 import { AppRoutes } from '@/AppRoutes';
-import {test, login} from './fixtures'
+import {test, login, sampleProduct} from './fixtures'
 
 const sampleReview = {
     review_id: 1,
@@ -13,12 +13,12 @@ const sampleReview = {
 
 test.describe("Reviews feature", async () => {
 
-    test("create and delete", async ({api, page, createUser, seededProduct}) => {
+    test("create and delete", async ({api, page, createUser}) => {
       try {
         await login(page, createUser)
-        await page.getByPlaceholder('search').fill(seededProduct.name)
+        await page.getByPlaceholder('search').fill(sampleProduct.name)
         await page.keyboard.press("Enter")
-        await page.getByText(seededProduct.name).nth(1).click()
+        await page.getByText(sampleProduct.name).nth(1).click()
 
         await expect(page.getByText('Reviews').first()).toBeVisible()
         const form = page.getByRole('form', { name: 'review-form' })

@@ -32,18 +32,8 @@ def user_factory(
     return create_user
 
 @pytest.fixture
-def user(session):
-    user = User(
-        name="kyle",
-        email="kyle@mail.com",
-        is_registered=True,
-        password_hash=hash_password("password"),
-    )
-    session.add(user)
-    session.commit()
-    session.refresh(user)
-    return user
-
+def user(session, user_factory):
+    return user_factory()
 
 @pytest.fixture
 def deactivated_user(session):

@@ -10,8 +10,43 @@ const sampleUserData  = {
     password: 'password'
 }
 
+type Fixtures = {
+    api: APIRequestContext
+    createUser: typeof sampleUserData
+    getSetPasswordToken: (email:string) => Promise<string>
+}
 
-// variables copied from fastapi_server\app\db\see\ base_seed.py and dev_seed.py
+const test = base.extend<Fixtures>({
+    api: async ({}, use) => {
+        const api = await request.newContext({
+            baseURL: process.env.VITE_SERVER_URL,
+        })
+        await use(api)
+    },
+    createUser: async ({api}, use) => {
+
+        const res = await api.post("/test/create_user", {data: {
+            name: sampleUserData.name,
+            email: sampleUserData.email,
+            password: sampleUserData.password
+        }})
+        expect(res.ok()).toBeTruthy()
+        await use(sampleUserData)
+    },
+    getSetPasswordToken: async ({api}, use) => {
+        await use(async (email) => {
+            const res = await api.post("/test/set-password-token", {data: {email}})
+            console.log(`RES: ${res.url()} ${res.status()} ${res.statusText()}`)
+            expect(res.ok()).toBeTruthy()
+            const {setPasswordToken} = await res.json()
+            return(setPasswordToken)
+        })
+    },
+})
+
+
+
+// variables copied from fastapi_server\app\db\seed\ base_seed.py and dev_seed.py
 const sampleSale = {
     name: "Spring Sale",
     slug: "spring-sale",
@@ -31,42 +66,6 @@ const sampleProduct = {
     sale: sampleSale,
 }
 
-type Fixtures = {
-    api: APIRequestContext
-    createUser: typeof sampleUserData
-    getSetPasswordToken: (email:string) => Promise<string>
-    seededProduct:typeof sampleProduct
-}
-
-const test = base.extend<Fixtures>({
-    api: async ({}, use) => {
-        const api = await request.newContext({
-            baseURL: process.env.VITE_SERVER_URL,
-        })
-        await use(api)
-    },
-    createUser: async ({api}, use) => {
-        const res = await api.post("/test/create_user", {data: {
-            name: sampleUserData.name,
-            email: sampleUserData.email,
-            password: sampleUserData.password
-        }})
-        expect(res.ok()).toBeTruthy()
-        await use(sampleUserData)
-    },
-    getSetPasswordToken: async ({api}, use) => {
-        await use(async (email) => {
-            const res = await api.post("/test/set-password-token", {data: {email}})
-            console.log(`RES: ${res.url()} ${res.status()} ${res.statusText()}`)
-            expect(res.ok()).toBeTruthy()
-            const {setPasswordToken} = await res.json()
-            return(setPasswordToken)
-        })
-    },
-    seededProduct: sampleProduct
-})
-
-
 async function login (
   page: Page, createUser: typeof sampleUserData
 ) {
@@ -85,14 +84,19 @@ async function login (
 }
 
 async function addToCart (
-  page: Page, seededProduct: typeof sampleProduct
+  page: Page
 ) {
     await page.goto(
-        `${AppRoutes.shop}?search=${seededProduct.name}`
+        `${AppRoutes.shop}?search=${sampleProduct.name}`
     )
     await page.getByRole('button', { name: 'Add to Cart' }).click()
     await page.getByLabel("plusicon").click()
     await page.getByPlaceholder('quantity').fill('3')
 }
 
-export {test, login, addToCart}
+export {
+    test, 
+    login, 
+    addToCart, 
+    sampleProduct
+}

@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import { useAuthState } from "./features/user/authState"
 
-import { Catalogue } from "@/features/catalogue/Catalogue"
+import { CataloguePage } from "@/features/catalogue/CataloguePage"
 import { ShopPage } from "@/features/shop/ShopPage"
 import { ProductPage } from "@/features/shop/ProductPage"
 import { SalePage } from "@/features/shop/SalePage"
@@ -41,7 +41,7 @@ export function AppRoutesComponent() {
 			} />
 
 			<Route path={AppRoutes.catalogue} element={
-				<Catalogue />
+				<CataloguePage />
 			} />
 
 			<Route path={AppRoutes.shop} element={

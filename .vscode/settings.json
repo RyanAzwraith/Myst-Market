@@ -1,8 +1,9 @@
 {
     "python-envs.defaultEnvManager": "ms-python.python:system",
     "python.testing.pytestArgs": [
-        "fastapi_server"
+        "tests"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.testing.cwd": "${workspaceFolder}/fastapi_server"
 }

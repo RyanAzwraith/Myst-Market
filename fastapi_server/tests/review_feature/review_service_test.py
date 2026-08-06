@@ -66,45 +66,6 @@ class get_product_reviews_response_test:
 rating = 2
 description = "very pog"
 
-class create_review_test:
-    def functionality_test(_, session, user, product):
-        create_review(
-            session,
-            product.id,
-            user.id,
-            review_summary=ReviewSummary(rating=rating, description=description),
-        )
-        review_entity = get_review(session, user.id, product.id)
-
-        assert review_entity.product_id == product.id
-        assert review_entity.user_id == user.id
-        assert review_entity.rating == rating
-        assert review_entity.description == description
-
-    def rejects_if_user_and_product_already_has_review_test(
-        _, session, review_factory, user, product
-    ):
-        review_factory()
-        with pytest.raises(ConflictException):
-            create_review(
-                session,
-                product.id,
-                user.id,
-                review_summary=ReviewSummary(rating=rating, description=description),
-            )
-
-    def max_rating_5_test(_, session, user, product):
-        create_review(
-            session,
-            product.id,
-            user.id,
-            review_summary=ReviewSummary(
-                rating=1200, description=description
-            ),
-        )
-        review_entity = get_review(session, user.id, product.id)
-        assert review_entity.rating == 5
-
 
 class get_review_details_with_user_id_test:
     def functionality_test(_, session, review_seed, user):

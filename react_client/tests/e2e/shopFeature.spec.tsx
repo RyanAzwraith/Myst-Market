@@ -1,19 +1,19 @@
 import { expect} from '@playwright/test';
 
 import { AppRoutes } from '@/AppRoutes';
-import {test} from './fixtures'
+import {test, sampleProduct} from './fixtures'
 
 // varaibles copied from fastapi_server\app\db\see\ base_seed.py and dev_seed.py
 const sampleCategoryNames = ['Artifacts', "Consumables", "Weapons", "Accessories"]
 const sampleRarityNames = ['Common', "Uncommon", "Rare", "Epic", "Legendary"]
 
 
-test("category app bar button", async ({page, seededProduct}) => {
+test("category app bar button", async ({page}) => {
     await page.goto(
         `${AppRoutes.shop}?categories=${sampleCategoryNames[0]}`
     )
     await page.getByRole('button', { name: sampleCategoryNames[2] }).click()
-    await expect(page.getByText(seededProduct.name)).toBeVisible()
+    await expect(page.getByText(sampleProduct.name)).toBeVisible()
     await expect(page).toHaveURL(
         `${AppRoutes.shop}?categories=${sampleCategoryNames[2]}`
     )
@@ -49,16 +49,16 @@ test("search params", async ({page}) => {
     )
 })
 
-test("search bar", async ({page, seededProduct}) => {
+test("search bar", async ({page}) => {
     await page.goto(
         `${AppRoutes.shop}`
     )
-    await page.getByPlaceholder('search').fill(seededProduct.name)
+    await page.getByPlaceholder('search').fill(sampleProduct.name)
     await page.keyboard.press("Enter")
     await expect(page).toHaveURL(
         `${AppRoutes.shop}?search=Sword+of+Dawn`
     )
-    await expect(page.getByText(seededProduct.name).nth(1)).toBeVisible()
+    await expect(page.getByText(sampleProduct.name).nth(1)).toBeVisible()
     await page.getByLabel("xmarkicon").click()
     await expect(page).toHaveURL(
         `${AppRoutes.shop}`
