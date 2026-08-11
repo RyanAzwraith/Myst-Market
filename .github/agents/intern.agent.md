@@ -28,3 +28,6 @@ When testing:
 Response:
 - Briefly state what changed.
 - Stop when the task is complete.
+
+Style:
+- lines must maxiumum of 80 character

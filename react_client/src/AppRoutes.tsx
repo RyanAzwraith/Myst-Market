@@ -12,9 +12,15 @@ import { OrderPage } from "@/features/checkout/OrderPage"
 import { LoginPage } from "@/features/user/LoginPage"
 import { SetPasswordPage } from "@/features/user/SetPasswordPage"
 import { SuccessPage } from "./features/checkout/SuccessPage"
+import {DashboardPage} from "./features/admin/DashboardPage"
+import {OrdersPage} from "./features/admin/OrdersPage"
+import {ProductsPage} from "./features/admin/ProductsPage"
+import {SalesPage} from "./features/admin/SalesPage"
+import {ReviewsPage} from "./features/admin/ReviewsPage"
+import {UsersPage} from "./features/admin/UsersPage"
 
 
-export const AppRoutes = {
+const AppRoutes = {
 	default: "*",
 	catalogue: "/catalogue",
 	shop: "/shop",
@@ -27,11 +33,19 @@ export const AppRoutes = {
 	login: "/login",
 	setPassword: "/set-password",
 	success: "/success",
+	admin: "/admin",
+	adminDashboard: "/admin/dashboard",
+	adminOrders: "/admin/orders",
+	adminProducts: "/admin/products",
+	adminSales: "/admin/sales",
+	adminReviews: "/admin/reviews",
+	adminUsers: "/admin/users",
 
 } as const;
 
-export function AppRoutesComponent() {
+function AppRoutesComponent() {
 	const accessToken = useAuthState(state => state.accessToken)
+	const isAdmin = useAuthState(state => state.userModel?.isAdmin)
 	
 	return (
 		<Routes>
@@ -88,11 +102,51 @@ export function AppRoutesComponent() {
 				<SuccessPage />
 			} />
 
+			<Route path={AppRoutes.admin} element={
+				<Navigate to={AppRoutes.adminDashboard} replace />
+			} />
+
+			<Route path={AppRoutes.adminDashboard} element={
+				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
+					<DashboardPage />
+				} />
+			} />
+
+			<Route path={AppRoutes.adminOrders} element={
+				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
+					<OrdersPage />
+				} />
+			} />
+
+			<Route path={AppRoutes.adminProducts} element={
+				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
+					<ProductsPage />
+				} />
+			} />
+
+			<Route path={AppRoutes.adminSales} element={
+				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
+					<SalesPage />
+				} />
+			} />
+
+			<Route path={AppRoutes.adminReviews} element={
+				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
+					<ReviewsPage />
+				} />
+			} />
+
+			<Route path={AppRoutes.adminUsers} element={
+				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
+					<UsersPage />
+				} />
+			} />
+
 		</Routes>
 	);
 }
 
-export function ProtectedRoute(props: {
+function ProtectedRoute(props: {
     allowed: any
 	redirect: string
 	child: React.ReactNode
@@ -100,4 +154,11 @@ export function ProtectedRoute(props: {
     if (!props.allowed) 
 		return <Navigate replace to={props.redirect} />
     return props.child
+}
+
+
+export {
+	AppRoutes,
+	AppRoutesComponent,
+	ProtectedRoute,
 }

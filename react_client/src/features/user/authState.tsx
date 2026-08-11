@@ -5,12 +5,13 @@ type UserModel = {
 	id: number;
 	email: string;
 	name: string;
+    isAdmin: boolean
 }
 
 type AuthState = {
     accessToken: string | null
     userModel: UserModel| null
-    setUserModel: (id:number, email:string, name:string) => void
+    setUserModel: (id:number, email:string, name:string, isAdmin:boolean) => void
     login: (accessToken:string, userModel:UserModel) => void
     logout: () => void
     refresh: (accessToken:string) => void
@@ -21,8 +22,8 @@ const useAuthState = create<AuthState>()(
         (set) => ({
             accessToken: null,
             userModel: null,
-            setUserModel: (id, email, name) => {
-                set({ userModel: { id, email, name } })
+            setUserModel: (id, email, name, isAdmin) => {
+                set({ userModel: { id, email, name, isAdmin } })
             } ,
             login: (accessToken, userModel) => {
                 set({ accessToken, userModel})

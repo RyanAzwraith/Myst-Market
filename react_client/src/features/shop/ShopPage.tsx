@@ -5,32 +5,46 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { AppRoutes } from "@/AppRoutes"
 import { ImageComponent } from "@/shared/ImageComponent"
 
+
+import { AddToCartButton } from "@/features/cart/AddToCartButton";
+import { 
+    BooleanFilterField, 
+    QueryParamsContainer, 
+    SelectMultipleFilterField, 
+    SelectOneFilterField 
+} from "@/shared/QueryParamsComponent";
+
 import {
     useShopParams, 
     useProductsInfiniteQuery
 } from "./shopService"
 import type {ProductDetail} from './shopSchemas'
-import { SearchParamsComponent } from './SearchParamsComponent'
 import { PriceComponent } from './PriceComponent'
 
-import { AddToCartButton } from "@/features/cart/AddToCartButton";
-
 function ShopPage() {
-    const {categories, search, shopParams} = useShopParams()
+    const {
+        categories, rarities, sortBy, isAscending, search, getParams
+    } = useShopParams()
 
     const limit = 20
 
     const {data, fetchNextPage, hasNextPage } = 
-        useProductsInfiniteQuery(limit, shopParams)
+        useProductsInfiniteQuery(limit, getParams())
     const products = data?.pages.flatMap(page => page.products) ?? []
 
-    const title = search.value 
-        ? `Searching: ${search.value}` 
-        : categories.value.join(', ') || "All Products"
+    const title = search.get() 
+        ? `Searching: ${search.get()}` 
+        : categories.get().join(', ') || "All Products"
 
     return (
         <div> 
-            <SearchParamsComponent />
+            <QueryParamsContainer> 
+                <SelectMultipleFilterField accessor={categories}/>
+                <SelectMultipleFilterField accessor={rarities}/>
+                <SelectOneFilterField accessor={sortBy}/>
+                <BooleanFilterField accessor={isAscending}/>
+            </QueryParamsContainer>
+
             <h1 className="mb-2 text-lg font-semibold">{title}</h1> 
             <div className="flex flex-wrap gap-4">
             { products.map((p) => 

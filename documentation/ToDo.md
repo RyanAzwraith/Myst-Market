@@ -36,7 +36,7 @@ x Shop
 x Cart
 x Checkout
 x Reviews
-- Catalogue
+x Catalogue
 - Admin
 
 
@@ -52,9 +52,9 @@ x Cart feature
 x Checkout feature
 x Orders feature
 x Reviews feature
-- Media
 - Catalogue feature
 - Admin feature
+- Media
 - Styling
 - Deploy
 
@@ -80,6 +80,7 @@ Loose Ends
 - Profile orders make expandable
 - data format
 - sort by rating
+- add parcel tacking
 
 
 Bugs

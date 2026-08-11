@@ -2,7 +2,6 @@ import { describe, expect, vi, beforeEach, test } from "vitest"
 import { screen } from "@testing-library/react"
 import {userEvent, type UserEvent} from "@testing-library/user-event"
 
-import { AppRoutes } from '@/AppRoutes'
 import { ServerException } from "@/core"
 import { useAuthState, type AuthState } from '@/features/user/authState'
 import { ProfilePage } from '@/features/user/ProfilePage'
@@ -40,6 +39,7 @@ const sampleAuthState:Partial<AuthState> = {
         id : 4,
         email : "some@mail.com",
         name : "someone",
+        isAdmin : false,
     }
 }
 
@@ -131,6 +131,7 @@ describe("UpdateProfileComponent", () => {
                 id : 4,
                 name: sampleData.name,
                 email : sampleData.email,
+                isAdmin : undefined,
             }
             mockPatchUserRoute.mockResolvedValue(resolved)
             await fillUpdateForm()
