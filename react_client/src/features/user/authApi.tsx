@@ -16,6 +16,7 @@ type UserResponse = {
 	id: number;
 	email: string;
 	name: string;
+	isAdmin: boolean
 };
 
 // POST /login

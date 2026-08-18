@@ -177,7 +177,7 @@ def apply_pagination(
     query, 
     limit=None, 
     offset=None
-) -> tuple[list, bool]:
+):
     result = None
     has_more = False
 

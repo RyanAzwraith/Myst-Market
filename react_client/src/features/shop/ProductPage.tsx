@@ -9,6 +9,7 @@ import { useProductQuery } from "./shopService"
 
 import { AddToCartButton } from "@/features/cart/AddToCartButton"
 import { ProductReviewsComponent } from "@/features/review/ProductReviewsComponent"
+
 function ProductPage() {
 	const navigate = useNavigate()
 

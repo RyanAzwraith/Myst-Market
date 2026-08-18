@@ -1,3 +1,20 @@
+Plan
+x Initiliazation
+x Desgin
+x User feature
+x Shop feature
+x Cart feature
+x Checkout feature
+x Orders feature
+x Reviews feature
+x Catalogue feature
+x Admin feature
+- Media
+- Refactor
+- Styling
+- Deploy
+
+--------------------------------------
 
 Initilization
 31/5 - 8/6
@@ -36,27 +53,12 @@ x Shop
 x Cart
 x Checkout
 x Reviews
-- Catalogue
-- Admin
+x Catalogue
+x Admin
 
 
 
 --------------------------------------
-
-Plan
-x Initiliazation
-x Desgin
-x User feature
-x Shop feature
-x Cart feature
-x Checkout feature
-x Orders feature
-x Reviews feature
-- Media
-- Catalogue feature
-- Admin feature
-- Styling
-- Deploy
 
 Loose Ends
 - tests: dependency, external, service files
@@ -80,7 +82,10 @@ Loose Ends
 - Profile orders make expandable
 - data format
 - sort by rating
-
+- add parcel tacking
+- stock updates
+- fix statuses
+- allow bulk delete
 
 Bugs
 - user logged in without accessToken

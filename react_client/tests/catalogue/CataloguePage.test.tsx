@@ -156,13 +156,13 @@ describe("PopularProductsSection", () => {
             products: [sampleProduct, sampleProduct, sampleProduct]
         })
         renderWithRouter(
-            <PopularProductsSection limit={6}/>,
+            <PopularProductsSection limit={3}/>,
         )
         user = userEvent.setup()
     })
     test("proudcts are shown", async () => {
         expect(await screen.findAllByText(sampleProduct.name))
-            .toHaveLength(6)
+            .toHaveLength(3)
     })
 })
 
@@ -174,14 +174,14 @@ describe("NewestProductsSection", () => {
             products: [sampleProduct, sampleProduct, sampleProduct]
         })
         renderWithRouter(
-            <NewestProductsSection limit={6}/>,
+            <NewestProductsSection limit={3}/>,
         )
         user = userEvent.setup()
     })
 
     test("proudcts are shown", async () => {
         expect(await screen.findAllByText(sampleProduct.name))
-            .toHaveLength(6)
+            .toHaveLength(3)
     })
 })
 

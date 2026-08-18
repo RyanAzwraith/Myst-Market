@@ -48,30 +48,32 @@ type ItemResolution = {
     warning?: string
 }
 
-type StatusType = typeof Status [keyof typeof Status ]
-
-const Status  = {
-    Pending: 1,
-    Processing: 2,
-    Shipped: 3,
-    Delivered: 4,
-    Cancelled: 5,
-    Error: 6
+const OrderStatus  = {
+    pending: 'Pending',
+    processing: 'Processing',
+    shipped: 'Shipped',
+    delivered: 'Delivered',
+    cancelled: 'Cancelled',
+    error: 'Error'
 } as const 
+
+type OrderStatusType = keyof typeof OrderStatus
 
 
 type OrderDetail = {
+    userId: number
     addressString: string
     itemResolutions: ItemResolution[]
     costAudCent: number
     createdAt: Date
+    status: OrderStatusType
 }
 
 type OrderSummary = {
     orderId: number
     createdAt: Date
     totalCent: number
-    status: StatusType
+    status: OrderStatusType
 }
 
 // Routes
@@ -120,6 +122,7 @@ export type {
     ProductSummary,
     AddressDetail,
     ItemResolution,
+    OrderStatusType,
     OrderDetail,
     OrderSummary,
     ResolveItemsRequest,
@@ -133,5 +136,5 @@ export type {
 
 export {
     ItemSummary,
-    Status
+    OrderStatus
 }

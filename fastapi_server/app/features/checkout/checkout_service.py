@@ -68,15 +68,6 @@ def calc_checkout_cart_total(
     
     return sum([o.line_total_cent for o in item_resolutions])
 
-def address_to_string(address_entity):
-    return (
-        f"{address_entity.street}, "
-        f"{address_entity.city}, "
-        f"{address_entity.state}, "
-        f"{address_entity.postcode}, "
-        f"{address_entity.country_code}"
-    )
-
 def create_guest_user(session, userSummary: UserSummary) -> User:
     db_user = session.query(User).filter(User.email == userSummary.email).first()
     if not db_user:
@@ -198,12 +189,7 @@ def get_order_detail(
                 on_sale = product_entity.price_aud_cent != price
             )
         )
-    return OrderDetail(
-        address_string = address_to_string(order_entity.address),
-        item_resolutions = item_resolutions,
-        cost_aud_cent = order_entity.cost_aud_cent,
-        created_at = order_entity.created_at,
-    )
+    return OrderDetail.from_Order(order_entity)
 
 def get_order_summaries_with_user_id(
     session, user_id

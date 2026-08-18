@@ -47,6 +47,24 @@ function renderWithRouter(
     );
 }
 
+function createWrapper(initialPath = "/") {
+    const client = new QueryClient({
+        defaultOptions: { queries: { retry: false } },
+    })
+
+    function Wrapper({ children }: { children: React.ReactNode }) {
+        return (
+            <MemoryRouter initialEntries={[initialPath]}>
+                <QueryClientProvider client={client}>
+                    {children}
+                </QueryClientProvider>
+            </MemoryRouter>
+        )
+    }
+
+    return { client, wrapper: Wrapper }
+}
+
 function resetAuthState (state: Partial<AuthState> = {
     accessToken: null,
     userModel: null
@@ -59,7 +77,7 @@ function resetCartState (products: ProductDetail[]) {
     localStorage.removeItem("cart-storage")
     useCartState.setState({ items: [] })
     const cartState = useCartState.getState()
-    products.forEach((e, i) => cartState.addItem(e, 2))
+    products.forEach(e => cartState.addItem(e, 2))
 }
 
 function getByRole(role:string, name:string):HTMLElement {
@@ -115,6 +133,7 @@ function expectIsNullByLabelText(text:string) {
 
 export {
     renderWithRouter, 
+    createWrapper,
     resetAuthState, 
     resetCartState,
     getByRole, 

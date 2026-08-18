@@ -1,19 +1,17 @@
-
-import { useShopParams, useCategoriesQuery } from "./shopService"
+import { recordToList } from "@/utils/funcs"
+import { useShopParams } from "./shopService"
 
 function CategoryBarComponent() {
-    const shopParams = useShopParams()
-
-    const {data: categories} = useCategoriesQuery()
+    const {categories, navigateToParams} = useShopParams()
 
     return (
         <div className="flex flex-wrap gap-2">
-        { categories?.map((cat) => 
+        { recordToList(categories.options).map(([_, cat]) => 
             <button key={cat}
             className="rounded border border-slate-300 px-2 py-1 text-sm"
             onClick={() => { 
-                shopParams.categories.set(() => [cat])
-                shopParams.navigateShop()
+                categories.set(() => [cat])
+                navigateToParams()
             }}>
                 {cat}
             </button>

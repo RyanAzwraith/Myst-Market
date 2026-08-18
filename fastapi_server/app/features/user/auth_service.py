@@ -46,7 +46,7 @@ def issue_tokens(user_id: int, res: Response) -> str:
         key="refresh_token",
         value=refresh_token,
         httponly=True,
-        secure=True,
+        secure=get_config().environment not in {"development", "dev", "test", "testing"},
         samesite="strict",
         max_age=get_config().refresh_token_hours * 60 * 60,
         path="/"

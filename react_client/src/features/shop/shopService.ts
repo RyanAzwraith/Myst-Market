@@ -1,8 +1,15 @@
-import { AppRoutes } from '@/AppRoutes'
-import {useNavigate, useSearchParams } from "react-router-dom";
-import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
 
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
+import { capitalizeString } from "@/utils/funcs";
+import { listToRecord, swapRecord } from "@/utils/funcs";
 import { request } from "@/api";
+import { 
+    booleanFilter,
+    selectOneFilter,
+    selectMultipleFilter,
+    textFilter,
+    useQueryParams,
+} from '@/utils/useQueryParams';
 
 import { SortBy } from './shopSchemas'
 import type {
@@ -20,64 +27,33 @@ import type {
 
 // Hooks
 function useShopParams() {
-    const navigate = useNavigate()
-    const [searchParams] = useSearchParams()
-    const params = new URLSearchParams(searchParams)
-
-    function makeGetterSetter<T,>( 
-        name: string, 
-        parse: (value: string | null) => T,
-        serialize: (newValue: T) => string
-    ) {
-        const param = parse(params.get(name))
-        const setParam = (setter: (prevValue: T) => T) =>
-            params.set(name, serialize(setter(param)))
-        return {value: param, set: setParam}
-    }
+    const { data: categories = [] } = useCategoriesQuery()
+    const { data: rarities = [] } = useRaritiesQuery()
 
     const filters = {
-        categories: makeGetterSetter<string[]>(
-            'categories', (v) => v?.split(",") ?? [], (v) => v?.join(',')
-        ),
-        rarities: makeGetterSetter<string[]>(
-            'rarities', (v) => v?.split(",") ?? [], (v) => v.join(',')
-        ),
-        isAscending: makeGetterSetter<boolean>(
-            'isAscending', (v) => v === "true",(v) => v.toString()
-        ),
-        sortBy: makeGetterSetter<SortByType>(
-            'sortBy', 
-            (v) => (v && v in SortBy) 
-                ?  v as SortByType : SortBy.popularity, 
-            (v) => v
-        ),
-        search: makeGetterSetter<string>(
-            'search', (v) => v ?? '', (v) => v.toString()
-        ),
-    }
-    
-    function navigateShop() {
-        const cleanParams = new URLSearchParams(params)
-        params.forEach((v, k) => {if (!v) cleanParams.delete(k)})
-        const query = cleanParams.toString()
-        navigate(query? `${AppRoutes.shop}?${query}`: AppRoutes.shop)
+        categories: selectMultipleFilter({
+            label: "Category",
+            options: listToRecord(categories, item => [capitalizeString(item), item])
+        }),
+        rarities: selectMultipleFilter({
+            label: "Rarity",
+            options: listToRecord(rarities, item => [capitalizeString(item), item])
+        }),
+        sortBy: selectOneFilter<SortByType>({
+            label: "sortBy",
+            defaultValue: SortBy.popularity,
+            options: swapRecord(SortBy)
+        }),        
+        isAscending: booleanFilter({
+            label: "Ascending",
+        }),
+        search: textFilter({
+            label: "Search",
+            placeholder: "Search products"
+        }),
     }
 
-    const shopParams = Object.fromEntries(Object.entries({
-        categories: filters.categories.value,
-        rarities: filters.rarities.value,
-        isAscending: filters.isAscending.value,
-        sortBy: filters.sortBy.value,
-        search: filters.search.value,
-    }).filter(([k, v]) => 
-        Array.isArray(v) ? v.length > 0 : v !== ""
-    )) as ShopParams
-
-    return {
-        ...filters,
-        navigateShop,
-        shopParams,
-    }
+    return useQueryParams(filters, '/shop')
 }
 
 
