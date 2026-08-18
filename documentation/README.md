@@ -54,3 +54,32 @@ testing:
 Playwright testing:
 > npx playwright test --ui
 - automatically runs backend server
+
+
+
+# Architecture
+
+## Problem
+
+The original application organised frontend features around
+pages. This caused substantial coupling between features because
+pages often represented workflows spanning multiple business
+responsibilities.
+
+## Decision
+
+Features are now organised around business responsibilities,
+while pages act primarily as composition/presentation layers.
+
+## Dependencies
+
+Features should not access another feature's internal
+implementation.
+
+Shared schemas and explicitly defined interfaces are permitted.
+
+## External dependencies
+
+External services are accessed through adapters so that the
+application can use alternative implementations for testing
+and development.

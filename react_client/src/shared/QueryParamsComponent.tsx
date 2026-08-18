@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-import {recordToList} from '@/utils/listMethods'
+import {recordToList} from '@/utils/funcs'
 
 import type { 
     FilterWithAccessor,

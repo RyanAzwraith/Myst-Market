@@ -1,0 +1,369 @@
+
+> client@0.0.0 test:run
+> vitest run tests/admin .
+
+
+ RUN  v4.1.8 D:/Programming/Myst-Market/react_client
+
+ ❯ tests/admin/ProductsPage.test.tsx (9 tests | 2 failed) 2341ms
+     × renders the searching title 1052ms
+     × updates selected products with only bulk-editable fields 567ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/admin/ProductsPage.test.tsx > ProductsPage > renders the searching title
+TestingLibraryElementError: Unable to find an element with the text: Searching: moon. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div>[39m
+      [36m<div>[39m
+        [36m<div>[39m
+          [0mTextFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mSelectMultipleFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mSelectMultipleFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mSelectOneFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mBooleanFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mBooleanFilterField[0m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"mb-2 text-lg font-semibold"[39m
+      [36m>[39m
+        [0mAll Products[0m
+      [36m</h1>[39m
+      [36m<div>[39m
+        [36m<label>[39m
+          [36m<input[39m
+            [33mtype[39m=[32m"checkbox"[39m
+          [36m/>[39m
+          [0mSelect all[0m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mb-4 flex items-center gap-2"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<label>[39m
+              [0mCategory[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mNo change[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"magic"[39m
+                [36m>[39m
+                  [0mMagic[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+          [36m<div>[39m
+            [36m<label>[39m
+              [0mRarity[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mNo change[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"rare"[39m
+                [36m>[39m
+                  [0mRare[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+          [36m<label>[39m
+            [0mPrice (cents)[0m
+            [36m<input[39m
+              [33mstep[39m=[32m"1"[39m
+              [33mtype[39m=[32m"number"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</label>[39m
+          [36m<label>[39m
+            [0mStock[0m
+            [36m<input[39m
+              [33mstep[39m=[32m"1"[39m
+              [33mtype[39m=[32m"number"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</label>[39m
+          [36m<button[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mUpdate selected[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<label>[39m
+            [36m<input[39m
+              [33mtype[39m=[32m"checkbox"[39m
+            [36m/>[39m
+            [0mSelect[0m
+          [36m</label>[39m
+          [36m<button>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"rounded border p-3 shadow-sm"[39m
+            [36m>[39m
+              [36m<img[39m
+                [33malt[39m=[32m"Moon Orb"[39m
+              [36m/>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"font-semibold"[39m
+              [36m>[39m
+                [0mMoon Orb[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0mmagic[0m
+                [0m / [0m
+                [0mrare[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0m$ 15[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0mStock: [0m
+                [0m5[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0mReviews: [0m
+                [0m2[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<div[39m
+      [33mdata-testid[39m=[32m"location"[39m
+    [36m>[39m
+      [0m/[0m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div>[39m
+      [36m<div>[39m
+        [36m<div>[39m
+          [0mTextFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mSelectMultipleFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mSelectMultipleFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mSelectOneFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mBooleanFilterField[0m
+        [36m</div>[39m
+        [36m<div>[39m
+          [0mBooleanFilterField[0m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"mb-2 text-lg font-semibold"[39m
+      [36m>[39m
+        [0mAll Products[0m
+      [36m</h1>[39m
+      [36m<div>[39m
+        [36m<label>[39m
+          [36m<input[39m
+            [33mtype[39m=[32m"checkbox"[39m
+          [36m/>[39m
+          [0mSelect all[0m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mb-4 flex items-center gap-2"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<label>[39m
+              [0mCategory[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mNo change[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"magic"[39m
+                [36m>[39m
+                  [0mMagic[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+          [36m<div>[39m
+            [36m<label>[39m
+              [0mRarity[0m
+              [36m<select>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m>[39m
+                  [0mNo change[0m
+                [36m</option>[39m
+                [36m<option[39m
+                  [33mvalue[39m=[32m"rare"[39m
+                [36m>[39m
+                  [0mRare[0m
+                [36m</option>[39m
+              [36m</select>[39m
+            [36m</label>[39m
+          [36m</div>[39m
+          [36m<label>[39m
+            [0mPrice (cents)[0m
+            [36m<input[39m
+              [33mstep[39m=[32m"1"[39m
+              [33mtype[39m=[32m"number"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</label>[39m
+          [36m<label>[39m
+            [0mStock[0m
+            [36m<input[39m
+              [33mstep[39m=[32m"1"[39m
+              [33mtype[39m=[32m"number"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</label>[39m
+          [36m<button[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mUpdate selected[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<label>[39m
+            [36m<input[39m
+              [33mtype[39m=[32m"checkbox"[39m
+            [36m/>[39m
+            [0mSelect[0m
+          [36m</label>[39m
+          [36m<button>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"rounded border p-3 shadow-sm"[39m
+            [36m>[39m
+              [36m<img[39m
+                [33malt[39m=[32m"Moon Orb"[39m
+              [36m/>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"font-semibold"[39m
+              [36m>[39m
+                [0mMoon Orb[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0mmagic[0m
+                [0m / [0m
+                [0mrare[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0m$ 15[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0mStock: [0m
+                [0m5[0m
+              [36m</div>[39m
+              [36m<div>[39m
+                [0mReviews: [0m
+                [0m2[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+    [36m<div[39m
+      [33mdata-testid[39m=[32m"location"[39m
+    [36m>[39m
+      [0m/[0m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ findByText node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/admin/ProductsPage.test.tsx:120:23
+    118|   renderWithRouter(<ProductsPage />)
+    119|
+    120|   expect(await screen.findByText("Searching: moon")).toBeVisible()
+       |                       ^
+    121|  })
+    122|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/admin/ProductsPage.test.tsx > ProductsPage > updates selected products with only bulk-editable fields
+AssertionError: expected 2nd "vi.fn()" call to have been called with [ { productId: 8, data: { …(7) } } ], but called only 1 times
+ ❯ tests/admin/ProductsPage.test.tsx:179:28
+    177|    data: expectedData,
+    178|   })
+    179|   expect(mockPatchProduct).toHaveBeenNthCalledWith(2, {
+       |                            ^
+    180|    productId: 8,
+    181|    data: expectedData,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+Error: There was an error during concurrent rendering but React was able to recover by instead synchronously rendering the entire root.
+ ❯ throwException node_modules/react-dom/cjs/react-dom-client.development.js:9634:9
+ ❯ throwAndUnwindWorkLoop node_modules/react-dom/cjs/react-dom-client.development.js:17717:11
+ ❯ renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17447:19
+ ❯ performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16504:11
+ ❯ performWorkOnRootViaSchedulerTask node_modules/react-dom/cjs/react-dom-client.development.js:18957:7
+ ❯ flushActQueue node_modules/react/cjs/react.development.js:590:34
+ ❯ process.env.NODE_ENV.exports.act node_modules/react/cjs/react.development.js:884:10
+ ❯ node_modules/@testing-library/react/dist/act-compat.js:46:25
+ ❯ renderRoot node_modules/@testing-library/react/dist/pure.js:189:26
+ ❯ render node_modules/@testing-library/react/dist/pure.js:291:10
+
+This error originated in "tests/admin/ProductsPage.test.tsx" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "renders the searching title". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+Caused by: TypeError: Cannot convert undefined or null to object
+ ❯ recordToList src/utils/funcs.ts:22:19
+ ❯ SelectOneEditField src/shared/SelectEditComponent.tsx:175:21
+ ❯ Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ ❯ renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ ❯ updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:19
+ ❯ beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:18
+ ❯ runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:22
+ ❯ workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:41
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed | 28 passed (29)
+      Tests  2 failed | 120 passed (122)
+     Errors  1 error
+   Start at  11:17:25
+   Duration  12.18s (transform 17.52s, setup 11.70s, import 45.26s, tests 23.99s, environment 68.50s)
+

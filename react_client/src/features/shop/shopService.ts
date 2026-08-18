@@ -1,7 +1,7 @@
 
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
-import { captalizeString } from "@/utils/captalizeString";
-import { listToRecord, swapRecord } from "@/utils/listMethods";
+import { capitalizeString } from "@/utils/funcs";
+import { listToRecord, swapRecord } from "@/utils/funcs";
 import { request } from "@/api";
 import { 
     booleanFilter,
@@ -33,11 +33,11 @@ function useShopParams() {
     const filters = {
         categories: selectMultipleFilter({
             label: "Category",
-            options: listToRecord(categories, item => [captalizeString(item), item])
+            options: listToRecord(categories, item => [capitalizeString(item), item])
         }),
         rarities: selectMultipleFilter({
             label: "Rarity",
-            options: listToRecord(rarities, item => [captalizeString(item), item])
+            options: listToRecord(rarities, item => [capitalizeString(item), item])
         }),
         sortBy: selectOneFilter<SortByType>({
             label: "sortBy",

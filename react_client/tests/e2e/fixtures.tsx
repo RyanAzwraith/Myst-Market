@@ -10,6 +10,12 @@ const sampleUserData  = {
     password: 'password'
 }
 
+const sampleAdminData = {
+    name: 'Admin User',
+    email: 'admin@mail.com',
+    password: 'password'
+}
+
 type Fixtures = {
     api: APIRequestContext
     createUser: typeof sampleUserData
@@ -56,8 +62,8 @@ const sampleSale = {
 const sampleProduct = {
     id: 1,
     name: "Sword of Dawn",
-    categoryName: 'Artifacts',
-    rarityName: "Legendary",
+    categoryName: 'Weapons',
+    rarityName: "Epic",
     priceAudCent: 25000,
     slug: "sword-of-dawn",
     description: "Ancient enchanted sword",
@@ -67,20 +73,24 @@ const sampleProduct = {
 }
 
 async function login (
-  page: Page, createUser: typeof sampleUserData
+    page: Page, createUser: typeof sampleUserData
 ) {
-  await page.goto(AppRoutes.catalogue)
-  await expect(page.getByText('Myst Market')).toBeVisible()
+    await page.goto(AppRoutes.catalogue)
+    await expect(page.getByText('Myst Market')).toBeVisible()
 
-  const outlineIcon = page.getByLabel("outLineIcon")
-  if (await outlineIcon.count() === 0) return
-  await outlineIcon.click()
+    const outlineIcon = page.getByLabel("outLineIcon")
+    if (await outlineIcon.count() === 0) return
+    await outlineIcon.click()
 
-  await expect(page.getByText("Sign In").first()).toBeVisible()
-  await page.getByPlaceholder('Email').fill(createUser.email)
-  await page.getByPlaceholder('Password').fill(createUser.password)
-  await page.getByRole("button", {name:"Login"}).click()
-  await expect(page.getByLabel("solidIcon")).toBeVisible()
+    await expect(page.getByText("Sign In").first()).toBeVisible()
+    await page.getByPlaceholder('Email').fill(createUser.email)
+    await page.getByPlaceholder('Password').fill(createUser.password)
+    await page.getByRole("button", {name:"Login"}).click()
+    await expect(
+        page.getByLabel("solidIcon").or(
+            page.getByRole("button", {name:"Dashboard"})
+        )
+    ).toBeVisible()
 }
 
 async function addToCart (
@@ -98,5 +108,6 @@ export {
     test, 
     login, 
     addToCart, 
-    sampleProduct
+    sampleProduct,
+    sampleAdminData,
 }

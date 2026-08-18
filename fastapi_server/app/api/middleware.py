@@ -7,7 +7,7 @@ async def log_requests(request: Request, call_next):
     body = await request.body()
     response = await call_next(request)
     get_logger().requests.debug(
-        f"""req: {request.method} {request.url} - {dict(request.headers).get("auth")}
+        f"""req: {request.method} {request.url} - {dict(request.headers).get("Authorization")}
         {body.decode(errors="replace")}
         res: {response.status_code}
         """

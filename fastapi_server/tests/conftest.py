@@ -10,6 +10,7 @@ from tests.user_feature.user_fixtures import *
 from tests.shop_feature.shop_fixtures import *
 from tests.review_feature.review_fixtures import *
 from tests.catalogue_feature.catalogue_fixtures import *
+from tests.admin_feature.admin_fixtures import *
 
 def pytest_configure():
     os.environ["ENVIRONMENT"] = "test"

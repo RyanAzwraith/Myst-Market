@@ -1,3 +1,20 @@
+Plan
+x Initiliazation
+x Desgin
+x User feature
+x Shop feature
+x Cart feature
+x Checkout feature
+x Orders feature
+x Reviews feature
+x Catalogue feature
+x Admin feature
+- Media
+- Refactor
+- Styling
+- Deploy
+
+--------------------------------------
 
 Initilization
 31/5 - 8/6
@@ -37,26 +54,11 @@ x Cart
 x Checkout
 x Reviews
 x Catalogue
-- Admin
+x Admin
 
 
 
 --------------------------------------
-
-Plan
-x Initiliazation
-x Desgin
-x User feature
-x Shop feature
-x Cart feature
-x Checkout feature
-x Orders feature
-x Reviews feature
-- Catalogue feature
-- Admin feature
-- Media
-- Styling
-- Deploy
 
 Loose Ends
 - tests: dependency, external, service files
@@ -81,7 +83,9 @@ Loose Ends
 - data format
 - sort by rating
 - add parcel tacking
-
+- stock updates
+- fix statuses
+- allow bulk delete
 
 Bugs
 - user logged in without accessToken

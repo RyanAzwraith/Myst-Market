@@ -1,4 +1,4 @@
-import { recordToList } from "@/utils/listMethods"
+import { recordToList } from "@/utils/funcs"
 import { useShopParams } from "./shopService"
 
 function CategoryBarComponent() {

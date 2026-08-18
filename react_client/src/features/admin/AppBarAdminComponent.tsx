@@ -6,7 +6,6 @@ const adminPages = [
     { label: 'Orders', path: '/admin/orders' },
     { label: 'Products', path: '/admin/products' },
     { label: 'Sales', path: '/admin/sales' },
-    { label: 'Reviews', path: '/admin/reviews' },
     { label: 'Users', path: '/admin/users' },
 ];
 

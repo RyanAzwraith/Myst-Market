@@ -5,7 +5,7 @@ import {
     renderWithRouter,
 } from "../utils";
 
-import { RatingComponent } from "@/features/review/ratingComponent";
+import { RatingComponent } from "@/features/review/RatingComponent";
 
 describe("RatingComponent", () => {
     test("Rating is correct", async () => {

@@ -19,6 +19,7 @@ react-client
 - playwright@latest
 - uvicorn
 - dotenv
+- recharts
 
 fastapi-server
 - fastapi

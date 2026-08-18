@@ -8,6 +8,10 @@ from app.db.models import (
     Sale,
 )
 
+SearchResult: TypeAlias = tuple[
+    list, #values
+    bool, # has_more
+]
 
 class SaleSummary(APIModel):
     name: str

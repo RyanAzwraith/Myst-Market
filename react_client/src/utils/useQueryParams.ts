@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { mapRecord } from '@/utils/listMethods'
+import { mapRecord } from '@/utils/funcs'
 
 type Accessor<T> = {
     key: string
@@ -10,7 +10,7 @@ type Accessor<T> = {
 };
 type FilterWithAccessor<T, F> = F & Accessor<T>
 
-function createAccessor<T, F>( {
+function createFilter<T, F>( {
     params, navigateToParams, key, filter, parse, serialize
 } : {
     params: URLSearchParams,
@@ -39,42 +39,48 @@ function createAccessor<T, F>( {
     return { ...filter, key, get, set }
 }
 
+type FilterFactory = (
+    params: URLSearchParams,
+    navigateToParams: () => void,
+    key: string,
+) => FilterWithAccessor<any, any>;
+
+
 type BooleanFilter =  {
     label: string;
 };
 const booleanFilter = (
     filter: BooleanFilter,
-) => (params: URLSearchParams, navigateToParams: () => void, key: string) =>
-    createAccessor({
+): FilterFactory => (params, navigateToParams, key) =>
+    createFilter({
         params, navigateToParams, key, filter,
         parse: (value: string | null) => value === "true",
         serialize:  (value: boolean) => value ? "true" : "",
     })
 
-
-type SelectOneFilter<T extends string> =  {
+type SelectOneFilter<T extends string | number> =  {
     label: string;
     defaultValue: T;
     options: Record<T, string>;
 }
-const selectOneFilter = <T extends string> (
+const selectOneFilter = <T extends string | number> (
     filter: SelectOneFilter<T>,
-) => (params: URLSearchParams, navigateToParams: () => void, key: string) => 
-    createAccessor({
+): FilterFactory => (params, navigateToParams, key) => 
+    createFilter({
         params, navigateToParams, key, filter,
         parse: (value) => value && value in filter.options 
             ?  value as T : filter.defaultValue,
-        serialize:  value => value,
+        serialize:  value => value.toString(),
     })
 
-type SelectMultipleFilter<T extends string> = {
+type SelectMultipleFilter<T extends string | number> = {
     label: string;
     options: Record<T, string>;
 };
-const selectMultipleFilter = <T extends string> (
+const selectMultipleFilter = <T extends string | number> (
     filter: SelectMultipleFilter<T>,
-) => (params: URLSearchParams, navigateToParams: () => void, key: string) => 
-    createAccessor({
+): FilterFactory => (params, navigateToParams, key) => 
+    createFilter({
         params, navigateToParams, key, filter,
         parse: (value): T[] => value
             ?  value.split(',').filter(
@@ -90,23 +96,31 @@ type TextFilter = {
 };
 const textFilter = (
     filter: TextFilter,
-) => (params: URLSearchParams, navigateToParams: () => void, key: string) => 
-    createAccessor({
+): FilterFactory => (params, navigateToParams, key) => 
+    createFilter({
         params, navigateToParams, key, filter,
         parse: (value) => value ?? '',
         serialize: (value) => value,
     })
 
 
-type useQueryParamsResult = Record<string, FilterWithAccessor<any, any>> & {
+type AccessorValue<T> = T extends { get: () => infer V } ? V : never;
+
+type UseQueryParamsResult<T extends Record<string, FilterFactory>> = {
+    [K in keyof T]: ReturnType<T[K]>
+} & {
     navigateToParams: () => void;
-    getParams:  () => Record<string, any>
+    getParams: () => {
+        [K in keyof T]: AccessorValue<ReturnType<T[K]>>
+    };
 };
 
-function useQueryParams(
-    filters: Record<string, (params: URLSearchParams, navigateToParams: () => void, key: string) => FilterWithAccessor<any, any>>,
+
+
+function useQueryParams<T extends Record<string, FilterFactory>>(
+    filters: T,
     basePath: string,
-): useQueryParamsResult {
+): UseQueryParamsResult<T> {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const params = React.useMemo(() => 
@@ -137,7 +151,7 @@ function useQueryParams(
         ...accessors,
         navigateToParams,
         getParams,
-    } as useQueryParamsResult;
+    } as UseQueryParamsResult<T>;
 }
 
 
@@ -147,7 +161,6 @@ export type {
     SelectOneFilter,
     SelectMultipleFilter,   
     TextFilter,
-    useQueryParamsResult,
 };
 
 export {

@@ -2,6 +2,7 @@ from app.api.api_model import APIModel
 from datetime import datetime
 from enum import Enum
 
+
 class UserSummary(APIModel):
     email: str
     name: str
@@ -43,13 +44,14 @@ class OrderDetail(APIModel):
     item_resolutions: list[ItemResolution]
     cost_aud_cent: int
     created_at: datetime
+    status: str
+
 
 class OrderSummary(APIModel):
     order_id: int
     created_at: datetime
     total_cent: int
     status: Status
-
 
 # Route Schemas
 class ResolveItemsRequest(APIModel):

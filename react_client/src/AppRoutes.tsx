@@ -16,7 +16,6 @@ import {DashboardPage} from "./features/admin/DashboardPage"
 import {OrdersPage} from "./features/admin/OrdersPage"
 import {ProductsPage} from "./features/admin/ProductsPage"
 import {SalesPage} from "./features/admin/SalesPage"
-import {ReviewsPage} from "./features/admin/ReviewsPage"
 import {UsersPage} from "./features/admin/UsersPage"
 
 
@@ -38,7 +37,6 @@ const AppRoutes = {
 	adminOrders: "/admin/orders",
 	adminProducts: "/admin/products",
 	adminSales: "/admin/sales",
-	adminReviews: "/admin/reviews",
 	adminUsers: "/admin/users",
 
 } as const;
@@ -127,12 +125,6 @@ function AppRoutesComponent() {
 			<Route path={AppRoutes.adminSales} element={
 				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
 					<SalesPage />
-				} />
-			} />
-
-			<Route path={AppRoutes.adminReviews} element={
-				<ProtectedRoute allowed={!!isAdmin} redirect={AppRoutes.catalogue} child={
-					<ReviewsPage />
 				} />
 			} />
 
