@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
+from pathlib import Path
+from shutil import copyfile
 
 from app.db.models import (
     Address,
-    Article,
     Media,
-    MediaEntity,
     Order,
     OrderProduct,
     Payment,
@@ -14,9 +14,28 @@ from app.db.models import (
     Stock,
     User,
 )
+from app.core import get_config
 from app.features.user.user_service import hash_password
 
 someDate = datetime.fromisoformat("2026-07-13T12:00:00")
+_MEDIA_FILE_NAME = "test_image.png"
+
+
+def _seed_media_file() -> None:
+    source = (
+        Path(__file__).resolve().parents[4]
+        / "media"
+        / "test_media"
+        / _MEDIA_FILE_NAME
+    )
+    media_root = Path(get_config().media_url).expanduser()
+
+    for entity_type in ("product", "sale"):
+        target = media_root / entity_type / _MEDIA_FILE_NAME
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if source.resolve() != target.resolve():
+            copyfile(source, target)
+
 
 def dev_seed(session):
     users = [
@@ -33,10 +52,7 @@ def dev_seed(session):
             is_registered=True,
             password_hash=hash_password("password"),
         ),
-        User(
-            email="customer_two@mail.com",
-            deleted_at=someDate
-        )
+        User(email="customer_two@mail.com", deleted_at=someDate),
     ]
 
     session.add_all(users)
@@ -72,7 +88,7 @@ def dev_seed(session):
             price_aud_cent=25000,
             slug="sword-of-dawn",
             description="Ancient enchanted sword",
-            units_sold= 0
+            units_sold=0,
         ),
         Product(
             name="Healing Potion",
@@ -81,7 +97,7 @@ def dev_seed(session):
             price_aud_cent=500,
             slug="healing-potion",
             description="Restores health",
-            units_sold= 1242
+            units_sold=1242,
         ),
         Product(
             name="Silver Amulet",
@@ -90,7 +106,7 @@ def dev_seed(session):
             price_aud_cent=7500,
             slug="silver-amulet",
             description="A charm for good fortune",
-            units_sold= 5
+            units_sold=5,
         ),
         Product(
             name="Mystic Cloak",
@@ -99,7 +115,7 @@ def dev_seed(session):
             price_aud_cent=12000,
             slug="mystic-cloak",
             description="A cloak woven from enchanted threads.",
-            units_sold= 26
+            units_sold=26,
         ),
         Product(
             name="Flame Essence",
@@ -108,7 +124,7 @@ def dev_seed(session):
             price_aud_cent=18000,
             slug="flame-essence",
             description="Pure elemental fire in a crystal vial.",
-            units_sold= 2
+            units_sold=2,
         ),
         Product(
             name="Crystal Orb",
@@ -117,7 +133,7 @@ def dev_seed(session):
             price_aud_cent=16000,
             slug="crystal-orb",
             description="A shimmering focus for arcane sight.",
-            units_sold= 75
+            units_sold=75,
         ),
         Product(
             name="Ranger's Bow",
@@ -126,7 +142,7 @@ def dev_seed(session):
             price_aud_cent=14000,
             slug="rangers-bow",
             description="A finely balanced bow for skilled archers.",
-            units_sold= 1294
+            units_sold=1294,
         ),
         Product(
             name="Potion of Luck",
@@ -135,7 +151,7 @@ def dev_seed(session):
             price_aud_cent=900,
             slug="potion-of-luck",
             description="A small tonic that brings good fortune.",
-            units_sold= 21542
+            units_sold=21542,
         ),
         Product(
             name="Guardian Shield",
@@ -144,7 +160,7 @@ def dev_seed(session):
             price_aud_cent=30000,
             slug="guardian-shield",
             description="A shield blessed to protect its wielder.",
-            units_sold= 6
+            units_sold=6,
         ),
         Product(
             name="Elixir of Speed",
@@ -153,11 +169,36 @@ def dev_seed(session):
             price_aud_cent=8500,
             slug="elixir-of-speed",
             description="A bright potion that quickens your pace.",
-            units_sold= 574
+            units_sold=574,
         ),
     ]
 
     session.add_all(products)
+    session.flush()
+
+    _seed_media_file()
+    product_media = [
+        Media(
+            type="image",
+            file_name=_MEDIA_FILE_NAME,
+            entity_id=product.id,
+            entity_type="product",
+            alt_text=product.name,
+            sort_order=0,
+        )
+        for product in products
+    ]
+    product_media.append(
+        Media(
+            type="image",
+            file_name=_MEDIA_FILE_NAME,
+            entity_id=products[0].id,
+            entity_type="product",
+            alt_text=f"{products[0].name} detail",
+            sort_order=1,
+        )
+    )
+    session.add_all(product_media)
     session.flush()
 
     stocks = [
@@ -231,6 +272,20 @@ def dev_seed(session):
     session.add_all(sales)
     session.flush()
 
+    sale_media = [
+        Media(
+            type="image",
+            file_name=_MEDIA_FILE_NAME,
+            entity_id=sale.id,
+            entity_type="sale",
+            alt_text=sale.name,
+            sort_order=0,
+        )
+        for sale in sales
+    ]
+    session.add_all(sale_media)
+    session.flush()
+
     reviews = [
         Review(
             user_id=users[1].id,
@@ -289,50 +344,6 @@ def dev_seed(session):
     ]
 
     session.add_all(payments)
-    session.flush()
-
-    medias = [
-        Media(
-            type="image",
-            file_name="sword_of_dawn.png",
-            created_at=someDate,
-            alt_text="Sword of Dawn",
-            sort_order=1,
-        )
-    ]
-
-    session.add_all(medias)
-    session.flush()
-
-    media_entitys = [
-        MediaEntity(
-            entity_type="product",
-            entity_id=products[0].id,
-            media_id=medias[0].id,
-        )
-    ]
-
-    session.add_all(media_entitys)
-    session.flush()
-
-    articles = [
-        Article(
-            created_at="2026-06-09",
-            slug="sword-of-dawn-origin",
-            title="Origins of the Sword of Dawn",
-            desciption="A legendary weapon forged in the first light.",
-            products=[products[0], products[2]],
-        ),
-        Article(
-            created_at="2026-06-09",
-            slug="mystic-cloak-history",
-            title="Mystic Cloak: A History",
-            desciption="The tale behind the enchanted cloak.",
-            products=[products[3], products[5]],
-        ),
-    ]
-
-    session.add_all(articles)
     session.flush()
 
     session.commit()

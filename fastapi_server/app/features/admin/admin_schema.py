@@ -41,6 +41,7 @@ Dashboard:
     GET    /admin/graph
 """
 
+
 class OrderStatus(str, Enum):
     pending = "Pending"
     processing = "Processing"
@@ -117,10 +118,12 @@ class UserSummary(APIModel):
             is_registered=user.is_registered,
         )
 
+
 class SaleSummary(APIModel):
     name: str
     slug: str
     discount_percent: int
+
 
 class ProductSummary(APIModel):
     id: int
@@ -148,14 +151,11 @@ class OrderDetail(APIModel):
     def from_Order(order: Order):
         item_resolutions = [
             ItemResolution(
-                product_summary=ProductSummary.model_validate(
-                    order_product.product
-                ),
+                product_summary=ProductSummary.model_validate(order_product.product),
                 quantity=order_product.quantity,
                 unit_price_cent=order_product.unit_price_aud_cent,
                 line_total_cent=(
-                    order_product.quantity
-                    * order_product.unit_price_aud_cent
+                    order_product.quantity * order_product.unit_price_aud_cent
                 ),
                 on_sale=(
                     order_product.product.price_aud_cent
@@ -172,7 +172,8 @@ class OrderDetail(APIModel):
             created_at=order.created_at,
             status=order.status.name,
         )
-    
+
+
 class OrderSummary(APIModel):
     order_id: int
     created_at: datetime
@@ -188,13 +189,15 @@ class OrderSummary(APIModel):
             status=OrderStatus[order.status.name.lower()],
         )
 
+
 UserAnalyticsQueryResult: TypeAlias = tuple[
-    User, 
-    int, # order_count
-    int, # spent
-    int, # revenue_lost
-    int, # review_count
+    User,
+    int,  # order_count
+    int,  # spent
+    int,  # revenue_lost
+    int,  # review_count
 ]
+
 
 class UserAnalytics(APIModel):
     id: int
@@ -223,13 +226,15 @@ class UserAnalytics(APIModel):
             revenue_lost=revenue_lost,
             review_count=review_count,
         )
-    
+
+
 SaleAnalyticsQueryResult: TypeAlias = tuple[
     Sale,
-    int, # revenue
-    int, # order_count
-    int, # revenue_lost
+    int,  # revenue
+    int,  # order_count
+    int,  # revenue_lost
 ]
+
 
 class SaleAnalytics(APIModel):
     id: int
@@ -258,7 +263,8 @@ class SaleAnalytics(APIModel):
             order_count=order_count or 0,
             revenue_lost=revenue_lost or 0,
         )
-    
+
+
 ProductAnalyticsQueryResult: TypeAlias = tuple[
     Product,  # Product
     Sale | None,  # Sale
@@ -270,6 +276,7 @@ ProductAnalyticsQueryResult: TypeAlias = tuple[
     float | None,  # average_rating
     int | None,  # reviews
 ]
+
 
 class ProductAnalytics(APIModel):
     id: int
@@ -294,7 +301,17 @@ class ProductAnalytics(APIModel):
 
     @staticmethod
     def from_query(result: ProductAnalyticsQueryResult):
-        product, sale, units_sold, revenue, order_count, refunds, revenue_lost, average_rating, reviews = result
+        (
+            product,
+            sale,
+            units_sold,
+            revenue,
+            order_count,
+            refunds,
+            revenue_lost,
+            average_rating,
+            reviews,
+        ) = result
         return ProductAnalytics(
             id=product.id,
             name=product.name,
@@ -317,12 +334,14 @@ class ProductAnalytics(APIModel):
             reviews=reviews or 0,
         )
 
+
 PerformanceQueryResult: TypeAlias = tuple[
     int,  # revenue
     int,  # orders
     int,  # new_customers
     int,  # revenue_lost
 ]
+
 
 class PerformanceAnalytics(APIModel):
     period_days: int
@@ -337,12 +356,19 @@ class PerformanceAnalytics(APIModel):
 
     @staticmethod
     def from_query(
-        period_days: int, 
-        current: PerformanceQueryResult, 
-        previous_result: PerformanceQueryResult
+        period_days: int,
+        current: PerformanceQueryResult,
+        previous_result: PerformanceQueryResult,
     ):
-        current_revenue, current_orders, current_new_customers, current_revenue_lost = current
-        previous_revenue, previous_orders, previous_new_customers, previous_revenue_lost = previous_result
+        current_revenue, current_orders, current_new_customers, current_revenue_lost = (
+            current
+        )
+        (
+            previous_revenue,
+            previous_orders,
+            previous_new_customers,
+            previous_revenue_lost,
+        ) = previous_result
         return PerformanceAnalytics(
             period_days=period_days,
             revenue=current_revenue,

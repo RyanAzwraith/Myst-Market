@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AppRoutes } from '@/AppRoutes'
 
-import { ImageComponent } from "@/shared/ImageComponent"
-
 import { useSaleQuery } from "./shopService"
 import { useEffect } from "react";
+import { SaleMediaCarouselComponent } from "../media/mediaComponent";
 
 function SalePage() {
 	const navigate = useNavigate()
@@ -22,8 +21,7 @@ function SalePage() {
                 <h1 className="text-lg font-semibold">
                     {sale.name}
                 </h1>
-                <ImageComponent 
-                altText={sale.name} />
+                <SaleMediaCarouselComponent saleId={sale.id} limit={10} />
                 <h2 className="text-lg font-semibold">
                     {sale.discountPercent}% off!
                 </h2>

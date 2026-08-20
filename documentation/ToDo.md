@@ -86,6 +86,8 @@ Loose Ends
 - stock updates
 - fix statuses
 - allow bulk delete
+- refactor entity routes to give media in one request
+- allow media deletion and refactor delete routes
 
 Bugs
 - user logged in without accessToken

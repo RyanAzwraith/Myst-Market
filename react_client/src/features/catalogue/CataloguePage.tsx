@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 
 import { AppRoutes } from "@/AppRoutes"
 import { CarouselComponent } from "@/shared/CarouselComponent"
-import { ImageComponent } from "@/shared/ImageComponent";
 import { PriceComponent } from "../shop/PriceComponent";
 import { RatingComponent } from "../review/RatingComponent"
 import type { ProductDetail } from "@/features/shop/shopSchemas"
@@ -17,6 +16,7 @@ import {
     useTestimonialsQuery,
     useBiggestSalesQuery
 } from "./catalogueService"
+import { ProductMediaCarouselComponent, SaleMediaCarouselComponent } from "../media/mediaComponent";
 
 
 function CataloguePage() {
@@ -146,8 +146,8 @@ function ProductCard(
     className="rounded border border-slate-200 bg-white p-3 shadow-sm"
     onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}
     >
-        <ImageComponent 
-        altText={product.name} />
+        <ProductMediaCarouselComponent productId={product.id} limit={1} />
+
         <h2 className="mt-2 font-semibold">{product.name}</h2>
         
         <p className="text-sm text-slate-600">
@@ -182,8 +182,7 @@ function SaleCard(
             <h1 className="text-lg font-semibold">
                 {sale.name}
             </h1>
-            <ImageComponent 
-            altText={sale.name} />
+            <SaleMediaCarouselComponent saleId={sale.id} limit={1} />
             <h2 className="text-lg font-semibold">
                 {sale.discountPercent}% off!
             </h2>

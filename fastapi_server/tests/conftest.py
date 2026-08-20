@@ -11,25 +11,30 @@ from tests.shop_feature.shop_fixtures import *
 from tests.review_feature.review_fixtures import *
 from tests.catalogue_feature.catalogue_fixtures import *
 from tests.admin_feature.admin_fixtures import *
+from tests.media_feature.media_fixtures import *
+
 
 def pytest_configure():
     os.environ["ENVIRONMENT"] = "test"
 
+
 @pytest.fixture(scope="session", autouse=True)
 def app():
     app = create_app()
-    db=app.state.db
-    
+    db = app.state.db
+
     Base.metadata.drop_all(db.engine)
     Base.metadata.create_all(db.engine)
-    
+
     yield app
 
     Base.metadata.drop_all(db.engine)
 
+
 @pytest.fixture(scope="session")
 def client(app):
     yield TestClient(app)
+
 
 @pytest.fixture()
 def session(app):
@@ -47,6 +52,7 @@ def session(app):
         connection.close()
         app.dependency_overrides.clear()
 
+
 @pytest.fixture(scope="class")
 def persistant_session(app):
     connection = app.state.db.engine.connect()
@@ -62,6 +68,7 @@ def persistant_session(app):
         transaction.rollback()
         connection.close()
         app.dependency_overrides.clear()
+
 
 @pytest.fixture(autouse=True)
 def mock_external_services(monkeypatch):

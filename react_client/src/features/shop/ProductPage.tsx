@@ -2,13 +2,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppRoutes } from '@/AppRoutes'
 import { useEffect } from "react"
 
-import { ImageComponent } from "@/shared/ImageComponent"
-
 import  { PriceComponent } from "./PriceComponent"
 import { useProductQuery } from "./shopService"
 
 import { AddToCartButton } from "@/features/cart/AddToCartButton"
 import { ProductReviewsComponent } from "@/features/review/ProductReviewsComponent"
+import { ProductMediaCarouselComponent } from "../media/mediaComponent";
 
 function ProductPage() {
 	const navigate = useNavigate()
@@ -27,8 +26,8 @@ function ProductPage() {
                 <h1 className="text-lg font-semibold">
                     {product.name}
                 </h1>
-                <ImageComponent 
-                altText={product.name} />
+                <ProductMediaCarouselComponent productId={product.id} limit={10} />
+
                 <p className="text-sm text-slate-600">
                     {product.categoryName} - {product.rarityName}
                 </p>

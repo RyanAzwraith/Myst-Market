@@ -20,7 +20,7 @@ function LocationDisplay() {
 }
 
 function renderWithRouter(
-    component: React.ReactNode,
+    component: React.ReactElement | null,
         {
         path = "*",
         initialPath = "/",

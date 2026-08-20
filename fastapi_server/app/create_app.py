@@ -8,7 +8,9 @@ from app.api.middleware import init_middleware
 from app.db.database import Database
 from app.api.exception_handlers import init_exception_handlers
 from app.api.router import router
+from app.features.media.media_service import cleanup_media
 import resend
+
 
 def create_app():
     config = init_config()
@@ -17,6 +19,12 @@ def create_app():
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
+        session_generator = db.get_session()
+        session = next(session_generator)
+        try:
+            cleanup_media(session)
+        finally:
+            session_generator.close()
         yield
         db.engine.dispose()
 
@@ -28,7 +36,7 @@ def create_app():
     stripe.api_key = config.stripe_key
     resend.api_key = config.resend_key
     app.state.db = db
-    
+
     app.include_router(router)
 
     return app

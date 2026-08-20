@@ -1,8 +1,6 @@
 from .address import Address
-from .article import Article
-from .association_tables import article_product, sale_product
+from .association_tables import sale_product
 from .category import Category
-from .media_entity import MediaEntity
 from .media import Media
 from .order_product import OrderProduct
 from .order import Order
