@@ -31,6 +31,7 @@ def create_config():
             stripe_payment_hook_key=validate_env_var("STRIPE_PAYMENT_HOOK_KEY", required=True)
             resend_key=validate_env_var("RESEND_KEY", required=True)
             jwt_key=validate_env_var("JWT_KEY", required=True)
+            media_url=validate_env_var("TEST_MEDIA_URL", required=True)
 
         case "test" | "testing":
             database_url=validate_env_var("TEST_DATABASE_URL", required=True)
@@ -38,6 +39,7 @@ def create_config():
             stripe_payment_hook_key=validate_env_var("STRIPE_PAYMENT_HOOK_KEY", required=True)
             resend_key = "stripe_key_dummy_test"
             jwt_key = "jwt_key_very_very_very_long_stupid_stupid_dummy_test_for_testing"
+            media_url=validate_env_var("TEST_MEDIA_URL", required=True)
         case _:
             raise RuntimeError("Missing required env var: ENVIRONMENT={environment}")
 
@@ -49,6 +51,7 @@ def create_config():
         stripe_payment_hook_key=stripe_payment_hook_key,
         resend_key=resend_key,
         jwt_key=jwt_key,
+        media_url=media_url,
         log_level=validate_env_var("LOG_LEVEL", required=False, default="WARNING"),
         log_to_file=to_bool(validate_env_var("LOG_TO_FILE", required=False, default="false")),
         cors_origins=to_list(validate_env_var("CORS_ORIGINS", required=True)),

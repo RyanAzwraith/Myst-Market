@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import { formatMoney } from '@/utils/formatMoney'
-import { ImageComponent } from '@/shared/ImageComponent';
 import {
     PopUpModalComponent
 } from '@/shared/PopUpModalComponent';
@@ -38,6 +37,7 @@ import type {
 import {
     OrderStatus
 } from './AdminSchema';
+import { ProductMediaCarouselComponent } from '../media/mediaComponent';
 
 
 function OrdersPage () {
@@ -214,7 +214,7 @@ function OrderItemCard(
             <button
             onClick={() => {navigate(`${AppRoutes.product}/${productSummary.slug}`)}}
             >
-                <ImageComponent altText={productSummary.name}/>
+                <ProductMediaCarouselComponent productId={productSummary.id} limit={1} />
                 <h2 className="mt-2 font-semibold">{productSummary.name}</h2>
             </button>
             

@@ -5,9 +5,7 @@ from faker import Faker
 
 from app.db.models import (
     Address,
-    Article,
     Media,
-    MediaEntity,
     Order,
     OrderProduct,
     Payment,
@@ -186,51 +184,4 @@ def stress_seed(db, num_users=1000, num_products=5000):
     db.add_all(payment_objects)
     db.flush()
 
-    media_objects = []
-
-    for i in range(50):
-        product = choice(product_objects)
-        media_objects.append(
-            Media(
-                type="image",
-                file_name=f"product-{product.id}-{i}.png",
-                created_at=fake.date_time_between(start_date='-2y', end_date='now'),
-                alt_text=product.name,
-                sort_order=i,
-            )
-        )
-
-    db.add_all(media_objects)
-    db.flush()
-
-    media_entity_objects = []
-
-    for media in media_objects:
-        media_entity_objects.append(
-            MediaEntity(
-                entity_type="product",
-                entity_id=choice(product_objects).id,
-                media_id=media.id,
-            )
-        )
-
-    db.add_all(media_entity_objects)
-    db.flush()
-
-    article_objects = []
-
-    for i in range(25):
-        article_products = sample(product_objects, k=min(3, len(product_objects)))
-        article_objects.append(
-            Article(
-                created_at=fake.date_time_between(start_date='-2y', end_date='now'),
-                slug=f"article-{i + 1}",
-                title=fake.sentence(nb_words=5),
-                desciption=fake.paragraph(),
-                products=article_products,
-            )
-        )
-
-    db.add_all(article_objects)
-    db.flush()
     db.commit()

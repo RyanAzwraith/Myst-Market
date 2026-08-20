@@ -49,9 +49,6 @@ vi.mock("@/shared/QueryParamsComponent", () => ({
 	SelectOneFilterField: uiMocks.MockSelectOneFilterField,
 }))
 
-vi.mock("@/shared/ImageComponent", () => ({
-	ImageComponent: uiMocks.MockImageComponent,
-}))
 
 const {
 	mockPatchOrderStatus,

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import { AppRoutes } from '@/AppRoutes';
-import { ImageComponent } from '@/shared/ImageComponent';
 import {
   BooleanFilterField,
   SelectMultipleFilterField,
@@ -39,6 +38,7 @@ import type {
   PostProductSearchRequest,
   ProductAnalytics,
 } from './AdminSchema';
+import { ProductMediaCarouselComponent } from '../media/mediaComponent';
 
 
 function ProductsPage() {
@@ -256,7 +256,6 @@ function ProductCard({
       content={() => <ProductModal productId={product.id} />}
     >
       <div className="rounded border p-3 shadow-sm">
-        <ImageComponent altText={product.name} />
         <div className="font-semibold">{product.name}</div>
         <div>{product.categoryName} / {product.rarityName}</div>
         <div>{formatMoney(product.priceAudCent)}</div>
@@ -314,7 +313,7 @@ function ProductModal({
   return (
     <div>
       <h2 className="mb-3 text-lg font-semibold">Product Details</h2>
-      <ImageComponent altText={product.name} />
+      <ProductMediaCarouselComponent productId={productId} limit={5} />
       <div className="space-y-1 text-sm">
         <div>Name: {product.name}</div>
         <div>Category: {product.categoryName}</div>

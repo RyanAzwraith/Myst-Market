@@ -70,10 +70,6 @@ vi.mock('@/shared/QueryParamsComponent', () => ({
     SelectOneFilterField: MockSelectOneFilterField,
 }))
 
-vi.mock('@/shared/ImageComponent', () => ({
-    ImageComponent: MockImageComponent,
-}))
-
 vi.mock('@/api', () => ({
     authRequest: mockedAuthRequest,
 }))

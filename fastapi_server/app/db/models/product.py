@@ -55,12 +55,6 @@ class Product(Base):
     category: Mapped["Category"] = relationship("Category", back_populates="products")
     rarity: Mapped["Rarity"] = relationship("Rarity", back_populates="products")
 
-    articles: Mapped[list["Article"]] = relationship(
-        "Article",
-        secondary="article_product",
-        back_populates="products",
-    )
-
     sales: Mapped[list["Sale"]] = relationship(
         "Sale",
         secondary="sale_product",

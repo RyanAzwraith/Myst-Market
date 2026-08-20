@@ -8,11 +8,11 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { PopUpModalComponent } from "@/shared/PopUpModalComponent"
 import { ToggleComponent } from "@/shared/ToggleComponent"
 import { formatMoney } from "@/utils/formatMoney"
-import { ImageComponent } from "@/shared/ImageComponent";
 import { AppRoutes } from "@/AppRoutes";
 import { useCartState } from "./cartService";
 import type { CartItem } from "./cartSchemas";
 import { AddToCartButton } from "./AddToCartButton";
+import { ProductMediaCarouselComponent } from "../media/mediaComponent";
 
 function CartButtonComponent() {
     const isEmpty = useCartState(state => state.isEmpty())
@@ -93,7 +93,7 @@ function CardItemCard(
             <div
             onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}
             >
-                <ImageComponent altText={product.name}/>
+                <ProductMediaCarouselComponent productId={product.id} limit={1} />
                 <h2 className="mt-2 font-semibold">{product.name}</h2>
             </div>
             

@@ -3,10 +3,10 @@ import { useEffect } from "react";
 
 import { AppRoutes } from '@/AppRoutes'
 import { formatMoney } from '@/utils/formatMoney'
-import { ImageComponent } from "@/shared/ImageComponent";
 
 import {useOrderQuery} from "./checkoutService"
 import type { ItemResolution} from "./checkoutSchemas"
+import { ProductMediaCarouselComponent } from "../media/mediaComponent";
 
 function OrderPage() {
 	const navigate = useNavigate()
@@ -59,7 +59,7 @@ function CardItemCard(
             <div
             onClick={() => {navigate(`${AppRoutes.product}/${productSummary.slug}`)}}
             >
-                <ImageComponent altText={productSummary.name}/>
+                <ProductMediaCarouselComponent productId={productSummary.id} limit={1} />
                 <h2 className="mt-2 font-semibold">{productSummary.name}</h2>
             </div>
             

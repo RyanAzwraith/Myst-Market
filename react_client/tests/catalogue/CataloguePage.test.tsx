@@ -1,32 +1,18 @@
 import { describe, vi, test, expect, it, beforeEach,} from "vitest"
-import { screen, waitFor } from "@testing-library/react"
+import { screen } from "@testing-library/react"
 import {userEvent, type UserEvent} from "@testing-library/user-event"
 import { 
     renderWithRouter,
 } from "../utils";
 
-import { useNavigate } from "react-router-dom";
 
-import { AppRoutes } from "@/AppRoutes"
-import { CarouselComponent } from "@/shared/CarouselComponent"
-import { ImageComponent } from "@/shared/ImageComponent";
-import { PriceComponent } from "@/features/shop/PriceComponent";
-import { RatingComponent } from "@/features/review/RatingComponent"
 import type { ProductDetail } from "@/features/shop/shopSchemas"
 import type { ReviewDetail } from "@/features/review/ReviewSchemas"
 import type { SaleDetail } from "@/features/shop/shopSchemas";
 
-import { 
-    useFeaturedProductQuery, 
-    useNewestProductsQuery, 
-    usePopularProductsQuery, 
-    useStatsQuery,
-    useTestimonialsQuery,
-    useBiggestSalesQuery
-} from "@/features/catalogue/catalogueService"
+
 
 import { 
-    CataloguePage,
     AboutSection,
     StatsSection,
     FeaturedProductSection,
@@ -34,9 +20,6 @@ import {
     NewestProductsSection,
     BiggestSalesSection,
     TestimonialsSection,
-    ProductCard,
-    ReviewCard,
-    SaleCard,
 } from "@/features/catalogue/CataloguePage" 
 import type { StatsDetail } from "@/features/catalogue/catalogueSchemas";
 import { formatMoney } from "@/utils/formatMoney";

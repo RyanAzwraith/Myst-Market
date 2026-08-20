@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 
 import { AppRoutes } from "@/AppRoutes"
-import { ImageComponent } from "@/shared/ImageComponent"
-
 
 import { AddToCartButton } from "@/features/cart/AddToCartButton";
 import { 
@@ -20,6 +19,9 @@ import {
 } from "./shopService"
 import type {ProductDetail} from './shopSchemas'
 import { PriceComponent } from './PriceComponent'
+import { MediaComponent } from "../media/mediaComponent";
+import type { MediaDetail } from "../media/mediaSchema";
+import { usePostProductsMediaMutation } from "../media/mediaService";
 
 function ShopPage() {
     const {
@@ -32,9 +34,22 @@ function ShopPage() {
         useProductsInfiniteQuery(limit, getParams())
     const products = data?.pages.flatMap(page => page.products) ?? []
 
+    const [mediaByProduct, setMediaByProduct] = useState<Record<number, MediaDetail>>({})
+    const postProductsMedia = usePostProductsMediaMutation()
+
+    useEffect(() => {
+        const ids = Array.from(new Set(products.map(p => p.id)))
+        if (ids.length === 0) return
+
+        void postProductsMedia.mutateAsync({ productIds: ids })
+            .then(res => setMediaByProduct(res.media))
+            .catch(() => {})
+    }, [products, postProductsMedia])
+
     const title = search.get() 
         ? `Searching: ${search.get()}` 
         : categories.get().join(', ') || "All Products"
+
 
     return (
         <div> 
@@ -50,7 +65,8 @@ function ShopPage() {
             { products.map((p) => 
                 <ProductCard 
                 key={p.id} 
-                product={p}/>
+                product={p}
+                productMedia={mediaByProduct[p.id]}/>
             )}
             { hasNextPage ? 
                 <ChevronDownIcon 
@@ -64,8 +80,8 @@ function ShopPage() {
 }
 
 function ProductCard(
-    { product }: 
-    { product: ProductDetail }
+    { product, productMedia }: 
+    { product: ProductDetail, productMedia?: MediaDetail }
 ) {
     const navigate = useNavigate()
     return (
@@ -73,8 +89,7 @@ function ProductCard(
     className="rounded border border-slate-200 bg-white p-3 shadow-sm">
         <div
         onClick={() => {navigate(`${AppRoutes.product}/${product.slug}`)}}>
-            <ImageComponent 
-            altText={product.name} />
+            {productMedia ? <MediaComponent media={productMedia} /> : null}
             <h2 className="mt-2 font-semibold">{product.name}</h2>
         </div>
         

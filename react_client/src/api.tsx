@@ -2,18 +2,29 @@ import { config, logger } from "@/core";
 import { ServerException, AppException } from "@/core/errors";
 import { useAuthState } from '@/features/user/authState';
 
+type RequestOptions = RequestInit & {
+    responseType?: "json" | "blob"
+}
+
 const createRequestConfig = (
     options: RequestInit,
     accessToken?: string | null
-): RequestInit => ({
-    ...options,
-    credentials: "include",
-    headers: {
-        "Content-Type": "application/json",
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-        ...(options.headers || {}),
-    },
-});
+): RequestInit => {
+    const headers = new Headers(options.headers)
+
+    if (!headers.has("Content-Type") && !(options.body instanceof FormData)) {
+        headers.set("Content-Type", "application/json")
+    }
+    if (accessToken) {
+        headers.set("Authorization", `Bearer ${accessToken}`)
+    }
+
+    return {
+        ...options,
+        credentials: "include",
+        headers,
+    }
+};
 
 async function refreshToken(): Promise<string | null> {
     const res = await fetch(`${config.VITE_SERVER_URL}/refresh`, {             
@@ -29,18 +40,21 @@ async function refreshToken(): Promise<string | null> {
 
 async function request<T>(
     endpoint: string,
-    options: RequestInit = {},
+    options: RequestOptions = {},
     token?: string | null
 ): Promise<T> {
-	
+	const { responseType = "json", ...fetchOptions } = options;
+
 	logger.info(`req: ${endpoint} - ${JSON.stringify(options)}`);
 
     const response = await fetch(
         `${config.VITE_SERVER_URL}${endpoint}`,
-        createRequestConfig(options, token)
+        createRequestConfig(fetchOptions, token)
     );
 
-    const data = await response.json().catch(() => ({}));
+    const data = response.ok && responseType === "blob"
+        ? await response.blob()
+        : await response.json().catch(() => ({}));
     if (!response.ok) {
 		logger.warn(`${response.status} - ${data?.message}`)
         throw new ServerException({
@@ -54,7 +68,7 @@ async function request<T>(
 
 async function authRequest<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestOptions = {}
 ): Promise<T> {
     const accessToken = useAuthState.getState().accessToken
     try{
@@ -72,7 +86,7 @@ async function authRequest<T>(
     
 async function actionRequest<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestOptions = {}
 ): Promise<T> {
     const setPasswordToken =new URLSearchParams(window.location.search).get("token");
     if (!setPasswordToken) 
@@ -83,4 +97,5 @@ async function actionRequest<T>(
 
 const getHealth = async (): Promise<string> => request("/health");
 
+export type { RequestOptions }
 export { refreshToken, request, getHealth, authRequest, actionRequest}

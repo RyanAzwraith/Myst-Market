@@ -4,7 +4,6 @@ import { AppRoutes } from "@/AppRoutes"
 import { InputLabelComponent } from "@/shared/InputLableComponent"
 import { useFormFields, validateEmail } from "@/utils/useFormFields"
 import { formatMoney } from "@/utils/formatMoney"
-import { ImageComponent } from "@/shared/ImageComponent"
 
 import type {
     UserSummary,
@@ -26,6 +25,7 @@ import { useAuthState } from "@/features/user/authState"
 import { registerRoute } from "@/features/user/authApi"
 import type { UserModel } from "@/features/user/authState"
 import { useState } from "react";
+import { ProductMediaCarouselComponent } from "../media/mediaComponent";
 
 function CheckOutPage() {
     const authState = useAuthState(state => state )
@@ -245,7 +245,7 @@ function CardItemCard(
             <div
             onClick={() => {navigate(`${AppRoutes.product}/${productSummary.slug}`)}}
             >
-                <ImageComponent altText={productSummary.name}/>
+                <ProductMediaCarouselComponent productId={productSummary.id} limit={1} />
                 <h2 className="mt-2 font-semibold">{productSummary.name}</h2>
             </div>
             

@@ -34,6 +34,7 @@ import type {
 	PostSaleSearchRequest,
 	SaleAnalytics,
 } from './AdminSchema';
+import { SaleMediaCarouselComponent } from '../media/mediaComponent';
 
 function toDateTimeInput(value: Date | string) {
 	const date = new Date(value);
@@ -277,6 +278,7 @@ function SaleModal({ saleId }: { saleId: number }) {
 	return (
 		<div>
 			<h2 className="mb-3 text-lg font-semibold">Sale Details</h2>
+      		<SaleMediaCarouselComponent saleId={saleId} limit={5} />
 			<label>
 				Name
 				<input
