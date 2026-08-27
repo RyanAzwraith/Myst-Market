@@ -1,7 +1,4 @@
-import { ProfileReviewsComponent } from "./ProfileReviewsComponent"
-import { ProductReviewsComponent } from "./ProductReviewsComponent"
+// Import
 
-export {
-    ProfileReviewsComponent,
-    ProductReviewsComponent
-}
+// Export
+export type { Review } from "./schema"
