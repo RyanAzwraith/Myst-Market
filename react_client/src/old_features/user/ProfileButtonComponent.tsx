@@ -1,13 +1,22 @@
 import { UserCircleIcon as OutlineIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon as SolidIcon } from "@heroicons/react/24/solid";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ServerException } from "@/core"
 import { PopUpModalComponent } from "@/shared/PopUpModalComponent"
 import { ToggleComponent } from "@/shared/ToggleComponent"
-import { useFormFields } from "@/utils/useFormFields"
-import { InputLabelComponent } from "@/shared/InputLableComponent";
+import {
+    emailField,
+    passwordField,
+    useFormFields,
+    validateEmail,
+} from "@/utils/useFormFields"
+import {
+    EmailFormField,
+    FormFieldsContainer,
+    PasswordFormField,
+} from "@/shared/FormFieldsComponent";
 import { AppRoutes } from "@/AppRoutes";
 import { useAuthState } from "./authState";
 import { loginRoute } from "./authApi";
@@ -47,29 +56,33 @@ function LoginModalContent(props:{
 }) {
 	const login = useAuthState(state => state.login);
 	const navigate = useNavigate();
-	const firstInputRef = useRef<HTMLInputElement>(null);
-
-	const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
-		{
-			name:"email",
-			validateFunc: (v) => !v.trim() ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
-		},{
-			name:"password",
-			validateFunc: (v) => !v ? "Password required" : null
-		}
-	])
+	const form = useFormFields({
+        email: emailField({
+            label: "Email",
+            placeholder: "Email",
+            validate: validateEmail,
+        }),
+        password: passwordField({
+            label: "Password",
+            placeholder: "Password",
+            validate: value => value ? null : "Password required",
+        }),
+    })
 	
 	const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
 			event.preventDefault();
-			if (!validate()) return
+			if (!form.validate()) return
 			try {
-				const {accessToken, userResponse } = await loginRoute({email: values.email, password: values.password})
+				const {accessToken, userResponse } = await loginRoute({
+                    email: form.email.get(),
+                    password: form.password.get(),
+                })
 				login(accessToken, userResponse);
 				props.onClose();
-				reset()
+				form.reset()
 			} catch (error) {
 				if (error instanceof ServerException)
-					setErrorMsg(error.message);
+					form.setErrorMsg(error.message);
 			}
 		};
 	
@@ -77,31 +90,13 @@ function LoginModalContent(props:{
 		<>
 			<h1>Sign in</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
-				<InputLabelComponent
-				name="email"
-				>
-					<input
-						ref={firstInputRef}
-						type="text"
-						value={values.email}
-						onChange={(e) => setters.email(e.target.value)}
-						className="w-full border p-2"
-						placeholder="Email"
-					/>
-				</InputLabelComponent>
-				<InputLabelComponent
-				name="password"
-				>
-					<input
-						type="password"
-						value={values.password}
-						onChange={(e) => setters.password(e.target.value)}
-						className="w-full border p-2"
-						placeholder="Password"
-					/>
-				</InputLabelComponent>
+                <FormFieldsContainer>
+                    <EmailFormField field={form.email} />
+                    <PasswordFormField field={form.password} />
+                </FormFieldsContainer>
 
-				{errorMsg && <p className="text-sm text-red-600">{errorMsg}</p>}
+				{form.errorMsg &&
+                    <p className="text-sm text-red-600">{form.errorMsg}</p>}
 				<button type="submit">Login</button>
 			</form>
 

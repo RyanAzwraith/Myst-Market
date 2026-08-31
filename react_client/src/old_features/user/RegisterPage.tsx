@@ -1,37 +1,50 @@
-import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuthState } from './authState'
 
-import { useFormFields } from '@/utils/useFormFields'
+import {
+    emailField,
+    textField,
+    useFormFields,
+    validateEmail,
+} from '@/utils/useFormFields'
 import { ServerException } from '@/core';
-import { InputLabelComponent } from '@/shared/InputLableComponent'
+import {
+    EmailFormField,
+    FormFieldsContainer,
+    TextFormField,
+} from '@/shared/FormFieldsComponent'
 import { AppRoutes } from "@/AppRoutes"
 import { registerRoute } from './authApi';
 
 function RegisterPage() {
 	const navigate = useNavigate();
-    const firstInputRef = useRef<HTMLInputElement>(null);
 
-    const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
-		{
-			name:"name",
-			validateFunc: (v) => !v.trim() ? "Name required" : null
-		}, {
-			name:"email",
-			validateFunc: (v) => !v.trim() ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null
-		}
-	])
+    const form = useFormFields({
+        name: textField({
+            label: "Name",
+            placeholder: "Name",
+            validate: value => value.trim() ? null : "Name required",
+        }),
+        email: emailField({
+            label: "Email",
+            placeholder: "Email",
+            validate: validateEmail,
+        }),
+    })
 
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
             event.preventDefault();
-            if (!validate()) return
+            if (!form.validate()) return
             try {
-                await registerRoute({email: values.email, name: values.name});
-				reset()
+                await registerRoute({
+                    email: form.email.get(),
+                    name: form.name.get(),
+                });
+				form.reset()
 				navigate(AppRoutes.login)
             } catch (error) {
                 if (error instanceof ServerException) {
-					setErrorMsg(error.message);
+					form.setErrorMsg(error.message);
 				}
             }
         };
@@ -40,31 +53,13 @@ function RegisterPage() {
 		<div className="max-w-md mx-auto mt-8 p-4">
 			<h1 className="text-lg font-semibold mb-4">Register</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
-				<InputLabelComponent
-				name="name"
-				>
-					<input
-						ref={firstInputRef}
-						type="text"
-						value={values.name}
-						onChange={(e) => setters.name(e.target.value)}
-						className="w-full border p-2"
-						placeholder="Name"
-					/>
-				</InputLabelComponent>
-                <InputLabelComponent
-				name="email"
-				>
-					<input
-						type="text"
-						value={values.email}
-						onChange={(e) => setters.email(e.target.value)}
-						className="w-full border p-2"
-						placeholder="Email"
-					/>
-				</InputLabelComponent>
+                <FormFieldsContainer>
+                    <TextFormField field={form.name} />
+                    <EmailFormField field={form.email} />
+                </FormFieldsContainer>
                 
-				{errorMsg && <p className="text-sm text-red-600">{errorMsg}</p>}
+				{form.errorMsg &&
+                    <p className="text-sm text-red-600">{form.errorMsg}</p>}
 				<button type="submit">Send set password email</button>
 			</form>
 
@@ -76,4 +71,3 @@ function RegisterPage() {
 }   
 
 export { RegisterPage };
-

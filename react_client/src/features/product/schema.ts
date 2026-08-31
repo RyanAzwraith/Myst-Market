@@ -22,12 +22,10 @@ export {
 
 // Enum
 const categories = {
-    weapons: "weapons",
-    armaments: "armaments",
-    apparel: "apparel",
-    accessories: "accessories",
-    potions: "potions",
-    artifacts: "artifacts",
+    artifact: "artifact",
+    consumable: "consumable",
+    weapon: "weapon",
+    accessory: "accessory",
 } as const
 type Category = typeof categories [keyof typeof categories ]
 

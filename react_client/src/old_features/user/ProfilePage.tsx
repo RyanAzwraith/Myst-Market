@@ -3,9 +3,18 @@ import { Profiler, useState} from 'react'
 
 import { useAuthState } from './authState'
 import { logger, ServerException } from '@/core'
-import { InputLabelComponent } from "@/shared/InputLableComponent";
+import {
+    EmailFormField,
+    FormFieldsContainer,
+    TextFormField,
+} from "@/shared/FormFieldsComponent";
 import { PopUpModalComponent } from "@/shared/PopUpModalComponent";
-import { useFormFields } from "@/utils/useFormFields";
+import {
+    emailField,
+    textField,
+    useFormFields,
+    validateEmail,
+} from "@/utils/useFormFields";
 import { AppRoutes } from "@/AppRoutes";
 import { UserOrdersComponent } from "@/features/checkout/UserOrdersComponent";
 
@@ -67,28 +76,34 @@ function UpdateProfileComponent () {
 
     const [isEditing, setIsEditing] = useState(false)
 
-    const { values, setters, errorMsg, setErrorMsg, reset, validate} = useFormFields([
-		{
-			name:"name",
-			validateFunc: (v) => !v.trim() ? "Name required" : null,
-            initial: userModel?.name
-		},{
-			name:"email",
-			validateFunc: (v) => !v.trim() ? "Email required": !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "Invalid email" : null,
-            initial: userModel?.email
-        }
-	])
+    const form = useFormFields({
+        name: textField({
+            label: "Name",
+            placeholder: "Name",
+            initial: userModel?.name,
+            validate: value => value.trim() ? null : "Name required",
+        }),
+        email: emailField({
+            label: "Email",
+            placeholder: "Email",
+            initial: userModel?.email,
+            validate: validateEmail,
+        }),
+    })
 	
 	const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!validate()) return 
+        if (!form.validate()) return 
         try {
-            const {id, name, email} = await patchUserRoute({email: values.email, name: values.name});
-            setUserModel(id, email, name) 
+            const {id, name, email, isAdmin} = await patchUserRoute({
+                email: form.email.get(),
+                name: form.name.get(),
+            });
+            setUserModel(id, email, name, isAdmin) 
             setIsEditing(false)
         } catch (error) {
             if (error instanceof ServerException)
-                setErrorMsg(error.message);
+                form.setErrorMsg(error.message);
         }
 
     };
@@ -97,28 +112,16 @@ function UpdateProfileComponent () {
 			<form
             onSubmit={handleSubmit}>
 
-            <InputLabelComponent
-            name="name">
-                <input
-                    type="text"
-                    value={values.name}
-                    onChange={(e) => setters.name(e.target.value)}
-                    className="w-full border p-2"
-                    placeholder="Name"
-                    readOnly={!isEditing}/>
-            </InputLabelComponent>
-            <InputLabelComponent
-            name="email">
-                <input
-                    type="text"
-                    value={values.email}
-                    onChange={(e) => setters.email(e.target.value)}
-                    className="w-full border p-2"
-                    placeholder="Email"
-                    readOnly={!isEditing}/>
-            </InputLabelComponent>
+            <FormFieldsContainer>
+                <TextFormField field={form.name} readOnly={!isEditing} />
+                <EmailFormField
+                    field={form.email}
+                    readOnly={!isEditing}
+                />
+            </FormFieldsContainer>
             
-            {errorMsg && <p className="text-sm text-red-600">{errorMsg}</p>}
+            {form.errorMsg &&
+                <p className="text-sm text-red-600">{form.errorMsg}</p>}
 
             { !isEditing ?
             <button 
@@ -135,7 +138,7 @@ function UpdateProfileComponent () {
                 </button>
                 <button 
                 type="button"
-                onClick={() => {setIsEditing(false); reset()}}>
+                onClick={() => {setIsEditing(false); form.reset()}}>
                     Cancel
                 </button>
             </>
