@@ -1,6 +1,6 @@
 from __future__ import annotations
-from datetime import datetime
-from sqlalchemy import Text, Integer, ForeignKey, text, func, Index
+from datetime import date
+from sqlalchemy import Text, Integer, ForeignKey, text, func, Index, Date
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
 
@@ -26,8 +26,8 @@ class Review(Base):
         ForeignKey("product.id", ondelete="CASCADE"),
     )
 
-    created_at: Mapped[datetime] = mapped_column(
-        default=func.now()
+    created_at: Mapped[date] = mapped_column(
+        Date, nullable=False, default=date.today()
     )
 
     rating: Mapped[int | None] = mapped_column(Integer, default=text("0"))

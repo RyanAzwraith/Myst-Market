@@ -1,7 +1,7 @@
 from __future__ import annotations
-from datetime import datetime
+from datetime import date
 from sqlalchemy import Text, Integer
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, Date
 from typing import TYPE_CHECKING
 
 from ..database import Base
@@ -16,9 +16,10 @@ class Sale(Base):
 
     discount_percent: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    start_at: Mapped[datetime] = mapped_column()
+    order: Mapped["Order"] = relationship("Order", back_populates="order_products")
+    start_at: Mapped[date] = mapped_column(Date, nullable=False)
 
-    end_at: Mapped[datetime] = mapped_column()
+    end_at: Mapped[date] = mapped_column(Date, nullable=False)
 
     name: Mapped[str] = mapped_column(Text, nullable=False)
 

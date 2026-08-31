@@ -5,6 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from ..database import Base
 
 
+    order: Mapped["Order"] = relationship("Order", back_populates="order_products")
 class Media(Base):
     __tablename__ = "media"
 

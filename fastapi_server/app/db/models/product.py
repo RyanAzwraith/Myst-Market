@@ -1,59 +1,45 @@
 from __future__ import annotations
-from datetime import datetime
-from sqlalchemy import Text, Integer, ForeignKey, func, Index
+from sqlalchemy import Text, Integer, Index, Date
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from datetime import date
 from typing import TYPE_CHECKING
+
+from app.features.product.schema import Category, Rarity
 
 from ..database import Base
 
+
 if TYPE_CHECKING:
-    from .category import Category
-    from .rarity import Rarity
-    from .article import Article
     from .sale import Sale
     from .review import Review
-    from .order_product import OrderProduct
+    from .item import OrderProduct
     from .stock import Stock
 
 
 class Product(Base):
     __tablename__ = "product"
 
-    __table_args__ = (
-        Index("ix_product_category_id", "category_id"),
-        Index("ix_product_rarity_id", "rarity_id"),
-        Index("ix_product_category_rarity", "category_id", "rarity_id"),
-    )
-
     id: Mapped[int] = mapped_column(primary_key=True)
 
     name: Mapped[str] = mapped_column(Text, nullable=False)
 
-    category_id: Mapped[int] = mapped_column(
-        ForeignKey("category.id", ondelete="RESTRICT", onupdate="CASCADE"),
-        nullable=False,
-    )
+    category: Mapped[str] = mapped_column(Text, nullable=False, default=Category.pending.value)
 
-    rarity_id: Mapped[int] = mapped_column(
-        ForeignKey("rarity.id", ondelete="RESTRICT", onupdate="CASCADE"),
-        nullable=False,
-    )
+    rarity: Mapped[str] = mapped_column(Text, nullable=False, default=Rarity.pending.value)
 
     price_aud_cent: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    created_at: Mapped[datetime] = mapped_column(nullable=False, default=func.now())
+    created_at: Mapped[date] = mapped_column(nullable=False, default=date.today())
 
     slug: Mapped[str] = mapped_column(Text, nullable=False)
 
     description: Mapped[str | None] = mapped_column(Text)
 
-    discontinued_at: Mapped[datetime | None] = mapped_column()
+    discontinued_at: Mapped[date | None] = mapped_column(Date, nullable=True)
 
     units_sold: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     # relationships
-    category: Mapped["Category"] = relationship("Category", back_populates="products")
-    rarity: Mapped["Rarity"] = relationship("Rarity", back_populates="products")
 
     sales: Mapped[list["Sale"]] = relationship(
         "Sale",

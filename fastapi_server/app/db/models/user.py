@@ -1,7 +1,7 @@
 from __future__ import annotations
-from datetime import datetime
+from datetime import date
 from sqlalchemy import Text, Integer, text, func, Boolean
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, Date
 from typing import TYPE_CHECKING
 
 from ..database import Base
@@ -28,9 +28,9 @@ class User(Base):
 
     password_hash: Mapped[str | None] = mapped_column(Text)
 
-    created_at: Mapped[datetime] = mapped_column(default=func.now())
+    created_at: Mapped[date] = mapped_column(Date, nullable=False, default=date.today())
 
-    deleted_at: Mapped[datetime | None] = mapped_column()
+    deleted_at: Mapped[date | None] = mapped_column(Date, nullable=True)
 
     addresses: Mapped[list["Address"]] = relationship("Address", back_populates="user")
     orders: Mapped[list["Order"]] = relationship("Order", back_populates="user")
