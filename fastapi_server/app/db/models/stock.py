@@ -1,6 +1,6 @@
 from __future__ import annotations
-from datetime import datetime
-from sqlalchemy import Integer, func, ForeignKey
+from datetime import date
+from sqlalchemy import Integer, func, ForeignKey, Date
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
 from ..database import Base
@@ -13,7 +13,7 @@ class Stock(Base):
 
     product_id: Mapped[int] = mapped_column( ForeignKey("product.id", ondelete="CASCADE"), primary_key=True,)
     current: Mapped[int] = mapped_column(Integer, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(default=func.now())
+    updated_at: Mapped[date] = mapped_column(Date, default=date.today)
 
     product: Mapped["Product"] = relationship("Product", back_populates="stock",)
 

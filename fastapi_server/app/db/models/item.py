@@ -8,6 +8,7 @@ from ..database import Base
 if TYPE_CHECKING:
     from .order import Order
     from .product import Product
+    from .sale import Sale
 
 class OrderProduct(Base):
     __tablename__ = "order_product"
@@ -22,6 +23,10 @@ class OrderProduct(Base):
     product_id: Mapped[int] = mapped_column(
         ForeignKey("product.id", ondelete="SET NULL"),
         primary_key=True,
+    )    
+    
+    sale_id: Mapped[int | None] = mapped_column(
+        ForeignKey("sale.id", ondelete="SET NULL"),
     )
 
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -30,3 +35,4 @@ class OrderProduct(Base):
 
     order: Mapped["Order"] = relationship("Order", back_populates="order_products")
     product: Mapped["Product"] = relationship("Product", back_populates="order_products")
+    sale: Mapped["Sale"] = relationship("Sale", back_populates="order_products")

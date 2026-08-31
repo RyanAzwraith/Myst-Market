@@ -13,26 +13,9 @@ from app.db.models import (
 )
 from app.features.user.user_service import hash_password
 
-_MEDIA_FILE_NAME = "test_image.png"
-
-def _seed_media_file() -> None:
-    source = (
-        Path(__file__).resolve().parents[4]
-        / "media"
-        / "test_media"
-        / _MEDIA_FILE_NAME
-    )
-    media_root = Path(get_config().media_url).expanduser()
-
-    for entity_type in ("product", "sale"):
-        target = media_root / entity_type / _MEDIA_FILE_NAME
-        target.parent.mkdir(parents=True, exist_ok=True)
-        if source.resolve() != target.resolve():
-            copyfile(source, target)
-
-
 SEED_DATE = datetime(2026, 7, 13, 12, 0)
 PASSWORD = "password"
+HISTORY_DAYS = 1095
 ORDER_STATUSES = (
     "pending",
     "processing",
@@ -420,12 +403,31 @@ def _product_data() -> list[dict[str, object]]:
 
 
 def _make_users() -> list[User]:
+    names = (
+        "Aria Stone",
+        "Bram Copperfield",
+        "Cleo Nightbloom",
+        "Darius Vale",
+        "Elara Moss",
+        "Finn Ember",
+        "Greta Thorn",
+        "Hugo Frost",
+        "Iris Silver",
+        "Jasper Reed",
+        "Kira Dawn",
+        "Luca Wren",
+    )
     users = [
         ("admin@mail.com", "Admin User", True, True),
-        ("customer.one@mail.com", "Aria Stone", False, True),
-        ("customer.two@mail.com", "Bram Copperfield", False, True),
-        ("customer.three@mail.com", "Cleo Nightbloom", False, True),
-        ("customer.four@mail.com", "Darius Vale", False, False),
+        *[
+            (
+                f"customer{index:03d}@mail.com",
+                f"{names[index % len(names)]} {index // len(names) + 1}",
+                False,
+                index % 17 != 0,
+            )
+            for index in range(1, 300)
+        ],
     ]
     return [
         User(
@@ -434,47 +436,59 @@ def _make_users() -> list[User]:
             is_admin=is_admin,
             is_registered=is_registered,
             password_hash=hash_password(PASSWORD) if is_registered else None,
-            created_at=SEED_DATE.date() - timedelta(days=index * 37),
+            created_at=SEED_DATE.date()
+            - timedelta(days=(index * 29) % HISTORY_DAYS),
         )
         for index, (email, name, is_admin, is_registered) in enumerate(users)
     ]
 
 
 def _make_addresses(users: list[User]) -> list[Address]:
-    address_data = [
-        ("AU", "NSW", "Sydney", "123 Test Street", 2000),
-        ("AU", "VIC", "Melbourne", "456 Market Lane", 3000),
-        ("AU", "QLD", "Brisbane", "78 River Road", 4000),
-        ("AU", "WA", "Perth", "9 Sunset Drive", 6000),
-        ("AU", "SA", "Adelaide", "31 Garden Terrace", 5000),
-    ]
+    address_data = (
+        ("NSW", "Sydney", "Market Street", 2000),
+        ("VIC", "Melbourne", "Collins Street", 3000),
+        ("QLD", "Brisbane", "Queen Street", 4000),
+        ("WA", "Perth", "Hay Street", 6000),
+        ("SA", "Adelaide", "King William Road", 5000),
+        ("TAS", "Hobart", "Elizabeth Street", 7000),
+    )
     return [
         Address(
             user_id=user.id,
-            country_code=country,
+            country_code="AU",
             state=state,
             city=city,
-            street=street,
-            postcode=postcode,
+            street=f"{index + 1} {street}",
+            postcode=postcode + index % 9,
         )
-        for user, (country, state, city, street, postcode)
-        in zip(users, address_data)
+        for index, user in enumerate(users)
+        for state, city, street, postcode in [
+            address_data[index % len(address_data)]
+        ]
     ]
 
 
 def _make_products() -> list[Product]:
     products = []
-    for index, data in enumerate(_product_data()):
+    base_products = _product_data()
+    variant_names = ("", "Reserve", "Deluxe", "Masterwork")
+    for index in range(200):
+        data = base_products[index % len(base_products)]
+        variant = variant_names[index // len(base_products)]
+        name = str(data["name"])
+        if variant:
+            name = f"{variant} {name}"
         products.append(
             Product(
-                name=data["name"],
+                name=name,
                 category=data["category"],
                 rarity=data["rarity"],
-                price_aud_cent=data["price"],
-                slug=str(data["name"]).lower().replace(" ", "-").replace("'", ""),
+                price_aud_cent=int(data["price"]) + (index // 50) * 750,
+                slug=name.lower().replace(" ", "-").replace("'", ""),
                 description=data["description"],
-                created_at=SEED_DATE.date() - timedelta(days=index * 3),
-                units_sold=(index * 137) % 2400,
+                created_at=SEED_DATE.date()
+                - timedelta(days=(index * 7) % HISTORY_DAYS),
+                units_sold=(index * 137) % 5000,
             )
         )
     return products
@@ -492,35 +506,36 @@ def _make_stocks(products: list[Product]) -> list[Stock]:
 
 
 def _make_sales(products: list[Product]) -> list[Sale]:
-    return [
-        Sale(
-            discount_percent=20,
-            start_at=SEED_DATE.date() - timedelta(days=30),
-            end_at=SEED_DATE.date() + timedelta(days=90),
-            name="Spring Sale",
-            slug="spring-sale",
-            description="Save 20% on selected adventuring essentials.",
-            products=products[0:12],
-        ),
-        Sale(
-            discount_percent=15,
-            start_at=SEED_DATE.date() - timedelta(days=7),
-            end_at=SEED_DATE.date() + timedelta(days=180),
-            name="Arcane Discovery",
-            slug="arcane-discovery",
-            description="Explore a curated collection of magical artifacts.",
-            products=products[20:35],
-        ),
-        Sale(
-            discount_percent=30,
-            start_at=SEED_DATE.date() - timedelta(days=14),
-            end_at=SEED_DATE.date() + timedelta(days=45),
-            name="Guild Clearance",
-            slug="guild-clearance",
-            description="Guild surplus equipment at exceptional prices.",
-            products=products[35:50],
-        ),
-    ]
+    sale_names = (
+        "Founder's Collection",
+        "Spring Sale",
+        "Guild Clearance",
+        "Arcane Discovery",
+        "Summer Expedition",
+        "Harvest Market",
+        "Winter Wardrobe",
+        "New Year Relics",
+        "Ranger's Choice",
+        "Hall of Legends",
+    )
+    sales = []
+    for index, name in enumerate(sale_names):
+        start = SEED_DATE.date() - timedelta(days=HISTORY_DAYS - index * 90)
+        end = start + timedelta(days=45 + index * 8)
+        sales.append(
+            Sale(
+                discount_percent=10 + (index % 5) * 5,
+                start_at=start,
+                end_at=end,
+                name=name,
+                slug=name.lower().replace(" ", "-").replace("'", ""),
+                description=(
+                    f"Seasonal offers on {name.lower()} treasures and equipment."
+                ),
+                products=products[index * 15 : index * 15 + 35],
+            )
+        )
+    return sales
 
 
 def _make_reviews(
@@ -532,16 +547,19 @@ def _make_reviews(
         "The craftsmanship is even better in person.",
         "Arrived promptly and has performed beautifully.",
         "Good value, with a thoughtful and practical design.",
+        "The item has become a favourite part of my collection.",
+        "The finish is impressive and the description was accurate.",
     )
     return [
         Review(
-            user_id=users[(index + 1) % len(users)].id,
-            product_id=products[index].id,
-            created_at=SEED_DATE.date() - timedelta(days=index),
-            rating=5 if index % 4 else 4,
+            user_id=users[(index * 7 + 1) % len(users)].id,
+            product_id=products[(index * 11) % len(products)].id,
+            created_at=SEED_DATE.date()
+            - timedelta(days=(index * 13) % HISTORY_DAYS),
+            rating=(index % 5) + 1,
             description=comments[index % len(comments)],
         )
-        for index in range(30)
+        for index in range(300)
     ]
 
 
@@ -549,17 +567,20 @@ def _make_orders(
     users: list[User], addresses: list[Address], products: list[Product]
 ) -> list[Order]:
     orders = []
-    for index in range(30):
-        created_at = SEED_DATE - timedelta(days=45 - index)
-        product = products[index % len(products)]
+    for index in range(400):
+        created_at = SEED_DATE - timedelta(
+            days=HISTORY_DAYS - 1 - (index * 3) % HISTORY_DAYS,
+            hours=index % 12,
+        )
+        product = products[(index * 3) % len(products)]
         quantity = index % 3 + 1
         cost = product.price_aud_cent * quantity
         if index % 5 == 0:
             cost += products[(index * 3 + 1) % len(products)].price_aud_cent
         orders.append(
             Order(
-                user_id=users[(index + 1) % len(users)].id,
-                address_id=addresses[(index + 1) % len(addresses)].id,
+                user_id=users[(index * 7 + 1) % len(users)].id,
+                address_id=addresses[(index * 7 + 1) % len(addresses)].id,
                 status=ORDER_STATUSES[index % len(ORDER_STATUSES)],
                 created_at=created_at,
                 updated_at=created_at + timedelta(hours=2),
@@ -617,7 +638,7 @@ def _make_payments(orders: list[Order]) -> list[Payment]:
         "failed",
         "pending",
     )
-    return [
+    payments = [
         Payment(
             amount_cent=order.cost_aud_cent,
             reference=f"PAY-{index + 1:05d}",
@@ -631,9 +652,10 @@ def _make_payments(orders: list[Order]) -> list[Payment]:
         )
         for index, order in enumerate(orders)
     ]
+    return payments
 
 
-def dev_seed(session) -> None:
+def production_seed(session) -> None:
     users = _make_users()
     session.add_all(users)
     session.flush()

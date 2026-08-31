@@ -4,13 +4,14 @@ from sqlalchemy import Text, Integer, ForeignKey, func, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
 
+from app.features.order.schema import Status
+
 from ..database import Base
 
 if TYPE_CHECKING:
     from .user import User
     from .address import Address
-    from .status import Status
-    from .order_product import OrderProduct
+    from .item import OrderProduct
     from .payment import Payment
 
 
@@ -24,8 +25,9 @@ class Order(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    status_id: Mapped[int] = mapped_column(ForeignKey("status.id"))
     address_id: Mapped[int] = mapped_column(ForeignKey("address.id"))
+
+    status: Mapped[str] = mapped_column(Text, nullable=False, default=Status.pending.value)
 
     created_at: Mapped[datetime] = mapped_column(default=func.now())
     updated_at: Mapped[datetime] = mapped_column(default=func.now())
@@ -37,7 +39,6 @@ class Order(Base):
     delivery_note: Mapped[str | None] = mapped_column(Text)
 
     user: Mapped["User"] = relationship("User", back_populates="orders")
-    status: Mapped["Status"] = relationship("Status", back_populates="orders")
     address: Mapped["Address"] = relationship("Address", back_populates="orders")
 
     order_products: Mapped[list["OrderProduct"]] = relationship("OrderProduct", back_populates="order")
