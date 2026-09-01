@@ -4,21 +4,21 @@ import {
     useQuery 
 } from "@tanstack/react-query"
 
-import { getServer } from "@/core/server";
+import { server } from "@/core/server";
 
 import type { ReviewInput } from "./schema";
 
 export {
-    useCreateReviewMutation,
-    useDeleteReviewMutation,
-    useGetTestimonialsQuery,
+    useCreateMutation,
+    useDeleteMutation,
+    useRetrieveTestimonialsQuery,
 }
 
-function useCreateReviewMutation(productId:number) {
+function useCreateMutation(productId:number) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (reviewInput : ReviewInput) =>
-            getServer().review.create({ reviewInput }),
+            server.review.create({ reviewInput }),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["product-reviews", productId]
@@ -27,11 +27,11 @@ function useCreateReviewMutation(productId:number) {
     })
 } 
 
-function useDeleteReviewMutation() {
+function useDeleteMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (reviewId: number) =>
-            getServer().review.delete({ reviewId }),
+            server.review.delete({ reviewId }),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["user-reviews"]
@@ -40,12 +40,13 @@ function useDeleteReviewMutation() {
     })
 } 
 
-function useGetTestimonialsQuery(
+function useRetrieveTestimonialsQuery(
     limit: number
 ) {
     return useQuery({
         queryKey: ["testimonials"],
         queryFn: () => 
-            getServer().reviews.retrieveTestimonials({ limit}),
+            server.reviews.retrieveTestimonials({ limit}),
+        select: data => data.reviews
     })
 }

@@ -2,7 +2,7 @@ import { describe, expect, vi, beforeEach, test } from "vitest"
 import { screen } from "@testing-library/react"
 import {userEvent, type UserEvent} from "@testing-library/user-event"
 
-import { AppRoutes } from '@/AppRoutes'
+import { AppRoutes } from '@/PageRoutes'
 import { ServerException } from "@/core"
 import { useAuthState, type AuthState } from '@/features/user/authState'
 import { ProfileButtonComponent } from '@/features/user/ProfileButtonComponent'

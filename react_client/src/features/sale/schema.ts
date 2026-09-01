@@ -15,6 +15,8 @@ export {
     adminSort,
     activation,
 }
+
+
 // Domain
 type Sale = {
     id: number
@@ -37,20 +39,21 @@ type SaleAnalytics = {
     name: string,
     slug: string,
     description: string | null,
-    startAt: Date,
-    endAt: Date,
+    startAt: DateStr,
+    endAt: DateStr,
 
-    discountPercent: number,
+    discountPerc: number,
     revenue: number,
     orderCount: number,
     revenueLost: number,
 }
 
+
 // Enums
 const adminSort  = {
     startAt: "startAt",
     endAt: "endAt",
-    discountPercent: "discountPercent",
+    discountPerc: "discountPerc",
     duration: "duration",
     revenue: "revenue",
     orderCount: "orderCount",
@@ -69,7 +72,6 @@ type Activation = keyof typeof activation
 
 
 // Hooks
-
 type AdminSearchParams = {
     activation: Activation[],
     isAscending: boolean,

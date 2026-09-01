@@ -6,9 +6,7 @@ export type {
 } from '@/features/user'
 
 // Export
-export type {
-    Login,
-} from './schema'
 export {
     useAuthState,
+    useLogoutMutation,
 } from './service'

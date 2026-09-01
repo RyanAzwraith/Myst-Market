@@ -13,7 +13,7 @@ import {
     useQueryParams,
 } from '@/utils/useQueryParams';
 
-import { getServer } from '@/core/server';
+import { server } from '@/core/server';
 
 import type { 
     Sort, 
@@ -36,16 +36,17 @@ export {
     useProductImageQuery,
     useProductMediasQuery,
     useProductAnalyticsQuery,
+    useReviewsQuery,
     usePostProductMutation,
     usePatchProductMutation,
     useDeleteProductMutation,
-    useSearchInfiniteQuery,
-    useAdminSearchInfiniteQuery,
+    useSearchQuery,
+    useAdminSearchQuery,
     useFeaturedProductsQuery,
     usePopularProductsQuery,
     useNewestProductsQuery,
     useTopProductsQuery,
-    usePatchProductBulkMutation,
+    usePatchProductsMutation,
     useImportProductsMutation,
     useExportProductsMutation,
 }
@@ -115,7 +116,7 @@ function useProductQuery(slug?: string)  {
         queryKey: ["product", slug],
         enabled: !!slug,
         queryFn: () => 
-            getServer().product.getBySlug(slug!),
+            server.product.getBySlug(slug!),
         select: data => data.product
     })
 }
@@ -124,7 +125,7 @@ function useProductImageQuery(id: number)  {
     return useQuery({
         queryKey: ["product", id],
         queryFn: () => 
-            getServer().product.getImage(id),
+            server.product.getImage(id),
         select: data => data.media
     })
 }
@@ -133,7 +134,7 @@ function useProductMediasQuery(id: number)  {
     return useQuery({
         queryKey: ["product", id],
         queryFn: () => 
-            getServer().product.getMedias(id),
+            server.product.getMedias(id),
         select: data => data.medias
     })
 }
@@ -141,8 +142,15 @@ function useProductMediasQuery(id: number)  {
 function useProductAnalyticsQuery(id?: number) {
     return useQuery({
         queryKey: ['admin', 'product-analytics', id],
-        queryFn: () => getServer().product.getAnalytics(id!),
+        queryFn: () => server.product.getAnalytics(id!),
         enabled: !!id,
+    })
+}
+
+function useReviewsQuery(id: number) {
+    return useQuery({
+        queryKey: ['product', 'reviews', id],
+        queryFn: () => server.product.getReviews(id),
     })
 }
 
@@ -157,7 +165,7 @@ function usePostProductMutation() {
             slug: string
             description: string
             stock: number
-        }) => getServer().product.create(req),
+        }) => server.product.create(req),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'products']
@@ -177,7 +185,7 @@ function usePatchProductMutation(id: number) {
             slug: string
             description: string
             stock: number
-        }>) => getServer().product.patch(id, req),
+        }>) => server.product.patch(id, req),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'product-analytics', id]
@@ -192,7 +200,7 @@ function usePatchProductMutation(id: number) {
 function useDeleteProductMutation() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: number) => getServer().product.delete(id),
+        mutationFn: (id: number) => server.product.delete(id),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'products']
@@ -201,15 +209,14 @@ function useDeleteProductMutation() {
     })
 }
 
-
-function useSearchInfiniteQuery(
+function useSearchQuery(
     limit: number | null = null,
     searchParams?: SearchParams,
 ) {
     return useInfiniteQuery({
         queryKey: ['products', { ...searchParams, limit }],
         queryFn: ({ pageParam }) => 
-            getServer().products.search({
+            server.products.search({
                 searchParams: searchParams ?? null,
                 limit: limit,
                 offset: pageParam ?? 0,
@@ -220,14 +227,14 @@ function useSearchInfiniteQuery(
     })
 }
 
-function useAdminSearchInfiniteQuery(
+function useAdminSearchQuery(
     limit: number | null = null,
     searchParams?: AdminSearchParams,
 ) {
     return useInfiniteQuery({
         queryKey: ['products', { ...searchParams, limit }],
         queryFn: ({ pageParam }) => 
-            getServer().products.adminSearch({
+            server.products.adminSearch({
                 searchParams: searchParams ?? null,
                 limit: limit,
                 offset: pageParam ?? 0,
@@ -243,7 +250,7 @@ function useFeaturedProductsQuery(
 ) {
     return useQuery ({
         queryKey: ["featuredProduct"],
-        queryFn: () => getServer().products.retrieveFeatured({ limit }),
+        queryFn: () => server.products.retrieveFeatured({ limit }),
         select: data => data.products
     })
 }
@@ -253,7 +260,7 @@ function usePopularProductsQuery(
 ) {
     return useQuery({
         queryKey: ['popularProducts', limit],
-        queryFn: () => getServer().products.retrievePopular({ limit }),
+        queryFn: () => server.products.retrievePopular({ limit }),
         select: data => data.products
     })
 }  
@@ -263,7 +270,7 @@ function useNewestProductsQuery(
 ) {
     return useQuery({
         queryKey: ['newestProducts', limit],
-        queryFn: () => getServer().products.retrieveNewest({ limit }),
+        queryFn: () => server.products.retrieveNewest({ limit }),
         select: data => data.products
     })
 }  
@@ -271,20 +278,21 @@ function useNewestProductsQuery(
 function useTopProductsQuery() {
     return useQuery({
         queryKey: ['admin', 'dashboard', 'top-products'],
-        queryFn: () => getServer().products.retrieveMostSoldProducts({ limit: 5 }),
+        queryFn: () => server.products.retrieveMostSoldProducts({ limit: 5 }),
         select: data => data.products
     })
 }
 
-function usePatchProductBulkMutation() {
+function usePatchProductsMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (req : Partial<{
-            saleIds: number[]
-            startAt: Date
-            endAt: Date
-            discountPercent: number 
-        }>) => getServer().products.patch(req),
+            productIds: number[] 
+            categoryName: string | null 
+            rarityName: string | null 
+            priceAudCent: number | null
+            stock: number | null;
+        }>) => server.products.patch(req),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'products']
@@ -300,7 +308,7 @@ function useImportProductsMutation() {
     const { invalidateQueries } = useQueryClient()
     return useMutation({
         mutationFn: (file: File) => 
-            getServer().products.import({ file }),
+            server.products.import({ file }),
         onSuccess: () => invalidateQueries({
             queryKey: ["products"],
         })
@@ -310,6 +318,6 @@ function useImportProductsMutation() {
 function useExportProductsMutation() {
     return useMutation({
         mutationFn: () => 
-            getServer().products.export(),
+            server.products.export(),
     })
 }

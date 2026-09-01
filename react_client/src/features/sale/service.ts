@@ -13,11 +13,12 @@ import {
     useQueryParams 
 } from "@/utils/useQueryParams"
 
-import { getServer } from "@/core/server"
+import { server } from "@/core"
 
 import type {
     AdminSort,
     AdminSearchParams,
+    Sale,
 } from "./schema"
 import {
     activation,
@@ -25,7 +26,7 @@ import {
 } from "./schema"
  
 export { 
-    useSaleParams,
+    useAdminSearchParams,
     useSaleQuery,
     useSaleImageQuery,
     useSaleMediasQuery,
@@ -34,12 +35,14 @@ export {
     usePatchSaleMutation,
     usePatchSalesMutation,
     useDeleteSaleMutation,
-    useSalesInfiniteQuery,
+    useAdminSearchQuery,
     useBiggestSalesQuery,
+    useImportSalesMutation,
+    useExportSalesMutation,
 }
 
 // Hooks
-function useSaleParams() {
+function useAdminSearchParams() {
 
     const filters = {
         activation: selectMultipleFilter({
@@ -68,7 +71,7 @@ function useSaleQuery(slug: string | undefined) {
     return useQuery({
         queryKey: ["sale", slug],
         enabled: !!slug,
-        queryFn: () => getServer().sale.getBySlug(slug!),
+        queryFn: () => server.sale.getBySlug(slug!),
         select: data => data.sale
     })
 }
@@ -76,14 +79,14 @@ function useSaleQuery(slug: string | undefined) {
 function useSaleImageQuery(saleId: number) {
     return useQuery({
         queryKey: ["sale-image", saleId],
-        queryFn: () =>  getServer().sale.getImage(saleId),
+        queryFn: () =>  server.sale.getImage(saleId),
         select: data => data.media,
     })
 }
 function useSaleMediasQuery(saleId: number) {
     return useQuery({
         queryKey: ["sale-medias", saleId],
-        queryFn: () => getServer().sale.getMedias(saleId),
+        queryFn: () => server.sale.getMedias(saleId),
         select: data => data.medias,
     })
 }
@@ -91,7 +94,7 @@ function useSaleMediasQuery(saleId: number) {
 function useSaleAnalyticsQuery(saleId: number) {
     return useQuery({
         queryKey: ['admin', 'sale-analytics', saleId],
-        queryFn: () => getServer().sale.getAnalytics(saleId),
+        queryFn: () => server.sale.getAnalytics(saleId),
         select: data => data.sale,
     })
 }
@@ -99,14 +102,7 @@ function useSaleAnalyticsQuery(saleId: number) {
 function usePostSaleMutation() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (req: {
-            name: string
-            slug: string
-            description: string
-            discountPercent: number
-            startAt: Date
-            endAt: Date
-        }) => getServer().sale.create(req),
+        mutationFn: (req: Omit<Sale, 'id'>) => server.sale.create(req),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'sales']
@@ -118,14 +114,7 @@ function usePostSaleMutation() {
 function usePatchSaleMutation(id: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (req : Partial<{
-            name: string
-            slug: string
-            description: string
-            startAt: Date
-            endAt: Date
-            discountPercent: number
-        }>) => getServer().sale.patch(id, req),
+        mutationFn: (req : Partial<Sale>) => server.sale.patch(id, req),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'sale-analytics', id]
@@ -145,7 +134,7 @@ function usePatchSalesMutation() {
             startAt: Date | null
             endAt: Date | null
             discountPercent: number | null
-        }>) => getServer().sales.patch(req),
+        }>) => server.sales.patch(req),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'sales']
@@ -160,7 +149,7 @@ function usePatchSalesMutation() {
 function useDeleteSaleMutation(saleId: number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: () => getServer().sale.delete(saleId),
+        mutationFn: () => server.sale.delete(saleId),
         onSuccess: () => 
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'sales']
@@ -169,14 +158,14 @@ function useDeleteSaleMutation(saleId: number) {
 }
 
 
-function useSalesInfiniteQuery(
+function useAdminSearchQuery(
     limit: number | null,
     searchParams?: AdminSearchParams
 ) {
     return useInfiniteQuery({
         queryKey: ['admin', 'sales', { ...searchParams, limit }],
         queryFn: ({ pageParam }) => {
-            return getServer().sales.search({
+            return server.sales.adminSearch({
                 searchParams: searchParams ?? null,
                 limit: limit,
                 offset: pageParam ?? 0,
@@ -194,8 +183,25 @@ function useBiggestSalesQuery(
 ) {
     return useQuery({
         queryKey: ['biggestSales', limit],
-        queryFn: () => getServer().sales.retrieveBiggest({ limit }),
+        queryFn: () => server.sales.retrieveBiggest({ limit }),
         select: data => data.sales
     })
 }  
 
+function useImportSalesMutation() {
+    const { invalidateQueries } = useQueryClient()
+    return useMutation({
+        mutationFn: (file: File) => 
+            server.sales.import({ file }),
+        onSuccess: () => invalidateQueries({
+            queryKey: ["sales"],
+        })
+    })
+}
+
+function useExportSalesMutation() {
+    return useMutation({
+        mutationFn: () => 
+            server.sales.export(),
+    })
+}

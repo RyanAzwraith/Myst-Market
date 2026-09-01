@@ -7,7 +7,7 @@ import {
 
 
 import type { ProductDetail } from "@/features/shop/shopSchemas"
-import type { ReviewDetail } from "@/features/review/ReviewSchemas"
+import type { ReviewDetail } from "@/features/review/schema"
 import type { SaleDetail } from "@/features/shop/shopSchemas";
 
 

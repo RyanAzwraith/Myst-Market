@@ -7,7 +7,7 @@ import {
     getByText,
 } from "../utils";
 
-import { AppRoutes } from '@/AppRoutes'
+import { AppRoutes } from '@/PageRoutes'
 import { ProductPage } from '@/features/shop/ProductPage'
 
 

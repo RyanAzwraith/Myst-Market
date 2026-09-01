@@ -2,7 +2,7 @@ import { describe, beforeEach, test, expect } from "vitest"
 import { findByTestId, screen, waitFor } from "@testing-library/react"
 import {userEvent, type UserEvent} from "@testing-library/user-event"
 
-import {AppRoutes} from '@/AppRoutes'
+import {AppRoutes} from '@/PageRoutes'
 import { 
     renderWithRouter, 
     getByRole,

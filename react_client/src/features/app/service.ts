@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { getServer } from "@/core/server"
+import { server } from "@/core/server"
 
 export {
     useStatsQuery,
@@ -12,7 +12,7 @@ export {
 function useStatsQuery() {
     return useQuery ({
         queryKey: ["stats"],
-        queryFn: () => getServer().app.getStats(),
+        queryFn: () => server.app.getStats(),
         select: data => data.stats 
     })
 }
@@ -20,7 +20,7 @@ function useStatsQuery() {
 function usePerformanceQuery() {
     return useQuery ({
         queryKey: ["performance"],
-        queryFn: () => getServer().app.getPerformance(),
+        queryFn: () => server.app.getPerformance(),
         select: data => data.performance 
     })
 }
@@ -28,7 +28,7 @@ function usePerformanceQuery() {
 function useAttentionQuery() {
     return useQuery ({
         queryKey: ["attention"],
-        queryFn: () => getServer().app.getAttention(),
+        queryFn: () => server.app.getAttention(),
         select: data => data.attention 
     })
 }
@@ -36,7 +36,7 @@ function useAttentionQuery() {
 function useGraphQuery() {
     return useQuery ({
         queryKey: ["graph"],
-        queryFn: () => getServer().app.getGraph(),
+        queryFn: () => server.app.getGraph(),
         select: data => data.graphPoints 
     })
 }

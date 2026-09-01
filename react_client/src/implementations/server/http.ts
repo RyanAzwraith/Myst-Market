@@ -283,15 +283,15 @@ const order: Interface.Order = {
             serverRoutes.order.byId(id), {
                 method: "GET",
         }),
-    create: ({userInput, ...req}) => {
-        if (userInput) 
+    create: ({isCreatingAccount, user, ...req}) => {
+        if (isCreatingAccount) 
             return request(serverRoutes.order.create, {
                 method: "POST",
-                body: JSON.stringify({ userInput, ...req }),
+                body: JSON.stringify({ isCreatingAccount, user, ...req }),
             })
         return authRequest(serverRoutes.order.create, {
                 method: "POST",
-                body: JSON.stringify({ userInput, ...req }),
+                body: JSON.stringify({ ...req }),
             })
     },
     patchStatus: (id, req) =>

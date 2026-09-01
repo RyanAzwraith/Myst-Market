@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import {AppRoutes} from '@/AppRoutes.tsx'
+import {AppRoutes} from '@/PageRoutes'
 import { ProfileButtonComponent } from "../features/user/ProfileButtonComponent";
 import { CategoryBarComponent } from "@/features/shop/CategoryBarComponent";
 import { CartButtonComponent } from "@/features/cart/CartButtonComponent";

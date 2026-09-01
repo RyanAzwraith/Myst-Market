@@ -5,7 +5,15 @@ import {
     useQueryClient
 } from "@tanstack/react-query"
 
-import { getServer } from "@/core/server"
+import { 
+    booleanFilter, 
+    selectMultipleFilter, 
+    selectOneFilter, 
+    textFilter, 
+    useQueryParams 
+} from "@/utils/useQueryParams"
+
+import { server } from "@/core/server"
 
 import type {
     UserInput,
@@ -21,18 +29,70 @@ import {
     status,
     adminSort,
 } from "./schema"
-import { booleanFilter, selectMultipleFilter, selectOneFilter, textFilter, useQueryParams } from "@/utils/useQueryParams"
+import { 
+    booleanField,
+    emailField,
+    textField, 
+    useFormFields 
+} from "@/utils/useFormFields"
+
 
 export {
+    useCheckoutFormFields,
     useAdminSearchParams,
     useCreateMutation,
     useGetByIdQuery,
     usePatchStatusMutation,
-    useAdminSearchInfiniteQuery,
+    useAdminSearchQuery,
     useGetRecentQuery,
     usePatchAllStatusMutation,
 }
 // Hooks
+
+function useCheckoutFormFields() {
+    return useFormFields({
+        name: textField({
+            label: "Name",
+            validate: value => value ? null : "Name Required",
+        }),
+        email: emailField({
+            label: "Email",
+        }),
+        isCreatingAccount: booleanField({
+            label: "Create Account",
+        }),
+        country_code: textField({
+            label: "Country code",
+            placeholder: "country code",
+            validate: value => value ? null : "Country Code Required",
+        }),
+        postcode: textField({
+            label: "Postcode",
+            placeholder: "postcode",
+            validate: value => value ? null : "Postcode Required",
+        }),
+        state: textField({
+            label: "State",
+            placeholder: "state",
+            validate: value => value ? null : "State Required",
+        }),
+        city: textField({
+            label: "City",
+            placeholder: "city",
+            validate: value => value ? null : "City Required",
+        }),
+        street: textField({
+            label: "Street",
+            placeholder: "street",
+            validate: value => value ? null : "Street Required",
+        }),
+        deliveryNotes: textField({
+            label: "Delivery note",
+            placeholder: "delivery note",
+        }),
+    })
+}
+
 function useAdminSearchParams() {
     const filters = {
         sortBy: selectOneFilter<AdminSort>({
@@ -56,16 +116,18 @@ function useAdminSearchParams() {
     return useQueryParams(filters, '/admin/orders')
 }
 
+
+
 // Request
 function useCreateMutation()  {
     return useMutation({
         mutationFn: (req : {
-            itemSummaries: ItemSummary[]
-            addressDetail: Address
+            items: ItemSummary[]
+            address: Address
             deliveryNote: string
-            userInput: UserInput | null
-        }) =>
-            getServer().order.create(req),
+            user: UserInput | null
+            isCreatingAccount: boolean  | null
+        }) => server.order.create(req),
         onSuccess: (data) => { 
             window.location.href = data.stripeSessionUrl
         }
@@ -75,7 +137,7 @@ function useCreateMutation()  {
 function useGetByIdQuery(id: number)  {
     return useQuery({
         queryKey: ['admin', 'order', id],
-        queryFn: () => getServer().order.getById(id),
+        queryFn: () => server.order.getById(id),
     })
 }
 
@@ -85,7 +147,7 @@ function usePatchStatusMutation(id: number)  {
         mutationFn: (req : {
             status: Status  
         }) =>
-            getServer().order.patchStatus(id, req), 
+            server.order.patchStatus(id, req), 
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'orders']
@@ -97,13 +159,13 @@ function usePatchStatusMutation(id: number)  {
     })
 } 
 
-function useAdminSearchInfiniteQuery(
+function useAdminSearchQuery(
     limit: number | null = null,
     params?: AdminSearchParams,
 ) {
     return useInfiniteQuery({
         queryKey: ['admin', 'orders', { ...params, limit }],
-        queryFn: ({ pageParam }) => getServer().orders.adminSearch({
+        queryFn: ({ pageParam }) => server.orders.adminSearch({
             searchParams: params ?? null,
             limit,
             offset: pageParam ?? 0
@@ -117,7 +179,8 @@ function useAdminSearchInfiniteQuery(
 function useGetRecentQuery()  {
     return useQuery({
         queryKey: ['admin', 'recent'],
-        queryFn: () => getServer().orders.getRecent,
+        queryFn: () => server.orders.getRecent(),
+        select: data => data.orders,
     })
 }
 
@@ -127,7 +190,7 @@ function usePatchAllStatusMutation() {
         mutationFn: (req : {
                 orderIds: number[]
                 status: Status
-            }) => getServer().orders.patchStatus(req),
+            }) => server.orders.patchStatus(req),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'orders']

@@ -72,7 +72,7 @@ interface User {
 
     getOrder: (orderId: number) => Promise<{ order: order.Order }>
 
-    getOrders: () => Promise<{ orders: order.Order[] }>
+    getOrders: () => Promise<{ orders: order.OrderSummary[] }>
 
     getAnalytics: (id: number) => Promise<{
         user: user.UserAnalytics
@@ -118,23 +118,9 @@ interface Sale {
 
     getAnalytics: (id: number) => Promise<{ sale: sale.SaleAnalytics }>
 
-    create: (req : {
-        name: string
-        slug: string
-        description: string
-        discountPercent: number
-        startAt: Date
-        endAt: Date
-    }) => Promise<void>
+    create: (req : Omit<sale.Sale, 'id'>) => Promise<void>
 
-    patch: (id: number, req: Partial<{
-        name: string
-        slug: string
-        description: string
-        startAt: Date
-        endAt: Date
-        discountPercent: number
-    }>) => Promise<void>
+    patch: (id: number, req: Partial<sale.Sale>) => Promise<void>
 
     delete: (id: number) => Promise<void>
 
@@ -156,7 +142,8 @@ interface Sales {
         hasMore: boolean 
     }>
 
-    patch: (req : Partial<{
+    patch: (req : Partial<
+        {
         ids: number[]
         startAt: Date | null
         endAt: Date | null
@@ -165,7 +152,16 @@ interface Sales {
 
     import: (req : { 
         file: File 
-    }) => Promise<void>
+    }) => Promise<{
+        imported: number
+        updated: number
+        failed: number
+        errors: {
+            row: number
+            field: string | null
+            message: string
+        }[]
+    }>
 
     export: () => Promise<Blob>
 }
@@ -178,7 +174,9 @@ interface Product {
     getMedias: (id: number) => Promise<{ medias: media.MediaDetail[] }>
 
     getReviews: (id: number) => Promise<{ 
-        reviews: review.Review[]
+        reviews: review.Review[],
+        average: number,
+        userHasReview:boolean,
     }>
 
     getAnalytics: (id: number) => Promise<{ product: product.ProductAnalytics }>
@@ -210,24 +208,28 @@ interface Products {
         limit: number
     }) => Promise<{ 
         products: product.Product[]
+        medias: media.MediaDetail[],
     }>
 
     retrievePopular: (req : { 
         limit: number
     }) => Promise<{ 
         products: product.Product[] 
+        medias: media.MediaDetail[],
     }>
 
     retrieveNewest: (req : { 
         limit: number
     }) => Promise<{ 
         products: product.Product[] 
+        medias: media.MediaDetail[],
     }>
 
     retrieveMostSoldProducts: (req : { 
         limit: number
     }) => Promise<{ 
         products: product.ProductAnalytics[] 
+        medias: media.MediaDetail[],
     }>
 
     search: (req: { 
@@ -236,6 +238,7 @@ interface Products {
         offset: number
     }) => Promise<{ 
         products: product.Product[], 
+        medias: media.MediaDetail[],
         hasMore: boolean 
     }>
 
@@ -249,15 +252,25 @@ interface Products {
     }>
 
     patch: (req : Partial<{
-        saleIds: number[]
-        startAt: Date
-        endAt: Date
-        discountPercent: number 
+        productIds: number[]
+        categoryName: string | null
+        rarityName: string | null
+        priceAudCent: number | null
+        stock: number | null
     }>) => Promise<void>
     
     import: (req : { 
         file: File 
-    }) => Promise<void>
+    }) => Promise<{
+        imported: number
+        updated: number
+        failed: number
+        errors: {
+            row: number
+            field: string | null
+            message: string
+        }[]
+    }>
 
     export: () => Promise<Blob>
 }
@@ -293,15 +306,17 @@ interface Items {
 interface Order {
     getById: (id: number) => Promise<{ 
         order: order.Order,
-        user: user.UserSummary
+        user: user.UserDetail
     }>
 
     create: (req : {
-        itemSummaries: item.ItemSummary[]
-        addressDetail: order.Address
+        items: item.ItemSummary[]
+        address: order.Address
         deliveryNote: string
-        userInput: user.UserInput | null
+        user: user.UserInput | null
+        isCreatingAccount: boolean  | null
     }) => Promise<{ stripeSessionUrl: string }>
+
     patchStatus: (id: number, req : {
         status: order.Status  
     }) => Promise<void>
@@ -314,7 +329,7 @@ interface Orders {
         limit: number | null,
         offset: number
     }) => Promise<{ 
-        orders: order.Order[],
+        orders: order.OrderSummary[],
         hasMore: boolean
     }>
     patchStatus: (req : {

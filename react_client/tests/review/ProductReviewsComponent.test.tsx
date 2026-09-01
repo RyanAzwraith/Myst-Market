@@ -19,7 +19,7 @@ import type {
     PostProductReviewRequest,
     ReviewDetail,
     ReviewSummary,
-} from "@/features/review/ReviewSchemas"
+} from "@/features/review/schema"
 import { type AuthState, type UserModel } from "@/features/user/authState";
 
 const mockAuthRequest = vi.hoisted(() => vi.fn())

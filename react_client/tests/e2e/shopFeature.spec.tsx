@@ -1,6 +1,6 @@
 import { expect} from '@playwright/test';
 
-import { AppRoutes } from '@/AppRoutes';
+import { AppRoutes } from '@/PageRoutes';
 import {test, sampleProduct} from './fixtures'
 
 // varaibles copied from fastapi_server\app\db\see\ base_seed.py and dev_seed.py

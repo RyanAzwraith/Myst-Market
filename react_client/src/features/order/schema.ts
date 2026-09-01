@@ -31,7 +31,7 @@ type Order = {
 }
 
 type OrderSummary = {
-    orderId: number
+    id: number
     createdAt: Date
     totalCent: number
     status: Status

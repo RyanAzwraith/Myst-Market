@@ -1,6 +1,6 @@
 import { expect} from '@playwright/test';
 
-import { AppRoutes } from '@/AppRoutes';
+import { AppRoutes } from '@/PageRoutes';
 import {test, addToCart, sampleProduct} from './fixtures'
 
 test("add to cart button", async ({page}) => {
