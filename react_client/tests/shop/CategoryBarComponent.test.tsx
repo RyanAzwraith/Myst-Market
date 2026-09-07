@@ -6,7 +6,7 @@ import {
     getByRole,
 } from "../utils";
 
-import { AppRoutes } from '@/PageRoutes'
+import { AppRoutes } from '@/app/PageRoutes'
 import { CategoryBarComponent } from '@/features/shop/CategoryBarComponent'
 
 

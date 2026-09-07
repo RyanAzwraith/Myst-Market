@@ -7,7 +7,7 @@ import {
     getByText,
 } from "../utils";
 
-import { AppRoutes } from '@/PageRoutes'
+import { AppRoutes } from '@/app/PageRoutes'
 import { SalePage } from '@/features/shop/SalePage'
 
 const mockNavigate = vi.fn()

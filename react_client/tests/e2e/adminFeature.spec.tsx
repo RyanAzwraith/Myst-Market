@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 
-import { AppRoutes } from '@/PageRoutes';
+import { AppRoutes } from '@/app/PageRoutes';
 import { login, sampleAdminData, test } from './fixtures';
 
 test('dashboard loads seeded data', async ({ page }) => {

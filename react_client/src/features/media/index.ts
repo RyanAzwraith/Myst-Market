@@ -6,10 +6,10 @@ export type {
 } from './schema'
 
 export {
-    MediaImageComponent,
-	MediaVideoComponent,
-	MediaComponent,
-	MediaCarouselComponent,
+	Image,
+	Video,
+	Media,
+	MediaCarousel,
     ImportButton,
     downloadCsv,
-} from './components/mediaComponent'
+} from './components/media'

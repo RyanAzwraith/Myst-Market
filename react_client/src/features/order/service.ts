@@ -18,12 +18,14 @@ import { server } from "@/core/server"
 import type {
     UserInput,
     ItemSummary,
+    OrderSummary,
 } from "./index"
 import type { 
     Status,
     Address, 
     AdminSort,
     AdminSearchParams,
+    Order,
 } from "./schema"
 import { 
     status,
@@ -35,11 +37,14 @@ import {
     textField, 
     useFormFields 
 } from "@/utils/useFormFields"
+import { selectOneField, useSelectEdit } from "@/utils/useSelectEdit"
 
 
 export {
     useCheckoutFormFields,
     useAdminSearchParams,
+    useAdminSelectEdit,
+
     useCreateMutation,
     useGetByIdQuery,
     usePatchStatusMutation,
@@ -59,7 +64,7 @@ function useCheckoutFormFields() {
             label: "Email",
         }),
         isCreatingAccount: booleanField({
-            label: "Create Account",
+            label: "Would you like to create an account?",
         }),
         country_code: textField({
             label: "Country code",
@@ -95,13 +100,13 @@ function useCheckoutFormFields() {
 
 function useAdminSearchParams() {
     const filters = {
-        sortBy: selectOneFilter<AdminSort>({
-            label: "sortBy",
+        sort: selectOneFilter<AdminSort>({
+            label: "Sort By",
             defaultValue: 'createdAt' as AdminSort,
             options: adminSort
         }),   
         status: selectMultipleFilter<Status>({
-            label: "status",
+            label: "Status",
             options: status
         }),
         searchName: textFilter({
@@ -116,7 +121,30 @@ function useAdminSearchParams() {
     return useQueryParams(filters, '/admin/orders')
 }
 
+function useAdminSelectEdit({orders}: { 
+    orders: OrderSummary[]
+}) {
+    const { mutate: patchAllStatus } = usePatchAllStatusMutation()
 
+    const editFields = {
+        status: selectOneField<Status>({
+            label: 'Selected status',
+            options: status,
+        }),
+    }
+
+    return useSelectEdit({
+        ids: new Set(orders.map(order => String(order.id))),
+        FieldFactories: editFields,
+        handleSubmit: (selectedIds, fieldValues) => {
+            if (fieldValues.status === null) return
+            patchAllStatus({
+                orderIds: Array.from(selectedIds).map(Number),
+                status: fieldValues.status,
+            })
+        },
+    })
+}
 
 // Request
 function useCreateMutation()  {
@@ -134,10 +162,11 @@ function useCreateMutation()  {
     })
 }   
 
-function useGetByIdQuery(id: number)  {
+function useGetByIdQuery(id: number | undefined)  {
     return useQuery({
         queryKey: ['admin', 'order', id],
-        queryFn: () => server.order.getById(id),
+        enabled: !!id,
+        queryFn: () => server.order.getById(id!),
     })
 }
 

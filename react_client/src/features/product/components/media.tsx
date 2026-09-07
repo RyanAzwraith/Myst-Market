@@ -1,24 +1,29 @@
 
-import {
-    MediaCarouselComponent,
-    ImportButton,
+import { Loading } from "@/shared"
+import { 
+    MediaCarousel,
+    Image,
     downloadCsv,
+    ImportButton
 } from "../index"
 
 import { 
     useProductMediasQuery,
+    useProductImageQuery,
     useExportProductsMutation,
     useImportProductsMutation,
 } from "../service"
 
 
 export {
-    ProductMediaCarouselComponent,
+    ProductCarousel,
+    ProductImage,
     ImportProductsButton,
     ExportProductsButton,
 }
 
-function ProductMediaCarouselComponent({
+
+function ProductCarousel({
     productId,
     limit = 1,
 }: {
@@ -28,9 +33,21 @@ function ProductMediaCarouselComponent({
     const { data: media } = useProductMediasQuery(productId)
 
     return (
-        <MediaCarouselComponent
+        <MediaCarousel
             media={media ?? []}
             limit={limit}
+        />
+    )
+}
+
+function ProductImage({ productId }: {
+    productId: number
+}) {
+    const { data: media } = useProductImageQuery(productId)
+    if (!media) return <Loading />
+    return (
+        <Image
+        media={media}
         />
     )
 }

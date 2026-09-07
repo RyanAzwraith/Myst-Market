@@ -9,19 +9,24 @@ export {
     AddToCartButton
 } from '@/features/item'
 export {
-    MediaCarouselComponent,
+    MediaCarousel,
     ImportButton,
     downloadCsv,
-    MediaComponent,
+    Media,
+    Image,
     type MediaDetail,
 } from '@/features/media'
 export {
     useCreateMutation as useCreateReviewMutation,
-    RatingComponent,
+    RatingFormat,
 } from '@/features/review'
 export type {
     Review,
     ReviewInput,
+} from '@/features/review'
+export {
+    CreateReviewComponent,
+    ReviewCard,
 } from '@/features/review'
 
 
@@ -29,17 +34,37 @@ export type {
 export type {
     Product,
     ProductSummary,
-} from './schema'
+} from './schema'   
+export {
+    useSearchParams,
+} from './service'
+
 
 export {
-    ProductMediaCarouselComponent
+    SearchDisplay,
+    ProductDisplay,
+} from './components/display'
+export {
+    SearchParamsComponent,
+} from './components/components'
+export {
+    ProductCard,
+} from './components/card'
+export {
+    ProductImage,
+    ProductCarousel,
 } from './components/media'
+
+export {
+    AdminSearchDisplay
+} from './components/display'
+
 export {
     FeaturedProductsSection,
     PopularProductsSection,
+	TopProductsSection,
     NewestProductsSection,
-    TopProductsSection,
-} from './components/CatalogueSection'
-
-
-    
+} from "./components/section"
+export {
+    CategoryBar,
+} from "./components/bar"

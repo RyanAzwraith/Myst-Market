@@ -54,6 +54,23 @@ function TextFormField({
     );
 }
 
+function TextAreaFormField({
+    field,
+}: {
+    field: Field<string, TextField>;
+}) {
+    return (
+        <label>
+            {field.label}
+            <textarea
+                placeholder={field.placeholder}
+                value={field.get()}
+                onChange={event => field.set(event.target.value)}
+            />
+        </label>
+    );
+}
+
 function EmailFormField({
     field,
     readOnly = false,
@@ -156,6 +173,7 @@ export {
     FormFieldsContainer,
     BooleanFormField,
     TextFormField,
+    TextAreaFormField,
     EmailFormField,
     PasswordFormField,
     NumberFormField,

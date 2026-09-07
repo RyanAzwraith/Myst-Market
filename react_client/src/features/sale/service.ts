@@ -12,6 +12,11 @@ import {
     textFilter, 
     useQueryParams 
 } from "@/utils/useQueryParams"
+import { 
+    numberField, 
+    textField, 
+    useSelectEdit 
+} from "@/utils/useSelectEdit"
 
 import { server } from "@/core"
 
@@ -19,6 +24,7 @@ import type {
     AdminSort,
     AdminSearchParams,
     Sale,
+    SaleAnalytics,
 } from "./schema"
 import {
     activation,
@@ -27,6 +33,7 @@ import {
  
 export { 
     useAdminSearchParams,
+    useAdminSelectEdit,
     useSaleQuery,
     useSaleImageQuery,
     useSaleMediasQuery,
@@ -49,8 +56,8 @@ function useAdminSearchParams() {
             label: "Activation Type",
             options: activation,
         }),
-        sortBy: selectOneFilter({
-            label: "sortBy",
+        sort: selectOneFilter({
+            label: "Sort By",
             defaultValue: 'startAt' as AdminSort,
             options: adminSort
         }),
@@ -65,6 +72,38 @@ function useAdminSearchParams() {
 
     return useQueryParams(filters, '/admin/sales')
 }
+
+function useAdminSelectEdit(sales: SaleAnalytics[]) {
+	const { mutate: patchSales } = usePatchSalesMutation();
+
+    const editFields = {
+		startAt: textField({ label: 'Start date' }),
+		endAt: textField({ label: 'End date' }),
+		discountPercent: numberField({
+			label: 'Discount percent',
+			step: 1,
+		}),
+	};
+    
+	const selectEdit = useSelectEdit({
+		ids: new Set(sales.map(sale => String(sale.id))),
+		FieldFactories: editFields,
+		handleSubmit: (selectedIds, fieldValues) => {
+			patchSales({
+				ids: [...selectedIds].map(Number),
+				startAt: fieldValues.startAt === null
+					? null
+					: new Date(fieldValues.startAt),
+				endAt: fieldValues.endAt === null
+					? null
+					: new Date(fieldValues.endAt),
+				discountPercent: fieldValues.discountPercent,
+			});
+		},
+	});
+    return selectEdit;
+}
+
 
 // Requests
 function useSaleQuery(slug: string | undefined) {
@@ -184,7 +223,6 @@ function useBiggestSalesQuery(
     return useQuery({
         queryKey: ['biggestSales', limit],
         queryFn: () => server.sales.retrieveBiggest({ limit }),
-        select: data => data.sales
     })
 }  
 

@@ -10,10 +10,16 @@ export {
 } from "@/features/sale"
 export {
     TestimonialsSection,
-    RatingComponent,
+    RatingFormat,
 } from "@/features/review"
 export {
 	RecentOrdersSection,
 } from '@/features/order';
 
 // Export
+export {
+    Graph,
+	Performance,
+	RequiresAttention,
+    StatsSection,
+} from './components/section'

@@ -9,9 +9,20 @@ export {
     useDeleteMutation,
     useCreateMutation,
 } from "./service"
-export {
-    RatingComponent,
-} from "./components/RatingComponent"
+
 export {
     TestimonialsSection,
-} from "./components/CatalogueSection"
+} from "./components/section.tsx"
+
+export {
+    ReviewCard,
+} from "./components/card"
+export {
+    CreateReviewComponent,
+} from "./components/component.tsx"
+export {
+    DeleteReviewButton,
+} from "./components/button"
+export {
+    RatingFormat,
+} from "./components/format"

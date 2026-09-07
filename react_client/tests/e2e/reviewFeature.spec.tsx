@@ -1,6 +1,6 @@
 import { expect} from '@playwright/test';
 
-import { AppRoutes } from '@/PageRoutes';
+import { AppRoutes } from '@/app/PageRoutes';
 import {test, login, sampleProduct} from './fixtures'
 
 const sampleReview = {

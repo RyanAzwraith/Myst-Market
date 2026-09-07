@@ -131,7 +131,10 @@ interface Sales {
 
     retrieveBiggest: (req : { 
         limit: number
-    }) => Promise<{ sales: sale.Sale[] }>
+    }) => Promise<{ 
+        sales: sale.Sale[],
+        images: media.MediaDetail[], 
+    }>
 
     adminSearch: (req : { 
         searchParams: Partial<sale.AdminSearchParams> | null,
@@ -208,28 +211,28 @@ interface Products {
         limit: number
     }) => Promise<{ 
         products: product.Product[]
-        medias: media.MediaDetail[],
+        images: media.MediaDetail[],
     }>
 
     retrievePopular: (req : { 
         limit: number
     }) => Promise<{ 
         products: product.Product[] 
-        medias: media.MediaDetail[],
+        images: media.MediaDetail[],
     }>
 
     retrieveNewest: (req : { 
         limit: number
     }) => Promise<{ 
         products: product.Product[] 
-        medias: media.MediaDetail[],
+        images: media.MediaDetail[],
     }>
 
     retrieveMostSoldProducts: (req : { 
         limit: number
     }) => Promise<{ 
         products: product.ProductAnalytics[] 
-        medias: media.MediaDetail[],
+        images: media.MediaDetail[],
     }>
 
     search: (req: { 
@@ -238,7 +241,7 @@ interface Products {
         offset: number
     }) => Promise<{ 
         products: product.Product[], 
-        medias: media.MediaDetail[],
+        images: media.MediaDetail[],
         hasMore: boolean 
     }>
 

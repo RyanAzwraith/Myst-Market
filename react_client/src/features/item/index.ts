@@ -2,16 +2,10 @@
 export {
     type Product,
     type ProductSummary,
-    ProductMediaCarouselComponent
+    ProductImage
 } from '@/features/product'
 
 // Export 
-export {
-    AddToCartButton,
-} from './components/AddToCartButton'
-export {
-    CartButtonComponent,
-} from './components/CartButtonComponent'
 
 export type {
     ItemSummary,
@@ -23,3 +17,15 @@ export {
 export {
     useResolveQuery,
 } from "./service"
+
+export {
+    ItemCard,
+    ItemWithXCard
+} from './components/card'
+export {
+    CartFormSection,
+} from './components/form'
+export {
+    CartButton,
+    AddToCartButton,
+} from './components/button'

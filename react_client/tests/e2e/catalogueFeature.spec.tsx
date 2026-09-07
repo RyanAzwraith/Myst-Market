@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 
-import { AppRoutes } from '@/PageRoutes';
+import { AppRoutes } from '@/app/PageRoutes';
 import { test, sampleProduct } from './fixtures'
 
 test.describe("Catalogue Page", () => {

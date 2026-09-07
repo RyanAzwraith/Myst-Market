@@ -12,6 +12,11 @@ import {
     textFilter,
     useQueryParams,
 } from '@/utils/useQueryParams';
+import {
+  numberField,
+  selectOneField,
+  useSelectEdit,
+} from '@/utils/useSelectEdit';
 
 import { server } from '@/core/server';
 
@@ -20,6 +25,7 @@ import type {
     SearchParams,
     AdminSort,
     AdminSearchParams,
+    ProductAnalytics,
 } from './schema';
 import { 
     adminSort,
@@ -32,6 +38,8 @@ import {
 export {
     useSearchParams,
     useAdminSearchParams,
+    useAdminSelectEdit,
+    
     useProductQuery,
     useProductImageQuery,
     useProductMediasQuery,
@@ -62,8 +70,8 @@ function useSearchParams() {
             label: "Rarity",
             options: rarities,
         }),
-        sortBy: selectOneFilter<Sort>({
-            label: "sortBy",
+        sort: selectOneFilter<Sort>({
+            label: "sort By",
             defaultValue: sort.popularity,
             options: sort
         }),        
@@ -85,8 +93,8 @@ function useAdminSearchParams() {
         isDiscontinued: booleanFilter({
             label: "Discontinued",
         }),
-        sortBy: selectOneFilter<AdminSort>({
-            label: "sortBy",
+        sort: selectOneFilter<AdminSort>({
+            label: "Sort By",
             defaultValue: 'newest' as AdminSort,
             options: adminSort
         }),
@@ -109,6 +117,40 @@ function useAdminSearchParams() {
 
     return useQueryParams(filters, '/admin/products')
 }   
+
+function useAdminSelectEdit(products: ProductAnalytics[]) {
+    const { mutate: patchProducts } = usePatchProductsMutation();
+    const editFields = {
+        categoryName: selectOneField({
+            label: 'Category',
+            options: categories,
+        }),
+        rarityName: selectOneField({
+            label: 'Rarity',
+            options: rarities,
+        }),
+        priceAudCent: numberField({
+            label: 'Price (cents)',
+            step: 1,
+        }),
+            stock: numberField({
+            label: 'Stock',
+            step: 1,
+        }),
+    };
+
+    return useSelectEdit({
+        ids: new Set(products.map(product => String(product.id))),
+        FieldFactories: editFields,
+        handleSubmit: (selectedIds, fieldValues) => {
+        patchProducts({
+            productIds: [...selectedIds].map(Number),
+            ...fieldValues,
+        });
+        },
+    });
+}
+
 
 // Requests
 function useProductQuery(slug?: string)  {
@@ -251,7 +293,6 @@ function useFeaturedProductsQuery(
     return useQuery ({
         queryKey: ["featuredProduct"],
         queryFn: () => server.products.retrieveFeatured({ limit }),
-        select: data => data.products
     })
 }
 
@@ -261,7 +302,6 @@ function usePopularProductsQuery(
     return useQuery({
         queryKey: ['popularProducts', limit],
         queryFn: () => server.products.retrievePopular({ limit }),
-        select: data => data.products
     })
 }  
 
@@ -271,7 +311,6 @@ function useNewestProductsQuery(
     return useQuery({
         queryKey: ['newestProducts', limit],
         queryFn: () => server.products.retrieveNewest({ limit }),
-        select: data => data.products
     })
 }  
 
@@ -279,7 +318,6 @@ function useTopProductsQuery() {
     return useQuery({
         queryKey: ['admin', 'dashboard', 'top-products'],
         queryFn: () => server.products.retrieveMostSoldProducts({ limit: 5 }),
-        select: data => data.products
     })
 }
 

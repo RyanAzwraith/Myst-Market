@@ -2,7 +2,7 @@ import {
     test as base, expect, request, type Page, type APIRequestContext
 } from '@playwright/test'
 
-import { AppRoutes} from '@/PageRoutes'
+import { AppRoutes} from '@/app/PageRoutes'
 
 const sampleUserData  = {
     name: 'joe',

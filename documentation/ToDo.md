@@ -9,7 +9,7 @@ x Orders feature
 x Reviews feature
 x Catalogue feature
 x Admin feature
-- Media
+x Media
 - Refactor
 - Styling
 - Deploy
@@ -55,7 +55,32 @@ x Checkout
 x Reviews
 x Catalogue
 x Admin
+x Media
 
+Refactor
+24/8
+    Front
+    x create barrels
+    x Implement Interfaces
+    - Create Mock Implementation
+    x Redefine Features
+    x Seperate Pages
+    - Refactor Shared components
+    - Rewrite tests
+    Back
+    - create barrels
+    x Implement Interfaces
+    - Create Mock Implementation
+    x rewrite seed
+    - Redefine Features
+    x refactor database
+    - Rewrite tests
+    Remeber
+    - hard code static tables
+    - add date formatter, change datetimes to dates
+    - refactor product has discounted cost from backend
+    - refactor entity routes to give media in one request
+    - wrap icons in buttons
 
 
 --------------------------------------
@@ -64,30 +89,17 @@ Loose Ends
 - tests: dependency, external, service files
 - security: set-password-token, local storage
 - add loading circles
-- hard code static tables
 - fix logger
-- add date formatter
-- refactor user Feature
-- change datetimes to dates
-- improve shop testing
-- remove unnecssery mocking of navigate fastapi server testing
-- refactor product has discounted cost from backend
-- refactor useFormFields
 - add address autocomplete and mail fees, tax
 - improve success page
-- finish checkout tests
-- add barrels to manage what features can export
 - give item warnings for item resolutions in checkout
-- wrap icons in buttons
 - Profile orders make expandable
-- data format
 - sort by rating
 - add parcel tacking
 - stock updates
-- fix statuses
 - allow bulk delete
-- refactor entity routes to give media in one request
 - allow media deletion and refactor delete routes
+- refactor shared hook
 
 Bugs
 - user logged in without accessToken

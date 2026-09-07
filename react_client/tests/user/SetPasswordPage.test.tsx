@@ -2,7 +2,7 @@ import { describe, expect, vi, beforeEach, test } from "vitest"
 import { screen } from "@testing-library/react"
 import {userEvent, type UserEvent} from "@testing-library/user-event"
 
-import { AppRoutes } from '@/PageRoutes'
+import { AppRoutes } from '@/app/PageRoutes'
 import { ServerException } from "@/core"
 import { useAuthState } from '@/features/user/authState'
 import { SetPasswordPage } from '@/features/user/SetPasswordPage'

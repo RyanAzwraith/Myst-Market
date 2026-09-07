@@ -1,3 +1,5 @@
+import type { DateStr } from "@/utils/DateStr"
+
 import type { ItemResolution } from "./index"
 
 export type {
@@ -24,15 +26,15 @@ type Address = {
 type Order = {
     userId: number
     addressString: string
-    itemResolutions: ItemResolution[]
+    items: ItemResolution[]
     costAudCent: number
-    createdAt: Date
+    createdAt: DateStr
     status: Status
 }
 
 type OrderSummary = {
     id: number
-    createdAt: Date
+    createdAt: DateStr
     totalCent: number
     status: Status
 }
@@ -61,6 +63,6 @@ type AdminSort = keyof typeof adminSort
 type AdminSearchParams = {
     searchName: string
     status: Status[]
-    sortBy: AdminSort
+    sort: AdminSort
     isAscending: boolean
 }
