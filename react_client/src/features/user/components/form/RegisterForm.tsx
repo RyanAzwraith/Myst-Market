@@ -1,7 +1,7 @@
 import {
-    EmailFormField,
-    TextFormField,
-} from '@/shared/FormFieldsComponent'
+    EmailField,
+    TextField,
+} from '@/hooks/FormInputs'
 import { ErrorMsg } from '@/shared'
 
 import { 

@@ -11,7 +11,7 @@ import {
     selectOneFilter, 
     textFilter, 
     useQueryParams 
-} from "@/utils/useQueryParams"
+} from "@/hooks/QueryParams/useQueryParams"
 
 import { server } from "@/core/server"
 
@@ -36,7 +36,7 @@ import {
     emailField,
     textField, 
     useFormFields 
-} from "@/utils/useFormFields"
+} from "@/hooks/FormFields/useFormFields"
 import { selectOneField, useSelectEdit } from "@/utils/useSelectEdit"
 
 

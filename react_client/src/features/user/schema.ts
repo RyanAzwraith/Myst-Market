@@ -1,4 +1,13 @@
+import { 
+    kind as formInputsKind, 
+    type FieldDefs as FromInputsFieldDefs
+} from "@/hooks/FormInputs";
+import { 
+    kind as queryParamsKind, 
+    type FieldDefs as QueryParamsFieldDefs
+} from "@/hooks/QueryParams";
 import type { DateStr } from "@/utils/DateStr";
+import { labelizeRecord } from "@/utils/funcs";
 
 export type { 
     User,
@@ -13,6 +22,10 @@ export type {
 export {
     adminSort,
     registration,
+    registerFormFields,
+    setPasswordFormFields,
+    updateFormFields,
+    adminSearchParams,
 }
 
 // Domain
@@ -82,3 +95,73 @@ type AdminSearchParams = {
     search: string,
     registration: Registration[],
 }
+
+// Hooks
+// Hooks
+const registerFormFields = {
+    name: {
+        kind: formInputsKind.text,
+        label: "Name",
+        placeholder: "Name",
+        validate: (v) => !v?.trim() ? "Name required" : null
+    },
+    email: {
+        kind: formInputsKind.email,
+        label: "Email",
+        placeholder: "Email",
+    },
+} satisfies FromInputsFieldDefs
+
+const setPasswordFormFields = {
+    password: {
+        kind: formInputsKind.password,
+        label: "Password",
+        validate: (v) => !v ? "Password required" : null
+    },
+    rePassword: {
+        kind: formInputsKind.password,
+        label: "Re-enter Password",
+        validate: (v) => !v ? "Re-enter Password required" : null
+    }
+} satisfies FromInputsFieldDefs
+
+const updateFormFields = (user: User | null) => ({
+    name: {
+        kind: formInputsKind.text,
+        label: "Name",
+        placeholder: "Name",
+        validate: (v) => !v?.trim() ? "Name required" : null,
+        initial: user?.name
+    },
+    email: {
+        kind: formInputsKind.email,
+        label: "Email",
+        placeholder: "Email",
+        initial: user?.email
+    }
+} satisfies FromInputsFieldDefs)
+
+const adminSearchParams = {
+    registration: {
+        kind: queryParamsKind.selectMultiple,
+        label: "Registration Type",
+        options: registration,
+        labels: labelizeRecord(registration)
+    },
+    sortBy: {
+        kind: queryParamsKind.selectOne,
+        label: "sortBy",
+        defaultValue: 'createdAt' as AdminSort,
+        options: adminSort,
+        labels: labelizeRecord(adminSort)
+    },
+    search: {
+        kind: queryParamsKind.text,
+        label: "Search",
+        placeholder: "Search"
+    },
+    isAscending: {
+        kind: queryParamsKind.boolean,
+        label: "Ascending",
+    },
+} satisfies QueryParamsFieldDefs

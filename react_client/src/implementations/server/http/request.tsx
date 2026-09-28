@@ -1,6 +1,6 @@
 import { config, logger } from "@/core";
 import { ServerException, AppException } from "@/core/errors";
-import { useAuthState } from '@/old_features/user';
+import { useAuthState } from '@/features/auth';
 
 export type { RequestOptions }
 export { refreshToken, request, getHealth, authRequest, actionRequest}

@@ -1,17 +1,16 @@
+import type { SubmitEvent } from 'react';
+
+import {
+    FormInputsForm,
+} from "@/hooks/FormInputs";
 
 import { ServerException } from "@/core"
 
-import {
-    EmailFormField,
-    PasswordFormField,
-} from "@/shared/FormFieldsComponent";
-import { ErrorMsg } from '@/shared';
-
-import type { Login } from "../schema";
 import { 
     useLoginMutation,
-    useLoginFormFields
+    useLoginFormInputs
 } from "../service";
+
 
 export { LoginForm }
 
@@ -21,14 +20,15 @@ function LoginForm( {onSubmit }: {
 }) {
     const loginMutation = useLoginMutation();
     const {
-        email, password, errorMsg, validate, reset, setErrorMsg, values
-    } = useLoginFormFields();
+        reset, setErrorMsg, getValidatedValues
+    } = useLoginFormInputs();
 
-	const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
+	const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!validate()) return
+        const values = getValidatedValues();
+        if (!values) return
  
-        loginMutation.mutate( values as Login, {
+        loginMutation.mutate( values, {
             onSuccess: () => {
                 reset()
                 onSubmit()
@@ -40,14 +40,11 @@ function LoginForm( {onSubmit }: {
         });
     };
 
-    return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <EmailFormField field={email} />
-            <PasswordFormField field={password} />
-
-            <ErrorMsg errorMsg={errorMsg} />
-
-            <button type="submit">Login</button>
-        </form>
+    return ( 
+        <FormInputsForm
+        formInputs={useLoginFormInputs()}
+        onSubmit={handleSubmit}
+        submitLabel="Login"
+        />
     )
 }

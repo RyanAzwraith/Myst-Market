@@ -6,18 +6,11 @@ import {
 } from '@tanstack/react-query'
 
 import { 
-    booleanFilter, 
-    selectMultipleFilter, 
-    selectOneFilter, 
-    textFilter, 
     useQueryParams 
-} from '@/utils/useQueryParams';
+} from '@/hooks/QueryParams';
 import { 
-    textField,
-    emailField,
-    passwordField,
-    useFormFields
-} from '@/utils/useFormFields';
+    useFormInputs
+} from '@/hooks/FormInputs';
 
 import { 
     logger,
@@ -34,12 +27,16 @@ import type {
 import {
     adminSort,
     registration,
+    registerFormFields,
+    setPasswordFormFields,
+    updateFormFields,
+    adminSearchParams,
 } from './schema';
 
 export { 
-    useRegisterFormFields,
-    useSetPasswordFormFields,
-    useUpdateFormFields,
+    useRegisterFormInputs,
+    useSetPasswordFormInputs,
+    useUpdateFormInputs,
     useAdminSearchParams,
 
     useCreateMutation,
@@ -56,71 +53,36 @@ export {
 }
 
 // Hooks
-function useRegisterFormFields() {
-    return useFormFields({
-        name: textField({
-            label: "Name",
-            placeholder: "Name",
-            validate: (v) => !v?.trim() ? "Name required" : null
-        }),
-        email: emailField({
-            label: "Email",
-            placeholder: "Email",
-        }),
+function useRegisterFormInputs() {
+    return useFormInputs<
+        typeof registerFormFields,
+        UserInput
+    >({
+        fields: registerFormFields
     })
 }
 
-function useSetPasswordFormFields() {
-    return useFormFields({
-        password: passwordField({
-            label: "Password",
-            validate: (v) => !v ? "Password required" : null
-        }),
-        rePassword: passwordField({
-            label: "Re-enter Password",
-            validate: (v) => !v ? "Re-enter Password required" : null
-        })
+function useSetPasswordFormInputs() {
+    return useFormInputs<
+        typeof setPasswordFormFields,
+        {password: string, rePassword: string}
+    >({
+        fields: setPasswordFormFields
     })
 }
 
-function useUpdateFormFields() {
+function useUpdateFormInputs() {
     const user = useAuthState(state => state.user)
-    return useFormFields({
-        name: textField({
-            label: "Name",
-            placeholder: "Name",
-            validate: (v) => !v?.trim() ? "Name required" : null,
-            initial: user?.name
-        }),
-        email: emailField({
-            label: "Email",
-            placeholder: "Email",
-            initial: user?.email
-        })
+    return useFormInputs<
+        ReturnType<typeof updateFormFields>,
+        UserInput
+    >({
+        fields: updateFormFields(user)
     })
 }
 
 function useAdminSearchParams() {
-    const filters = {
-        registration: selectMultipleFilter({
-            label: "Registration Type",
-            options: registration
-        }),
-        sortBy: selectOneFilter({
-            label: "sortBy",
-            defaultValue: 'createdAt' as AdminSort,
-            options: adminSort
-        }),
-        search: textFilter({
-            label: "Search",
-            placeholder: "Search"
-        }),
-        isAscending: booleanFilter({
-            label: "Ascending",
-        }),
-    }
-
-    return useQueryParams(filters, '/admin/users')
+    return useQueryParams(adminSearchParams, '/admin/users')
 }
 
 // Request

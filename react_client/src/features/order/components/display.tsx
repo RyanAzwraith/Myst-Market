@@ -1,7 +1,7 @@
 import { formatMoney } from '@/utils/formatMoney'
 import { listToRecord } from '@/utils/funcs';
 import { ChevronDownIcon, Display, List } from '@/shared';
-import { SelectEditComponent, SelectOneEditField } from '@/shared/SelectEditComponent';
+import { SelectEditComponent, SelectOneEditField } from '@/hooks/SelectEdit/SelectEditComponent';
 
 import {
     ItemCard,

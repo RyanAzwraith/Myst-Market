@@ -2,14 +2,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware';
 import { useMutation } from '@tanstack/react-query';
-
-import { 
-    emailField, 
-    passwordField, 
-    useFormFields, 
-    validateEmail 
-
-} from '@/utils/useFormFields';
+import { useFormInputs } from '@/hooks/FormInputs';
 
 import { server } from '@/core/server';
 
@@ -17,9 +10,10 @@ import type {
     User,
 } from './index'
 
-import type { 
-    AuthState,
-    Login,
+import { 
+    loginFormFields,
+    type AuthState,
+    type Login,
 } from './schema'
 
 
@@ -30,7 +24,7 @@ export {
     useLogoutMutation,
     useRefreshMutation,
 
-    useLoginFormFields,
+    useLoginFormInputs,
 }
 
 const useAuthState = create<AuthState>()(
@@ -89,16 +83,11 @@ function useRefreshMutation() {
 }
 
 // Hooks
-const useLoginFormFields = () => 
-    useFormFields({
-        email: emailField({
-            label: "Email",
-            placeholder: "Email",
-            validate: validateEmail,
-        }),
-        password: passwordField({
-            label: "Password",
-            placeholder: "Password",
-            validate: value => value ? null : "Password required",
-        }),
+const useLoginFormInputs = () => {
+    return useFormInputs<
+        typeof loginFormFields,
+        Login
+    >({
+        fields: loginFormFields,
     })
+}

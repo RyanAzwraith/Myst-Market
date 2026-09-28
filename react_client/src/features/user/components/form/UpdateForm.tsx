@@ -1,13 +1,15 @@
 import {
-    EmailFormField,
-    TextFormField,
-} from "@/shared/FormFieldsComponent";
+    EmailField,
+    FormInputsContainer,
+    FormInputsForm,
+    TextField,
+} from "@/hooks/FormInputs";
 import { ErrorMsg } from '@/shared';
 
 import { ServerException } from '@/core/errors';
 
 import { 
-    useUpdateFormFields, 
+    useUpdateFormInputs, 
     usePatchUserMutation
 } from '../../service';
 import type { UserInput } from '../../schema';
@@ -22,17 +24,21 @@ function UpdateForm({ onSubmit } : {
     onSubmit?: () => void
 }) {
     const updateProfileMutation = usePatchUserMutation();
+
+    const updateFormInputs = useUpdateFormInputs();
     const {
-        name, email, errorMsg, setErrorMsg, validate, values, reset
-    } = useUpdateFormFields();
+        setErrorMsg, reset, getValidatedValues
+    } = updateFormInputs;
 
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!validate()) return 
+        const values = getValidatedValues();
+        if (!values) return 
 
-        updateProfileMutation.mutate(values as Partial<UserInput>, {
+        updateProfileMutation.mutate(values, {
             onSuccess:  ({user}) => {
-                reset({email: user.email, name: user.name})
+                const { email, name } = user;
+                reset({email, name})
                 onSubmit?.()
             },
             onError: (error) => {
@@ -43,28 +49,12 @@ function UpdateForm({ onSubmit } : {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <TextFormField 
-            field={name} 
-            />
-            <EmailFormField
-            field={email}
-            />
-            
-            <ErrorMsg errorMsg={errorMsg} />
-
-            <button type="submit">
-                Save
-            </button>
-
-            <button 
-            type="button"
-            onClick={() => reset()}
-            >
-                Cancel
-            </button>
-            
-        </form>
+        <FormInputsForm
+        formInputs={updateFormInputs}
+        onSubmit={handleSubmit}
+        submitLabel="Save"
+        hasResetButton={true}
+        />
     );
 }
 

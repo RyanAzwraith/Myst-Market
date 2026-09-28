@@ -1,8 +1,8 @@
 
 import { 
-    PasswordFormField,
-    FormFieldsContainer
-} from "@/shared/FormFieldsComponent";
+    PasswordField,
+    FormInputsContainer
+} from "@/hooks/FormInputs";
 import { ErrorMsg } from "@/shared";
 
 import { ServerException } from "@/core";

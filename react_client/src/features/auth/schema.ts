@@ -1,10 +1,16 @@
 
+import { kind, type FieldDefs } from '@/hooks/FormInputs/schema'
 import type { User } from './index'
+
 
 export type {
     AuthState,
     Login,
 }
+export { 
+    loginFormFields 
+}
+
 
 // Domain
 type Login = {
@@ -23,3 +29,17 @@ type AuthState = {
     isLoggedIn: () => boolean
 }
 
+// Hooks
+const loginFormFields = {
+    email:{
+        kind: kind.email,
+        label: "Email",
+        placeholder: "Email",
+    },
+    password: {
+        kind: kind.password,
+        label: "Password",
+        placeholder: "Password",
+        validate: value => value ? null : "Password required",
+    },
+} satisfies FieldDefs

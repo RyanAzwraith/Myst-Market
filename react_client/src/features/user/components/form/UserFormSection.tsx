@@ -1,8 +1,8 @@
 import {
-    BooleanFormField,
-    EmailFormField,
-    TextFormField,
-} from "@/shared/FormFieldsComponent"
+    BooleanField,
+    EmailField,
+    TextField,
+} from "@/hooks/FormInputs"
 import { useAuthState } from "@/features/auth"
 import type { useCheckoutFormFields } from "../../index"
 export { UserFormSection }
@@ -25,9 +25,9 @@ function UserFormSection ({form} : {
         <section>
             <h2>Account Information</h2>
 
-            <TextFormField field={name} />
-            <EmailFormField field={email} />
-            <BooleanFormField field={isCreatingAccount} />
+            <TextField binding={name} />
+            <EmailField binding={email} />
+            <BooleanField binding={isCreatingAccount} />
         </section>
     )
 }

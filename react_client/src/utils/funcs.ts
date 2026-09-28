@@ -1,5 +1,5 @@
 
-function mapRecord<K extends string|number|symbol,T, U>(
+function mapRecord<K extends string|number|symbol, T, U>(
     record: Record<K, T>,
     mapper: (value: T, key: K) => U,
 ): Record<K, U> {
@@ -28,6 +28,11 @@ function listToRecord(list: any[], func: (item: any) => any[]) {
     )
 }
 
+function recordValues<T>(record: Record<any, T>): T[] {
+    return Object.values(record) as T[];
+}
+
+
 function swapRecord(
     record: Record<any, any>
 ) {
@@ -36,9 +41,25 @@ function swapRecord(
     )
 }
 
-
 function capitalizeString(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+function labelizeString(value: string): string {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/^./, char => char.toUpperCase());
+}
+
+function labelizeRecord<T extends Record<string, string>>(
+  record: T,
+): { [K in keyof T]: string } {
+  return Object.fromEntries(
+    Object.entries(record).map(([key, value]) => [
+      key,
+      labelizeString(value),
+    ]),
+  ) as { [K in keyof T]: string };
 }
 
 export {
@@ -46,6 +67,9 @@ export {
     mapToList,
     recordToList,
     listToRecord,
+    recordValues,
     swapRecord,
-    capitalizeString
+    capitalizeString,
+    labelizeString,
+    labelizeRecord
 }

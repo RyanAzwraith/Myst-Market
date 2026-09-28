@@ -11,7 +11,7 @@ import {
     selectOneFilter, 
     textFilter, 
     useQueryParams 
-} from "@/utils/useQueryParams"
+} from "@/hooks/QueryParams/useQueryParams"
 import { 
     numberField, 
     textField, 

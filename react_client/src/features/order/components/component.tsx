@@ -4,7 +4,7 @@ import {
     SelectMultipleFilterField,
     TextFilterField,
     QueryParamsContainer
-} from '@/shared/QueryParamsComponent';
+} from '@/hooks/QueryParams/QueryParamsComponent';
 
 import { useAdminSearchParams } from '../service';
 

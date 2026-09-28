@@ -9,7 +9,7 @@ import {
     NumberEditField, 
     SelectEditComponent, 
     TextEditField 
-} from "@/shared/SelectEditComponent"
+} from "@/hooks/SelectEdit/SelectEditComponent"
 
 
 import type { 

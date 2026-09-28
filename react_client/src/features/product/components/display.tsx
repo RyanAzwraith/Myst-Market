@@ -1,5 +1,5 @@
 
-
+import type { ReactNode } from "react";
 import { listToRecord } from "@/utils/funcs";
 import { 
     ChevronDownIcon,
@@ -11,7 +11,7 @@ import {
     NumberEditField, 
     SelectEditComponent, 
     SelectOneEditField 
-} from "@/shared/SelectEditComponent";
+} from "@/hooks/SelectEdit/SelectEditComponent";
 
 import { 
     type MediaDetail,
@@ -19,9 +19,7 @@ import {
 } from "../index";
 
 import type { 
-    SearchParams, 
     Product, 
-    AdminSearchParams
 } from "../schema";
 import { 
     useAdminSearchParams,
@@ -31,6 +29,7 @@ import {
     useSearchParams, 
     useSearchQuery 
 } from "../service";
+
 import { PriceFormat } from "./format";
 import { ProductCarousel } from "./media";
 import { AdminSearchParamsComponent } from "./components";
@@ -46,17 +45,15 @@ export {
 
 
 function SearchDisplay({ renderProduct }: {
-    renderProduct: (product: Product, image: MediaDetail | undefined) => React.ReactNode
+    renderProduct: (product: Product, image: MediaDetail | undefined) => ReactNode
 }) {
-    const {
-        categories, search, getParams
-    } = useSearchParams()
+    const { bindings: { categories, search }, values } = useSearchParams()
 
     const limit = 20
 
     const {
         data, fetchNextPage, hasNextPage 
-    } = useSearchQuery(limit, getParams() as SearchParams)
+    } = useSearchQuery(limit, values())
 
     const products = data?.pages.flatMap(page => page.products) ?? []
     const imagesRecord = listToRecord(
@@ -65,8 +62,8 @@ function SearchDisplay({ renderProduct }: {
     )
 
     const title = search.get() 
-        ? `Searching: ${search.get()}` 
-        : categories.get().join(', ') || "All Products"
+        ? `Searching: ${search.get() as string}` 
+        : (categories.get() as string[]).join(', ') || "All Products"
 
     return (
         <Display> 
@@ -118,19 +115,19 @@ function AdminSearchDisplay({ limit }: {
 }) {
     const params = useAdminSearchParams()
     const {
-        categories, getParams, rarities, search,
+        bindings:{categories, rarities, search }, values
     } = params;
 
     const { data, fetchNextPage, hasNextPage } = useAdminSearchQuery(
-        limit, getParams() as AdminSearchParams
+        limit, values()
     );
     const products = data?.pages.flatMap(page => page.products) ?? [];
 
     const selectEdit = useAdminSelectEdit(products);
 
     const title = search.get()
-        ? `Searching: ${search.get()}`
-        : categories.get().concat(rarities.get()).join(', ')
+        ? `Searching: ${search.get() as string}`
+        : (categories.get() as string[]).concat(rarities.get() as string[]).join(', ')
         || 'All Products';
 
   return (

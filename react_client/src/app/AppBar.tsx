@@ -9,7 +9,7 @@ import { CartButton } from "@/features/item";
 
 import { useAuthState } from "@/features/user";
 import { useSearchParams } from "@/features/product";
-import { TextFilterField } from "@/shared/QueryParamsComponent";
+import { TextFilterField } from "@/hooks/QueryParams/QueryParamsComponent";
 import { List } from "@/shared/elements/list";
 
 

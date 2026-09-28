@@ -6,12 +6,8 @@ import {
 } from '@tanstack/react-query';
 
 import { 
-    booleanFilter,
-    selectOneFilter,
-    selectMultipleFilter,
-    textFilter,
     useQueryParams,
-} from '@/utils/useQueryParams';
+} from '@/hooks/QueryParams';
 import {
   numberField,
   selectOneField,
@@ -21,17 +17,15 @@ import {
 import { server } from '@/core/server';
 
 import type { 
-    Sort, 
-    SearchParams,
-    AdminSort,
-    AdminSearchParams,
     ProductAnalytics,
+    SearchParams,
+    AdminSearchParams,
 } from './schema';
 import { 
-    adminSort,
     categories,
     rarities,
-    sort,
+    queryParamFields,
+    adminQueryParamFields,
 } from './schema';
 
 
@@ -61,62 +55,12 @@ export {
 
 // Hooks
 function useSearchParams() {
-    const filters = {
-        categories: selectMultipleFilter({
-            label: "Category",
-            options: categories,
-        }),
-        rarities: selectMultipleFilter({
-            label: "Rarity",
-            options: rarities,
-        }),
-        sort: selectOneFilter<Sort>({
-            label: "sort By",
-            defaultValue: sort.popularity,
-            options: sort
-        }),        
-        isAscending: booleanFilter({
-            label: "Ascending",
-        }),
-        search: textFilter({
-            label: "Search",
-            placeholder: "Search products"
-        }),
-    }
-
-    return useQueryParams(filters, '/shop')
+    return useQueryParams(queryParamFields, '/shop');
 }
 
 function useAdminSearchParams() {
-
-    const filters = {
-        isDiscontinued: booleanFilter({
-            label: "Discontinued",
-        }),
-        sort: selectOneFilter<AdminSort>({
-            label: "Sort By",
-            defaultValue: 'newest' as AdminSort,
-            options: adminSort
-        }),
-        categories: selectMultipleFilter<string>({
-            label: 'Categories',
-            options: categories
-        }),
-        rarities: selectMultipleFilter<string>({
-            label: 'Rarities',
-            options: rarities
-        }),
-        search: textFilter({
-            label: "Search",
-            placeholder: "Search"
-        }),
-        isAscending: booleanFilter({
-            label: "Ascending",
-        }),
-    }
-
-    return useQueryParams(filters, '/admin/products')
-}   
+    return useQueryParams(adminQueryParamFields, '/shop');
+}
 
 function useAdminSelectEdit(products: ProductAnalytics[]) {
     const { mutate: patchProducts } = usePatchProductsMutation();

@@ -2,8 +2,8 @@
 import { useState } from "react"
 
 import {
-    TextFormField,
-} from "@/shared/FormFieldsComponent"
+    TextField,
+} from "@/hooks/FormInputs"
 import { ErrorMsg } from "@/shared/elements/text"
 
 import {
@@ -89,12 +89,12 @@ function AccountFormSection({form}: {
     return (
         <section>
             <h2>Delivery Information</h2>
-            <TextFormField field={country_code} />
-            <TextFormField field={postcode} />
-            <TextFormField field={state} />
-            <TextFormField field={city} />
-            <TextFormField field={street} />
-            <TextFormField field={deliveryNotes} />
+            <TextField binding={country_code} />
+            <TextField binding={postcode} />
+            <TextField binding={state} />
+            <TextField binding={city} />
+            <TextField binding={street} />
+            <TextField binding={deliveryNotes} />
         </section>
 
     )

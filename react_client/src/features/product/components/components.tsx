@@ -1,10 +1,5 @@
-import { 
-    BooleanFilterField, 
-    QueryParamsContainer, 
-    SelectMultipleFilterField, 
-    SelectOneFilterField, 
-    TextFilterField
-} from "@/shared/QueryParamsComponent";
+
+import { QueryParamFields } from "@/hooks/QueryParams";
 
 import {    
     useAdminSearchParams,
@@ -18,33 +13,11 @@ export {
 }
 
 function SearchParamsComponent() {
-    const {
-        categories, rarities, sort, isAscending
-    } = useSearchParams()
-
-    return (
-        <QueryParamsContainer> 
-            <SelectMultipleFilterField accessor={categories}/>
-            <SelectMultipleFilterField accessor={rarities}/>
-            <SelectOneFilterField accessor={sort}/>
-            <BooleanFilterField accessor={isAscending}/>
-        </QueryParamsContainer>
-    )
+    const { bindings: { search, ...bindings } } = useSearchParams()
+    return <QueryParamFields bindings={bindings} />
 }
 
 function AdminSearchParamsComponent() {
-    const {
-        categories, isAscending, isDiscontinued, rarities, search, sort,
-    } = useAdminSearchParams();
-
-    return (
-      <QueryParamsContainer>
-        <TextFilterField accessor={search} />
-        <SelectMultipleFilterField accessor={categories} />
-        <SelectMultipleFilterField accessor={rarities} />
-        <SelectOneFilterField accessor={sort} />
-        <BooleanFilterField accessor={isDiscontinued} />
-        <BooleanFilterField accessor={isAscending} />
-      </QueryParamsContainer>
-    )
+    const { bindings: { search, ...bindings } } = useAdminSearchParams()
+    return <QueryParamFields bindings={bindings} />
 }

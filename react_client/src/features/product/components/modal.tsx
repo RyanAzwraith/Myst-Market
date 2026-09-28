@@ -7,12 +7,12 @@ import {
   NumberFormField,
   TextAreaFormField,
   TextFormField,
-} from "@/shared/FormFieldsComponent";
+} from "@/hooks/FormFields/FormFieldsComponent";
 import {
   numberField,
   textField,
   useFormFields,
-} from "@/utils/useFormFields";
+} from "@/hooks/FormFields/useFormFields";
 
 import type { Product } from "../schema";
 import { 
