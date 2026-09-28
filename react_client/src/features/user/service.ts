@@ -15,6 +15,7 @@ import {
 import { 
     logger,
     server,
+    ServerException,
 } from '@/core';
 
 import { useAuthState } from './index';
@@ -32,6 +33,7 @@ import {
     updateFormFields,
     adminSearchParams,
 } from './schema';
+import type { OnSubmit, FieldValues } from '@/hooks/FormInputs/schema';
 
 export { 
     useRegisterFormInputs,
@@ -53,31 +55,72 @@ export {
 }
 
 // Hooks
-function useRegisterFormInputs() {
-    return useFormInputs<
-        typeof registerFormFields,
-        UserInput
-    >({
-        fields: registerFormFields
+function useRegisterFormInputs(onSuccess?: () => void) {
+    const { mutate } = useCreateMutation();
+
+    const handleSubmit: OnSubmit<typeof registerFormFields> = ( 
+        values, setErrorMsg,
+    ) => mutate(
+        values as UserInput, {
+            onError(error) {
+                if (error instanceof ServerException)
+                    setErrorMsg(error.message);
+            },
+            onSuccess() {
+                onSuccess?.();
+            }
+    })
+
+    return useFormInputs({
+        fields: registerFormFields,
+        onSubmit: handleSubmit
     })
 }
 
-function useSetPasswordFormInputs() {
-    return useFormInputs<
-        typeof setPasswordFormFields,
-        {password: string, rePassword: string}
-    >({
-        fields: setPasswordFormFields
+function useSetPasswordFormInputs(onSuccess?: () => void) {
+    const { mutate } = usePatchUserPasswordMutation();
+
+    const handleSubmit: OnSubmit<typeof setPasswordFormFields> = ( 
+        values, setErrorMsg,
+    ) => mutate(
+        values.password as string, {
+            onError(error) {
+                if (error instanceof ServerException)
+                    setErrorMsg(error.message);
+            },
+            onSuccess() {
+                onSuccess?.();
+            }
+    })
+
+    return useFormInputs({
+        fields: setPasswordFormFields,
+        onSubmit: handleSubmit
     })
 }
 
-function useUpdateFormInputs() {
+function useUpdateFormInputs(onSuccess?: () => void) {
     const user = useAuthState(state => state.user)
-    return useFormInputs<
-        ReturnType<typeof updateFormFields>,
-        UserInput
-    >({
-        fields: updateFormFields(user)
+    const { mutate } = usePatchUserMutation();
+
+    const handleSubmit: OnSubmit<ReturnType<typeof updateFormFields>> = ( 
+        values, setErrorMsg, reset
+    ) => mutate(
+        values as UserInput, {
+            onError(error) {
+                if (error instanceof ServerException)
+                    setErrorMsg(error.message);
+            },
+            onSuccess({user}) {
+                const { email, name } = user
+                reset({email, name})
+                onSuccess?.();
+            }
+    })
+
+    return useFormInputs({
+        fields: updateFormFields(user),
+        onSubmit: handleSubmit
     })
 }
 

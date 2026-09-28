@@ -1,8 +1,9 @@
 import type { 
     SubmitEvent,
     Dispatch,
-    SetStateAction
+    SetStateAction,
 } from 'react';
+
 import { 
     useMemo, 
     useState, 
@@ -18,6 +19,7 @@ import type {
     Bindings,
     Binding,
     FormInputs,
+    OnSubmit,
 } from './schema'
 
 export {
@@ -30,10 +32,11 @@ function useFormInputs<
     F extends FieldDefs, 
     S extends FieldValues<F>
 >({ 
-    fields, handleValidate
+    fields, onValidate, onSubmit
 }:{
     fields: F,
-    handleValidate?: (values: FieldValues<F>) =>  string | null;
+    onValidate?: (values: FieldValues<F>) =>  string | null;
+    onSubmit?: OnSubmit<F>
 }): FormInputs<F, S> {
 
     const initialValues = useMemo( () =>
@@ -56,36 +59,44 @@ function useFormInputs<
         setErrorMsg(null);
     };
 
-    const validate = (values?: FieldValues<F>) => {
+    const validate = () => {
+        const values = mapRecord(fields, (field, key) => 
+            fieldValues[key] ??
+            ("defaultValue" in field
+                ? field.defaultValue
+                : null)
+        ) as FieldValues<F>
+        
         let error = null;
         for (const [key, field] of Object.entries(fields)) {
-            const value = values?.[key] ?? fieldValues[key];
-            let validation = null;
-            if (field.kind === 'email') validation = validateEmail(value);
-            validation = field.validate?.(value);
-            if (validation) {
-                setErrorMsg(validation);
-                error = validation;
+            const value = values[key];
+
+            if (field.kind === 'email') error = validateEmail(value);
+
+            error = field.validate?.(value);
+            if (error) {
+                setErrorMsg(error);
                 return error;
             }
         }
-        error = handleValidate?.(values ?? fieldValues) ?? null;
-        setErrorMsg(error);
-        return error;
-    };
 
-    const getValidatedValues = () => {
-        const values = mapRecord( fields, (field, key) => 
-            fieldValues[key as keyof F] ??( 
-                "defaultValue" in field
-                ? field.defaultValue
-                : null
-            )
-        ) as FieldValues<F>;
-        const error = validate(values);
-        if (error) return null;
-        return values as S; // This is not guaranteed, must test validate function
+        error = onValidate?.(values) ?? null;
+
+        if (error) {
+            setErrorMsg(error);
+            return error;
+        } 
+        setErrorMsg(null);
+        setFieldValues(values as S);
+        return null;
     }
+
+    const handleSubmit = ( event: SubmitEvent<HTMLFormElement> ) => {
+        event.preventDefault();
+        if (validate()) return;
+        onSubmit?.(fieldValues, setErrorMsg, reset);
+        reset()
+    };
 
     const bindings = useMemo(() =>
         mapRecord(fields, (field, key) =>
@@ -105,7 +116,7 @@ function useFormInputs<
         setErrorMsg,
         reset,
         validate,
-        getValidatedValues,
+        handleSubmit,
     };
 }
 

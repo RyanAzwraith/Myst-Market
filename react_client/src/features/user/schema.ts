@@ -1,6 +1,6 @@
 import { 
     kind as formInputsKind, 
-    type FieldDefs as FromInputsFieldDefs
+    type FieldDefs as FormInputsFieldDefs
 } from "@/hooks/FormInputs";
 import { 
     kind as queryParamsKind, 
@@ -97,7 +97,6 @@ type AdminSearchParams = {
 }
 
 // Hooks
-// Hooks
 const registerFormFields = {
     name: {
         kind: formInputsKind.text,
@@ -110,7 +109,7 @@ const registerFormFields = {
         label: "Email",
         placeholder: "Email",
     },
-} satisfies FromInputsFieldDefs
+} satisfies FormInputsFieldDefs
 
 const setPasswordFormFields = {
     password: {
@@ -123,7 +122,7 @@ const setPasswordFormFields = {
         label: "Re-enter Password",
         validate: (v) => !v ? "Re-enter Password required" : null
     }
-} satisfies FromInputsFieldDefs
+} satisfies FormInputsFieldDefs
 
 const updateFormFields = (user: User | null) => ({
     name: {
@@ -139,7 +138,7 @@ const updateFormFields = (user: User | null) => ({
         placeholder: "Email",
         initial: user?.email
     }
-} satisfies FromInputsFieldDefs)
+} satisfies FormInputsFieldDefs)
 
 const adminSearchParams = {
     registration: {

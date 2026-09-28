@@ -10,7 +10,7 @@ function mapRecord<K extends string|number|symbol, T, U>(
     ) as Record<K, U>;
 }
 
-function mapToList<K extends string|number|symbol, T, U>(
+function mapRecordtoList<K extends string|number|symbol, T, U>(
     record: Record<K, T>,
     mapper: (value: T, key: K) => U,
 ): U[] {
@@ -64,7 +64,7 @@ function labelizeRecord<T extends Record<string, string>>(
 
 export {
     mapRecord, 
-    mapToList,
+    mapRecordtoList,
     recordToList,
     listToRecord,
     recordValues,

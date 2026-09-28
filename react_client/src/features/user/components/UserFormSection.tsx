@@ -4,7 +4,7 @@ import {
     TextField,
 } from "@/hooks/FormInputs"
 import { useAuthState } from "@/features/auth"
-import type { useCheckoutFormFields } from "../../index"
+import type { useCheckoutFormFields } from "../index"
 export { UserFormSection }
 
 function UserFormSection ({form} : {

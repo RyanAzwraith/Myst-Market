@@ -237,10 +237,7 @@ function FormInputsContainer({
 }) {
     return (
         <form 
-        onSubmit={event => {
-            event.preventDefault();
-            submit?.(event);
-        }}
+        onSubmit={event => submit?.(event)}
         >
             {children}
         </form>
@@ -250,31 +247,30 @@ function FormInputsContainer({
 function FormInputsField({ binding }: {
   binding: Binding<FieldDef>;
 }) {
-  switch (binding.kind) {
-    case kind.boolean: return <BooleanField binding={binding} />;
-    case kind.text: return <TextField binding={binding} />;
-    case kind.email: return <EmailField binding={binding} />;
-    case kind.password: return <PasswordField binding={binding} />;    
-    case kind.number: return <NumberField binding={binding} />;
-    case kind.selectOne: return <SelectOneField binding={binding} />;
-    case kind.selectMultiple: return <SelectMultipleField binding={binding} />;
-    default: throw new Error("Unsupported field kind");
-  }
+    switch (binding.kind) {
+        case kind.boolean: return <BooleanField binding={binding} />;
+        case kind.text: return <TextField binding={binding} />;
+        case kind.email: return <EmailField binding={binding} />;
+        case kind.password: return <PasswordField binding={binding} />;    
+        case kind.number: return <NumberField binding={binding} />;
+        case kind.selectOne: return <SelectOneField binding={binding} />;
+        case kind.selectMultiple: return <SelectMultipleField binding={binding} />;
+        default: throw new Error("Unsupported field kind");
+    }
 }
 
 function FormInputsForm({
-    formInputs, onSubmit, submitLabel="Submit", hasResetButton=false
+    formInputs, submitLabel="Submit", hasResetButton=false
 }: {
     formInputs: FormInputs<FieldDefs, FieldValues<FieldDefs>>
-    onSubmit: ( event: SubmitEvent<HTMLFormElement>) => void,
     submitLabel?: string,
     hasResetButton?: boolean,
 }) {
     const { 
-        bindings, errorMsg, reset,
+        bindings, errorMsg, reset, handleSubmit,
     } = formInputs;
     return (
-        <FormInputsContainer submit={onSubmit}>
+        <FormInputsContainer submit={handleSubmit}>
             <List
             items={recordToList(bindings)}
             renderItem={([_, binding]) => 

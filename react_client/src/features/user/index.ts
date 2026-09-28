@@ -41,7 +41,7 @@ export {
 } from './components/form/SetPasswordForm'
 export {
     RegisterForm
-} from './components/form/RegisterForm'
+} from './components/RegisterForm'
 export {
     UpdateForm
 } from './components/form/UpdateForm'
@@ -56,4 +56,4 @@ export {
 } from './components/section'
 export {
     UserFormSection,
-} from './components/form/UserFormSection'
+} from './components/UserFormSection'

@@ -1,7 +1,7 @@
 import type { 
     Dispatch, 
     SetStateAction, 
-    SubmitEvent 
+    SubmitEventHandler
 } from "react";
 
 export type {
@@ -12,6 +12,7 @@ export type {
     FormInputs,
     Bindings,
     Binding,
+    OnSubmit,
 
     BooleanFieldDef,
     TextFieldDef,
@@ -20,6 +21,7 @@ export type {
     NumberFieldDef,
     SelectOneFieldDef,
     SelectMultipleFieldDef,
+    
 }
 export {
     kind
@@ -140,8 +142,8 @@ type FormInputs<
     errorMsg: string | null,
     setErrorMsg: Dispatch<SetStateAction<string | null>>;
     reset: (newInitialValues?: Partial<FieldValues<F>>) => void;
-    validate: () => string | null,
-    getValidatedValues: () => S | null,
+    validate: () => string | null;
+    handleSubmit: SubmitEventHandler<HTMLFormElement>;
 };
 
 type Bindings<F extends FieldDefs> = {
@@ -167,4 +169,9 @@ type FieldValues<F extends FieldDefs> = {
     [K in keyof F]: FieldValue<F[K]>
 };
 
+type OnSubmit<F extends FieldDefs> = (
+    values: FieldValues<F>, 
+    setErrorMsg: Dispatch<SetStateAction<string | null>>, 
+    reset: (newInitialValues?: Partial<FieldValues<F>>) => void,
+) => void;
 
