@@ -10,7 +10,6 @@ import type {
     NumberFieldDef,
     SelectOneFieldDef,
     SelectMultipleFieldDef,
-    Bindings,
     FieldDef,
     FieldDefs,
     SelectEdit,
@@ -242,13 +241,12 @@ function SelectEditField({ binding }: {
 }
 
 function SelectEditDisplay<F extends FieldDefs>({
-    bindings, elements, selectEdit
+    elements, selectEdit
 }:{
-    bindings: Bindings<F>,
     elements: ReactNode[]
     selectEdit: SelectEdit<F>
 }) {
-    const { isAllSelected, toggleSelectAll, selectedIds, submit } = selectEdit;
+    const { bindings, isAllSelected, toggleSelectAll, selectedIds, submit } = selectEdit;
     return (
         <SelectEditContainer>
             <fieldset>

@@ -1,3 +1,4 @@
+import { listToRecord } from '@/utils/funcs';
 import { 
     useInfiniteQuery, 
     useMutation, 
@@ -5,98 +6,38 @@ import {
     useQueryClient 
 } from '@tanstack/react-query';
 
-import { 
-    useQueryParams,
-} from '@/hooks/QueryParams';
-import {
-  numberField,
-  selectOneField,
-  useSelectEdit,
-} from '@/utils/useSelectEdit';
-
 import { server } from '@/core/server';
 
+import type { MediaDetail } from './index';
+
 import type { 
-    ProductAnalytics,
     SearchParams,
     AdminSearchParams,
-} from './schema';
-import { 
-    categories,
-    rarities,
-    queryParamFields,
-    adminQueryParamFields,
 } from './schema';
 
 
 export {
-    useSearchParams,
-    useAdminSearchParams,
-    useAdminSelectEdit,
-    
     useProductQuery,
-    useProductImageQuery,
-    useProductMediasQuery,
-    useProductAnalyticsQuery,
+    useImageQuery,
+    useMediasQuery,
+    useAnalyticsQuery,
     useReviewsQuery,
-    usePostProductMutation,
-    usePatchProductMutation,
-    useDeleteProductMutation,
+    usePostMutation,
+    usePatchMutation,
+    useDeleteMutation,
     useSearchQuery,
     useAdminSearchQuery,
-    useFeaturedProductsQuery,
-    usePopularProductsQuery,
-    useNewestProductsQuery,
-    useTopProductsQuery,
-    usePatchProductsMutation,
-    useImportProductsMutation,
-    useExportProductsMutation,
-}
-
-// Hooks
-function useSearchParams() {
-    return useQueryParams(queryParamFields, '/shop');
-}
-
-function useAdminSearchParams() {
-    return useQueryParams(adminQueryParamFields, '/shop');
-}
-
-function useAdminSelectEdit(products: ProductAnalytics[]) {
-    const { mutate: patchProducts } = usePatchProductsMutation();
-    const editFields = {
-        categoryName: selectOneField({
-            label: 'Category',
-            options: categories,
-        }),
-        rarityName: selectOneField({
-            label: 'Rarity',
-            options: rarities,
-        }),
-        priceAudCent: numberField({
-            label: 'Price (cents)',
-            step: 1,
-        }),
-            stock: numberField({
-            label: 'Stock',
-            step: 1,
-        }),
-    };
-
-    return useSelectEdit({
-        ids: new Set(products.map(product => String(product.id))),
-        FieldFactories: editFields,
-        handleSubmit: (selectedIds, fieldValues) => {
-        patchProducts({
-            productIds: [...selectedIds].map(Number),
-            ...fieldValues,
-        });
-        },
-    });
+    useFeaturedQuery,
+    usePopularQuery,
+    useNewestQuery,
+    useTopQuery,
+    usePatchManyMutation,
+    useImportMutation,
+    useExportMutation,
 }
 
 
-// Requests
+// Queries
 function useProductQuery(slug?: string)  {
     return useQuery({
         queryKey: ["product", slug],
@@ -107,29 +48,30 @@ function useProductQuery(slug?: string)  {
     })
 }
 
-function useProductImageQuery(id: number)  {
+function useImageQuery(id: number)  {
     return useQuery({
-        queryKey: ["product", id],
+        queryKey: ["product", "image", id],
         queryFn: () => 
             server.product.getImage(id),
         select: data => data.media
     })
 }
 
-function useProductMediasQuery(id: number)  {
+function useMediasQuery(id: number)  {
     return useQuery({
-        queryKey: ["product", id],
+        queryKey: ["product", "medias", id],
         queryFn: () => 
             server.product.getMedias(id),
         select: data => data.medias
     })
 }
 
-function useProductAnalyticsQuery(id?: number) {
+function useAnalyticsQuery(id?: number) {
     return useQuery({
         queryKey: ['admin', 'product-analytics', id],
         queryFn: () => server.product.getAnalytics(id!),
         enabled: !!id,
+        select: data => data.product
     })
 }
 
@@ -140,7 +82,108 @@ function useReviewsQuery(id: number) {
     })
 }
 
-function usePostProductMutation() {
+function useSearchQuery(
+    limit: number | null = null,
+    searchParams?: SearchParams,
+) {
+    return useInfiniteQuery({
+        queryKey: ['products', { ...searchParams, limit }],
+        queryFn: ({ pageParam }) => 
+            server.products.search({
+                searchParams: searchParams ?? null,
+                limit: limit,
+                offset: pageParam ?? 0,
+            }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => 
+            (lastPage.hasMore && limit) ?  (pages.length * limit) : undefined,
+        select: (data) => ({
+            ...data,
+            products: data.pages.flatMap(page => page.products),
+            images: listToRecord(
+                data.pages.flatMap(page => page.images),
+                (image: MediaDetail) => [image.entityId, image],
+            ),
+        })
+    })
+}
+
+function useAdminSearchQuery(
+    limit: number | null = null,
+    searchParams?: AdminSearchParams,
+) {
+    return useInfiniteQuery({
+        queryKey: ['products', "admin", { ...searchParams, limit }],
+        queryFn: ({ pageParam }) => 
+            server.products.adminSearch({
+                searchParams: searchParams ?? null,
+                limit: limit,
+                offset: pageParam ?? 0,
+            }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => 
+            (lastPage.hasMore && limit) ?  (pages.length * limit) : undefined,
+        select: (data) => ({
+            ...data,
+            products: data.pages.flatMap(page => page.products),
+        })
+    })
+}
+
+function useFeaturedQuery(
+    limit: number
+) {
+    return useQuery ({
+        queryKey: ["featuredProduct"],
+        queryFn: () => server.products.retrieveFeatured({ limit }),
+        select: data => ({ 
+            products: data.products,
+            images: listToRecord(data.images, (item) => [item.entityId, item]),
+        })
+    })
+}
+
+function usePopularQuery(    
+    limit: number,
+) {
+    return useQuery({
+        queryKey: ['popularProducts'],
+        queryFn: () => server.products.retrievePopular({ limit }),
+        select: data => ({ 
+            products: data.products,
+            images: listToRecord(data.images, (item) => [item.entityId, item]),
+        })
+    })
+}  
+
+function useNewestQuery(    
+    limit: number,
+) {
+    return useQuery({
+        queryKey: ['newestProducts'],
+        queryFn: () => server.products.retrieveNewest({ limit }),
+        select: data => ({ 
+            products: data.products,
+            images: listToRecord(data.images, (item) => [item.entityId, item]),
+        })
+    })
+}  
+
+function useTopQuery(
+    limit: number,
+) {
+    return useQuery({
+        queryKey: ['admin', 'topProducts'],
+        queryFn: () => server.products.retrieveMostSoldProducts({ limit }),
+        select: data => ({ 
+            products: data.products,
+            images: listToRecord(data.images, (item) => [item.entityId, item]),
+        })
+    })
+}
+
+// Mutations
+function usePostMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (req: {
@@ -160,7 +203,7 @@ function usePostProductMutation() {
     })
 }
 
-function usePatchProductMutation(id: number) {
+function usePatchMutation(id: number) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn :(req: Partial<{
@@ -183,7 +226,7 @@ function usePatchProductMutation(id: number) {
     })
 }
 
-function useDeleteProductMutation() {
+function useDeleteMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (id: number) => server.product.delete(id),
@@ -195,77 +238,7 @@ function useDeleteProductMutation() {
     })
 }
 
-function useSearchQuery(
-    limit: number | null = null,
-    searchParams?: SearchParams,
-) {
-    return useInfiniteQuery({
-        queryKey: ['products', { ...searchParams, limit }],
-        queryFn: ({ pageParam }) => 
-            server.products.search({
-                searchParams: searchParams ?? null,
-                limit: limit,
-                offset: pageParam ?? 0,
-            }),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) => 
-            (lastPage.hasMore && limit) ?  (pages.length * limit) : undefined
-    })
-}
-
-function useAdminSearchQuery(
-    limit: number | null = null,
-    searchParams?: AdminSearchParams,
-) {
-    return useInfiniteQuery({
-        queryKey: ['products', { ...searchParams, limit }],
-        queryFn: ({ pageParam }) => 
-            server.products.adminSearch({
-                searchParams: searchParams ?? null,
-                limit: limit,
-                offset: pageParam ?? 0,
-            }),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) => 
-            (lastPage.hasMore && limit) ?  (pages.length * limit) : undefined
-    })
-}
-
-function useFeaturedProductsQuery(
-    limit: number
-) {
-    return useQuery ({
-        queryKey: ["featuredProduct"],
-        queryFn: () => server.products.retrieveFeatured({ limit }),
-    })
-}
-
-function usePopularProductsQuery(    
-    limit: number,
-) {
-    return useQuery({
-        queryKey: ['popularProducts', limit],
-        queryFn: () => server.products.retrievePopular({ limit }),
-    })
-}  
-
-function useNewestProductsQuery(    
-    limit: number,
-) {
-    return useQuery({
-        queryKey: ['newestProducts', limit],
-        queryFn: () => server.products.retrieveNewest({ limit }),
-    })
-}  
-
-function useTopProductsQuery() {
-    return useQuery({
-        queryKey: ['admin', 'dashboard', 'top-products'],
-        queryFn: () => server.products.retrieveMostSoldProducts({ limit: 5 }),
-    })
-}
-
-function usePatchProductsMutation() {
+function usePatchManyMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (req : Partial<{
@@ -280,13 +253,13 @@ function usePatchProductsMutation() {
                 queryKey: ['admin', 'products']
             })
             queryClient.invalidateQueries({
-                queryKey: ['admin', 'product-analytics']
+                queryKey: ['admin', 'productAnalytics']
             })
         }
     })
 }
 
-function useImportProductsMutation() {
+function useImportMutation() {
     const { invalidateQueries } = useQueryClient()
     return useMutation({
         mutationFn: (file: File) => 
@@ -297,7 +270,7 @@ function useImportProductsMutation() {
     })
 }
 
-function useExportProductsMutation() {
+function useExportMutation() {
     return useMutation({
         mutationFn: () => 
             server.products.export(),

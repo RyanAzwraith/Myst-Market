@@ -12,6 +12,7 @@ import type {
     Bindings,
     FieldDef,
     FieldDefs,
+    QueryParams,
 } from './schema';
 import { kind } from './schema';
 
@@ -166,9 +167,10 @@ function QueryParamField({ binding }: {
   }
 }
 
-function QueryParamFields ({ bindings }:{
-    bindings: Bindings<FieldDefs>
+function QueryParamFields ({queryParams} : {
+    queryParams: QueryParams<FieldDefs>
 }) {
+    const { bindings } = queryParams;
     return (
         <QueryParamsContainer>
             <List

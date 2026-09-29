@@ -21,11 +21,11 @@ export {
 export {
     ItemCard,
     ItemWithXCard
-} from './components/card'
+} from './components_old/card'
 export {
     CartFormSection,
-} from './components/form'
+} from './components_old/form'
 export {
     CartButton,
     AddToCartButton,
-} from './components/button'
+} from './components_old/button'

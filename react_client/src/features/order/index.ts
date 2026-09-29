@@ -36,18 +36,18 @@ export type {
 } from './schema'
 export {
     RecentOrdersSection
-} from './components/section'
+} from './components_old/section'
 
 export {
     OrderCard
-} from './components/card'
+} from './components_old/card'
 export {
     OrderDisplay,
     AdminSearchDisplay
-} from './components/display'
+} from './components_old/display'
 export {
     useCheckoutFormFields
 } from './service'
 export {
     CheckoutForm
-} from './components/form'
+} from './components_old/form'

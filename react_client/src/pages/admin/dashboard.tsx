@@ -1,12 +1,15 @@
-import { Page } from "@/shared/elements/page"
+import { Page } from "@/shared"
 
-import { TopProductsSection } from "@/features/product"
+import { TopLoader } from "@/features/product"
 import { RecentOrdersSection } from "@/features/order"
 import { 
     Performance, 
     Graph, 
     RequiresAttention 
 } from "@/features/app"
+import { PerformanceInfo } from "@/features/product"
+import { List } from "@/shared"
+import type { ProductAnalytics } from "@/features/product/schema"
 
 export { DashboardPage }
 
@@ -21,7 +24,21 @@ function DashboardPage() {
 			</div>
 			<div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
 				<RecentOrdersSection />
-				<TopProductsSection />
+
+            	<h2>Top Products</h2>
+
+				<TopLoader 
+				limit={3}
+				render={({ products }) => 
+					<List
+					items={products}
+					renderItem={(product) => (
+						<PerformanceInfo 
+						product={product as ProductAnalytics} 
+						/>
+					)}/>
+				}/>
+
 			</div>
         </Page>
     )

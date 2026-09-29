@@ -23,8 +23,8 @@ const PageRoutes = {
 	default: "*",
 	catalogue: "/catalogue",
 	shop: "/shop",
-	product: "/product",
-	sale: "/sale",
+	product: (slug: string) => `/product/${slug}`,
+	sale: (slug: string) => `/sale/${slug}`,
 	checkout: "/checkout",
 	register: "/register",
 	profile: "/profile",
@@ -64,7 +64,7 @@ function PageRoutesComponent() {
 				<ProductPage />
 			} />
 
-			<Route path={PageRoutes.sale+'/:slug'} element={
+			<Route path={PageRoutes.sale(':slug')} element={
 				<SalePage />
 			} />
 

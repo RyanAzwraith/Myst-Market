@@ -1,10 +1,5 @@
 
 import type { DateStr } from "@/utils/DateStr"
-import { labelizeRecord } from "@/utils/funcs"
-import type { 
-    FieldDefs as QueryParamsFieldDefs, 
-} from "@/hooks/QueryParams"
-import { kind } from "@/hooks/QueryParams"
 
 import type { SaleSummary } from "./index"
 
@@ -17,8 +12,10 @@ export type {
     Product,
     ProductSummary,
     ProductAnalytics,
+    ProductFields,
     SearchParams,
     AdminSearchParams
+    
 }
 export {
     categories,
@@ -26,21 +23,22 @@ export {
     raritiesOrder,
     sort,
     adminSort,
-    queryParamFields,
-    adminQueryParamFields,
 }
 
-// Domain
 
-type Product = {
-    id: number
+// Domain
+type ProductFields = { 
     name: string
     categoryName: string
     rarityName: string
     priceAudCent: number
     slug: string
     description: string
-    stock:number
+    stock: number
+}
+
+type Product = ProductFields & {
+    id: number
     discountedPrice: number | null
     sale: SaleSummary | null
 }
@@ -52,20 +50,9 @@ type ProductSummary = {
     slug: string
 }
 
-type ProductAnalytics = {
-    id: number
-    name: string
-    categoryName: string
-    rarityName: string
-    priceAudCent: number
-    slug: string
-    description: string
-    stock:number
-    discountedPrice: number | null
-    sale: SaleSummary | null
+type ProductAnalytics = Product & {
     discontinuedAt: DateStr | null
     createdAt: DateStr
-
     unitsSold: number,
     revenue: number,
     orderCount: number,
@@ -75,6 +62,22 @@ type ProductAnalytics = {
     reviews: number,
 } 
 
+type SearchParams = {
+    categories: Category[],
+    rarities: Rarity[],
+    sort: Sort,
+    isAscending: boolean,
+    search: string,
+}
+
+type AdminSearchParams = {
+    sort: AdminSort,
+    categories: Category[],
+    rarities: Rarity[],
+    search: string,
+    isDiscontinued: boolean,
+    isAscending: boolean,
+};
 
 // Enum
 const categories = {
@@ -129,94 +132,9 @@ const adminSort  = {
     onSale: "onSale",
 } as const  
 
-type AdminSort = keyof typeof adminSort
+type AdminSort = typeof adminSort [keyof typeof adminSort ]
 
 
-// Hooks
-const queryParamFields = {
-    categories: {
-        kind: kind.selectMultiple,
-        label: "Category",
-        options: categories,
-        labels: labelizeRecord(categories),
-    },
-    rarities: {
-        kind: kind.selectMultiple,
-        label: "Rarity",
-        options: rarities,
-        labels: labelizeRecord(rarities),
-    },
-    sort: {
-        kind: kind.selectOne,
-        label: "sort By",
-        defaultValue: sort.popularity,
-        options: sort,
-        labels: labelizeRecord(sort),
-    },        
-    isAscending: {
-        kind: kind.boolean,
-        label: "Ascending",
-    },
-    search: {
-        kind: kind.text,
-        label: "Search",
-        placeholder: "Search products"
-    },
-
-} satisfies QueryParamsFieldDefs;
-
-type SearchParams = {
-    categories: Category[],
-    rarities: Rarity[],
-    sort: Sort,
-    isAscending: boolean,
-    search: string,
-}
-
-const adminQueryParamFields = {
-    sort: {
-        kind: kind.selectOne,
-        label: "Sort By",
-        defaultValue: adminSort.newest,
-        options: adminSort,
-        labels: labelizeRecord(adminSort),
-    },
-    categories: {
-        kind: kind.selectMultiple,
-        label: 'Categories',
-        options: categories,
-        labels: labelizeRecord(categories),
-    },
-    rarities: {
-        kind: kind.selectMultiple,
-        label: 'Rarities',
-        options: rarities,
-        labels: labelizeRecord(rarities),
-    },
-    search: {
-        kind: kind.text,
-        label: "Search",
-        placeholder: "Search"
-    },
-
-    isDiscontinued: {
-        kind: kind.boolean,
-        label: "Discontinued",
-    },
-    isAscending: {
-        kind: kind.boolean,
-        label: "Ascending",
-    },
-} satisfies QueryParamsFieldDefs;
-
-type AdminSearchParams = {
-    sort: AdminSort,
-    categories: Category[],
-    rarities: Rarity[],
-    search: string,
-    isDiscontinued: boolean,
-    isAscending: boolean,
-};
 
 
 

@@ -12,4 +12,4 @@ export {
 	MediaCarousel,
     ImportButton,
     downloadCsv,
-} from './components/media'
+} from './components_old/media'

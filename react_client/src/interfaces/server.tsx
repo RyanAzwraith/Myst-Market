@@ -184,25 +184,9 @@ interface Product {
 
     getAnalytics: (id: number) => Promise<{ product: product.ProductAnalytics }>
 
-    create: (req : { 
-        name: string
-        categoryName: string
-        rarityName: string
-        priceAudCent: number
-        slug: string
-        description: string
-        stock: number
-    }) => Promise<void>
+    create: (req : product.ProductFields) => Promise<void>
 
-    patch: (id: number, req: Partial<{
-        name: string
-        categoryName: string
-        rarityName: string
-        priceAudCent: number
-        slug: string
-        description: string
-        stock: number
-    }>) => Promise<void>
+    patch: (id: number, req: Partial<product.ProductFields>) => Promise<void>
 
     delete: (id: number) => Promise<void>
 }

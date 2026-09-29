@@ -14,7 +14,7 @@ export type {
 } from './schema'
 export {
     BiggestSalesSection,
-} from './components/section'
+} from './componentscomponents_old/section'
 export {
     AddToCartButton
 } from '@/features/item'
@@ -22,4 +22,4 @@ export {
 export {
     SaleDisplay,
     AdminSearchDisplay,
-} from './components/display'
+} from './componentscomponents_old/display'

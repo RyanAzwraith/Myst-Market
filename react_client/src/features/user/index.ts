@@ -34,26 +34,26 @@ export {
 
 export {
     AdminSearchDisplay
-} from './components/display'
+} from './components_old/display'
 
 export {
     SetPasswordForm
-} from './components/form/SetPasswordForm'
+} from './components_old/form/SetPasswordForm'
 export {
     RegisterForm
-} from './components/RegisterForm'
+} from './components_old/form'
 export {
     UpdateForm
-} from './components/form/UpdateForm'
+} from './components_old/form/UpdateForm'
 export {
     LogoutButton,
     PasswordResetButton,
     DeleteUserButton
-} from './components/button'
+} from './components_old/button'
 export {
     UserReviewsSection,
     UserOrdersSection
-} from './components/section'
+} from './components_old/section'
 export {
     UserFormSection,
-} from './components/UserFormSection'
+} from './components_old/UserFormSection'

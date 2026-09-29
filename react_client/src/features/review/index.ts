@@ -12,17 +12,17 @@ export {
 
 export {
     TestimonialsSection,
-} from "./components/section.tsx"
+} from "./components_old/section.tsx"
 
 export {
     ReviewCard,
-} from "./components/card"
+} from "./components_old/card.tsx"
 export {
     CreateReviewComponent,
-} from "./components/component.tsx"
+} from "./components_old/component.tsx"
 export {
     DeleteReviewButton,
-} from "./components/button"
+} from "./components_old/button.tsx"
 export {
     RatingFormat,
-} from "./components/format"
+} from "./components_old/format.tsx"

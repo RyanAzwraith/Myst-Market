@@ -45,11 +45,11 @@ type NumberFieldDef = {
 };
 
 type SelectOneFieldDef<O extends Record<string, string>> = {
-  kind: typeof kind.selectOne
-  label: string;
-  defaultValue: O[keyof O];
-  options: O;
-  labels: { [K in keyof O]: string };
+    kind: typeof kind.selectOne
+    label: string;
+    defaultValue?: O[keyof O];
+    options: O;
+    labels: { [K in keyof O]: string };
 };
 
 type SelectMultipleFieldDef<O extends Record<string, string>> = {
