@@ -17,10 +17,12 @@ function useStatsQuery() {
     })
 }
 
-function usePerformanceQuery() {
+function usePerformanceQuery({period}: {
+    period: number
+}) {
     return useQuery ({
         queryKey: ["performance"],
-        queryFn: () => server.app.getPerformance(),
+        queryFn: () => server.app.retrievePerformance({ period }),
         select: data => data.performance 
     })
 }

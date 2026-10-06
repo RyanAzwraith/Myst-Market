@@ -1,10 +1,15 @@
 import { 
-    ButtonWrapper ,
+    ButtonWrapper, 
+    Card, 
+    Carousel,
+    Section,
+    Heading,
+    Text,
 } from "@/shared";
 
 import { 
     AddToCartButton,
-    CreateReviewComponent,
+    CreateReviewForm,
     RatingFormat,
     ReviewCard,
     useAuthState,
@@ -25,17 +30,18 @@ import { ExpandableContent } from "@/shared/composition/ExpandableContent";
 
 
 export { 
-    Card,
+    ProductCard,
     ReviewsSection,
+    CardCarousel
 }
 
-function Card({ product, image, onClick }: {
+function ProductCard({ product, image, onClick }: {
     product: Product, 
     image: MediaDetail | undefined, 
     onClick?: (product: Product) => void
 }) {
     return (
-    <ButtonWrapper
+    <Card
     onClick={() => onClick?.(product)}
     >
         <SummaryInfo
@@ -43,7 +49,29 @@ function Card({ product, image, onClick }: {
         image={image}
         />
         <AddToCartButton product={product}/>
-    </ButtonWrapper>
+    </Card>
+    )
+}
+
+function CardCarousel({
+    products, images, onClick, limit=5
+}: {
+    products: Product[]
+    images: Record<string, MediaDetail>
+    onClick?: (product: Product) => void
+    limit?: number
+}) {
+    return (
+    <Carousel 
+    limit={limit}
+    content={products.map((product) => 
+        <ProductCard 
+        product={product} 
+        key={`${product.id}`} 
+        image={images[product.id]}
+        onClick={() => onClick?.(product)}
+        />
+    )}/>
     )
 }
 
@@ -59,30 +87,30 @@ function ReviewsSection({ productId }: {
 
     if (hasReviews)
         return (
-        <div>
-            <h1>Reviews</h1>
-            <p>Average Rating:</p>
+        <Section>
+            <Heading>Reviews</Heading>
+            <Text>Average Rating:</Text>
             <RatingFormat rating={data.average} />
 
             {canReview &&  
-            <CreateReviewComponent productId={productId} />
+            <CreateReviewForm productId={productId} />
             }
 
-            <ExpandableContent children={data.reviews.map((r) => 
+            <ExpandableContent content={data.reviews.map((r) => 
                 <ReviewCard 
                 key={`review-${r.id}`} 
                 review={r} 
                 />
             )}/>
-        </div>
+        </Section>
         )    
     if (canReview) 
         return (
-        <div>
-            <h2>Reviews</h2>
-            <p>Be the first to Review this Product:</p>
-            <CreateReviewComponent productId={productId}/>
-        </div>
+        <Section>
+            <Heading level={2}>Reviews</Heading>
+            <Text>Be the first to Review this Product:</Text>
+            <CreateReviewForm productId={productId}/>
+        </Section>
         )
     return null
 }

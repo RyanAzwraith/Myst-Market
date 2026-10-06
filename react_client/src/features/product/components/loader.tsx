@@ -2,7 +2,6 @@ import {
     type ReactNode 
 } from "react";
 
-import { listToRecord } from "@/utils/funcs"
 import { 
     Loading,
 } from "@/shared";

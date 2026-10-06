@@ -24,6 +24,7 @@ type Address = {
 }
 
 type Order = {
+    id: number
     userId: number
     addressString: string
     items: ItemResolution[]
@@ -37,6 +38,13 @@ type OrderSummary = {
     createdAt: DateStr
     totalCent: number
     status: Status
+}
+
+type AdminSearchParams = {
+    searchName: string
+    status: Status[]
+    sort: AdminSort
+    isAscending: boolean
 }
 
 // Enum
@@ -58,11 +66,3 @@ const adminSort  = {
 }
 
 type AdminSort = keyof typeof adminSort
-
-// Hooks
-type AdminSearchParams = {
-    searchName: string
-    status: Status[]
-    sort: AdminSort
-    isAscending: boolean
-}

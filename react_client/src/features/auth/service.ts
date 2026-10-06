@@ -1,93 +1,74 @@
 
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware';
 import { useMutation } from '@tanstack/react-query';
-import { useFormInputs } from '@/hooks/FormInputs';
-
-import { server } from '@/core/server';
-
-import type {
-    User,
-} from './index'
 
 import { 
-    loginFormFields,
-    type AuthState,
-    type Login,
-} from './schema'
+    server,
+    logger 
+} from '@/core';
 
+import type { 
+    Login,
+} from './schema'
+import { useAuthState } from './state'
 
 export {
-    useAuthState,
-
     useLoginMutation,
     useLogoutMutation,
     useRefreshMutation,
-
-    useLoginFormInputs,
 }
 
-const useAuthState = create<AuthState>()(
-    persist( 
-        (set, get) => ({
-            accessToken: null,
-            user: null,
-            setUser: (user: User) => {
-                set({ user: user })
-            },
-            login: (accessToken, user) => {
-                set({ accessToken, user})
-            },
-            logout: () => {
-                set({ accessToken: null, user: null})
-            },
-            refresh: (accessToken) => {
-                set({ accessToken })
-            },
-            isLoggedIn: () => {
-                return get().accessToken !== null;
-            }
-        }),
-        {
-            name: "auth-storage",
-             partialize: (state) => ({
-                user: state.user
-            }),
-        }
-    )
-);
 
-// Requests
-function useLoginMutation() {
+// Mutations
+function useLoginMutation({ onSuccess, onError }: { 
+    onSuccess?: () => void, 
+    onError?: () => void 
+}) {
     const login = useAuthState((state) => state.login)
     return useMutation({
         mutationFn: (login: Login) => server.auth.login({ login }),
-        onSuccess: ({accessToken, user}) => login(accessToken, user),
+        onSuccess: ({accessToken, user}) => {
+            login(accessToken, user)
+            onSuccess?.()
+        },
+        onError: () => {
+            logger.error("Unexpected server error, unable to login")
+            onError?.()
+        },
     })
 }
 
-function useLogoutMutation() {
+function useLogoutMutation({ onSuccess, onError }: { 
+    onSuccess?: () => void, 
+    onError?: () => void 
+}) {
     const logout = useAuthState((state) => state.logout)
     return useMutation({
         mutationFn: () => server.auth.logout(),
-        onSuccess: () => logout()
+        onSuccess: () => {
+            logout()
+            onSuccess?.()
+        },
+        onError: () => {
+            logger.error("Unexpected server error, unable to logout")
+            onError?.()
+        }
     })
 }
 
-function useRefreshMutation() {
+function useRefreshMutation({ onSuccess, onError }: { 
+    onSuccess?: () => void, 
+    onError?: () => void 
+}) {
     const refresh = useAuthState((state) => state.refresh)
     return useMutation({
         mutationFn: () => server.auth.refresh(),
-        onSuccess: (data) =>  refresh(data.accessToken),
+        onSuccess: (data) =>  {
+            refresh(data.accessToken)
+            onSuccess?.()
+        },
+        onError: () => {
+            onError?.()
+        }
     })
 }
 
-// Hooks
-const useLoginFormInputs = () => {
-    return useFormInputs<
-        typeof loginFormFields,
-        Login
-    >({
-        fields: loginFormFields,
-    })
-}

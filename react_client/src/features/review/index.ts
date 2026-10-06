@@ -3,7 +3,6 @@
 // Export
 export type { 
     Review,
-    ReviewInput,
 } from "./schema"
 export {
     useDeleteMutation,
@@ -11,18 +10,15 @@ export {
 } from "./service"
 
 export {
-    TestimonialsSection,
-} from "./components_old/section.tsx"
-
-export {
     ReviewCard,
-} from "./components_old/card.tsx"
+} from "./components/composition"
 export {
-    CreateReviewComponent,
-} from "./components_old/component.tsx"
-export {
-    DeleteReviewButton,
-} from "./components_old/button.tsx"
+    CreateForm,
+    DeleteButton
+} from "./components/interactive"
 export {
     RatingFormat,
-} from "./components_old/format.tsx"
+} from "./components/presentation"
+export {
+    TestimonialLoader,
+} from "./components/loader.tsx"

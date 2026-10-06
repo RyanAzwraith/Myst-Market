@@ -9,18 +9,21 @@ export {
     ExpandableContent
 }
 
-function ExpandableContent(
-    {children}:
-    {children: ReactNode[]} 
-) {
+function ExpandableContent({
+    content,
+    limit = 3,
+}: { 
+    content: ReactNode[],
+    limit?: number
+}) {
     const [ isExpanded, setIsExpanded ] = useState(false)
     const shownChildren = isExpanded
-        ? children
-        : children.slice(0, 3);
-    const isExpandable = children.length > 3
+        ? content
+        : content.slice(0, limit);
+    const isExpandable = content.length > limit
 
     return (
-    <div>
+    <>
         {shownChildren}
             
         { isExpandable && isExpanded ? 
@@ -32,6 +35,6 @@ function ExpandableContent(
         onClick={() => setIsExpanded((current) => !current)}
         />
         }
-    </div>
+    </>
     )
 }

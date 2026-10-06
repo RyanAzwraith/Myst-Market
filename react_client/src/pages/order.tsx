@@ -1,11 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
-import { Page } from "@/shared"
+import { 
+    List,
+    Page,
+    Heading,
+    Stack,
+} from "@/shared";
 
 import { PageRoutes } from '@/app/PageRoutes'
 
-import { OrderDisplay } from "@/features/order"
+import { ResolutionCard } from "@/features/item";
+import { OrderLoader } from "@/features/order/components/loader";
+import { OrderInfo } from "@/features/order/components/content";
 
 export { OrderPage }
 
@@ -17,13 +24,31 @@ function OrderPage() {
         if (!id) 
             navigate(PageRoutes.profile);
     }, [id, navigate])
+
     return (
-        <Page>
-            <OrderDisplay 
-            orderId={Number(id)} 
-            onCardClick={(item) => 
-                navigate(`${PageRoutes.product}/${item.productSummary.slug}`)
-            }/>
-        </Page>
+    <Page>
+        <Heading>Order</Heading>  
+
+        <OrderLoader
+        orderId={Number(id)}
+        render={({ order }) => (
+        <>
+            <OrderInfo order={order} />
+            <Stack
+            children={
+                <List
+                items={order.items}
+                render={(item) =>
+                    <ResolutionCard 
+                    key={item.product.name} 
+                    item={item} 
+                    onClick={() => navigate(PageRoutes.product(item.product.slug))}
+                    />
+                } />
+            } />
+        </>
+        )}
+        />
+    </Page>
     )
-}
+}        

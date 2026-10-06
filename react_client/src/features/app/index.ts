@@ -1,25 +1,15 @@
 // Import
 export {
-    FeaturedProductsSection,
-    PopularProductsSection,
-	TopProductsSection,
-    NewestProductsSection,
-} from "@/features/product"
-export {
-    BiggestSalesSection,
-} from "@/features/sale"
-export {
-    TestimonialsSection,
     RatingFormat,
 } from "@/features/review"
-export {
-	RecentOrdersSection,
-} from '@/features/order';
 
 // Export
 export {
+    StatsInfo,
     Graph,
-	Performance,
-	RequiresAttention,
-    StatsSection,
-} from './components/section'
+    AttentionInfo,
+    PerformanceDisplay,
+} from './components/content'
+export {
+    PerformanceLoader,
+} from './components/loader'

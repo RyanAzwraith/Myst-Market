@@ -1,7 +1,9 @@
 
 import { 
-    Title,  
+    SearchTitle,  
     MoneyFormat,
+    Button,
+    Span,
 } from "@/shared";
 
 import type {
@@ -19,7 +21,7 @@ import {
 
 
 export { 
-    SearchTitle,
+    ProductSearchTitle,
     AdminSearchTitle,
     PriceFormat 
 }
@@ -31,34 +33,33 @@ function PriceFormat({ product, onClick }: {
 }) {
 
     if (!product.sale || !product.discountedPrice) return (
-        <span><MoneyFormat amount={product.priceAudCent} /></span>
+        <Span><MoneyFormat amount={product.priceAudCent} /></Span>
     )
 
     const sale = product.sale
     return (
-        <button
-        onClick={(e) => {
+        <Button
+        onClick={e => {
             e.stopPropagation()
             onClick?.(sale)
         }}> 
-            <span
-            className="line-through text-gray-500">
+            <Span>
                 <MoneyFormat
                 amount={product.priceAudCent}
                 />
-            </span>
+            </Span>
             <MoneyFormat amount={product.discountedPrice} />
-            <span>{sale!.name}</span>
-        </button>
+            <Span>{sale!.name}</Span>
+        </Button>
     )
 
 }
 
-function SearchTitle({ searchParams }: { 
+function ProductSearchTitle({ searchParams }: { 
     searchParams: ReturnType<typeof useSearchParams> 
 }) {
     const { bindings: { categories, search } } = searchParams
-    return <Title possibleTitles={[
+    return <SearchTitle possibleTitles={[
         search.get() && `Searching: ${search.get() as string}`,
         (categories.get() as string[]).join(', '),
         "All Products"
@@ -69,7 +70,7 @@ function AdminSearchTitle({ adminSearchParams }: {
     adminSearchParams: ReturnType<typeof useAdminSearchParams> 
 }) {
     const { bindings: { categories, rarities, search } } = adminSearchParams
-    return <Title possibleTitles={[
+    return <SearchTitle possibleTitles={[
         search.get() && `Searching: ${search.get() as string}`,
         (categories.get() as string[]).concat(rarities.get() as string[]).join(', '),
         "All Products"

@@ -20,12 +20,14 @@ export {
 
 export {
     ItemCard,
-    ItemWithXCard
-} from './components_old/card'
+    ResolutionCard
+} from './components/composition'
 export {
-    CartFormSection,
-} from './components_old/form'
+    ResolutionLoader
+} from './components/loader'
 export {
-    CartButton,
+    CartMenuButton,
     AddToCartButton,
-} from './components_old/button'
+    CartMenu,
+    CartFormSection
+} from './components/interactive'

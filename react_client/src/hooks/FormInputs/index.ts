@@ -21,7 +21,6 @@ export {
     PasswordField,
     SelectOneField,
     SelectMultipleField,
-    ErrorMsg,
     FormInputsContainer,
     FormInputsField,
     FormInputsForm,

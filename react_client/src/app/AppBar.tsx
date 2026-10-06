@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { PageRoutes } from '@/app/PageRoutes'
-import { ProfileButton} from "@/features/auth";
+import { ProfileMenuButton} from "@/features/auth";
 import { CategoryBar} from "@/features/product";
-import { CartButton } from "@/features/item";
+import { CartMenuButton } from "@/features/item";
 
 import { useAuthState } from "@/features/user";
 import { useSearchParams } from "@/features/product";
 import { TextFilterField } from "@/hooks/QueryParams";
-import { List } from "@/shared/elements/list";
+import { List } from "@/shared";
 
 
 const adminPages = [
@@ -89,16 +89,17 @@ export function AppBar() {
 				showAdmin={showAdmin}
 				setShowAdmin={setShowAdmin}
 				/>
-				<CartButton 
+				<CartMenuButton 
 				onCheckoutClick={() => navigate(PageRoutes.checkout)}
 				/>
-				<ProfileButton 
+				<ProfileMenuButton 
 				onSolidClick={() => navigate(PageRoutes.profile)}
 				/>
 			</div>
 		</div>
 	);
 }
+
 
 function AdminModeToggle(
     {

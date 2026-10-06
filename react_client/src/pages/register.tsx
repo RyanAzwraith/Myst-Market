@@ -1,28 +1,29 @@
 import { useNavigate } from "react-router-dom";
 
-import { Page } from "@/shared";
-
 import { PageRoutes } from "@/app/PageRoutes"
 
 import { RegisterForm } from "@/features/user";
+import { Page, Heading, Button } from "@/shared";
 
 
 export { RegisterPage }
 
+
 function RegisterPage() {
-	const navigate = useNavigate();
-
+	const navigate = useNavigate()
 	return (
-		<Page >
-			<h1 className="text-lg font-semibold mb-4">Register</h1>
+	<Page>
+		<Heading>Register</Heading>
 
-            <RegisterForm 
-            onSubmit={() => navigate(PageRoutes.login)}
-            />
+		<RegisterForm 
+		onSuccess={() => navigate(PageRoutes.login)}
+		/>
 
-			<button onClick={() => {
-				navigate(PageRoutes.login)
-			}}>Login</button>
-        </Page>
+		<Button 
+		onClick={() => { navigate(PageRoutes.login)}}
+		>
+			Login
+		</Button>
+	</Page>
     )
 }

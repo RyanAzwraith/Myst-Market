@@ -1,6 +1,14 @@
 import { useEffect, useState, type ReactNode } from 'react'
 
-import { XMarkIcon, List } from "@/shared";
+import { 
+    XMarkIcon, 
+    List, 
+    LabeledInput, 
+    Label,
+    Select,
+    Input,
+    Container
+} from "@/shared";
 import { recordToList, recordValues } from '@/utils/funcs'
 
 import type { 
@@ -9,7 +17,6 @@ import type {
     SelectOneFieldDef,
     SelectMultipleFieldDef,
     TextFieldDef,
-    Bindings,
     FieldDef,
     FieldDefs,
     QueryParams,
@@ -32,17 +39,16 @@ function BooleanField({ binding }: {
     binding: Binding<BooleanFieldDef>;
 }) {
     return (
-        <label htmlFor={binding.fieldKey}>
-            <input
-                id={binding.fieldKey}
-                type="checkbox"
-                checked={binding.get()}
-                onChange={(event) => {
-                    binding.set(event.target.checked);
-                }}
-            />
+        <LabeledInput
+        before={false}
+        type="checkbox"
+        checked={binding.get()}
+        onChange={(event) => {
+            binding.set(event.target.checked);
+        }}
+        >
             <span>{binding.label}</span>
-        </label>
+        </LabeledInput>
     );
 }
 
@@ -50,26 +56,26 @@ function SelectOneField({ binding }: {
     binding: Binding<SelectOneFieldDef<any>>;
 }) {
     return (
-        <div>
-            <label htmlFor={binding.fieldKey}>{binding.label}</label>
-            <select
-            id={binding.fieldKey}
-            name={binding.fieldKey}
-            value={binding.get()}
-            onChange={(event) => {
-                binding.set(event.target.value);
-            }}
-            >
-                <List
-                items={recordToList(binding.options) as [string, string][]}
-                renderItem={([key, value]) => (
-                    <option key={key} value={value}>
-                        {binding.labels[key]}
-                    </option>
-                )}
-                />
-            </select>
-        </div>
+    <Label htmlFor={binding.fieldKey}>
+        {binding.label}
+        <Select
+        id={binding.fieldKey}
+        name={binding.fieldKey}
+        value={binding.get()}
+        onChange={(event) => {
+            binding.set(event.target.value);
+        }}
+        >
+            <List
+            items={recordToList(binding.options) as [string, string][]}
+            render={([key, value]) => (
+                <option key={key} value={value}>
+                    {binding.labels[key]}
+                </option>
+            )}
+            />
+        </Select>
+    </Label>
     );
 }
 
@@ -87,25 +93,25 @@ function SelectMultipleField({ binding }: {
     };
 
     return (
-        <div>
-            <span>{binding.label}</span>
-            <List
-            items={recordToList(binding.options) as [string, string][]}
-            renderItem={([key, value]) => (
-                <label key={key}>
-                    <input
-                        type="checkbox"
-                        checked={selected.includes(value)}
-                        onChange={(event) => handleChange(value, event.target.checked)}
-                    />
-                    <span>{binding.labels[key]}</span>
-                </label>
-            )}
-            />
-            <XMarkIcon 
-            onClick={() => binding.set(() => [])} 
-            />
-        </div>
+    <div>
+        <span>{binding.label}</span>
+        <List
+        items={recordToList(binding.options) as [string, string][]}
+        render={([key, value]) => (
+            <LabeledInput
+            before={false}
+            type="checkbox"
+            checked={selected.includes(value)}
+            onChange={(event) => handleChange(value, event.target.checked)}
+            >
+                {binding.labels[key]}
+            </LabeledInput>
+        )}
+        />
+        <XMarkIcon 
+        onClick={() => binding.set(() => [])} 
+        />
+    </div>
     );
 }
 
@@ -124,24 +130,23 @@ function TextField({ binding }: {
     }
     
     return (
-        <div className='flex'>
-            <label htmlFor={binding.fieldKey}>{binding.label}</label>
-            <input
-            className="w-full rounded border border-slate-300 p-2"
-            id={binding.fieldKey}
-            name={binding.fieldKey}
-            type="text"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
-            onBlur={handleSearch}
-            />
-            <XMarkIcon 
-            onClick={() => { 
-                setSearchInput('')
-                binding.set(() => '')
-            }} />
-        </div>
+    <Label htmlFor={binding.fieldKey}>
+        {binding.label}
+        <Input
+        id={binding.fieldKey}
+        name={binding.fieldKey}
+        type="text"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
+        onBlur={handleSearch}
+        />
+        <XMarkIcon 
+        onClick={() => { 
+            setSearchInput('')
+            binding.set(() => '')
+        }} />
+    </Label>
     );
 }
 
@@ -149,9 +154,9 @@ function QueryParamsContainer({ children }:{
     children: ReactNode
 }) {
     return (
-        <div>
-            {children}
-        </div>
+    <Container>
+        {children}
+    </Container>
     )
 }
 
@@ -172,15 +177,15 @@ function QueryParamFields ({queryParams} : {
 }) {
     const { bindings } = queryParams;
     return (
-        <QueryParamsContainer>
-            <List
-            items={recordValues(bindings)}
-            renderItem={(binding) => 
-                <QueryParamField 
-                binding={binding} 
-                key={binding.fieldKey} 
-                />
-            }/>
-        </QueryParamsContainer>
+    <QueryParamsContainer>
+        <List
+        items={recordValues(bindings)}
+        render={(binding) => 
+            <QueryParamField 
+            binding={binding} 
+            key={binding.fieldKey} 
+            />
+        }/>
+    </QueryParamsContainer>
     )
 }

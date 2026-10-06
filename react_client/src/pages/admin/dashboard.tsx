@@ -1,46 +1,91 @@
-import { Page } from "@/shared"
-
-import { TopLoader } from "@/features/product"
-import { RecentOrdersSection } from "@/features/order"
 import { 
-    Performance, 
+	Page, 
+	List,
+	Heading,
+	Container
+} from "@/shared"
+import { SelectOneField } from "@/hooks/FormInputs/components"
+
+import { 
     Graph, 
-    RequiresAttention 
+	AttentionInfo,
+	PerformanceLoader,
+	PerformanceDisplay,
 } from "@/features/app"
-import { PerformanceInfo } from "@/features/product"
-import { List } from "@/shared"
-import type { ProductAnalytics } from "@/features/product/schema"
+import { 
+	PerformanceInfo as ProductPerformanceInfo ,
+	type ProductAnalytics,
+	TopLoader
+} from "@/features/product"
+import { 
+	RecentLoader,
+    AdminPerformanceInfo as OrderAdminPerformanceInfo,
+} from "@/features/order"
+
 
 export { DashboardPage }
 
+
 function DashboardPage() {
     return (
-        <Page>
-			<h1 >Admin Dashboard</h1>
-			<Performance />
-			<div className="mb-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
+	<Page>
+		<Heading>Admin Dashboard</Heading>
+
+		<Heading level={2}>Performance</Heading>
+		<Container>
+			<PerformanceLoader
+			render={({ form, data }) => (
+			<>
+				<SelectOneField binding={form.bindings.period}/>
+				<PerformanceDisplay performance={data} />
+			</>
+			)} />
+
+		</Container>
+		
+		<Container>
+			<Heading level={2}>Revenue / Orders</Heading>
+			<Container>
 				<Graph />
-				<RequiresAttention />
-			</div>
-			<div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
-				<RecentOrdersSection />
+			</Container>
 
-            	<h2>Top Products</h2>
+			<Heading level={2}>Requires Attention</Heading>
+			<Container>
+				<AttentionInfo />
+			</Container>
+		</Container>
+		
+		<Container>
+			<Heading level={2}>Recent Orders</Heading>
+			<Container>
+				<RecentLoader 
+				render={({ orders }) => 
+					<List
+					items={orders}
+					render={(order) => (
+						<OrderAdminPerformanceInfo 
+						order={order}
+						/>
+					)}/>
+				}/>
+			</Container>
 
+			<Heading level={2}>Top Products</Heading>
+			<Container>
 				<TopLoader 
 				limit={3}
 				render={({ products }) => 
 					<List
 					items={products}
-					renderItem={(product) => (
-						<PerformanceInfo 
+					render={(product) => (
+						<ProductPerformanceInfo 
 						product={product as ProductAnalytics} 
 						/>
 					)}/>
 				}/>
-
-			</div>
-        </Page>
+			</Container>
+		</Container>
+	</Page>
     )
 }
 

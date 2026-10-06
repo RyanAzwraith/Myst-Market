@@ -8,7 +8,6 @@ export type {
     Item,
     ItemSummary,
     ItemResolution,
-    CartState,
 }
 export {
     itemSummary
@@ -34,33 +33,17 @@ const itemSummary = {
             quantity: t.quantity,
         }),    
         itemResolution: (t: ItemResolution) => ({
-            productId: t.productSummary.id,
+            productId: t.product.id,
             quantity: t.quantity,
         }),
     }
 }
 
 type ItemResolution = {
-    productSummary: ProductSummary
+    product: ProductSummary
     quantity: number
     unitPriceCent: number
     lineTotalCent: number
     onSale: boolean
     warning?: string
 }
-
-// State
-type CartState = {
-    items: Item[],
-    
-    getTotal: () => number,
-    addItem: (product: Product, quantity: number) => void,
-    removeItem: (product: Product) => void,
-    clearCart: () => void,
-    isEmpty: () => boolean,
-
-    getCartItem: (product: Product) => Item | null,
-    updateQuantity: (product: Product, quantity: number) => void,
-    addQuantity: (product: Product, quantity: number) => void
-}
-

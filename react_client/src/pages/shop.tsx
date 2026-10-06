@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
 import { 
-    ChevronDownIcon,
-    List, 
+    Grid,
+    LoadContent, 
     Page
 } from "@/shared";
 
@@ -14,8 +14,8 @@ import { PageRoutes } from "@/app/PageRoutes";
 
 import { 
     SearchLoader, 
-    SearchTitle,
-    Card,
+    ProductSearchTitle,
+    ProductCard,
 } from "@/features/product"
 
 export { ShopPage }
@@ -26,26 +26,26 @@ function ShopPage() {
     return (
     <Page> 
         <SearchLoader
-        render={({ searchQuery, searchParams, products, images }) => <>
+        render={({ searchQuery, searchParams, products, images }) => 
+        <>
 
             <QueryParamFields queryParams={searchParams} />
-            <SearchTitle searchParams={searchParams} />
+            <ProductSearchTitle searchParams={searchParams} />
 
-            <List
-            items={products ?? []}
-            renderItem={(p) => 
-                <Card 
-                key={p.id} 
-                product={p}
-                image={images[p.id]}
-                onClick={(product) => navigate(PageRoutes.product(product.slug))}
-                />
-            }/>
-            <ChevronDownIcon 
-            onClick={searchQuery.fetchNextPage}
-            hidden={!searchQuery.hasNextPage}
-            />
-            
+            <Grid
+            columns={6}
+            children={
+                <LoadContent
+                hasMore={!searchQuery.hasNextPage}
+                onClick={searchQuery.fetchNextPage}
+                content={(products ?? []).map(p => 
+                    <ProductCard 
+                    key={p.id} 
+                    product={p}
+                    image={images[p.id]}
+                    onClick={(product) => navigate(PageRoutes.product(product.slug))}
+                    />
+                )}/> }/> 
         </> }/> 
     </Page>
     )

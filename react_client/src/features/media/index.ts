@@ -10,6 +10,8 @@ export {
 	Video,
 	Media,
 	MediaCarousel,
+} from './components/content'
+export {
     ImportButton,
     downloadCsv,
-} from './components_old/media'
+} from './components/interactive'

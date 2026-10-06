@@ -37,51 +37,7 @@ export {
 }
 
 
-// Queries
-function useProductQuery(slug?: string)  {
-    return useQuery({
-        queryKey: ["product", slug],
-        enabled: !!slug,
-        queryFn: () => 
-            server.product.getBySlug(slug!),
-        select: data => data.product
-    })
-}
-
-function useImageQuery(id: number)  {
-    return useQuery({
-        queryKey: ["product", "image", id],
-        queryFn: () => 
-            server.product.getImage(id),
-        select: data => data.media
-    })
-}
-
-function useMediasQuery(id: number)  {
-    return useQuery({
-        queryKey: ["product", "medias", id],
-        queryFn: () => 
-            server.product.getMedias(id),
-        select: data => data.medias
-    })
-}
-
-function useAnalyticsQuery(id?: number) {
-    return useQuery({
-        queryKey: ['admin', 'product-analytics', id],
-        queryFn: () => server.product.getAnalytics(id!),
-        enabled: !!id,
-        select: data => data.product
-    })
-}
-
-function useReviewsQuery(id: number) {
-    return useQuery({
-        queryKey: ['product', 'reviews', id],
-        queryFn: () => server.product.getReviews(id),
-    })
-}
-
+// Infinite Queries
 function useSearchQuery(
     limit: number | null = null,
     searchParams?: SearchParams,
@@ -129,6 +85,53 @@ function useAdminSearchQuery(
         })
     })
 }
+
+
+// Queries
+function useProductQuery(slug?: string)  {
+    return useQuery({
+        queryKey: ["product", slug],
+        enabled: !!slug,
+        queryFn: () => 
+            server.product.getBySlug(slug!),
+        select: data => data.product
+    })
+}
+
+function useImageQuery(id: number)  {
+    return useQuery({
+        queryKey: ["product", "image", id],
+        queryFn: () => 
+            server.product.getImage(id),
+        select: data => data.media
+    })
+}
+
+function useMediasQuery(id: number)  {
+    return useQuery({
+        queryKey: ["product", "medias", id],
+        queryFn: () => 
+            server.product.getMedias(id),
+        select: data => data.medias
+    })
+}
+
+function useAnalyticsQuery(id?: number) {
+    return useQuery({
+        queryKey: ['admin', 'product-analytics', id],
+        queryFn: () => server.product.getAnalytics(id!),
+        enabled: !!id,
+        select: data => data.product
+    })
+}
+
+function useReviewsQuery(id: number) {
+    return useQuery({
+        queryKey: ['product', 'reviews', id],
+        queryFn: () => server.product.getReviews(id),
+    })
+}
+
 
 function useFeaturedQuery(
     limit: number

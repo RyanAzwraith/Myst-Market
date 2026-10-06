@@ -5,7 +5,8 @@ import { Page } from "@/shared"
 
 import { PageRoutes } from "@/app/PageRoutes"
 
-import { SaleDisplay } from "@/features/sale"
+import { SaleLoader } from "@/features/sale"
+import { DetailedInfo } from "@/features/sale"
 
 
 export { SalePage }
@@ -14,15 +15,19 @@ export { SalePage }
 function SalePage() {
     const navigate = useNavigate()
 
-    const { saleSlug } = useParams()
+    const { slug } = useParams()
     useEffect(() => {
-        if (!saleSlug) 
-            navigate(PageRoutes.catalogue);
-    }, [saleSlug, navigate])
+        slug || navigate(PageRoutes.catalogue);
+    }, [slug, navigate])
 
+    if (!slug) return null
     return (
-        <Page>
-            <SaleDisplay saleSlug={saleSlug} />
-        </Page>
+    <Page>
+        <SaleLoader 
+        slug={slug} 
+        render={(sale) => 
+            <DetailedInfo sale={sale} />
+        } />
+    </Page>
     )
 }

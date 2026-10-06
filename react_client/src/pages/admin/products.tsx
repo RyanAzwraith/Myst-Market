@@ -3,23 +3,26 @@ import { useState } from "react";
 import { listToRecord } from "@/utils/funcs";
 import { 
     ChevronDownIcon,
-    Page
+    Page,
+    ModalTrigger, 
+    Button,
+    Heading,
+    Span
 } from "@/shared";
-import { PopUpModalComponent } from "@/shared/composition/PopUpModalComponent";
 
-import { SelectEditDisplay } from "@/hooks/SelectEdit/components";
+import { 
+    SelectEditDisplay 
+} from "@/hooks/SelectEdit/components";
 import { 
     QueryParamFields 
 } from "@/hooks/QueryParams";
 
 import { 
-    type Product,
     type ProductAnalytics,
     AdminSearchTitle,
     AdminSummaryInfo,
     AdminSearchLoader,
     CreateForm,
-    AnalyticsLoader,
     AnalyticsInfo,
     DeleteButton,
     UpdateForm
@@ -32,7 +35,19 @@ export { ProductsPage }
 function ProductsPage() {
     return (
     <Page>
-        <CreateButton />
+        <ModalTrigger
+        button={ 
+            <Span>Create product</Span> 
+        }
+        render={onClose => 
+        <>
+            <Heading level={2}>Create Product</Heading>
+            <CreateForm
+            onSuccess={onClose}
+            />
+        </>
+        }/>
+
         <AdminSearchLoader
         limit={20}
         render={({searchQuery, searchParams, selectEdit, products}) => <>
@@ -42,7 +57,16 @@ function ProductsPage() {
             <SelectEditDisplay
             selectEdit={selectEdit}
             elements={listToRecord(products, (p) => [String(p.id), 
-                <Row key={p.id} product={p} />
+                <ModalTrigger
+                button={
+                    <AdminSummaryInfo product={p} />
+                }
+                render={onClose => 
+                    <ProductModal 
+                    product={p} 
+                    onClose={onClose} 
+                    />
+                } />
             ])}/>
 
             <ChevronDownIcon 
@@ -54,50 +78,13 @@ function ProductsPage() {
     )
 }
 
-function CreateButton() {
-    return (
-    <PopUpModalComponent
-    content={onClose => 
-        <>
-        <h2>Create Product</h2>
-        <CreateForm
-        onSuccess={onClose}
-        />
-        </>
-    }>
-        <span>Create product</span>
-    </PopUpModalComponent>
-    )
-}
-
-function Row({ product }: { 
-    product: Product
-}) {
-    return (
-    <PopUpModalComponent
-    content={onClose => 
-        <AnalyticsLoader 
-        productId={product.id}
-        render={(productAnalytics) => (
-            <Modal 
-            product={productAnalytics} 
-            onClose={onClose} 
-            />
-        )}
-        />
-    }>
-        <AdminSummaryInfo product={product} />
-    </PopUpModalComponent>
-  );
-}
-
-function Modal({ product, onClose }: { 
+function ProductModal({ product, onClose }: { 
     product: ProductAnalytics 
     onClose: () => void
 }) {
     const [tog, setTog] = useState(false);
     return (
-    <div>
+    <>
         { tog ? 
         <AnalyticsInfo product={product} />
             :
@@ -107,17 +94,17 @@ function Modal({ product, onClose }: {
         />
         }
 
-        <button 
+        <Button 
         type="button"
         onClick={() => setTog(!tog)}
         >
             Edit
-        </button>
+        </Button>
         
         <DeleteButton
         productId={product.id}
         onClick={onClose}
         />
-    </div>
+    </>
     )
 }

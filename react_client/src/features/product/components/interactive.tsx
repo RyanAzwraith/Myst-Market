@@ -10,7 +10,7 @@ import {
 } from "../hook";
 
 import { recordToList } from "@/utils/funcs"
-import { List } from "@/shared"
+import { Button, List } from "@/shared"
 
 import { useSearchParams } from "../hook"
 
@@ -68,14 +68,13 @@ function CategoryBar() {
     return (
         <List
         items={recordToList(categories.options)}
-        renderItem={([k, v]) =>
-            <button 
-            className="rounded border border-slate-300 px-2 py-1 text-sm"
+        render={([k, v]) =>
+            <Button 
             onClick={() => { 
                 categories.set([v])
             }}>
                 {categories.labels[k]}
-            </button>
+            </Button>
         } />
     )
 }
@@ -91,12 +90,12 @@ function DeleteButton({ productId, onClick }: {
     })
 
     return (
-        <button
+        <Button
         type="button"
         disabled={isPending}
         onClick={handleClick}>
             Delete product
-        </button>
+        </Button>
     )
 }
 
@@ -115,7 +114,7 @@ function ExportProductsButton() {
 	const mutation = useExportMutation()
 
 	return (
-		<button
+		<Button
         type="button"
         disabled={mutation.isPending}
         onClick={() => void downloadCsv(
@@ -124,6 +123,6 @@ function ExportProductsButton() {
         )}
 		>
 			{mutation.isPending ? "Exporting..." : "Export Products"}
-		</button>
+		</Button>
 	)
 }

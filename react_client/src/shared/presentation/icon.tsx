@@ -1,28 +1,45 @@
 import {
     ChevronDownIcon as HeroChevronDownIcon,
     ChevronUpIcon as HeroChevronUpIcon,
+    ChevronRightIcon as HeroChevronRightIcon,
+    ChevronLeftIcon as HeroChevronLeftIcon,
     XMarkIcon as HeroXMarkIcon,
     MinusIcon as HeroMinusIcon,
     PlusIcon as HeroPlusIcon,
     UserCircleIcon as HeroUserCircleSolidIcon,
     ShoppingCartIcon as HeroShoppingCartSolidIcon ,
+    StarIcon as HeroStarSolidIcon,
+    ArrowDownIcon as HeroArrowDownIcon,
+    ArrowUpIcon as HeroArrowUpIcon,
 } from "@heroicons/react/24/solid"
 import {
     UserCircleIcon as HeroUserCircleOutlineIcon,
     ShoppingCartIcon as HeroShoppingCartOutlineIcon,
-} from "@heroicons/react/24/outline"
+    StarIcon as HeroStarOutlineIcon,
+    ExclamationTriangleIcon as HeroExclamationTriangleIcon,
 
+} from "@heroicons/react/24/outline"
 
 export {
     ChevronDownIcon,
     ChevronUpIcon,
+    ChevronRightIcon,
+    ChevronLeftIcon,
+
+
     XMarkIcon,
     UserCircleSolidIcon,
     UserCircleOutlineIcon,
     ShoppingCartOutlineIcon,
     ShoppingCartSolidIcon,
     MinusIcon,
+    
     PlusIcon,
+    StarSolidIcon,
+    StarOutlineIcon,
+    ExclamationTriangleIcon,
+    ArrowDownIcon,
+    ArrowUpIcon,
 }
 
 
@@ -56,6 +73,40 @@ const ChevronDownIcon = ({ onClick, hidden }: {
     <button onClick={onClick}>
         <HeroChevronDownIcon 
         aria-label="ChevronDownIcon"
+        className="h-24 w-24" 
+        />
+    </button>
+
+const ChevronRightIcon = ({ onClick, hidden }: {
+    onClick?: () => void,
+    hidden?: boolean
+}) => 
+    hidden ? null : 
+    !onClick ?
+    <HeroChevronRightIcon 
+    aria-label="ChevronRightIcon"
+    className="h-24 w-24" 
+    /> :
+    <button onClick={onClick}>
+        <HeroChevronRightIcon 
+        aria-label="ChevronRightIcon"
+        className="h-24 w-24" 
+        />
+    </button>
+
+const ChevronLeftIcon = ({ onClick, hidden }: {
+    onClick?: () => void,
+    hidden?: boolean
+}) => 
+    hidden ? null : 
+    !onClick ?
+    <HeroChevronLeftIcon 
+    aria-label="ChevronLeftIcon"
+    className="h-24 w-24" 
+    /> :
+    <button onClick={onClick}>
+        <HeroChevronLeftIcon 
+        aria-label="ChevronLeftIcon"
         className="h-24 w-24" 
         />
     </button>
@@ -175,6 +226,91 @@ const PlusIcon = ({ onClick, hidden }: {
     <button onClick={onClick}>
         <HeroPlusIcon 
         aria-label="PlusIcon"
+        className="h-24 w-24" 
+        />
+    </button>
+
+const StarSolidIcon = ({ onClick, hidden }: {
+    onClick?: () => void,
+    hidden?: boolean
+}) => 
+    hidden ? null : 
+    !onClick ?
+    <HeroStarSolidIcon 
+    aria-label="StarSolidIcon"
+    className="h-24 w-24" 
+    /> :
+    <button onClick={onClick}>
+        <HeroStarSolidIcon 
+        aria-label="StarSolidIcon"
+        className="h-24 w-24" 
+        />
+    </button>
+
+const StarOutlineIcon = ({ onClick, hidden }: {
+    onClick?: () => void,
+    hidden?: boolean
+}) => 
+    hidden ? null : 
+    !onClick ?
+    <HeroStarOutlineIcon 
+    aria-label="StarOutlineIcon"
+    className="h-24 w-24" 
+    /> :
+    <button onClick={onClick}>
+        <HeroStarOutlineIcon 
+        aria-label="StarOutlineIcon"
+        className="h-24 w-24" 
+        />
+    </button>
+
+const ExclamationTriangleIcon = ({ onClick, hidden }: {
+    onClick?: () => void,
+    hidden?: boolean
+}) => 
+    hidden ? null : 
+    !onClick ?
+    <HeroExclamationTriangleIcon 
+    aria-label="ExclamationTriangleIcon"
+    className="h-24 w-24" 
+    /> :
+    <button onClick={onClick}>
+        <HeroExclamationTriangleIcon 
+        aria-label="ExclamationTriangleIcon"
+        className="h-24 w-24" 
+        />
+    </button>
+
+const ArrowDownIcon = ({ onClick, hidden }: {
+    onClick?: () => void,
+    hidden?: boolean
+}) => 
+    hidden ? null : 
+    !onClick ?
+    <HeroArrowDownIcon 
+    aria-label="ArrowDownIcon"
+    className="h-24 w-24" 
+    /> :
+    <button onClick={onClick}>
+        <HeroArrowDownIcon 
+        aria-label="ArrowDownIcon"
+        className="h-24 w-24" 
+        />
+    </button>
+
+const ArrowUpIcon = ({ onClick, hidden }: {
+    onClick?: () => void,
+    hidden?: boolean
+}) => 
+    hidden ? null : 
+    !onClick ?
+    <HeroArrowUpIcon 
+    aria-label="ArrowUpIcon"
+    className="h-24 w-24" 
+    /> :
+    <button onClick={onClick}>
+        <HeroArrowUpIcon 
+        aria-label="ArrowUpIcon"
         className="h-24 w-24" 
         />
     </button>

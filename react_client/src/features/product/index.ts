@@ -18,13 +18,12 @@ export {
 } from '@/features/media'
 export type {
     Review,
-    ReviewInput,
 } from '@/features/review'
 export {
     useCreateMutation as useCreateReviewMutation,
     RatingFormat,
-    CreateReviewComponent,
     ReviewCard,
+    CreateForm as CreateReviewForm
 } from '@/features/review'
 
 
@@ -47,13 +46,15 @@ export {
 } from './hook'
 
 export {
+    ProductImage,
     DetailedInfo, 
     AdminSummaryInfo,
     PerformanceInfo,
     AnalyticsInfo,
 } from './components/content'
 export {
-    Card,
+    ProductCard,
+    CardCarousel,
     ReviewsSection,
 } from './components/composition'
 export {
@@ -67,7 +68,7 @@ export {
     AnalyticsLoader,
 } from './components/loader'
 export {
-    SearchTitle,
+    ProductSearchTitle,
     AdminSearchTitle,
 } from './components/presentation'
 

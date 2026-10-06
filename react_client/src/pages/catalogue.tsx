@@ -1,25 +1,39 @@
-import { Page } from "@/shared"
 import { useNavigate } from "react-router-dom"
 
-import { StatsSection } from "@/features/app"
-import {
-    type Product,
-    Card,
-} from "@/features/product"
-import {
-    BiggestSalesSection,
-} from "@/features/sale"
-import {
-    TestimonialsSection,
-} from "@/features/review"
-import { PageRoutes } from "@/app/PageRoutes"
-import type { MediaDetail, Sale } from "@/features/sale"
-import { CarouselComponent } from "@/shared/composition/CarouselComponent"
 import { 
+    Heading,
+    Inline,
+    List, 
+    Page,
+    Row,
+    Text,
+} from "@/shared"
+
+import { PageRoutes } from "@/app/PageRoutes"
+
+import { 
+    StatsInfo 
+    
+} from "@/features/app"
+import {
     FeaturedLoader, 
     PopularLoader, 
-    NewestLoader 
+    NewestLoader,
+    CardCarousel as ProductCardCarousel,
 } from "@/features/product"
+import {
+    BiggestLoader,
+    SaleCard,
+
+} from "@/features/sale"
+import {
+    ReviewCard,
+    TestimonialLoader
+} from "@/features/review"
+import type { 
+    Sale 
+
+} from "@/features/sale"
 
 
 export { CataloguePage }
@@ -33,58 +47,68 @@ function CataloguePage() {
 
     return (
     <Page>
-        <h2>Catalogue</h2>
+        <Heading>Catalogue</Heading>
         
-        <p> Wow Such Wow About Us Wow </p>
+        <Text> Wow Such Wow About Us Wow </Text>
 
-        <StatsSection />
+        <StatsInfo />
 
-        <h2>Featured Products</h2>
+        <Heading level={2}>Featured Products</Heading>
         <FeaturedLoader
         limit={15}
         render={({ products, images }) => 
-            <ProductsSection products={products} images={images} />
+            <ProductCardCarousel products={products} images={images} />
         }/>
 
-        <h2>Popular Products</h2>
+        <Heading level={2}>Popular Products</Heading>
         <PopularLoader
         limit={15}
         render={({ products, images }) => 
-            <ProductsSection products={products} images={images} />
+            <ProductCardCarousel products={products} images={images} />
         }/>
         
-        <h2>Newest Products</h2>
+        <Heading level={2}>Newest Products</Heading>
         <NewestLoader
         limit={15}
         render={({ products, images }) => 
-            <ProductsSection products={products} images={images} />
+            <ProductCardCarousel products={products} images={images} />
         }/>
 
-        <BiggestSalesSection limit={3} onCardClick={handleSaleCardClick} />
-        <TestimonialsSection limit={3} />
-    </Page>
-    )
-}
-
-function ProductsSection({
-    products, images
-}: {
-    products: Product[]
-    images: Record<string, MediaDetail>
-}) {
-    const navigate = useNavigate()
-    return (
-    <div>
-        <CarouselComponent 
-        limit={6}
-        children={products.map((product) => 
-            <Card 
-            product={product} 
-            key={`${product.id}`} 
-            image={images[product.id]}
-            onClick={() => navigate(PageRoutes.product(product.slug))}
-            />
+        <Heading level={2}>Biggest Sales</Heading>
+        <BiggestLoader
+        limit={3}
+        render={(sales, images) => (
+            <Inline
+            children={
+                <List
+                items={sales}
+                render={(s) => 
+                    <SaleCard 
+                    sale={s}
+                    key={`${s.slug}-${s.id}`}
+                    image={images[s.id]}
+                    onClick={() => handleSaleCardClick(s)}
+                    />
+                }/>
+            } />
         )}/>
-    </div>
+        
+        <Heading level={2}>Testimonials</Heading>
+        <TestimonialLoader
+        limit={3}
+        render={(reviews) => (
+            <Inline
+            children={
+                <List
+                items={reviews}
+                render={(r) => 
+                    <ReviewCard 
+                    review={r} 
+                    key={`${r.userName}`} 
+                    />
+                }/>
+            } />
+        )}/>
+    </Page>
     )
 }

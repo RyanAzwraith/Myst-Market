@@ -5,107 +5,57 @@ import {
     useQueryClient 
 } from "@tanstack/react-query"
 
-import { 
-    booleanFilter, 
-    selectMultipleFilter, 
-    selectOneFilter, 
-    textFilter, 
-    useQueryParams 
-} from "@/hooks/QueryParams/useQueryParams"
-import { 
-    numberField, 
-    textField, 
-    useSelectEdit 
-} from "@/utils/useSelectEdit"
-
 import { server } from "@/core"
 
 import type {
-    AdminSort,
     AdminSearchParams,
     Sale,
-    SaleAnalytics,
 } from "./schema"
-import {
-    activation,
-    adminSort,
-} from "./schema"
+import type { MediaDetail } from "../product"
+import { listToRecord } from "@/utils/funcs"
+
  
 export { 
-    useAdminSearchParams,
-    useAdminSelectEdit,
     useSaleQuery,
-    useSaleImageQuery,
-    useSaleMediasQuery,
-    useSaleAnalyticsQuery,
-    usePostSaleMutation,
-    usePatchSaleMutation,
-    usePatchSalesMutation,
-    useDeleteSaleMutation,
+    useImageQuery,
+    useMediasQuery,
+    useAnalyticsQuery,
+    usePostMutation,
+    usePatchMutation,
+    usePatchManyMutation,
+    useDeleteMutation,
     useAdminSearchQuery,
-    useBiggestSalesQuery,
-    useImportSalesMutation,
-    useExportSalesMutation,
-}
-
-// Hooks
-function useAdminSearchParams() {
-
-    const filters = {
-        activation: selectMultipleFilter({
-            label: "Activation Type",
-            options: activation,
-        }),
-        sort: selectOneFilter({
-            label: "Sort By",
-            defaultValue: 'startAt' as AdminSort,
-            options: adminSort
-        }),
-        search: textFilter({
-            label: "Search",
-            placeholder: "Search"
-        }),
-        isAscending: booleanFilter({
-            label: "Ascending",
-        }),
-    }
-
-    return useQueryParams(filters, '/admin/sales')
-}
-
-function useAdminSelectEdit(sales: SaleAnalytics[]) {
-	const { mutate: patchSales } = usePatchSalesMutation();
-
-    const editFields = {
-		startAt: textField({ label: 'Start date' }),
-		endAt: textField({ label: 'End date' }),
-		discountPercent: numberField({
-			label: 'Discount percent',
-			step: 1,
-		}),
-	};
-    
-	const selectEdit = useSelectEdit({
-		ids: new Set(sales.map(sale => String(sale.id))),
-		FieldFactories: editFields,
-		handleSubmit: (selectedIds, fieldValues) => {
-			patchSales({
-				ids: [...selectedIds].map(Number),
-				startAt: fieldValues.startAt === null
-					? null
-					: new Date(fieldValues.startAt),
-				endAt: fieldValues.endAt === null
-					? null
-					: new Date(fieldValues.endAt),
-				discountPercent: fieldValues.discountPercent,
-			});
-		},
-	});
-    return selectEdit;
+    useBiggestQuery,
+    useImportMutation,
+    useExportMutation,
 }
 
 
-// Requests
+// Infinite Queries
+function useAdminSearchQuery(
+    limit: number | null,
+    searchParams?: AdminSearchParams
+) {
+    return useInfiniteQuery({
+        queryKey: ['admin', 'sales', { ...searchParams, limit }],
+        queryFn: ({ pageParam }) => {
+            return server.sales.adminSearch({
+                searchParams: searchParams ?? null,
+                limit: limit,
+                offset: pageParam ?? 0,
+            })
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) =>
+            (lastPage.hasMore && limit) ? (pages.length * limit) : undefined,
+        select: (data) => ({
+            ...data,
+            sales: data.pages.flatMap(page => page.sales),
+        })
+    })
+}
+
+// Queries
 function useSaleQuery(slug: string | undefined) {
     return useQuery({
         queryKey: ["sale", slug],
@@ -115,14 +65,14 @@ function useSaleQuery(slug: string | undefined) {
     })
 }
 
-function useSaleImageQuery(saleId: number) {
+function useImageQuery(saleId: number) {
     return useQuery({
         queryKey: ["sale-image", saleId],
         queryFn: () =>  server.sale.getImage(saleId),
         select: data => data.media,
     })
 }
-function useSaleMediasQuery(saleId: number) {
+function useMediasQuery(saleId: number) {
     return useQuery({
         queryKey: ["sale-medias", saleId],
         queryFn: () => server.sale.getMedias(saleId),
@@ -130,7 +80,7 @@ function useSaleMediasQuery(saleId: number) {
     })
 }
 
-function useSaleAnalyticsQuery(saleId: number) {
+function useAnalyticsQuery(saleId: number) {
     return useQuery({
         queryKey: ['admin', 'sale-analytics', saleId],
         queryFn: () => server.sale.getAnalytics(saleId),
@@ -138,7 +88,23 @@ function useSaleAnalyticsQuery(saleId: number) {
     })
 }
 
-function usePostSaleMutation() {
+function useBiggestQuery(    
+    limit: number,
+) {
+    return useQuery({
+        queryKey: ['biggestSales', limit],
+        queryFn: () => server.sales.retrieveBiggest({ limit }),
+        select: data => ({
+            sales: data.sales,
+            images: listToRecord(
+                data.images, (item) => [item.entityId, item]
+            ) as Record<number, MediaDetail>,
+        })
+    })
+}  
+
+// Mutations
+function usePostMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (req: Omit<Sale, 'id'>) => server.sale.create(req),
@@ -150,7 +116,7 @@ function usePostSaleMutation() {
     })
 }
 
-function usePatchSaleMutation(id: number) {
+function usePatchMutation(id: number) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (req : Partial<Sale>) => server.sale.patch(id, req),
@@ -165,7 +131,7 @@ function usePatchSaleMutation(id: number) {
     })
 }
 
-function usePatchSalesMutation() {
+function usePatchManyMutation() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (req: Partial<{
@@ -185,48 +151,27 @@ function usePatchSalesMutation() {
     })
 }
 
-function useDeleteSaleMutation(saleId: number) {
+function useDeleteMutation({
+    saleId, onSuccess
+}: {
+    saleId: number, 
+    onSuccess?: () => void
+}) {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => server.sale.delete(saleId),
-        onSuccess: () => 
+        onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['admin', 'sales']
             })
+            onSuccess?.()
+        }
     })
 }
 
 
-function useAdminSearchQuery(
-    limit: number | null,
-    searchParams?: AdminSearchParams
-) {
-    return useInfiniteQuery({
-        queryKey: ['admin', 'sales', { ...searchParams, limit }],
-        queryFn: ({ pageParam }) => {
-            return server.sales.adminSearch({
-                searchParams: searchParams ?? null,
-                limit: limit,
-                offset: pageParam ?? 0,
-            })
-        },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) =>
-            (lastPage.hasMore && limit) ? (pages.length * limit) : undefined
-    })
-}
 
-
-function useBiggestSalesQuery(    
-    limit: number,
-) {
-    return useQuery({
-        queryKey: ['biggestSales', limit],
-        queryFn: () => server.sales.retrieveBiggest({ limit }),
-    })
-}  
-
-function useImportSalesMutation() {
+function useImportMutation() {
     const { invalidateQueries } = useQueryClient()
     return useMutation({
         mutationFn: (file: File) => 
@@ -237,7 +182,7 @@ function useImportSalesMutation() {
     })
 }
 
-function useExportSalesMutation() {
+function useExportMutation() {
     return useMutation({
         mutationFn: () => 
             server.sales.export(),

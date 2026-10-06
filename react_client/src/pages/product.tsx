@@ -30,14 +30,12 @@ function ProductPage() {
         <ProductLoader 
         slug={slug}
         render={(product) => <>
-
             <DetailedInfo 
             product={product}
             onSaleClick={(sale) => navigate(PageRoutes.sale(sale.slug))}
             />
             <AddToCartButton product={product} />
             <ReviewsSection productId={product.id}/>
-
         </> }/> 
     </Page>
     )

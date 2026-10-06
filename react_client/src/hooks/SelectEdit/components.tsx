@@ -1,7 +1,18 @@
 import { type ChangeEvent, type ReactNode } from 'react'
 
-import { List } from "@/shared";
 import { recordToList } from '@/utils/funcs'
+import { 
+    Grid, 
+    Label, 
+    LabeledInput, 
+    Legend, 
+    List, 
+    Select,
+    FieldSet,
+    Input,
+    Button,
+    Container
+} from "@/shared";
 
 import type { 
     Binding,
@@ -46,17 +57,17 @@ function BooleanField({ binding }: {
     }
 
     return (
-        <label>
-            {label}
-            <select
-            value={value === null ? '' : String(value)}
-            onChange={event => handleChange(event.target.value)}
-            >
-                <option value="">No change</option>
-                <option value="true">True</option>
-                <option value="false">False</option>
-            </select>
-        </label>
+    <Label>
+        {label}
+        <Select
+        value={value === null ? '' : String(value)}
+        onChange={event => handleChange(event.target.value)}
+        >
+            <option value="">No change</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </Select>
+    </Label>
     )
 }
 
@@ -65,16 +76,16 @@ function TextField({ binding }: {
 }) {
     const { label, placeholder, get, set } = binding;
     return (
-        <label>
+        <LabeledInput
+        type="text"
+        placeholder={placeholder}
+        value={get() ?? ''}
+        onChange={event =>
+            set(event.target.value || null)
+        }
+        >
             {label}
-            <input
-            type="text"
-            placeholder={placeholder}
-            value={get() ?? ''}
-            onChange={event =>
-                set(event.target.value || null)
-            }/>
-        </label>
+        </LabeledInput>
     )
 }
 
@@ -96,15 +107,14 @@ function NumberField({ binding }: {
     }
 
     return (
-        <label>
+        <LabeledInput
+        type="number"
+        step={step}
+        value={value === null ? '' : value}
+        onChange={event => handleChange(event)}
+        >
             {label}
-            <input
-                type="number"
-                step={step}
-                value={value === null ? '' : value}
-                onChange={event => handleChange(event)}
-            />
-        </label>
+        </LabeledInput>
     )
 }
 
@@ -132,22 +142,22 @@ function SelectOneField({ binding }: {
     }
 
     return (
-        <label>
-            {label}
-            <select
-            value={value === null ? '' : String(value)}
-            onChange={event => handleChange(event.target.value)}
-            >
-                <option value={""}>No change</option>
-                <List
-                items={optionsList as [string, any][]}
-                renderItem={([key, value]) => (
-                    <option key={key} value={value}>
-                        {binding.labels[key]}
-                    </option>
-                )}/>
-            </select>
-        </label>
+    <Label>
+        {label}
+        <Select
+        value={value === null ? '' : String(value)}
+        onChange={event => handleChange(event.target.value)}
+        >
+            <option value={""}>No change</option>
+            <List
+            items={optionsList as [string, any][]}
+            render={([key, value]) => (
+                <option key={key} value={value}>
+                    {binding.labels[key]}
+                </option>
+            )}/>
+        </Select>
+    </Label>
     )
 }
 
@@ -166,31 +176,33 @@ function SelectMultipleField({ binding }: {
     }
 
     return (
-        <fieldset>
-            <legend>{label}</legend>
-            <label>
-                <input
-                type="checkbox"
-                checked={currentValue === null}
-                onChange={event =>
-                    set(event.target.checked ? null : [])
-                }/>
-                No change
-            </label>
-            <List
-            items={recordToList(options) as [string, any][]}
-            renderItem={([key, value]) => (
-                <label key={key}>
-                    <input
-                    type="checkbox"
-                    checked={values.includes(value)}
-                    onChange={event =>
-                        handleChange(value, event.target.checked)
-                    }/>
-                    {binding.labels[key]}
-                </label>
-            )}/>
-        </fieldset>
+    <FieldSet>
+        <Legend>{label}</Legend>
+
+        <LabeledInput
+        before={false}
+        type="checkbox"
+        checked={currentValue === null}
+        onChange={event =>
+            set(event.target.checked ? null : [])
+        }>
+            No change
+        </LabeledInput>
+
+        <List
+        items={recordToList(options) as [string, any][]}
+        render={([key, value]) => (
+            <LabeledInput
+            before={false}
+            type="checkbox"
+            checked={values.includes(value)}
+            onChange={event =>
+                handleChange(value, event.target.checked)
+            }>
+                {binding.labels[key]}
+            </LabeledInput>
+        )}/>
+    </FieldSet>
     )
 }
 
@@ -202,17 +214,14 @@ function ItemContainer({
     toggleSelected: () => void,
 }) {    
     return (
-        <div>
-            <label>
-                <input
-                type="checkbox"
-                checked={isSelected}
-                onChange={toggleSelected}
-                />
-                Select   
-            </label>
-            {itemComponent}
-        </div>
+    <div>
+        <Input
+        type="checkbox"
+        checked={isSelected}
+        onChange={toggleSelected}
+        />
+        {itemComponent}
+    </div>
     )
 }
 
@@ -221,9 +230,9 @@ function SelectEditContainer({ children }:{
     children: ReactNode
 }) {
     return (
-        <div>
-            {children}
-        </div>
+    <Container>
+        {children}
+    </Container>
     )
 }
 
@@ -248,38 +257,41 @@ function SelectEditDisplay<F extends FieldDefs>({
 }) {
     const { bindings, isAllSelected, toggleSelectAll, selectedIds, submit } = selectEdit;
     return (
-        <SelectEditContainer>
-            <fieldset>
-                <label>
-                    <input
-                    type="checkbox"
-                    checked={isAllSelected}
-                    onChange={toggleSelectAll}
-                    />
-                    Select all
-                </label>
-                
-                <List
-                items={recordToList(bindings)}
-                renderItem={([_, binding]) => 
-                    <SelectEditField 
-                    binding={binding} 
-                    key={binding.fieldKey} 
-                    />
-                }/>
-
-                <button
-                type="button"
-                onClick={submit}
-                disabled={selectedIds.size === 0}
-                >
-                    Update selected
-                </button>
-            </fieldset>
+    <SelectEditContainer>
+        <FieldSet>
+            <LabeledInput
+            before={false}
+            type="checkbox"
+            checked={isAllSelected}
+            onChange={toggleSelectAll}
+            >
+                Select all
+            </LabeledInput>
             
             <List
+            items={recordToList(bindings)}
+            render={([_, binding]) => 
+                <SelectEditField 
+                binding={binding} 
+                key={binding.fieldKey} 
+                />
+            }/>
+
+            <Button
+            type="button"
+            onClick={submit}
+            disabled={selectedIds.size === 0}
+            >
+                Update selected
+            </Button>
+        </FieldSet>
+        
+        <Grid
+        columns={3}
+        >
+            <List
             items={elements}
-            renderItem={(itemComponent, id) => 
+            render={(itemComponent, id) => 
                 <ItemContainer
                 key={id}
                 isSelected={selectedIds.has(id)}
@@ -287,7 +299,8 @@ function SelectEditDisplay<F extends FieldDefs>({
                 itemComponent={itemComponent}
                 />
             }/>
+        </Grid>
 
-        </SelectEditContainer>
+    </SelectEditContainer>
     )
 }

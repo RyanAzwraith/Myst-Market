@@ -1,6 +1,17 @@
 import { type ChangeEvent, type SubmitEvent, type ReactNode } from 'react'
 
-import { List } from "@/shared";
+import { 
+    FieldSet, 
+    Form, 
+    Label, 
+    LabeledInput, 
+    Legend, 
+    List, 
+    Select, 
+    TextArea,
+    ErrorMsg,
+    Button, 
+} from "@/shared";
 import { recordToList } from '@/utils/funcs'
 
 import type { 
@@ -29,7 +40,6 @@ export {
     PasswordField,
     SelectOneField,
     SelectMultipleField,
-    ErrorMsg,
     FormInputsContainer,
     FormInputsField,
     FormInputsForm,
@@ -41,14 +51,14 @@ function BooleanField({ binding }: {
 }) {
     const { get, set, label } = binding;
     return (
-        <label>
-            <input
-                type="checkbox"
-                checked={!!get()}
-                onChange={event => set(event.target.checked)}
-            />
+        <LabeledInput
+        before={false}
+        type="checkbox"
+        checked={!!get()}
+        onChange={event => set(event.target.checked)}
+        >
             {label}
-        </label>
+        </LabeledInput>
     );
 }
 
@@ -62,17 +72,17 @@ function TextField({
 }) {
     const { label, placeholder, get, set } = binding;
     return (
-        <label>
+        <LabeledInput
+        type={type}
+        placeholder={placeholder}
+        value={get() ?? ''}
+        readOnly={readOnly}
+        onChange={event =>
+            set(event.target.value || null)
+        }
+        >
             {label}
-            <input
-            type={type}
-            placeholder={placeholder}
-            value={get() ?? ''}
-            readOnly={readOnly}
-            onChange={event =>
-                set(event.target.value || null)
-            }/>
-        </label>
+        </LabeledInput>
     )
 }
 
@@ -84,15 +94,15 @@ function TextAreaField({
 }) {
     const { label, placeholder, get, set } = binding;
     return (
-        <label>
-            {label}
-            <textarea
-            placeholder={placeholder}
-            value={get() ?? ''}
-            readOnly={readOnly}
-            onChange={event => set(event.target.value || null)}
-            />
-        </label>
+    <Label>
+        {label}
+        <TextArea
+        placeholder={placeholder}
+        value={get() ?? ''}
+        readOnly={readOnly}
+        onChange={event => set(event.target.value || null)}
+        />
+    </Label>
     );
 }
 
@@ -117,16 +127,16 @@ function NumberField({
     }
 
     return (
-        <label>
+        <LabeledInput
+        before={false}
+        type="number"
+        min={positiveInteger ? 0 : undefined}
+        step={step}
+        value={value === null ? '' : value}
+        onChange={event => handleChange(event)}
+        >
             {label}
-            <input
-                type="number"
-                min={positiveInteger ? 0 : undefined}
-                step={step}
-                value={value === null ? '' : value}
-                onChange={event => handleChange(event)}
-            />
-        </label>
+        </LabeledInput>
     )
 }
 
@@ -166,21 +176,21 @@ function SelectOneField({ binding }: {
 }) {
     const { label, options, get, set } = binding;
     return (
-        <label>
-            {label}
-            <select
-            value={get() ?? ""}
-            onChange={event => set(event.target.value)}
-            >
-                <List
-                items={recordToList(options) as [string, any][]}
-                renderItem={([key, value]) => (
-                    <option key={key} value={value}>
-                        {binding.labels[key]}
-                    </option>
-                )}/>
-            </select>
-        </label>
+    <Label>
+        {label}
+        <Select
+        value={get() ?? ""}
+        onChange={event => set(event.target.value)}
+        >
+            <List
+            items={recordToList(options) as [string, any][]}
+            render={([key, value]) => (
+                <option key={key} value={value}>
+                    {binding.labels[key]}
+                </option>
+            )}/>
+        </Select>
+    </Label>
     )
 }
 
@@ -199,34 +209,23 @@ function SelectMultipleField({ binding }: {
     }
 
     return (
-        <fieldset>
-            <legend>{label}</legend>
-            <List
-            items={recordToList(options) as [string, any][]}
-            renderItem={([key, value]) => (
-                <label key={key}>
-                    <input
-                    type="checkbox"
-                    checked={values.includes(value)}
-                    onChange={event =>
-                        handleChange(value, event.target.checked)
-                    }/>
-                    {binding.labels[key]}
-                </label>
-            )}/>
-        </fieldset>
+    <FieldSet>
+        <Legend>{label}</Legend>
+        <List
+        items={recordToList(options) as [string, any][]}
+        render={([key, value]) => (
+            <LabeledInput 
+            before={false}
+            type="checkbox"
+            checked={values.includes(value)}
+            onChange={event =>
+                handleChange(value, event.target.checked)
+            }>
+                {binding.labels[key]}
+            </LabeledInput>
+        )}/>
+    </FieldSet>
     )
-}
-
-function ErrorMsg({ message }: { 
-    message: string | null 
-}) {
-    if (!message) return null;
-    return (
-        <p className="text-sm text-red-600">
-            {message}
-        </p>
-    );
 }
 
 function FormInputsContainer({ 
@@ -236,11 +235,11 @@ function FormInputsContainer({
     submit?: (event: SubmitEvent<HTMLFormElement>) => void
 }) {
     return (
-        <form 
+        <Form 
         onSubmit={event => submit?.(event)}
         >
             {children}
-        </form>
+        </Form>
     )
 }
 
@@ -270,30 +269,30 @@ function FormInputsForm({
         bindings, errorMsg, reset, handleSubmit,
     } = formInputs;
     return (
-        <FormInputsContainer submit={handleSubmit}>
-            <List
-            items={recordToList(bindings)}
-            renderItem={([_, binding]) => 
-                <FormInputsField
-                binding={binding} 
-                key={binding.fieldKey} 
-                />
-            }/>
+    <FormInputsContainer submit={handleSubmit}>
+        <List
+        items={recordToList(bindings)}
+        render={([_, binding]) => 
+            <FormInputsField
+            binding={binding} 
+            key={binding.fieldKey} 
+            />
+        }/>
 
-            <ErrorMsg message={errorMsg} />
+        <ErrorMsg errorMsg={errorMsg} />
 
-            <button type="submit" >
-                {submitLabel}
-            </button>
-            
-            {hasResetButton && (
-            <button
-            type="button"
-            onClick={reset}
-            >
-                Reset
-            </button>
-            )}
-        </FormInputsContainer>
+        <Button type="submit" >
+            {submitLabel}
+        </Button>
+        
+        {hasResetButton && (
+        <Button
+        type="button"
+        onClick={reset}
+        >
+            Reset
+        </Button>
+        )}
+    </FormInputsContainer>
     )
 }

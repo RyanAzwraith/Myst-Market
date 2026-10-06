@@ -23,7 +23,6 @@ const entityType = {
 
 type EntityType = typeof entityType[keyof typeof entityType]
 
-
 type MediaDetail = {
     id: number
     mediaType: MediaType

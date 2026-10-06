@@ -13,9 +13,12 @@ export {
 
 const app: Interface.App = {
     getStats: () => request(serverRoutes.app.stats),
-    getPerformance: () => authRequest(serverRoutes.app.performance),
     getAttention: () => authRequest(serverRoutes.app.attention),
     getGraph: () => authRequest(serverRoutes.app.graph),
+    retrievePerformance: (req) => authRequest(serverRoutes.app.performance, {
+        method: "POST",
+        body: JSON.stringify(req),
+    }),
 }
 
 const auth: Interface.Auth = {

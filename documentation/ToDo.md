@@ -100,6 +100,10 @@ Loose Ends
 - allow bulk delete
 - allow media deletion and refactor delete routes
 - refactor shared hook
+- Select Dates 
+- improve ErrorMsgs and Loading
+- refactor form fields so it takes required 
+- Make Performace periods work
 
 Bugs
 - user logged in without accessToken

@@ -49,9 +49,11 @@ interface App {
             total_average_rating: number,
         }
     }>
-    getPerformance: () => Promise<{ performance: app.Performance }>
     getAttention: () => Promise<{ attention: app.Attention }>
     getGraph: () => Promise<{ graphPoints: app.GraphPoint[] }>
+    retrievePerformance: ( req: {
+        period: number
+    }) => Promise<{ performance: app.Performance }>
 }
 
 interface Auth {
@@ -145,8 +147,7 @@ interface Sales {
         hasMore: boolean 
     }>
 
-    patch: (req : Partial<
-        {
+    patch: (req : Partial<{
         ids: number[]
         startAt: Date | null
         endAt: Date | null

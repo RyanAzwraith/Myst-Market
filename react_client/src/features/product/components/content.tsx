@@ -1,6 +1,8 @@
 import { 
     MoneyFormat,  
-    Loading, 
+    Loading,
+    Heading, 
+    Text,
 } from "@/shared"
 
 import {
@@ -71,8 +73,8 @@ function SummaryInfo({ product, image }: {
     return (
     <>
         <Media media={image} />
-        <h2>{product.name}</h2>
-        <p>{product.categoryName} - {product.rarityName}</p>
+        <Heading level={2}>{product.name}</Heading>
+        <Text>{product.categoryName} - {product.rarityName}</Text>
         <PriceFormat product={product} />
     </>
     )
@@ -85,9 +87,9 @@ function DetailedInfo({ product, onSaleClick }: {
     return (
     <>
         <ProductCarousel productId={product.id} limit={10} />
-        <h1>{product.name}</h1>
+        <Heading level={1}>{product.name}</Heading>
 
-        <p>{product.categoryName} - {product.rarityName}</p>
+        <Text>{product.categoryName} - {product.rarityName}</Text>
         <PriceFormat product={product} onClick={onSaleClick} />
         <p>Stock {product.stock}</p>
         <p>{product.description}</p>
@@ -100,8 +102,8 @@ function AdminSummaryInfo({ product }: {
 }) {
     return (
     <>
-        <p>{product.name}</p>
-        <p>{product.categoryName} - {product.rarityName}</p>
+        <Text>{product.name}</Text>
+        <Text>{product.categoryName} - {product.rarityName}</Text>
         <PriceFormat product={product} />
         <p>Stock: {product.stock}</p>
     </>
@@ -114,23 +116,23 @@ function AnalyticsInfo({ product }: {
     return (
     <>
         <ProductCarousel productId={product.id} limit={20} />
-        <h2>{product.name}</h2>
-        <p>ID: {product.id}</p>
-        <p>Slug: {product.slug}</p>
-        <p>Category: {product.categoryName}</p>
-        <p>Rarity: {product.rarityName}</p>
-        <p>Price: <MoneyFormat amount={product.priceAudCent} /></p>
-        <p>Discounted: <MoneyFormat amount={product.discountedPrice} /></p>
-        <p>Created At: {product.createdAt}</p>
-        <div>Stock: {product.stock}</div>
-        <p>Units Sold: {product.unitsSold}</p>
-        <p>Revenue: <MoneyFormat amount={product.revenue} /></p>
-        <p>Orders: {product.orderCount}</p>
-        <p>Refunds: {product.refunds}</p>
-        <p>Revenue Lost: <MoneyFormat amount={product.revenueLost}/></p>
-        <p>Average Rating: {product.averageRating}</p>
-        <p>Reviews: {product.reviews}</p>
-        <p>Description: {product.description}</p>
+        <Heading level={2}>{product.name}</Heading>
+        <Text>ID: {product.id}</Text>
+        <Text>Slug: {product.slug}</Text>
+        <Text>Category: {product.categoryName}</Text>
+        <Text>Rarity: {product.rarityName}</Text>
+        <Text>Price: <MoneyFormat amount={product.priceAudCent} /></Text>
+        <Text>Discounted: <MoneyFormat amount={product.discountedPrice} /></Text>
+        <Text>Created At: {product.createdAt}</Text>
+        <Text>Stock: {product.stock}</Text>
+        <Text>Units Sold: {product.unitsSold}</Text>
+        <Text>Revenue: <MoneyFormat amount={product.revenue} /></Text>
+        <Text>Orders: {product.orderCount}</Text>
+        <Text>Refunds: {product.refunds}</Text>
+        <Text>Revenue Lost: <MoneyFormat amount={product.revenueLost}/></Text>
+        <Text>Average Rating: {product.averageRating}</Text>
+        <Text>Reviews: {product.reviews}</Text>
+        <Text>Description: {product.description}</Text>
     </>
     )
 }
@@ -140,8 +142,8 @@ function PerformanceInfo({ product }: {
 }) {
     return (
     <>
-        <p>{product.name}</p>
-        <p>{product.orderCount}</p>
+        <Text>{product.name}</Text>
+        <Text>{product.orderCount}</Text>
     </>
     )
 }
