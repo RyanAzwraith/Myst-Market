@@ -12,9 +12,15 @@ export {
 function ExpandableContent({
     content,
     limit = 3,
+    className,
+    iconClassName,
+    iconButtonClassName,
 }: { 
     content: ReactNode[],
     limit?: number
+    className?: string
+    iconClassName?: string
+    iconButtonClassName?: string
 }) {
     const [ isExpanded, setIsExpanded ] = useState(false)
     const shownChildren = isExpanded
@@ -23,18 +29,24 @@ function ExpandableContent({
     const isExpandable = content.length > limit
 
     return (
-    <>
+    <div className={className}>
         {shownChildren}
             
         { isExpandable && isExpanded ? 
-        <ChevronDownIcon 
+        <ChevronUpIcon 
+        ariaLabel="Collapse content"
+        className={iconClassName}
+        buttonClassName={iconButtonClassName}
         onClick={() => setIsExpanded((current) => !current)}
         />
             : 
-        <ChevronUpIcon 
+        <ChevronDownIcon 
+        ariaLabel="Expand content"
+        className={iconClassName}
+        buttonClassName={iconButtonClassName}
         onClick={() => setIsExpanded((current) => !current)}
         />
         }
-    </>
+    </div>
     )
 }

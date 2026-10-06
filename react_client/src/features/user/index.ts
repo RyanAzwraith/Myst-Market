@@ -28,7 +28,6 @@ export {
 } from './service'
 
 export {
-    LoggedInLoader,
     AdminSearchLoader,
     ReviewsLoader,
     OrdersLoader

@@ -7,7 +7,8 @@ import {
     Label,
     Select,
     Input,
-    Container
+    Container,
+    Row
 } from "@/shared";
 import { recordToList, recordValues } from '@/utils/funcs'
 
@@ -99,6 +100,7 @@ function SelectMultipleField({ binding }: {
         items={recordToList(binding.options) as [string, string][]}
         render={([key, value]) => (
             <LabeledInput
+            key={`option-${key}`}
             before={false}
             type="checkbox"
             checked={selected.includes(value)}
@@ -131,21 +133,23 @@ function TextField({ binding }: {
     
     return (
     <Label htmlFor={binding.fieldKey}>
-        {binding.label}
-        <Input
-        id={binding.fieldKey}
-        name={binding.fieldKey}
-        type="text"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
-        onBlur={handleSearch}
-        />
-        <XMarkIcon 
-        onClick={() => { 
-            setSearchInput('')
-            binding.set(() => '')
-        }} />
+        <Row>
+            {binding.label}
+            <Input
+            id={binding.fieldKey}
+            name={binding.fieldKey}
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
+            onBlur={handleSearch}
+            />
+            <XMarkIcon 
+            onClick={() => { 
+                setSearchInput('')
+                binding.set(() => '')
+            }} />
+        </Row>
     </Label>
     );
 }

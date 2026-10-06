@@ -18,15 +18,16 @@ export {
     useAuthState,
     useCreateMutation as useCreateUserMutation,
     UserInfo,
-    LoggedInLoader
 } from "@/features/user"
+export {
+    LoggedInLoader
+} from '@/features/auth'
 export type {
     Product
 } from '@/features/product'
 
 export {
     ItemCard,
-    CartFormSection,
     ResolutionLoader,
 } from '@/features/item'
 

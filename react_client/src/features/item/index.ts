@@ -29,5 +29,4 @@ export {
     CartMenuButton,
     AddToCartButton,
     CartMenu,
-    CartFormSection
 } from './components/interactive'

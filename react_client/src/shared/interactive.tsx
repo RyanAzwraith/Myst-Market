@@ -6,6 +6,7 @@ import type {
     SelectHTMLAttributes,
     MouseEvent,
 } from "react"
+import { twMerge } from "tailwind-merge"
 
 export {
     ButtonWrapper,
@@ -18,26 +19,32 @@ export {
 
 
 function ButtonWrapper({
-    onClick, children
+    onClick, children, className, type = "button"
 }: {
     onClick?: () => void, 
     children: React.ReactNode
+    className?: string
+    type?: "button" | "submit" | "reset"
 }) {
     return (
         <button
+        type={type}
         onClick={onClick}
+        className={className}
         children={children}
         />
     )
 }
 
 function Button({
+    className,
     children,
     type = "button",
     variant = "primary",
     disabled = false,
     onClick
 }: {
+    className?: string
     children: ReactNode
     type?: "button" | "submit" | "reset"
     variant?: "primary" | "secondary" | "danger" | "ghost"
@@ -53,14 +60,15 @@ function Button({
 
     return (
         <button
-            type={type}
-            disabled={disabled}
-            onClick={onClick}
-            className={[
-                "rounded px-4 py-2 font-medium",
-                variants[variant],
-                disabled && "cursor-not-allowed opacity-50"
-            ].join(" ")}
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+        className={twMerge(
+            "rounded px-4 py-2 font-medium",
+            variants[variant],
+            disabled && "cursor-not-allowed opacity-50",
+            className
+        )}
         >
             {children}
         </button>
@@ -82,7 +90,7 @@ function Input({
         password: "w-full rounded border px-3 py-2",
         number: "w-full rounded border px-3 py-2",
         file: "w-full rounded border px-3 py-2",
-        checkbox: "w-full rounded border px-3 py-2",
+        checkbox: "size-4 rounded border",
     }
 
     return (
@@ -90,7 +98,7 @@ function Input({
         ref={ref}
         {...props}
         type={type}
-        className={`${styles[type] ?? styles.text} ${className ?? ""}`}
+        className={twMerge(styles[type] ?? styles.text, className)}
         />
     )
 }
@@ -102,25 +110,27 @@ function TextArea({
     return (
         <textarea
         {...props}
-        className={[
+        className={twMerge(
             "w-full rounded border px-3 py-2",
             "focus:outline-none focus:ring-2",
             className
-        ].filter(Boolean).join(" ")}
+        )}
         />
     )
 }
 
 function LabeledInput({
-    children, id, type = "text", className, before=true, ...props
+    children, id, type = "text", className, labelClassName, before=true,
+    ...props
 }: InputHTMLAttributes<HTMLInputElement> & {
     children: ReactNode,
     type?: "text" | "email" | "password" | "number" | "file" | "checkbox",
     before?: boolean,
+    labelClassName?: string,
 }) {
     return (
     <label 
-    className="flex items-center gap-2" 
+    className={twMerge("flex items-center gap-2", labelClassName)}
     htmlFor={id}
     >
         {before && <span>{children}</span>}
@@ -143,13 +153,12 @@ function Select({
     return (
         <select
         {...props}
-        className={[
+        className={twMerge(
             "w-full rounded border px-3 py-2",
             "focus:outline-none focus:ring-2",
             className
-        ].filter(Boolean).join(" ")}
+        )}
         children={children}
         />
     )
 }
-

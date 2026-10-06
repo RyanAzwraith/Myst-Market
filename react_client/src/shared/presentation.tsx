@@ -3,6 +3,7 @@ import type {
     LabelHTMLAttributes 
 } from "react"
 import type { JSX } from "react"
+import { twMerge } from "tailwind-merge"
 
 export {
     Text,
@@ -20,10 +21,11 @@ export {
 
 
 function Text({
-    children, variant = "normal"
+    children, variant = "normal", className
 }: {
     children: ReactNode
     variant?: "normal" | "muted" | "small"
+    className?: string
 }) {
     const variants = {
         normal: "text-base",
@@ -33,17 +35,18 @@ function Text({
 
     return (
         <p 
-        className={variants[variant]}
+        className={twMerge(variants[variant], className)}
         children={children}
         />
     )
 }
 
 function Span({
-    children, variant = "normal"
+    children, variant = "normal", className
 }: {
     children: ReactNode
     variant?: "normal" | "muted" | "emphasis"
+    className?: string
 }) {
     const variants = {
         normal: "",
@@ -53,17 +56,18 @@ function Span({
 
     return (
         <span 
-        className={variants[variant]}
+        className={twMerge(variants[variant], className)}
         children={children}
         />
     )
 }
 
 function Heading({
-    children, level = 1
+    children, level = 1, className,
 }: {
     children: ReactNode
     level?: 1 | 2 | 3 | 4 | 5 | 6
+    className?: string
 }) {
     const classNames = {
         1: "text-2xl font-bold",
@@ -77,7 +81,7 @@ function Heading({
     const Tag = `h${level}` as keyof JSX.IntrinsicElements
 
     return (
-    <Tag className={classNames[level]}>
+    <Tag className={twMerge(classNames[level], className)}>
         {children}
     </Tag>
     )
@@ -85,39 +89,58 @@ function Heading({
 
 
 
-const ErrorMsg = ({ errorMsg }: { errorMsg: string | null }) =>
+const ErrorMsg = ({
+    errorMsg, className
+}: {
+    errorMsg: string | null
+    className?: string
+}) =>
     !errorMsg ? null : (
-        <p className="text-sm text-red-600">{errorMsg}</p>
+        <p className={twMerge("text-sm text-red-600", className)}>
+            {errorMsg}
+        </p>
     )
 
-const Loading = ({ isError }: { 
+const Loading = ({ isError, className }: { 
     isError?: boolean, 
+    className?: string
 }) => {
     if (isError) return (
-        <p className="text-sm text-red-600">Error loading data</p>
+        <p className={twMerge("text-sm text-red-600", className)}>
+            Error loading data
+        </p>
     )
     return (
-        <p className="text-sm text-slate-600">Loading...</p>
+        <p className={twMerge("text-sm text-slate-600", className)}>
+            Loading...
+        </p>
     )
 }   
 
-const MoneyFormat = ({amount}: {amount: number | null}) =>
-    amount ? <span>$ {amount.toFixed(2)}</span> : "N/A"
+const MoneyFormat = ({
+    amount, className
+}: {
+    amount: number | null
+    className?: string
+}) =>
+    amount === null
+        ? "N/A"
+        : <span className={className}>$ {amount.toFixed(2)}</span>
 
-
-const SearchTitle = ({ possibleTitles }: {
+const SearchTitle = ({ possibleTitles, className }: {
     possibleTitles: (string | null | undefined | false)[]
+    className?: string
 }) => {
     const title = possibleTitles.find(Boolean)
     return (
-        <h1 className="mb-2 text-lg font-semibold">
+        <h1 className={twMerge("mb-2 text-lg font-semibold", className)}>
             {title}
         </h1> 
     )
 }
 
-function Divider() {
-    return <hr className="border-t" />
+function Divider({ className }: { className?: string }) {
+    return <hr className={twMerge("border-t", className)} />
 }
 
 function Label({
@@ -130,7 +153,7 @@ function Label({
     return (
     <label
     {...props}
-    className={`block text-sm font-medium ${className}`}
+    className={twMerge("block text-sm font-medium", className)}
     >
             {children}
     </label>
@@ -145,7 +168,10 @@ function Img({
 }: React.ImgHTMLAttributes<HTMLImageElement>) {
     return (
         <img
-		className={`max-h-96 max-w-full object-contain ${className}`}
+		className={twMerge(
+            "max-h-96 max-w-full object-contain",
+            className
+        )}
         src={src}
         alt={alt}
         {...props}
@@ -166,7 +192,10 @@ function Vid({
     return (
         <video
         src={src}
-        className={`max-h-96 max-w-full object-contain ${className}`}
+        className={twMerge(
+            "max-h-96 max-w-full object-contain",
+            className
+        )}
         controls={controls}
         playsInline={playsInline}
         aria-label={ariaLabel}

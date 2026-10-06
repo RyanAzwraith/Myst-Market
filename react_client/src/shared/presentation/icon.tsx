@@ -7,7 +7,7 @@ import {
     MinusIcon as HeroMinusIcon,
     PlusIcon as HeroPlusIcon,
     UserCircleIcon as HeroUserCircleSolidIcon,
-    ShoppingCartIcon as HeroShoppingCartSolidIcon ,
+    ShoppingCartIcon as HeroShoppingCartSolidIcon,
     StarIcon as HeroStarSolidIcon,
     ArrowDownIcon as HeroArrowDownIcon,
     ArrowUpIcon as HeroArrowUpIcon,
@@ -17,23 +17,21 @@ import {
     ShoppingCartIcon as HeroShoppingCartOutlineIcon,
     StarIcon as HeroStarOutlineIcon,
     ExclamationTriangleIcon as HeroExclamationTriangleIcon,
-
 } from "@heroicons/react/24/outline"
+import type { ComponentType, SVGProps } from "react"
+import { twMerge } from "tailwind-merge"
 
 export {
     ChevronDownIcon,
     ChevronUpIcon,
     ChevronRightIcon,
     ChevronLeftIcon,
-
-
     XMarkIcon,
     UserCircleSolidIcon,
     UserCircleOutlineIcon,
     ShoppingCartOutlineIcon,
     ShoppingCartSolidIcon,
     MinusIcon,
-    
     PlusIcon,
     StarSolidIcon,
     StarOutlineIcon,
@@ -42,275 +40,80 @@ export {
     ArrowUpIcon,
 }
 
-
-const ChevronUpIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
+type IconProps = {
+    onClick?: () => void
     hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroChevronUpIcon 
-    aria-label="ChevronUpIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroChevronUpIcon 
-        aria-label="ChevronUpIcon"
-        className="h-24 w-24" 
-        />
-    </button>
+    className?: string
+    buttonClassName?: string
+    ariaLabel?: string
+}
 
-const ChevronDownIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroChevronDownIcon 
-    aria-label="ChevronDownIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroChevronDownIcon 
-        aria-label="ChevronDownIcon"
-        className="h-24 w-24" 
-        />
-    </button>
+function createIcon(
+    Icon: ComponentType<SVGProps<SVGSVGElement>>,
+    name: string,
+) {
+    return function IconComponent({
+        onClick,
+        hidden,
+        className,
+        buttonClassName,
+        ariaLabel,
+    }: IconProps) {
+        if (hidden) return null
 
-const ChevronRightIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroChevronRightIcon 
-    aria-label="ChevronRightIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroChevronRightIcon 
-        aria-label="ChevronRightIcon"
-        className="h-24 w-24" 
-        />
-    </button>
+        const icon = (
+            <Icon
+                aria-label={ariaLabel ?? name}
+                className={twMerge("h-8 w-8", className)}
+            />
+        )
 
-const ChevronLeftIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroChevronLeftIcon 
-    aria-label="ChevronLeftIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroChevronLeftIcon 
-        aria-label="ChevronLeftIcon"
-        className="h-24 w-24" 
-        />
-    </button>
+        if (!onClick) return icon
 
-const XMarkIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroXMarkIcon 
-    aria-label="XMarkIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroXMarkIcon 
-        aria-label="XMarkIcon"
-        className="h-24 w-24" 
-        />
-    </button>
+        return (
+            <button
+                type="button"
+                aria-label={ariaLabel ?? name}
+                onClick={onClick}
+                className={buttonClassName}
+            >
+                {icon}
+            </button>
+        )
+    }
+}
 
-const UserCircleSolidIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroUserCircleSolidIcon 
-    aria-label="UserCircleSolidIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroUserCircleSolidIcon 
-        aria-label="UserCircleSolidIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const UserCircleOutlineIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroUserCircleOutlineIcon 
-    aria-label="UserCircleOutlineIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroUserCircleOutlineIcon 
-        aria-label="UserCircleOutlineIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const ShoppingCartOutlineIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroShoppingCartOutlineIcon 
-    aria-label="ShoppingCartOutlineIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroShoppingCartOutlineIcon 
-        aria-label="ShoppingCartOutlineIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const ShoppingCartSolidIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroShoppingCartSolidIcon 
-    aria-label="ShoppingCartSolidIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroShoppingCartSolidIcon 
-        aria-label="ShoppingCartSolidIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const MinusIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroMinusIcon 
-    aria-label="MinusIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroMinusIcon 
-        aria-label="MinusIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const PlusIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroPlusIcon 
-    aria-label="PlusIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroPlusIcon 
-        aria-label="PlusIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const StarSolidIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroStarSolidIcon 
-    aria-label="StarSolidIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroStarSolidIcon 
-        aria-label="StarSolidIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const StarOutlineIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroStarOutlineIcon 
-    aria-label="StarOutlineIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroStarOutlineIcon 
-        aria-label="StarOutlineIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const ExclamationTriangleIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroExclamationTriangleIcon 
-    aria-label="ExclamationTriangleIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroExclamationTriangleIcon 
-        aria-label="ExclamationTriangleIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const ArrowDownIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroArrowDownIcon 
-    aria-label="ArrowDownIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroArrowDownIcon 
-        aria-label="ArrowDownIcon"
-        className="h-24 w-24" 
-        />
-    </button>
-
-const ArrowUpIcon = ({ onClick, hidden }: {
-    onClick?: () => void,
-    hidden?: boolean
-}) => 
-    hidden ? null : 
-    !onClick ?
-    <HeroArrowUpIcon 
-    aria-label="ArrowUpIcon"
-    className="h-24 w-24" 
-    /> :
-    <button onClick={onClick}>
-        <HeroArrowUpIcon 
-        aria-label="ArrowUpIcon"
-        className="h-24 w-24" 
-        />
-    </button>
+const ChevronUpIcon = createIcon(HeroChevronUpIcon, "ChevronUpIcon")
+const ChevronDownIcon = createIcon(HeroChevronDownIcon, "ChevronDownIcon")
+const ChevronRightIcon = createIcon(
+    HeroChevronRightIcon,
+    "ChevronRightIcon",
+)
+const ChevronLeftIcon = createIcon(HeroChevronLeftIcon, "ChevronLeftIcon")
+const XMarkIcon = createIcon(HeroXMarkIcon, "XMarkIcon")
+const UserCircleSolidIcon = createIcon(
+    HeroUserCircleSolidIcon,
+    "UserCircleSolidIcon",
+)
+const UserCircleOutlineIcon = createIcon(
+    HeroUserCircleOutlineIcon,
+    "UserCircleOutlineIcon",
+)
+const ShoppingCartOutlineIcon = createIcon(
+    HeroShoppingCartOutlineIcon,
+    "ShoppingCartOutlineIcon",
+)
+const ShoppingCartSolidIcon = createIcon(
+    HeroShoppingCartSolidIcon,
+    "ShoppingCartSolidIcon",
+)
+const MinusIcon = createIcon(HeroMinusIcon, "MinusIcon")
+const PlusIcon = createIcon(HeroPlusIcon, "PlusIcon")
+const StarSolidIcon = createIcon(HeroStarSolidIcon, "StarSolidIcon")
+const StarOutlineIcon = createIcon(HeroStarOutlineIcon, "StarOutlineIcon")
+const ExclamationTriangleIcon = createIcon(
+    HeroExclamationTriangleIcon,
+    "ExclamationTriangleIcon",
+)
+const ArrowDownIcon = createIcon(HeroArrowDownIcon, "ArrowDownIcon")
+const ArrowUpIcon = createIcon(HeroArrowUpIcon, "ArrowUpIcon")

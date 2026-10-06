@@ -10,7 +10,7 @@ import {
 } from "../hook";
 
 import { recordToList } from "@/utils/funcs"
-import { Button, List } from "@/shared"
+import { Button, List, Row } from "@/shared"
 
 import { useSearchParams } from "../hook"
 
@@ -66,16 +66,19 @@ function CreateForm({ onSuccess }: {
 function CategoryBar() {
     const { bindings: { categories } } = useSearchParams()
     return (
+    <Row>
         <List
         items={recordToList(categories.options)}
         render={([k, v]) =>
             <Button 
+            key={`category-${k}`}
             onClick={() => { 
                 categories.set([v])
             }}>
                 {categories.labels[k]}
             </Button>
         } />
+    </Row>
     )
 }
 

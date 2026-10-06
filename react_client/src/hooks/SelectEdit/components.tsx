@@ -193,6 +193,7 @@ function SelectMultipleField({ binding }: {
         items={recordToList(options) as [string, any][]}
         render={([key, value]) => (
             <LabeledInput
+            key={`option-${key}`}
             before={false}
             type="checkbox"
             checked={values.includes(value)}

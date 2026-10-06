@@ -1,4 +1,5 @@
-react-client 
+react-client
+
 - axios
 - react-router-dom
 - zustand
@@ -8,20 +9,23 @@ react-client
 - @tanstack/react-query
 - tailwindcss
 - @biomejs/biome
-- vitest 
-- @testing-library/react 
+- vitest
+- @testing-library/react
 - @testing-library/jest-dom jsdom
 - typescript
 - @tailwindcss/vite
 - @heroicons/react
-- jsdom  
-- @testing-library/user-event 
+- jsdom
+- @testing-library/user-event
 - playwright@latest
 - uvicorn
 - dotenv
 - recharts
+- @faker-js/faker
+- `tailwind-merge`
 
 fastapi-server
+
 - fastapi
 - uvicorn
 - sqlalchemy

@@ -1,38 +1,47 @@
-import { type ReactNode, useState } from "react"
+import { type ReactNode } from "react"
+import { NavLink } from "react-router-dom"
+import { twMerge } from "tailwind-merge"
 import { List } from "../composition"
-import { Link } from "react-router-dom"
-
 
 export { NavBar }
 
-function NavBar({ items, path, render, onClick }: {
-    items: any[],
-    render: (item: any ) => ReactNode
-    path: (item: any) => string
-    onClick?: (item: any) => void
+function NavBar<T>({
+    items,
+    path,
+    render,
+    onClick,
+    className,
+    linkClassName,
+    activeClassName = "border-b-2 font-semibold",
+    inactiveClassName = "text-gray-500",
+}: {
+    items: T[]
+    render: (item: T) => ReactNode
+    path: (item: T) => string
+    onClick?: (item: T) => void
+    className?: string
+    linkClassName?: string
+    activeClassName?: string
+    inactiveClassName?: string
 }) {
-    const [current, setCurrent] = useState<number | null>(null)
-    const className = (i: number) => [
-        "px-4 py-2",
-        i === current
-            ? "border-b-2 font-semibold"
-            : "text-gray-500"
-    ].join(" ")
     return (
-    <div className="flex border-b">
-        <List
-        items={items}
-        render={(item, i) => 
-            <Link
-            className={className(i)}
-            to={path(item)}
-            onClick={() => {
-                onClick?.(item)
-                setCurrent(i)
-            }}
-            children={render(item)}
+        <div className={twMerge("flex border-b", className)}>
+            <List
+                items={items}
+                render={(item) => (
+                    <NavLink
+                        className={({ isActive }) => twMerge(
+                            "px-4 py-2",
+                            isActive ? activeClassName : inactiveClassName,
+                            linkClassName,
+                        )}
+                        to={path(item)}
+                        onClick={() => onClick?.(item)}
+                    >
+                        {render(item)}
+                    </NavLink>
+                )}
             />
-        } />
-    </div>
+        </div>
     )
 }

@@ -20,9 +20,9 @@ function RatingFormat({ rating, onClick }: {
         items={Array.from({ length: 5 })}
         render={(_, n) => 
             n + 1 <= rating ? 
-            <StarSolidIcon onClick={() => onClick?.(n + 1)}/> 
+            <StarSolidIcon key={`rating-${n}`} onClick={() => onClick?.(n + 1)}/> 
                 : 
-            <StarOutlineIcon onClick={() => onClick?.(n + 1)}/>
+            <StarOutlineIcon key={`rating-${n}`} onClick={() => onClick?.(n + 1)}/>
         }/>
     </div>
     )

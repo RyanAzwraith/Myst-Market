@@ -104,6 +104,7 @@ Loose Ends
 - improve ErrorMsgs and Loading
 - refactor form fields so it takes required 
 - Make Performace periods work
+- Responsive Layout
 
 Bugs
 - user logged in without accessToken

@@ -11,10 +11,17 @@ import {
 export { ModalTrigger };
 
 function ModalTrigger({
-	button, render
+	button,
+	render,
+	className,
+	modalClassName,
+	modalOverlayClassName,
 }: {
 	button: ReactNode
 	render: (onClose: () => void) => ReactNode
+	className?: string
+	modalClassName?: string
+	modalOverlayClassName?: string
 }) {
 	const triggerRef = useRef<HTMLButtonElement | null>(null);
 	const [open, setOpen] = useState(false);
@@ -40,15 +47,17 @@ function ModalTrigger({
 		<button 
 		ref={triggerRef} 
 		onClick={openModal}
+		className={className}
 		children={button}
 		/>
 
 		{open && 
 		<Modal 
+		className={modalClassName}
+		overlayClassName={modalOverlayClassName}
 		children={render(closeModal)} 
 		/>
 		}
 	</>
 	);
 }
-

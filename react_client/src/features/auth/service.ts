@@ -10,6 +10,7 @@ import type {
     Login,
 } from './schema'
 import { useAuthState } from './state'
+import { input } from '@testing-library/user-event/dist/cjs/event/index.js';
 
 export {
     useLoginMutation,
@@ -61,9 +62,12 @@ function useRefreshMutation({ onSuccess, onError }: {
 }) {
     const refresh = useAuthState((state) => state.refresh)
     return useMutation({
-        mutationFn: () => server.auth.refresh(),
-        onSuccess: (data) =>  {
-            refresh(data.accessToken)
+        mutationFn: async () => {
+            const response = await server.auth.refresh()
+            return response.accessToken
+        },
+        onSuccess: (accessToken) =>  {
+            refresh(accessToken)
             onSuccess?.()
         },
         onError: () => {

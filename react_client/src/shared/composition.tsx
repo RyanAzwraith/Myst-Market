@@ -4,7 +4,7 @@ import {
     type FormHTMLAttributes, 
     type ReactNode, 
  } from "react"
-import { ButtonWrapper } from "./interactive"
+ import { twMerge } from "tailwind-merge"
 
 export {
     List,
@@ -36,22 +36,27 @@ function List<T>({
     )
 }
 
-function Page({children}: {
+function Page({children, className}: {
     children: ReactNode
+    className?: string
 }) {
     return (
-    <main className="min-h-screen">
+    <main className={twMerge("min-h-screen", className)}>
         {children}
     </main >
     )
 }
 
-function Container({ children }: {
+function Container({ children, className }: {
     children: ReactNode
+    className?: string
 }) {
     return (
     <div 
-    className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"
+    className={twMerge(
+        "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8",
+        className
+    )}
     >
         {children}
     </div>
@@ -61,13 +66,15 @@ function Container({ children }: {
 function Stack({
     children, 
     gap = "md", 
-    align = "stretch"
+    align = "stretch",
+    className,
 }: {
     children: ReactNode
     gap?: "none" | "sm" | "md" | "lg" | "xl"
     align?: "start" | "center" | "end" | "stretch"
+    className?: string
 }) {
-    const className = [
+    const stackClassName = [
         "flex flex-col",
         {
             none: "gap-0",
@@ -85,7 +92,7 @@ function Stack({
     ].join(" ")
 
     return (
-    <div className={className}>
+    <div className={twMerge(stackClassName, className)}>
         {children}
     </div>
     )
@@ -96,15 +103,17 @@ function Inline({
     gap = "md", 
     align = "center", 
     justify = "start",
-    wrap = false
+    wrap = false,
+    className,
 }: {
     children: ReactNode
     gap?: "none" | "sm" | "md" | "lg" | "xl"
     align?: "start" | "center" | "end" | "stretch"
     justify?: "start" | "center" | "end" | "between" | "around"
     wrap?: boolean
+    className?: string
 }) {
-    const className = [
+    const style = [
         "flex",
         wrap && "flex-wrap",
         {
@@ -130,7 +139,7 @@ function Inline({
     ].join(" ")
 
     return (
-        <div className={className}>
+        <div className={twMerge(style, className)}>
             {children}
         </div>
     )
@@ -139,22 +148,61 @@ function Inline({
 function Grid({
     children,
     columns = 1,
-    gap = "md"
+    gap = "md",
+    className,
+    smColumns,
+    mdColumns,
+    lgColumns,
 }: {
     children: ReactNode
     columns?: 1 | 2 | 3 | 4 | 5 | 6
     gap?: "none" | "sm" | "md" | "lg" | "xl"
+    className?: string
+    smColumns?: 1 | 2 | 3 | 4 | 5 | 6
+    mdColumns?: 1 | 2 | 3 | 4 | 5 | 6
+    lgColumns?: 1 | 2 | 3 | 4 | 5 | 6
 }) {
-    const className = [
+    const columnClasses = {
+        1: "grid-cols-1",
+        2: "grid-cols-2",
+        3: "grid-cols-3",
+        4: "grid-cols-4",
+        5: "grid-cols-5",
+        6: "grid-cols-6"
+    }
+    const responsiveColumnClasses = {
+        sm: {
+            1: "sm:grid-cols-1",
+            2: "sm:grid-cols-2",
+            3: "sm:grid-cols-3",
+            4: "sm:grid-cols-4",
+            5: "sm:grid-cols-5",
+            6: "sm:grid-cols-6"
+        },
+        md: {
+            1: "md:grid-cols-1",
+            2: "md:grid-cols-2",
+            3: "md:grid-cols-3",
+            4: "md:grid-cols-4",
+            5: "md:grid-cols-5",
+            6: "md:grid-cols-6"
+        },
+        lg: {
+            1: "lg:grid-cols-1",
+            2: "lg:grid-cols-2",
+            3: "lg:grid-cols-3",
+            4: "lg:grid-cols-4",
+            5: "lg:grid-cols-5",
+            6: "lg:grid-cols-6"
+        }
+    }
+
+    const gridClassName = [
         "grid",
-        {
-            1: "grid-cols-1",
-            2: "grid-cols-2",
-            3: "grid-cols-3",
-            4: "grid-cols-4",
-            5: "grid-cols-5",
-            6: "grid-cols-6"
-        }[columns],
+        columnClasses[columns],
+        smColumns && responsiveColumnClasses.sm[smColumns],
+        mdColumns && responsiveColumnClasses.md[mdColumns],
+        lgColumns && responsiveColumnClasses.lg[lgColumns],
         {
             none: "gap-0",
             sm: "gap-2",
@@ -165,16 +213,20 @@ function Grid({
     ].join(" ")
 
     return (
-        <div className={className}>
+        <div className={twMerge(gridClassName, className)}>
             {children}
         </div>
     )
 }
 
 function Modal({
-    children
+    children,
+    className,
+    overlayClassName,
 }: {
     children: ReactNode
+    className?: string
+    overlayClassName?: string
 }) {
     const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -183,13 +235,19 @@ function Modal({
     }, [])
 
     return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40">
+    <div className={twMerge(
+        "fixed inset-0 flex items-center justify-center bg-black/40",
+        overlayClassName
+    )}>
         <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         tabIndex={-1}
-        className="w-full max-w-lg rounded bg-white p-4"
+        className={twMerge(
+            "w-full max-w-lg rounded bg-white p-4",
+            className
+        )}
         >
             {children}
         </div>
@@ -203,34 +261,42 @@ function Card({ children, onClick, className }: {
     onClick?: () => void,
 }) {
     return (
-    <ButtonWrapper onClick={onClick}>
     <article
-    className={`rounded-lg border bg-white p-4 shadow-sm ${className ?? ""}`}
+    className={twMerge(
+        "rounded-lg border bg-white p-4 shadow-sm",
+        className
+    )}
     onClick={onClick}
     >
             {children}
     </article>
-    </ButtonWrapper>
     )
 }
 
 
-function Row({children}: {
+function Row({
+    children, className
+}: {
     children: React.ReactNode
+    className?: string
 }) {
     return (
     <article 
-    className="flex items-center gap-4 border-b px-4 py-3">
+    className={twMerge(
+        "flex items-center gap-4 border-b px-4 py-3",
+        className
+    )}>
         {children}
     </article>
     )
 }
 
-function Menu({ children }: {
+function Menu({ children, className }: {
     children: ReactNode
+    className?: string
 }) {
     return (
-    <ul className="flex items-center gap-4">
+    <ul className={twMerge("flex items-center gap-4", className)}>
         {children}
     </ul>
     )
@@ -238,10 +304,12 @@ function Menu({ children }: {
 
 function Section({
     children,
-    spacing = "md"
+    spacing = "md",
+    className,
 }: {
     children: ReactNode
     spacing?: "none" | "sm" | "md" | "lg"
+    className?: string
 }) {
     const spacingClasses = {
         none: "",
@@ -251,7 +319,7 @@ function Section({
     }
 
     return (
-        <section className={spacingClasses[spacing]}>
+        <section className={twMerge(spacingClasses[spacing], className)}>
             {children}
         </section>
     )
@@ -270,24 +338,24 @@ function Form({
     )
 }
 
-function Legend({ children }: {
+function Legend({ children, className }: {
     children: ReactNode
+    className?: string
 }) {
     return (
-    <legend className="text-sm font-semibold">
+    <legend className={twMerge("text-sm font-semibold", className)}>
         {children}
     </legend>
     )
 }
 
-function FieldSet({ children }: {
+function FieldSet({ children, className }: {
     children: ReactNode
+    className?: string
 }) {
     return (
-    <fieldset className="text-sm font-semibold">
+    <fieldset className={twMerge("text-sm font-semibold", className)}>
         {children}
     </fieldset>
     )
 }
-
-
