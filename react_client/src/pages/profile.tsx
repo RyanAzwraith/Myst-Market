@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { List, Page, Heading, Stack } from "@/shared";
+import { List, Page, Heading, Stack, ExpandableContent } from "@/shared";
 
 import { PageRoutes } from "@/app/PageRoutes";
 
@@ -23,42 +23,49 @@ export { ProfilePage }
 function ProfilePage() {
     const navigate = useNavigate()
     return (
-    <Page>
-        <Heading>Profile</Heading>
+    <Page className="mx-auto max-w-4xl space-y-6 px-4 py-8">
+        <Heading className="text-center text-3xl sm:text-4xl">
+            Profile
+        </Heading>
         <LogoutButton
         onSuccess={() => navigate(PageRoutes.login)}
         />
 
-        <UpdateForm/>
+        <UpdateForm
+        className="space-y-4 rounded-xl border border-gray-200 bg-white p-6
+            shadow-sm"
+        />
 
         <PasswordResetButton/>
         <DeleteUserButton/>
 
-        <Heading level={2}>Orders</Heading>
+        <Heading level={2} className="pt-4 text-2xl">Orders</Heading>
         <OrdersLoader 
         render={({orders}) => 
             <Stack
+            className="gap-3"
             children={
-                <List
-                items={orders}
-                render={(o) => (
+                <ExpandableContent
+                content={orders.map((o) => (
                     <OrderCard 
                     key={o.id} 
                     order={o} 
                     onClick={() => navigate(`${PageRoutes.order}/${o.id}`)}
                     />
-                )} />
+                ))}
+                limit={3}
+                />
             } />
         } />
 
-        <Heading level={2}>Reviews</Heading>
+        <Heading level={2} className="pt-4 text-2xl">Reviews</Heading>
         <ReviewsLoader 
         render={({reviews}) => 
             <Stack
+            className="gap-3"
             children={
-                <List
-                items={reviews}
-                render={(r) => (
+                <ExpandableContent
+                content={reviews.map((r) => (
                     <ReviewCard
                     key={r.id}
                     review={r}
@@ -69,7 +76,9 @@ function ProfilePage() {
                         />
                     }
                     />
-                )} />
+                ))} 
+                limit={3}
+                />
             } />
         } />
     </Page>

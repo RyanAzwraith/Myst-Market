@@ -6,10 +6,15 @@ import type {
 } from "@/features/product/schema"
 
 export {
+    productFactory,
+    productListFactory,
+    productAnalyticsFactory,
+    productAnalysticsListFactory,
+    
     product,
     products,
-    productAnalytics,
     productAnalytic,
+    productAnalytics,
 }
 
 faker.seed(12345)
@@ -28,10 +33,16 @@ const productFactory = (id: number): Product => ({
 })
 
 const product: Product = productFactory(1)
-const products: Product[] = Array.from(
-    { length: 25 },
-    (_, index) => productFactory(index + 1),
-)
+
+const  productListFactory = (
+    length: number = 25
+): Product[] => 
+    Array.from(
+        { length },
+        (_, index) => productFactory(index + 1),
+    )
+
+const products: Product[] = productListFactory()
 
 const productAnalyticsFactory = (
     value: Product,
@@ -50,5 +61,11 @@ const productAnalyticsFactory = (
 
 const productAnalytic: ProductAnalytics =
     productAnalyticsFactory(product)
+    
+const productAnalysticsListFactory = (
+    length: number = 3, products: Product[] = productListFactory()
+): ProductAnalytics[] =>
+    products.slice(0, length).map(productAnalyticsFactory)
+
 const productAnalytics: ProductAnalytics[] =
-    products.map(productAnalyticsFactory)
+    productAnalysticsListFactory()

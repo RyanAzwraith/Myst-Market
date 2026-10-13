@@ -154,7 +154,7 @@ const queryParamFields = {
     search: {
         kind: queryParamsKind.text,
         label: "Search",
-        placeholder: "Search products"
+        placeholder: "Search products..."
     },
 
 } satisfies QueryParamsFieldDefs;
@@ -187,7 +187,7 @@ const adminQueryParamFields = {
     search: {
         kind: queryParamsKind.text,
         label: "Search",
-        placeholder: "Search"
+        placeholder: "Search products..."
     },
 
     isDiscontinued: {

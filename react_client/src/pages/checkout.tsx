@@ -6,8 +6,6 @@ import {
     Heading,
     Text,
     Button,
-    Section,
-    Stack,
 } from "@/shared"
 
 import { 
@@ -33,39 +31,49 @@ export { CheckoutPage }
 
 function CheckoutPage() {
     return (
-    <Page>  
-        <Heading>Checkout</Heading>
+    <Page className="py-8 mx-auto max-w-4xl space-y-8">  
+        <Heading className="text-center text-3xl sm:text-4xl">
+            Checkout
+        </Heading>
 
         <CheckoutLoader
         render={({ 
             form: {handleSubmit, errorMsg, bindings}, setItems 
         }) => 
-            <FormInputsContainer submit={handleSubmit}>
-                
-                <Heading level={2}>Account Information</Heading>
-                <Section
-                children={
-                    <LoggedInLoader 
-                    render={(user) => user ? 
-                        <UserInfo user={user} /> 
-                            : 
-                    <>
-                        <TextField binding={bindings.name} />
-                        <EmailField binding={bindings.email} />
-                        <BooleanField binding={bindings.isCreatingAccount} />
-                    </>
-                    } />
-                } />
-
-                <Heading level={2}>Cart</Heading>
-                <Section
-                children={
+            <FormInputsContainer submit={handleSubmit} className="space-y-8">
+                <section className={
+                    "space-y-8 rounded-xl border " +
+                    "border-gray-200 bg-white p-5 shadow-sm"
+                }>
+                    <Heading level={2} className="text-xl">
+                        Account Information
+                    </Heading>
+                        <LoggedInLoader 
+                        render={(user) => user ? 
+                            <UserInfo user={user} /> 
+                                : 
+                            <>
+                                <TextField binding={bindings.name} />
+                                <EmailField binding={bindings.email} />
+                                <BooleanField
+                                binding={bindings.isCreatingAccount}
+                                />
+                            </>
+                        } />
+                </section>
+    
+                <section className={
+                    "space-y-4 rounded-xl border " +
+                    "border-gray-200 bg-white p-5 shadow-sm"
+                }>
+                    <Heading level={2} className="text-xl">
+                        Cart
+                    </Heading>
                     <ResolutionLoader 
                     onSuccess={setItems}
                     render={({items ,totalCent}) =>
                     <>
-                        <Stack
-                        children={
+                        <div className="grid gap-3 sm:grid-cols-2">
                             <List
                             items={items}
                             render={o => 
@@ -74,32 +82,43 @@ function CheckoutPage() {
                                 item={o}
                                 />
                             }/>
-                        } />
-                        <Text>Total: <MoneyFormat amount={totalCent} /> </Text>
+                        </div>
+                        <Text className="font-semibold">
+                            Total <MoneyFormat className="text-lg font-bold" amount={totalCent} />
+                        </Text>
                     </>
                     } />
-                } />
-                    
-                <Heading level={2}>Delivery Information</Heading>
-                <Section
-                children={
-                    <>
-                    <TextField binding={bindings.country_code} />
-                    <TextField binding={bindings.postcode} />
-                    <TextField binding={bindings.state} />
-                    <TextField binding={bindings.city} />
-                    <TextField binding={bindings.street} />
-                    <TextField binding={bindings.deliveryNotes} />
-                    </>
-                } />
+                </section>
+        
+                <section className={
+                    "space-y-4 rounded-xl border " +
+                    "border-gray-200 bg-white p-5 shadow-sm"
+                }>
+                    <Heading level={2} className="text-xl">
+                        Delivery Information
+                    </Heading>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <TextField binding={bindings.country_code} />
+                        <TextField binding={bindings.postcode} />
+                        <TextField binding={bindings.state} />
+                        <TextField binding={bindings.city} />
+                        <TextField binding={bindings.street} />
+                        <div className="sm:col-span-2">
+                            <TextField
+                            binding={bindings.deliveryNotes}
+                            />
+                        </div>
+                    </div>
+                </section>
 
                 <ErrorMsg errorMsg={errorMsg} />
 
-                <Button type="submit">Pay with Stripe</Button>
+                <Button type="submit" className="w-full py-3 text-base">
+                    Pay with Stripe
+                </Button>
             </FormInputsContainer>
         }
         />
-
     </Page>
     )
 }

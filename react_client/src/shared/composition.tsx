@@ -223,10 +223,12 @@ function Modal({
     children,
     className,
     overlayClassName,
+    ariaLabel = "Modal",
 }: {
     children: ReactNode
     className?: string
     overlayClassName?: string
+    ariaLabel?: string
 }) {
     const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -237,12 +239,13 @@ function Modal({
     return (
     <div className={twMerge(
         "fixed inset-0 flex items-center justify-center bg-black/40",
-        overlayClassName
+        overlayClassName,
     )}>
         <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
+        aria-label={ariaLabel}
         tabIndex={-1}
         className={twMerge(
             "w-full max-w-lg rounded bg-white p-4",
@@ -268,7 +271,7 @@ function Card({ children, onClick, className }: {
     )}
     onClick={onClick}
     >
-            {children}
+        {children}
     </article>
     )
 }
@@ -283,7 +286,7 @@ function Row({
     return (
     <article 
     className={twMerge(
-        "flex items-center gap-4 border-b px-4 py-3",
+        "flex items-center gap-4 px-4 py-2 bg-white rounded-lg",
         className
     )}>
         {children}

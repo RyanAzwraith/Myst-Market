@@ -52,9 +52,9 @@ function Button({
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void
 }) {
     const variants = {
-        primary: "bg-blue-600 text-white hover:bg-blue-700",
+        primary: "bg-blue-600 text-white hover:bg-blue-500",
         secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
-        danger: "bg-red-600 text-white hover:bg-red-700",
+        danger: "bg-red-600 text-white hover:bg-red-500",
         ghost: "bg-transparent hover:bg-gray-100"
     }
 

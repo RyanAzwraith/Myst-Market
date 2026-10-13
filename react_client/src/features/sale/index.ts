@@ -26,6 +26,7 @@ export {
     DetailedInfo,
     AdminSummaryInfo,
     AnalyticsInfo,
+    SaleCarousel,
 } from './components/content'
 export {
     AdminSearchTitle,

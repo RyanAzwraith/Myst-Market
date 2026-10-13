@@ -12,11 +12,11 @@ export function Scaffold({children}: {children: React.ReactNode}) {
 	}, []);
     
     return (
-        <div className="min-h-screen bg-slate-50">
-            <AppBar />
-            <Container>
-                {children}
-            </Container>
-        </div>
+    <div className="min-h-screen bg-slate-200">
+        <AppBar />
+        <Container>
+            {children}
+        </Container>
+    </div>
     )
 }

@@ -6,6 +6,7 @@ import {
     ChevronLeftIcon,
     ChevronRightIcon,
 } from "@/shared/presentation/icon"
+import { twMerge } from "tailwind-merge"
 import { Inline } from "../composition"
 
 export {
@@ -38,7 +39,7 @@ function Carousel({
     return (
     <Inline 
     justify="center"
-    className={className}
+    className={twMerge("w-full min-w-0", className)}
     children={ 
     <>
         <ChevronLeftIcon 

@@ -11,6 +11,7 @@ import {
     StarIcon as HeroStarSolidIcon,
     ArrowDownIcon as HeroArrowDownIcon,
     ArrowUpIcon as HeroArrowUpIcon,
+    MagnifyingGlassIcon as HeroMagnifyingGlassIcon,
 } from "@heroicons/react/24/solid"
 import {
     UserCircleIcon as HeroUserCircleOutlineIcon,
@@ -18,7 +19,7 @@ import {
     StarIcon as HeroStarOutlineIcon,
     ExclamationTriangleIcon as HeroExclamationTriangleIcon,
 } from "@heroicons/react/24/outline"
-import type { ComponentType, SVGProps } from "react"
+import type { ComponentType, SVGProps, MouseEvent } from "react"
 import { twMerge } from "tailwind-merge"
 
 export {
@@ -27,6 +28,7 @@ export {
     ChevronRightIcon,
     ChevronLeftIcon,
     XMarkIcon,
+    MagnifyingGlassIcon,
     UserCircleSolidIcon,
     UserCircleOutlineIcon,
     ShoppingCartOutlineIcon,
@@ -41,7 +43,7 @@ export {
 }
 
 type IconProps = {
-    onClick?: () => void
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void
     hidden?: boolean
     className?: string
     buttonClassName?: string
@@ -72,10 +74,10 @@ function createIcon(
 
         return (
             <button
-                type="button"
-                aria-label={ariaLabel ?? name}
-                onClick={onClick}
-                className={buttonClassName}
+            type="button"
+            aria-label={ariaLabel ?? name}
+            onClick={onClick}
+            className={buttonClassName}
             >
                 {icon}
             </button>
@@ -117,3 +119,4 @@ const ExclamationTriangleIcon = createIcon(
 )
 const ArrowDownIcon = createIcon(HeroArrowDownIcon, "ArrowDownIcon")
 const ArrowUpIcon = createIcon(HeroArrowUpIcon, "ArrowUpIcon")
+const MagnifyingGlassIcon = createIcon(HeroMagnifyingGlassIcon, "MagnifyingGlassIcon")

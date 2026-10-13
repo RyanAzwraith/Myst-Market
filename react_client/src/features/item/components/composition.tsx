@@ -28,12 +28,17 @@ function ItemCard({ item, onClick}: {
 }) {
     const removeItem = useCartState(state => state.removeItem)
     return (
-    <Card>
+    <Card className="relative p-2">
         <XMarkIcon
+        className="h-5 w-5 text-gray-500"
+        buttonClassName="absolute right-1 top-1 rounded p-1 hover:bg-gray-100"
         onClick={() => removeItem(item.product) } 
         />
 
-        <ButtonWrapper onClick={() => onClick?.(item)}>
+        <ButtonWrapper
+        className="block w-full text-left"
+        onClick={() => onClick?.(item)}
+        >
             <OnSaleDiv onSale={item.onSale}>
                 <ItemInfo item={item} />
             </OnSaleDiv>
@@ -55,4 +60,3 @@ function ResolutionCard({ item, onClick}: {
     </Card>
     )
 }
-

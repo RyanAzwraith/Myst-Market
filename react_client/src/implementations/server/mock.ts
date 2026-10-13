@@ -34,6 +34,7 @@ import {
     userFactory,
     userAnalytic,
     users,
+    adminUser,
 } from "../../../mock_data/user"
 
 export {
@@ -51,9 +52,9 @@ const auth: Interface.Auth = {
     refresh: async () => ({
         accessToken: mockAccessToken,
     }),
-    login: async () => ({
+    login: async (req) => ({
         accessToken: mockAccessToken,
-        user,
+        user: req.login.email == adminUser.email ? adminUser : user,
     }),
     logout: async () => {},
 }

@@ -60,7 +60,7 @@ function PageRoutesComponent() {
 				<ShopPage />
 			} />
 
-			<Route path={PageRoutes.product+'/:slug'} element={
+			<Route path={PageRoutes.product(':slug')} element={
 				<ProductPage />
 			} />
 

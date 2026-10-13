@@ -25,22 +25,31 @@ export {
 }
 
 
-function CreateForm({onSuccess}: {onSuccess?: () => void}) {
+function CreateForm({
+    onSuccess,
+    className,
+}: {
+    onSuccess?: () => void
+    className?: string
+}) {
     const createForm = useCreateForm({onSuccess});
     return (
         <FormInputsForm
         formInputs={createForm}
+        className={className}
         />
     )
 }
-function UpdateForm({sale, onSuccess}: {
+function UpdateForm({sale, onSuccess, className}: {
     sale: SaleAnalytics, 
     onSuccess?: () => void
+    className?: string
 }) {
     const updateForm = useUpdateForm({sale, onSuccess});
     return (
         <FormInputsForm
         formInputs={updateForm}
+        className={className}
         />
     )
 }
@@ -55,6 +64,7 @@ function DeleteButton({ saleId, onClick }: {
 
     return (
         <Button
+        variant="danger"
         type="button"
         disabled={isPending}
         onClick={() => mutate()}

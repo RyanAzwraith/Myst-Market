@@ -12,7 +12,6 @@ export {
 function ExpandableContent({
     content,
     limit = 3,
-    className,
     iconClassName,
     iconButtonClassName,
 }: { 
@@ -29,7 +28,7 @@ function ExpandableContent({
     const isExpandable = content.length > limit
 
     return (
-    <div className={className}>
+    <>
         {shownChildren}
             
         { isExpandable && isExpanded ? 
@@ -47,6 +46,6 @@ function ExpandableContent({
         onClick={() => setIsExpanded((current) => !current)}
         />
         }
-    </div>
+    </>
     )
 }

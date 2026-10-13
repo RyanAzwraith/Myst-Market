@@ -34,32 +34,38 @@ export {
 
 
 // Forms
-function RegisterForm({ onSuccess }: { 
-    onSuccess?: () => void }
+function RegisterForm({ onSuccess, className }: { 
+    onSuccess?: () => void
+    className?: string
+}
 ) {
     const formInputs = useRegisterFormInputs({onSuccess})
     return (
         <FormInputsForm 
         formInputs={formInputs}
         submitLabel="Send set password email"
+        className={className}
         />
     ) 
 };
 
-function SetPasswordForm({ onSuccess }: {
+function SetPasswordForm({ onSuccess, className }: {
     onSuccess?: () => void
+    className?: string
 }) {
     const formInputs = useSetPasswordFormInputs({onSuccess})
     return (
         <FormInputsForm 
         formInputs={formInputs}
         submitLabel="Send set password email"
+        className={className}
         />
     ) 
 }
 
-function UpdateForm({ onSuccess }: {
+function UpdateForm({ onSuccess, className }: {
     onSuccess?: () => void
+    className?: string
 }) {
     const updateFormInputs = useUpdateFormInputs({onSuccess});
     return (
@@ -67,6 +73,7 @@ function UpdateForm({ onSuccess }: {
         formInputs={updateFormInputs}
         submitLabel="Save"
         hasResetButton={true}
+        className={className}
         />
     );
 }

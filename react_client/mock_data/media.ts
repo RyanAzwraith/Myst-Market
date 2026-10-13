@@ -1,18 +1,38 @@
+import { faker } from "@faker-js/faker"
+
 import type { MediaDetail } from "@/features/media/schema"
 
 export {
+    mediaFactory,
     media,
+    mediaListFactory,
     medias,
 }
 
-const media: MediaDetail = {
-    id: 1,
-    mediaType: "image",
-    mediaUrl: "https://placehold.co/600x400",
-    entityId: 1,
-    entityType: "product",
-    altText: "Mock product",
-    sortOrder: 0,
-}
+faker.seed(12345)
 
-const medias: MediaDetail[] = [media]
+const mediaFactory = (
+    id: number = 1, 
+    entityId: number = 1, 
+    entityType: string = "product"
+): MediaDetail => ({
+    id: id,
+    mediaType: "image",
+    mediaUrl: faker.image.url(),
+    entityId: entityId,
+    entityType: entityType,
+    altText: faker.commerce.productName(),
+    sortOrder: faker.number.int({ min: 0, max: 24 }),
+})
+
+const media: MediaDetail = mediaFactory()
+
+const mediaListFactory = (
+    productIds: number[] = []
+): MediaDetail[] => 
+    Array.from(
+        { length: 25 },
+        () => mediaFactory(productIds.shift()),
+    )
+
+const medias = mediaListFactory()

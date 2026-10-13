@@ -24,6 +24,7 @@ function SaleCard({ sale, image, onClick }: {
 }) {
     return (
     <Card
+    className="flex h-96 min-w-0 flex-1 flex-col justify-between"
     onClick={() => onClick?.(sale)}
     >
         <SaleInfo sale={sale} image={image} />

@@ -10,7 +10,7 @@ import {
 } from "../hook";
 
 import { recordToList } from "@/utils/funcs"
-import { Button, List, Row } from "@/shared"
+import { Button, List, Inline } from "@/shared"
 
 import { useSearchParams } from "../hook"
 
@@ -37,27 +37,31 @@ export {
 };
 
 
-function UpdateForm({ product, onSuccess }: { 
+function UpdateForm({ product, onSuccess, className }: { 
     product: Product,
     onSuccess?: () => void
+    className?: string
 }) {
     const form = useUpdateFormFields({product, onSuccess})
     return (
         <FormInputsForm
         formInputs={form}
         submitLabel="Update product"
+        className={className}
         />
     )
 }
 
-function CreateForm({ onSuccess }: {
+function CreateForm({ onSuccess, className }: {
     onSuccess?: () => void,
+    className?: string,
 }) {
     const form = useCreateFormFields({ onSuccess });
     return (
         <FormInputsForm
         formInputs={form}
         submitLabel="Create product"
+        className={className}
         />
     )
 }
@@ -66,19 +70,22 @@ function CreateForm({ onSuccess }: {
 function CategoryBar() {
     const { bindings: { categories } } = useSearchParams()
     return (
-    <Row>
+    <Inline gap="none">
         <List
         items={recordToList(categories.options)}
         render={([k, v]) =>
             <Button 
             key={`category-${k}`}
+            variant="secondary"
+            className="bg-slate-400 text-slate-900 border border-black 
+                rounded-t-md border-b-0 rounded-b-none"  
             onClick={() => { 
                 categories.set([v])
             }}>
                 {categories.labels[k]}
             </Button>
         } />
-    </Row>
+    </Inline>
     )
 }
 
@@ -94,6 +101,7 @@ function DeleteButton({ productId, onClick }: {
 
     return (
         <Button
+        variant="danger"
         type="button"
         disabled={isPending}
         onClick={handleClick}>

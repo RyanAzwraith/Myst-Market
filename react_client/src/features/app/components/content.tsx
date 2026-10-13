@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 
 import { formatMoney } from '@/utils/formatMoney';
-import { ArrowUpIcon, ArrowDownIcon, Loading, Text } from "@/shared"
+import { ArrowUpIcon, ArrowDownIcon, Card, Loading, Text, List, StarSolidIcon, StarOutlineIcon, Inline } from "@/shared"
 import { ExclamationTriangleIcon } from '@/shared';
 import type { Performance } from '../schema';
 
@@ -37,11 +37,35 @@ function StatsInfo() {
     const {data: stats} = useStatsQuery()
     if (!stats) return <Loading />
     return (
-    <div>
-        <Text>{stats.product_count} Items discovered</Text>
-        <Text>{stats.customer_count} Adventurers served</Text>
-        <RatingFormat rating={stats.total_average_rating} />
-        <Text>Average Rating</Text>
+    <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-3">
+        <Card className="flex min-h-28 flex-col justify-center text-center">
+            <Text className="text-3xl font-bold text-blue-600">
+                {stats.product_count}
+            </Text>
+            <Text variant="muted">Items discovered</Text>
+        </Card>
+        <Card className="flex min-h-28 flex-col justify-center text-center">
+            <Text className="text-3xl font-bold text-blue-600">
+                {stats.customer_count}
+            </Text>
+            <Text variant="muted">Adventurers served</Text>
+        </Card>
+        <Card className="flex min-h-28 flex-col items-center justify-center">
+            <Text className="text-3xl font-bold text-blue-600">
+                {stats.total_average_rating.toFixed(1)}
+            </Text>
+            <Inline>
+                <List
+                items={Array.from({ length: 5 })}
+                render={(_, n) => 
+                    n + 1 <= stats.total_average_rating ? 
+                    <StarSolidIcon key={`rating-${n}`} /> 
+                        : 
+                    <StarOutlineIcon key={`rating-${n}`} />
+                }/>
+            </Inline>
+            <Text variant="muted">Average rating</Text>
+        </Card>
     </div>
     )
 }
@@ -91,9 +115,18 @@ function AttentionInfo() {
 	if (!data) return <Loading />
 	return (
 	<>
-		<Text><ExclamationTriangleIcon />{data.pendingOrders} orders pending</Text>
-		<Text><ExclamationTriangleIcon /> {data.outOfStockProducts} out of stock products</Text>
-		<Text><ExclamationTriangleIcon /> {data.salesEnding} sales ending</Text>
+		<Text className="flex items-center gap-2 text-gray-700">
+			<ExclamationTriangleIcon className="h-5 w-5 text-amber-500" />
+			{data.pendingOrders} orders pending
+		</Text>
+		<Text className="flex items-center gap-2 text-gray-700">
+			<ExclamationTriangleIcon className="h-5 w-5 text-amber-500" />
+			{data.outOfStockProducts} out of stock products
+		</Text>
+		<Text className="flex items-center gap-2 text-gray-700">
+			<ExclamationTriangleIcon className="h-5 w-5 text-amber-500" />
+			{data.salesEnding} sales ending
+		</Text>
 	</>
 	);
 }
@@ -147,17 +180,19 @@ function Metric({
     )
 
 	return (
-    <>
-        <Text>{label}</Text>
-        <Text>{value}</Text>
-        <Text>
+    <Card className="space-y-2">
+        <Text variant="muted">{label}</Text>
+        <Text className="text-2xl font-bold text-gray-900">{value}</Text>
+        <Text className={
+            change >= 0 ? "text-sm text-green-600" : "text-sm text-red-600"
+        }>
             {change >= 0 ? 
-                <ArrowUpIcon /> 
+                <ArrowUpIcon className="mr-1 inline h-4 w-4" /> 
                     :   
-                <ArrowDownIcon />
+                <ArrowDownIcon className="mr-1 inline h-4 w-4" />
             } 
             {change}%
         </Text>
-    </>
+    </Card>
 	);
 }

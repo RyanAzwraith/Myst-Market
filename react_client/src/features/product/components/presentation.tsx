@@ -55,15 +55,16 @@ function PriceFormat({ product, onClick }: {
 
 }
 
-function ProductSearchTitle({ searchParams }: { 
+function ProductSearchTitle({ searchParams, className }: { 
     searchParams: ReturnType<typeof useSearchParams> 
+    className?: string
 }) {
     const { bindings: { categories, search } } = searchParams
     return <SearchTitle possibleTitles={[
         search.get() && `Searching: ${search.get() as string}`,
         (categories.get() as string[]).join(', '),
         "All Products"
-    ]} />
+    ]} className={className} />
 }
 
 function AdminSearchTitle({ adminSearchParams }: { 

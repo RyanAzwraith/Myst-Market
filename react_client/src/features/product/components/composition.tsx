@@ -1,5 +1,4 @@
 import { 
-    ButtonWrapper, 
     Card, 
     Carousel,
     Section,
@@ -42,6 +41,7 @@ function ProductCard({ product, image, onClick }: {
 }) {
     return (
     <Card
+    className="flex min-h-96 min-w-0 flex-1 flex-col justify-between"
     onClick={() => onClick?.(product)}
     >
         <SummaryInfo
@@ -54,7 +54,7 @@ function ProductCard({ product, image, onClick }: {
 }
 
 function CardCarousel({
-    products, images, onClick, limit=5
+    products, images, onClick, limit=3
 }: {
     products: Product[]
     images: Record<string, MediaDetail>
@@ -69,7 +69,7 @@ function CardCarousel({
         product={product} 
         key={`${product.id}`} 
         image={images[product.id]}
-        onClick={() => onClick?.(product)}
+        onClick={product => onClick?.(product)}
         />
     )}/>
     )
@@ -87,13 +87,22 @@ function ReviewsSection({ productId }: {
 
     if (hasReviews)
         return (
-        <Section>
-            <Heading>Reviews</Heading>
-            <Text>Average Rating:</Text>
-            <RatingFormat rating={data.average} />
+        <Section className="mx-auto max-w-3xl space-y-5">
+            <div className="space-y-2 text-center">
+                <Heading className="text-2xl">Reviews</Heading>
+                <Text variant="muted">Average rating</Text>
+                <div className="flex justify-center">
+                    <RatingFormat rating={data.average} />
+                </div>
+            </div>
 
             {canReview &&  
-            <CreateReviewForm productId={productId} />
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                <Heading level={3} className="mb-3 text-lg">
+                    Share your experience
+                </Heading>
+                <CreateReviewForm productId={productId} />
+            </div>
             }
 
             <ExpandableContent content={data.reviews.map((r) => 
@@ -101,15 +110,23 @@ function ReviewsSection({ productId }: {
                 key={`review-${r.id}`} 
                 review={r} 
                 />
-            )}/>
+            )} 
+            className="mx-auto flex max-w-2xl flex-col gap-3"
+            />
         </Section>
         )    
     if (canReview) 
         return (
-        <Section>
-            <Heading level={2}>Reviews</Heading>
-            <Text>Be the first to Review this Product:</Text>
-            <CreateReviewForm productId={productId}/>
+        <Section className="mx-auto max-w-3xl space-y-5">
+            <div className="space-y-2 text-center">
+                <Heading level={2} className="text-2xl">Reviews</Heading>
+                <Text variant="muted">
+                    Be the first to review this product.
+                </Text>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                <CreateReviewForm productId={productId}/>
+            </div>
         </Section>
         )
     return null

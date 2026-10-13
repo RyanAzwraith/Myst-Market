@@ -166,6 +166,22 @@ function Img({
     className,
     ...props
 }: React.ImgHTMLAttributes<HTMLImageElement>) {
+    if (!src) {
+        return (
+            <div
+            role="img"
+            aria-label={alt || "Image unavailable"}
+            className={twMerge(
+                "flex min-h-48 w-full items-center justify-center " +
+                "bg-gray-100 text-sm text-gray-500",
+                className
+            )}
+            >
+                Image unavailable
+            </div>
+        )
+    }
+
     return (
         <img
 		className={twMerge(

@@ -19,11 +19,9 @@ export function App() {
 	return (
 	<QueryClientProvider client={queryClient}>
 		<BrowserRouter>
-			<ThemeProvider>
-				<Scaffold>
-					<PageRoutesComponent />
-				</Scaffold>
-			</ThemeProvider>
+			<Scaffold>
+				<PageRoutesComponent />
+			</Scaffold>
 		</BrowserRouter>
 	</QueryClientProvider>
 	);

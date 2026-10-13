@@ -1,8 +1,8 @@
-import { listToRecord } from "@/utils/funcs"
-import { ChevronDownIcon, Page } from "@/shared"
+
+import { LoadContent, Page } from "@/shared"
 
 import { QueryParamFields } from "@/hooks/QueryParams"
-import { SelectEditDisplay } from "@/hooks/SelectEdit"
+import { SelectEditDisplay, ItemRow } from "@/hooks/SelectEdit"
 
 import { 
     AdminSearchLoader, 
@@ -16,7 +16,7 @@ export { OrdersPage }
 
 function OrdersPage() {
     return (
-    <Page>
+    <Page className="min-h-screen bg-slate-50 px-4 py-8">
         <AdminSearchLoader 
         render={({searchQuery, searchParams, selectEdit, orders}) => (
         <>
@@ -24,15 +24,24 @@ function OrdersPage() {
             <AdminSearchTitle adminSearchParams ={searchParams} />
             <SelectEditDisplay
             selectEdit={selectEdit}
-            elements={listToRecord(orders, (o) => [o.id, 
-                <OrderRow order={o} key={o.id} />
-            ])}/>
-            <ChevronDownIcon 
-            onClick={searchQuery.fetchNextPage} 
-            hidden={!searchQuery.hasNextPage} 
             />
+
+            <LoadContent
+            className="space-y-3"
+            hasMore={!searchQuery.hasNextPage}
+            onClick={searchQuery.fetchNextPage}
+            content={(orders ?? []).map(o => 
+                <ItemRow
+                key={o.id}
+                id={o.id}
+                selectEdit={selectEdit}
+                >
+                    <OrderRow order={o} />
+                </ItemRow>
+            )}/>
         </>
-        )} />
+        )}/>
+        
     </Page>
     )
 }

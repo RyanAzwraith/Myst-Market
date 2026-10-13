@@ -11,7 +11,8 @@ import {
     FieldSet,
     Input,
     Button,
-    Container
+    Container,
+    Row,
 } from "@/shared";
 
 import type { 
@@ -34,7 +35,7 @@ export {
     NumberField,
     SelectOneField,
     SelectMultipleField,
-    ItemContainer,
+    ItemRow,
     SelectEditField,
     SelectEditContainer,
     SelectEditDisplay,
@@ -57,9 +58,10 @@ function BooleanField({ binding }: {
     }
 
     return (
-    <Label>
+    <Label className="min-w-40 text-xs font-semibold uppercase tracking-wide ">
         {label}
         <Select
+        className="mt-1 text-sm normal-case tracking-normal"
         value={value === null ? '' : String(value)}
         onChange={event => handleChange(event.target.value)}
         >
@@ -78,6 +80,10 @@ function TextField({ binding }: {
     return (
         <LabeledInput
         type="text"
+        labelClassName={
+            "min-w-40 text-xs font-semibold uppercase tracking-wide"
+        }
+        className="mt-1 text-sm normal-case tracking-normal"
         placeholder={placeholder}
         value={get() ?? ''}
         onChange={event =>
@@ -109,6 +115,10 @@ function NumberField({ binding }: {
     return (
         <LabeledInput
         type="number"
+        labelClassName={
+            "min-w-32 text-xs font-semibold uppercase tracking-wide"
+        }
+        className="mt-1 text-sm normal-case tracking-normal"
         step={step}
         value={value === null ? '' : value}
         onChange={event => handleChange(event)}
@@ -142,9 +152,10 @@ function SelectOneField({ binding }: {
     }
 
     return (
-    <Label>
+    <Label className="min-w-40 text-xs font-semibold uppercase tracking-wide">
         {label}
         <Select
+        className="mt-1 text-sm normal-case tracking-normal"
         value={value === null ? '' : String(value)}
         onChange={event => handleChange(event.target.value)}
         >
@@ -176,12 +187,15 @@ function SelectMultipleField({ binding }: {
     }
 
     return (
-    <FieldSet>
-        <Legend>{label}</Legend>
+    <FieldSet className="min-w-48">
+        <Legend className="text-xs uppercase tracking-wide text-gray-500">
+            {label}
+        </Legend>
 
         <LabeledInput
         before={false}
         type="checkbox"
+        labelClassName="text-sm"
         checked={currentValue === null}
         onChange={event =>
             set(event.target.checked ? null : [])
@@ -196,6 +210,7 @@ function SelectMultipleField({ binding }: {
             key={`option-${key}`}
             before={false}
             type="checkbox"
+            labelClassName="text-sm"
             checked={values.includes(value)}
             onChange={event =>
                 handleChange(value, event.target.checked)
@@ -207,22 +222,22 @@ function SelectMultipleField({ binding }: {
     )
 }
 
-function ItemContainer({
-    itemComponent, isSelected, toggleSelected,
+function ItemRow({
+    children, id, selectEdit,
 }: {
-    itemComponent: ReactNode,
-    isSelected: boolean,
-    toggleSelected: () => void,
+    children?: ReactNode,
+    id: number,
+    selectEdit: SelectEdit<any>,
 }) {    
     return (
-    <div>
+    <Row className="rounded-lg border bg-white p-2 shadow-sm">
         <Input
         type="checkbox"
-        checked={isSelected}
-        onChange={toggleSelected}
+        checked={selectEdit.selectedIds.has(id)}
+        onChange={() => selectEdit.toggleSelect(id)}
         />
-        {itemComponent}
-    </div>
+        {children}
+    </Row>
     )
 }
 
@@ -231,9 +246,13 @@ function SelectEditContainer({ children }:{
     children: ReactNode
 }) {
     return (
-    <Container>
+    <FieldSet className={
+        "mb-6 flex flex-wrap items-end gap-3 rounded-xl border " +
+        "border-gray-200 bg-gray-50 p-4 shadow-sm sm:p-6"
+    }
+    >
         {children}
-    </Container>
+    </FieldSet>
     )
 }
 
@@ -251,57 +270,43 @@ function SelectEditField({ binding }: {
 }
 
 function SelectEditDisplay<F extends FieldDefs>({
-    elements, selectEdit
+    selectEdit
 }:{
-    elements: ReactNode[]
     selectEdit: SelectEdit<F>
 }) {
     const { bindings, isAllSelected, toggleSelectAll, selectedIds, submit } = selectEdit;
     return (
-    <SelectEditContainer>
-        <FieldSet>
-            <LabeledInput
-            before={false}
-            type="checkbox"
-            checked={isAllSelected}
-            onChange={toggleSelectAll}
-            >
-                Select all
-            </LabeledInput>
-            
-            <List
-            items={recordToList(bindings)}
-            render={([_, binding]) => 
-                <SelectEditField 
-                binding={binding} 
-                key={binding.fieldKey} 
-                />
-            }/>
-
-            <Button
-            type="button"
-            onClick={submit}
-            disabled={selectedIds.size === 0}
-            >
-                Update selected
-            </Button>
-        </FieldSet>
-        
-        <Grid
-        columns={3}
+    <SelectEditContainer >
+        <LabeledInput
+        before={false}
+        type="checkbox"
+        labelClassName={
+            "self-center rounded-lg border border-gray-200 " +
+            "px-3 py-2 text-sm font-medium"
+        }
+        checked={isAllSelected}
+        onChange={toggleSelectAll}
         >
-            <List
-            items={elements}
-            render={(itemComponent, id) => 
-                <ItemContainer
-                key={id}
-                isSelected={selectedIds.has(id)}
-                toggleSelected={() => selectEdit.toggleSelect(id)}
-                itemComponent={itemComponent}
-                />
-            }/>
-        </Grid>
+            Select all
+        </LabeledInput>
+        
+        <List
+        items={recordToList(bindings)}
+        render={([_, binding]) => 
+            <SelectEditField 
+            binding={binding} 
+            key={binding.fieldKey} 
+            />
+        }/>
 
+        <Button
+        type="button"
+        className="h-10"
+        onClick={submit}
+        disabled={selectedIds.size === 0}
+        >
+            Update selected
+        </Button>
     </SelectEditContainer>
     )
 }

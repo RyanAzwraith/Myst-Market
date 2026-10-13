@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import { Page } from "@/shared"
+import { Container, Page } from "@/shared"
 
 import { PageRoutes } from "@/app/PageRoutes"
 
 import { SaleLoader } from "@/features/sale"
-import { DetailedInfo } from "@/features/sale"
+import { DetailedInfo, SaleCarousel } from "@/features/sale"
 
 
 export { SalePage }
@@ -23,11 +23,16 @@ function SalePage() {
     if (!slug) return null
     return (
     <Page>
-        <SaleLoader 
-        slug={slug} 
-        render={(sale) => 
-            <DetailedInfo sale={sale} />
-        } />
+        <Container className="py-8">
+            <SaleLoader 
+            slug={slug} 
+            render={(sale) => (
+            <>
+                <SaleCarousel saleId={sale.id} />
+                <DetailedInfo sale={sale} />
+            </>
+            )} />
+        </Container>
     </Page>
     )
 }

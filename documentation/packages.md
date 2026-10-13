@@ -22,10 +22,7 @@ react-client
 - dotenv
 - recharts
 - @faker-js/faker
-- `tailwind-merge`
-
-fastapi-server
-
+- `tailwind-merge`fastapi-server
 - fastapi
 - uvicorn
 - sqlalchemy

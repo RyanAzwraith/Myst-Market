@@ -17,6 +17,7 @@ export {
     SelectOneField,
     SelectMultipleField,
     TextField,
+    SearchField,
     QueryParamsContainer,
     QueryParamField,
     QueryParamFields,

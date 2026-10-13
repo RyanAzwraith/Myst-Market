@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"
 
 import { 
+    Carousel,
     Heading,
-    Inline,
-    List, 
     Page,
+    Section,
     Text,
 } from "@/shared"
 
@@ -29,10 +29,6 @@ import {
     ReviewCard,
     TestimonialLoader
 } from "@/features/review"
-import type { 
-    Sale 
-
-} from "@/features/sale"
 
 
 export { CataloguePage }
@@ -41,73 +37,103 @@ export { CataloguePage }
 function CataloguePage() {
     const navigate = useNavigate()
         
-    const handleSaleCardClick = (sale: Sale) => 
-        navigate(`${PageRoutes.sale}/${sale.slug}`)
-
     return (
     <Page>
-        <Heading>Catalogue</Heading>
+        <Section className="space-y-4 py-6 text-center">
+            <Heading className="text-4xl">Catalogue</Heading>
+            <Text className="mx-auto max-w-2xl">
+                Wow Such Wow About Us Wow
+            </Text>
+        </Section>
+
+        <Section className="px-4 py-6">
+            <StatsInfo />
+        </Section>
+
+        <Section className="py-6">
+            <Heading level={2} className="mb-6 text-center text-4xl">
+                Featured Products
+            </Heading>
+            <FeaturedLoader
+            limit={15}
+            render={({ products, images }) => 
+                <ProductCardCarousel 
+                products={products} 
+                images={images} 
+                onClick={product => navigate(PageRoutes.product(product.slug))}
+                />
+            }/>
+        </Section>
+
+        <Section className="py-6">
+            <Heading level={2} className="mb-6 text-center text-4xl">
+                Popular Products
+            </Heading>
+            <PopularLoader
+            limit={15}
+            render={({ products, images }) => 
+                <ProductCardCarousel 
+                products={products} 
+                images={images} 
+                onClick={product => navigate(PageRoutes.product(product.slug))}
+                />
+            }/>
+        </Section>
         
-        <Text> Wow Such Wow About Us Wow </Text>
+        <Section className="py-6">
+            <Heading level={2} className="mb-6 text-center text-4xl">
+                Newest Products
+            </Heading>
+            <NewestLoader
+            limit={15}
+            render={({ products, images }) => 
+                <ProductCardCarousel 
+                products={products} 
+                images={images} 
+                onClick={product => navigate(PageRoutes.product(product.slug))}
+                />
+            }/>
+        </Section>
 
-        <StatsInfo />
-
-        <Heading level={2}>Featured Products</Heading>
-        <FeaturedLoader
-        limit={15}
-        render={({ products, images }) => 
-            <ProductCardCarousel products={products} images={images} />
-        }/>
-
-        <Heading level={2}>Popular Products</Heading>
-        <PopularLoader
-        limit={15}
-        render={({ products, images }) => 
-            <ProductCardCarousel products={products} images={images} />
-        }/>
-        
-        <Heading level={2}>Newest Products</Heading>
-        <NewestLoader
-        limit={15}
-        render={({ products, images }) => 
-            <ProductCardCarousel products={products} images={images} />
-        }/>
-
-        <Heading level={2}>Biggest Sales</Heading>
-        <BiggestLoader
-        limit={3}
-        render={(sales, images) => (
-            <Inline
-            children={
-                <List
-                items={sales}
-                render={(s) => 
+        <Section className="py-6">
+            <Heading level={2} className="mb-6 text-center text-4xl">
+                Biggest Sales
+            </Heading>
+            <BiggestLoader
+            limit={3}
+            render={(sales, images) => (
+                <Carousel
+                content={sales.map((s) => 
                     <SaleCard 
                     sale={s}
                     key={`${s.slug}-${s.id}`}
                     image={images[s.id]}
-                    onClick={() => handleSaleCardClick(s)}
+                    onClick={(sale) => navigate(PageRoutes.sale(sale.slug))}
                     />
-                }/>
-            } />
-        )}/>
+                )}
+                limit={3}
+                />
+            )}/>
+        </Section>
         
-        <Heading level={2}>Testimonials</Heading>
-        <TestimonialLoader
-        limit={3}
-        render={(reviews) => (
-            <Inline
-            children={
-                <List
-                items={reviews}
-                render={(r) => 
-                    <ReviewCard 
-                    review={r} 
-                    key={`${r.userName}`} 
-                    />
-                }/>
-            } />
-        )}/>
+        <Section className="py-6">
+            <Heading level={2} className="mb-6 text-center text-4xl">
+                Testimonials
+            </Heading>
+            <TestimonialLoader
+            limit={3}
+            render={(reviews) => (
+                <Carousel
+                content={reviews.map((r) => 
+                        <ReviewCard 
+                        review={r} 
+                        key={`${r.userName}`} 
+                        />
+                )}
+                limit={3}
+                />
+            )}/>
+        </Section>
     </Page>
     )
 }

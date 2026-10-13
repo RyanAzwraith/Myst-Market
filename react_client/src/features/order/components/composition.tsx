@@ -4,12 +4,8 @@ import {
     List, 
     Loading,
     ModalTrigger,
-    Row
 } from "@/shared"
 
-import { 
-    FormInputsForm 
-} from "@/hooks/FormInputs"
 
 import { ResolutionCard } from "../index"
 
@@ -19,15 +15,15 @@ import type {
 import { 
     useOrderQuery, 
 } from "../service"
-import { 
-    useStatusForm 
-} from "../hook"
 
 import { 
     OrderSummaryInfo, 
     AdminSummaryInfo, 
     AdminInfo 
 } from "./content"
+import { 
+    StatusForm 
+} from "./interactive"
 
 
 export { 
@@ -53,15 +49,16 @@ function OrderRow({ order }: {
     order: OrderSummary,
 }) {
     return (
-    <Row>
-        <ModalTrigger
-        button={
-            <AdminSummaryInfo order={order} />
-        }
-        render={() => 
-            <OrderModal orderId={order.id} />
-        } />
-    </Row>
+    <ModalTrigger
+    className="block w-full rounded-lg text-left transition hover:bg-gray-50"
+    modalClassName="max-h-[90vh] overflow-y-auto"
+    dialogLabel={`Order ${order.id}`}
+    button={
+        <AdminSummaryInfo order={order} />
+    }
+    render={() => 
+        <OrderModal orderId={order.id} />
+    } />
     );
 }
 
@@ -72,25 +69,33 @@ function OrderModal({ orderId }: {
     const { data } = useOrderQuery(orderId)
     if (!data) return <Loading />
     
-    const statusForm = useStatusForm({ order: data.order })
-
     const { order, user } = data
     return (
-    <>
-        <Heading level={2}>Order Details</Heading>
-        <AdminInfo order={order} user={user} />
-        <FormInputsForm formInputs={statusForm}/>
+    <div className="space-y-5 text-gray-900">
+        <Heading level={2} className="text-2xl">
+            Order Details
+        </Heading>
+        <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <AdminInfo order={order} user={user} />
+        </div>
 
-        <Heading level={3}>Items</Heading>
-        <List
-        items={order.items}
-        render={item => 
-            <ResolutionCard 
-            key={`${item.product.name}-${item.product.id}`} 
-            item={item}
-            />
-        }
+        <StatusForm
+        order={order}
+        className="space-y-3 rounded-lg border border-gray-200 p-4"
         />
-    </>
+
+        <Heading level={3} className="text-lg">Items</Heading>
+        <div className="space-y-3">
+            <List
+            items={order.items}
+            render={item => 
+                <ResolutionCard 
+                key={`${item.product.name}-${item.product.id}`} 
+                item={item}
+                />
+            }
+            />
+        </div>
+    </div>
     );
 }

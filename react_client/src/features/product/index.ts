@@ -47,10 +47,12 @@ export {
 
 export {
     ProductImage,
+    ProductCarousel,
     DetailedInfo, 
     AdminSummaryInfo,
     PerformanceInfo,
     AnalyticsInfo,
+
 } from './components/content'
 export {
     ProductCard,

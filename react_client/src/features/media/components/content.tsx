@@ -1,7 +1,6 @@
 
 import { 
 	Carousel, 
-	Loading, 
 	Img,
 	Vid, 
 } from "@/shared"
@@ -22,15 +21,17 @@ export {
 }
 
 
-function Image({ media }: {
+function Image({ media, className }: {
 	media: MediaDetail | undefined
+	className?: string
 }) {
-	if (!media) return <Loading />
+	if (!media) return <Img alt="Image unavailable" />
 	if (media.mediaType !== mediaType.image) return null
 	return (
 		<Img
 		src={media.mediaUrl}
 		alt={media.altText ?? ""}
+		className={className}
 		/>
 	)
 }
@@ -50,12 +51,13 @@ function Video({media}: {
 	)
 }
 
-function Media({ media }: {
+function Media({ media, className }: {
 	media?: MediaDetail
+	className?: string
 }) {
-	if (!media) return null
+	if (!media) return <Img alt="Image unavailable" />
 	if (media.mediaType === mediaType.image) return (
-		<Image media={media} />
+		<Image media={media} className={className} />
 	)
 	if (media.mediaType === mediaType.video) return (
 		<Video media={media} />
@@ -66,19 +68,25 @@ function Media({ media }: {
 function MediaCarousel({
 	media,
 	limit = 1,
+	className,
+	imageClassName,
 }: {
 	media: MediaDetail[]
 	limit?: number
+	className?: string
+	imageClassName?: string
 }) {
 	if (media.length === 0) return null
 
 	return (
 		<Carousel
 		limit={limit}
+		className={className}
 		content={media.map(item => (
 			<Media
 			key={item.id}
 			media={item}
+			className={imageClassName}
 			/>
 		))}
 		/>

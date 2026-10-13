@@ -28,62 +28,100 @@ export { DashboardPage }
 
 function DashboardPage() {
     return (
-	<Page>
-		<Heading>Admin Dashboard</Heading>
+	<Page className="bg-slate-50 px-4 py-8">
+		<Container className="space-y-8">
+			<Heading className="text-center text-3xl sm:text-4xl">
+				Admin Dashboard
+			</Heading>
 
-		<Heading level={2}>Performance</Heading>
-		<Container>
-			<PerformanceLoader
-			render={({ form, data }) => (
-			<>
-				<SelectOneField binding={form.bindings.period}/>
-				<PerformanceDisplay performance={data} />
-			</>
-			)} />
+			<section className="space-y-4">
+				<PerformanceLoader
+				render={({ form, data }) => (
+					<>
+						<div className="flex flex-wrap items-end justify-between gap-4">
+							<Heading level={2} className="text-2xl">
+								Performance
+							</Heading>
+							<div className="w-48">
+								<SelectOneField
+								binding={form.bindings.period}
+								/>
+							</div>
+						</div>
+						<PerformanceDisplay performance={data} />
+					</>
+				)}
+				/>
+			</section>
 
-		</Container>
-		
-		<Container>
-			<Heading level={2}>Revenue / Orders</Heading>
-			<Container>
-				<Graph />
-			</Container>
+			<div className="grid gap-6 lg:grid-cols-3">
+				<section className="rounded-xl border bg-white p-5 shadow-sm lg:col-span-2">
+					<Heading level={2} className="mb-4 text-xl">
+						Revenue / Orders
+					</Heading>
+					<div className="h-80">
+						<Graph />
+					</div>
+				</section>
 
-			<Heading level={2}>Requires Attention</Heading>
-			<Container>
-				<AttentionInfo />
-			</Container>
-		</Container>
-		
-		<Container>
-			<Heading level={2}>Recent Orders</Heading>
-			<Container>
-				<RecentLoader 
-				render={({ orders }) => 
-					<List
-					items={orders}
-					render={(order) => (
-						<OrderAdminPerformanceInfo 
-						order={order}
-						/>
-					)}/>
-				}/>
-			</Container>
+				<section className="rounded-xl border bg-white p-5 shadow-sm">
+					<Heading level={2} className="mb-4 text-xl">
+						Requires Attention
+					</Heading>
+					<div className="space-y-3">
+						<AttentionInfo />
+					</div>
+				</section>
+			</div>
 
-			<Heading level={2}>Top Products</Heading>
-			<Container>
-				<TopLoader 
-				limit={3}
-				render={({ products }) => 
-					<List
-					items={products}
-					render={(product) => (
-						<ProductPerformanceInfo 
-						product={product as ProductAnalytics} 
-						/>
-					)}/>
-				}/>
-			</Container>
+			<div className="grid gap-6 lg:grid-cols-2">
+				<section className="rounded-xl border bg-white p-5 shadow-sm">
+					<Heading level={2} className="mb-4 text-xl">
+						Recent Orders
+					</Heading>
+					<div className="space-y-2">
+						<RecentLoader 
+						render={({ orders }) => 
+							<List
+							items={orders}
+							render={(order) => (
+								<div className={
+									"grid grid-cols-2 rounded-lg bg-gray-50 " +
+									"px-3 py-2 text-sm"
+								}>
+									<OrderAdminPerformanceInfo 
+									order={order}
+									/>
+								</div>
+							)}/>
+						}/>
+					</div>
+				</section>
+
+				<section className="rounded-xl border bg-white p-5 shadow-sm">
+					<Heading level={2} className="mb-4 text-xl">
+						Top Products
+					</Heading>
+					<div className="space-y-2">
+						<TopLoader 
+						limit={3}
+						render={({ products }) => 
+							<List
+							items={products}
+							render={(product) => (
+								<div className={
+									"grid grid-cols-2 rounded-lg bg-gray-50 " +
+									"px-3 py-2 text-sm"
+								}>
+									<ProductPerformanceInfo 
+									product={product as ProductAnalytics} 
+									/>
+								</div>
+							)}/>
+						}/>
+					</div>
+				</section>
+			</div>
 		</Container>
 	</Page>
     )

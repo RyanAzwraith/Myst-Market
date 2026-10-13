@@ -21,4 +21,5 @@ export {
     SelectEditContainer,
     SelectEditField,
     SelectEditDisplay,
+    ItemRow,
 } from './components'

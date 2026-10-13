@@ -9,7 +9,7 @@ import { CartMenuButton } from "@/features/item";
 
 import { useAuthState } from "@/features/user";
 import { useSearchParams } from "@/features/product";
-import { TextField } from "@/hooks/QueryParams";
+import { SearchField } from "@/hooks/QueryParams";
 
 import { 
 	Button, 
@@ -45,22 +45,26 @@ export function AppBar() {
 		justify="between"
 		align="center"
 		gap="sm"
-		className="border-b bg-slate-100 px-4 py-2 shadow-sm"
+		className="bg-slate-800 px-4 pr-16 pt-4 shadow-sm text-slate-50 pt-4"
 		>
 			<Button 
 			variant="ghost"
-			className="px-2 py-1 text-sm"
+			className="shrink-0 px-2"
 			onClick={() => navigate(PageRoutes.admin)}
 			>
 				<Heading 
 				level={2} 
-				className="text-xl font-semibold"
+				className="font-semibold"
 				>
 					Myst Market
 				</Heading>
 			</Button>
 
-			<Inline gap="sm" align="center">
+			<Inline
+			gap="none"
+			align="end"
+			className="min-w-0 pt-4"
+			>
 				<List
 				items={adminPages}
 				render={p => (
@@ -68,7 +72,8 @@ export function AppBar() {
 					key={p.path}
 					type="button"
 					variant="ghost"
-					className="px-3 py-1 text-sm"
+					className="bg-slate-400 text-slate-900 border border-black 
+                		rounded-t-md border-b-0 rounded-b-none"  
 					onClick={() => navigate(p.path)}
 					>
 						{p.label}
@@ -77,11 +82,20 @@ export function AppBar() {
 				/>
 			</Inline>
 
-			<AdminModeToggle
-			isAdmin={isAdmin}
-			showAdmin={showAdmin}
-			setShowAdmin={setShowAdmin}
-			/>
+			<Inline gap="sm" align="center" className="shrink-0">
+				<AdminModeToggle
+				isAdmin={isAdmin}
+				showAdmin={showAdmin}
+				setShowAdmin={setShowAdmin}
+				/>
+				<CartMenuButton
+				onCheckoutClick={() => navigate(PageRoutes.checkout)}
+				/>
+				<ProfileMenuButton
+				onSolidClick={() => navigate(PageRoutes.profile)}
+				onOutlineClick={() => {}}
+				/>
+			</Inline>
 
 		</Inline>
 		)
@@ -91,23 +105,25 @@ export function AppBar() {
 	justify="between"
 	align="center"
 	gap="sm"
-	className="border-b bg-slate-100 px-4 py-2 shadow-sm"
+	className="bg-slate-800 px-4 pr-16 pt-2 shadow-sm text-slate-50"
 	>
 		<Button 
 		variant="ghost"
-		className="px-2 py-1 text-sm"
+		className="px-2"
 		onClick={() => navigate(PageRoutes.admin)}
 		>
 			<Heading 
 			level={2} 
-			className="text-xl font-semibold"
+			className="font-semibold"
 			>
 				Myst Market
 			</Heading>
 		</Button>
 		
-		<Stack gap="sm" align="center" className="min-w-0">
-			<TextField  binding={search} />
+		<Stack gap="sm" align="center" className="min-w-0 p-0">
+			<SearchField  
+			binding={search} 
+			/>
 			<CategoryBar/>
 		</Stack>
 

@@ -230,14 +230,16 @@ function SelectMultipleField({ binding }: {
 }
 
 function FormInputsContainer({ 
-    children, submit 
+    children, submit, className
 }:{
     children: ReactNode,
-    submit?: (event: SubmitEvent<HTMLFormElement>) => void
+    submit?: (event: SubmitEvent<HTMLFormElement>) => void,
+    className?: string
 }) {
     return (
         <Form 
         onSubmit={event => submit?.(event)}
+        className={className}
         >
             {children}
         </Form>
@@ -260,17 +262,21 @@ function FormInputsField({ binding }: {
 }
 
 function FormInputsForm({
-    formInputs, submitLabel="Submit", hasResetButton=false
+    formInputs, submitLabel="Submit", hasResetButton=false, className
 }: {
     formInputs: FormInputs<FieldDefs, FieldValues<FieldDefs>>
     submitLabel?: string,
     hasResetButton?: boolean,
+    className?: string,
 }) {
     const { 
         bindings, errorMsg, reset, handleSubmit,
     } = formInputs;
     return (
-    <FormInputsContainer submit={handleSubmit}>
+    <FormInputsContainer
+    submit={handleSubmit}
+    className={className}
+    >
         <List
         items={recordToList(bindings)}
         render={([_, binding]) => 

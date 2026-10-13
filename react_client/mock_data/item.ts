@@ -1,29 +1,63 @@
+import { faker } from "@faker-js/faker"
+
 import type {
     ItemResolution,
     ItemSummary,
-} from "@/features/item/schema"
+} from "@/features/item"
+import type { ProductSummary } from "@/features/product/schema"
 
 export {
-    itemSummaries,
-    itemResolutions,
+    itemSummaryFactory,
+    itemResolutionFactory,
+    itemSummaryListFactory,
+    itemResolutionsListFactory,
 }
 
-const itemSummaries: ItemSummary[] = [
-    { productId: 1, quantity: 1 },
-    { productId: 1, quantity: 2 },
-]
+faker.seed(12345)
 
-const itemResolutions: ItemResolution[] = [
-    {
-        product: {
+const itemSummaryFactory = (productId: number = 1): ItemSummary => ({
+    productId: productId,
+    quantity: faker.number.int({ min: 1, max: 5 }),
+})
+
+const itemResolutionFactory = (
+    product?: ProductSummary, 
+) : ItemResolution => {
+    const unitPriceCent = faker.number.int({
+        min: 1000,
+        max: 100000,
+    })
+    const quantity = faker.number.int({ min: 1, max: 5 })
+    const name = faker.commerce.productName()
+
+    return {
+        product: product ?? {
             id: 1,
             saleID: null,
-            name: "Mock Product",
-            slug: "mock-product",
+            name,
+            slug: faker.helpers.slugify(name),
         },
-        quantity: 1,
-        unitPriceCent: 1000,
-        lineTotalCent: 1000,
-        onSale: false,
-    },
-]
+        quantity,
+        unitPriceCent,
+        lineTotalCent: unitPriceCent * quantity,
+        onSale: faker.datatype.boolean(),
+    }
+}
+
+const itemSummaryListFactory = (
+    length: number = 8, productIds: number[] = []
+): ItemSummary[] => 
+    Array.from(
+        { length },
+        () => itemSummaryFactory(productIds.shift()),
+    )
+
+
+
+const itemResolutionsListFactory = (
+    length: number = 8, products: ProductSummary[] = []
+): ItemResolution[] => 
+    Array.from(
+        { length },
+        () => itemResolutionFactory(products.shift()),
+    )

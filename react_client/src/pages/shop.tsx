@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
 import { 
+    Container,
     Grid,
     LoadContent, 
-    Page
+    Page,
+    Section,
 } from "@/shared";
 
 import { 
@@ -27,15 +29,22 @@ function ShopPage() {
     <Page> 
         <SearchLoader
         render={({ searchQuery, searchParams, products, images }) => 
-        <>
-
+        <Container className="space-y-6 py-6">
             <QueryParamFields queryParams={searchParams} />
-            <ProductSearchTitle searchParams={searchParams} />
-
+            <ProductSearchTitle
+            className="text-center text-4xl pb-8"
+            searchParams={searchParams}
+            />
             <Grid
-            columns={6}
-            children={
+            columns={1}
+            smColumns={2}
+            mdColumns={3}
+            lgColumns={4}
+            gap="lg"
+            className="items-stretch"
+            >
                 <LoadContent
+                className="contents"
                 hasMore={!searchQuery.hasNextPage}
                 onClick={searchQuery.fetchNextPage}
                 content={(products ?? []).map(p => 
@@ -43,10 +52,14 @@ function ShopPage() {
                     key={p.id} 
                     product={p}
                     image={images[p.id]}
-                    onClick={(product) => navigate(PageRoutes.product(product.slug))}
+                    onClick={(product) => navigate(
+                        PageRoutes.product(product.slug)
+                    )}
                     />
-                )}/> }/> 
-        </> }/> 
+                )}/>
+            </Grid>
+        </Container>
+        }/> 
     </Page>
     )
 }

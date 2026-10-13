@@ -1,16 +1,16 @@
 import { useState } from "react";
 
-import { listToRecord } from "@/utils/funcs";
 import { 
-    ChevronDownIcon,
     Page,
     ModalTrigger, 
     Button,
     Heading,
-    Span
+    Span,
+    LoadContent
 } from "@/shared";
 
 import { 
+    ItemRow,
     SelectEditDisplay 
 } from "@/hooks/SelectEdit/components";
 import { 
@@ -19,6 +19,7 @@ import {
 
 import { 
     type ProductAnalytics,
+    type Product,
     AdminSearchTitle,
     AdminSummaryInfo,
     AdminSearchLoader,
@@ -34,16 +35,24 @@ export { ProductsPage }
 
 function ProductsPage() {
     return (
-    <Page>
+    <Page className="min-h-screen bg-slate-50 px-4 py-8">
         <ModalTrigger
+        className={
+            "rounded-lg bg-blue-600 px-4 py-2 font-medium text-white " +
+            "shadow-sm transition hover:bg-blue-500"
+        }
+        modalClassName="max-h-[90vh] overflow-y-auto"
         button={ 
             <Span>Create product</Span> 
         }
         render={onClose => 
         <>
-            <Heading level={2}>Create Product</Heading>
+            <Heading level={2} className="mb-4 text-xl">
+                Create Product
+            </Heading>
             <CreateForm
             onSuccess={onClose}
+            className="space-y-3"
             />
         </>
         }/>
@@ -56,55 +65,70 @@ function ProductsPage() {
 
             <SelectEditDisplay
             selectEdit={selectEdit}
-            elements={listToRecord(products, (p) => [String(p.id), 
-                <ModalTrigger
-                button={
-                    <AdminSummaryInfo product={p} />
-                }
-                render={onClose => 
-                    <ProductModal 
-                    product={p} 
-                    onClose={onClose} 
-                    />
-                } />
-            ])}/>
-
-            <ChevronDownIcon 
-            onClick={searchQuery.fetchNextPage}
-            hidden={!searchQuery.hasNextPage}
             />
+
+            <LoadContent
+            className="space-y-3"
+            hasMore={!searchQuery.hasNextPage}
+            onClick={searchQuery.fetchNextPage}
+            content={(products ?? []).map(p => 
+                <ItemRow
+                key={p.id}
+                id={p.id}
+                selectEdit={selectEdit}
+                >
+                    <ModalTrigger
+                    className={
+                        "block w-full rounded-lg text-left transition " +
+                        "hover:bg-gray-50"
+                    }
+                    modalClassName="max-h-[90vh] overflow-y-auto"
+                    button={
+                        <AdminSummaryInfo product={p} />
+                    }
+                    render={onClose => 
+                        <ProductModal 
+                        product={p} 
+                        onClose={onClose} 
+                        />
+                    } />
+                </ItemRow>
+            )}/>
         </> } />
     </Page>
     )
 }
 
 function ProductModal({ product, onClose }: { 
-    product: ProductAnalytics 
+    product: Product
     onClose: () => void
 }) {
-    const [tog, setTog] = useState(false);
+    const [tog, setTog] = useState(true);
     return (
-    <>
+    <div className="space-y-5 text-gray-900">
         { tog ? 
-        <AnalyticsInfo product={product} />
+        <AnalyticsInfo productId={product.id} />
             :
         <UpdateForm
         product={product}
         onSuccess={() => setTog(false)}
+        className="space-y-3"
         />
         }
 
-        <Button 
-        type="button"
-        onClick={() => setTog(!tog)}
-        >
-            Edit
-        </Button>
-        
-        <DeleteButton
-        productId={product.id}
-        onClick={onClose}
-        />
-    </>
+        <div className="flex flex-wrap gap-2 border-t border-gray-200 pt-4">
+            <Button 
+            type="button"
+            onClick={() => setTog(!tog)}
+            >
+                {tog ? "Edit" : "View details"}
+            </Button>
+            
+            <DeleteButton
+            productId={product.id}
+            onClick={onClose}
+            />
+        </div>
+    </div>
     )
 }

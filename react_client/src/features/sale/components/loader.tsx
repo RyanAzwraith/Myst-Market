@@ -3,6 +3,7 @@ import type { ReactNode } from "react"
 import { Loading } from "@/shared"
 
 import type { MediaDetail } from "../index"
+import type { SaleAnalytics } from "../index"
 
 import type { 
     Sale,
@@ -51,14 +52,14 @@ function AdminSearchLoader({ render, limit=20 }: {
         searchQuery: ReturnType<typeof useAdminSearchQuery>
         searchParams: ReturnType<typeof useAdminSearchParams>
         selectEdit: ReturnType<typeof useAdminSelectEdit>
-        products: Sale[]
+        sales: SaleAnalytics[]
     }) => ReactNode,
     limit?: number
 }) {
     const searchParams = useAdminSearchParams()
     const searchQuery = useAdminSearchQuery( limit, searchParams.values() )
-    const products = searchQuery.data?.sales ?? []
-    const selectEdit = useAdminSelectEdit(products);
-    return render({ searchQuery, searchParams, selectEdit, products })
+    const sales = searchQuery.data?.sales ?? []
+    const selectEdit = useAdminSelectEdit(sales);
+    return render({ searchQuery, searchParams, selectEdit, sales })
 }
 

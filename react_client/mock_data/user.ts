@@ -12,12 +12,16 @@ export {
     userFactory,
     user,
     adminUser,
-    users,
+    userListFactory,
+    userList,
     userDetailFactory,
     userDetail,
+    userDetailListFactory,
+    userDetailList,
     userAnalyticsFactory,
-    userAnalytic,
-    userAnalytics
+    userAnalytics,
+    userAnalyticsListFactory,
+    userAnalyticsList,
 }
 
 faker.seed(12345)
@@ -33,10 +37,19 @@ const userFactory = (
 
 const user: User = userFactory()
 const adminUser: User = userFactory({ 
+    email: "admin@mail.com",
     isAdmin: true 
 })
 
-const users: User[] = Array.from(
+const userListFactory = (
+    length: number = 25
+): User[] =>
+    Array.from(
+        { length },
+        () => userFactory(),
+    )
+
+const userList: User[] = Array.from(
     { length: 25 },
     () => userFactory(),
 )
@@ -49,8 +62,17 @@ const userDetailFactory = (
     isRegistered: true,
 }, ...overrides })
 
-const userDetail: UserDetail = userDetailFactory()
+const userDetail = userDetailFactory()
 
+const userDetailListFactory = (
+    length: number = 25
+): UserDetail[] =>
+    Array.from(
+        { length },
+        () => userDetailFactory(),
+    )
+
+const userDetailList: UserDetail[] = userDetailListFactory()
 
 const userAnalyticsFactory = (
     overrides: Partial<UserAnalytics> = {},
@@ -64,11 +86,22 @@ const userAnalyticsFactory = (
     reviewCount: faker.number.int({ min: 0, max: 10 }),
 }, ...overrides })
 
-const userAnalytic: UserAnalytics = userAnalyticsFactory()
+const userAnalytics: UserAnalytics = userAnalyticsFactory()
 
-const userAnalytics: UserAnalytics[] = users.map(user => 
+const userAnalyticsListFactory = (
+    length: number = 25, users: User[] = userList
+): UserAnalytics[] =>
+    Array.from(
+        { length },
+        () => userAnalyticsFactory({ ...users.pop() }),
+    )
+
+
+const userAnalyticsList: UserAnalytics[] = userList.map(user => 
     userAnalyticsFactory({ ...user })
 )
+
+
 
 
 
