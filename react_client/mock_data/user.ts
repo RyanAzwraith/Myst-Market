@@ -33,7 +33,8 @@ const userFactory = (
     email: faker.internet.email(),
     name: faker.person.fullName(),
     isAdmin: false,
-}, ...overrides})
+}, ...overrides
+})
 
 const user: User = userFactory()
 const adminUser: User = userFactory({ 
@@ -49,10 +50,7 @@ const userListFactory = (
         () => userFactory(),
     )
 
-const userList: User[] = Array.from(
-    { length: 25 },
-    () => userFactory(),
-)
+const userList: User[] = userListFactory()
 
 
 const userDetailFactory = (
@@ -65,11 +63,11 @@ const userDetailFactory = (
 const userDetail = userDetailFactory()
 
 const userDetailListFactory = (
-    length: number = 25
+    length: number = 25, users?: User[]
 ): UserDetail[] =>
     Array.from(
         { length },
-        () => userDetailFactory(),
+        () => userDetailFactory({ ...users?.pop() }),
     )
 
 const userDetailList: UserDetail[] = userDetailListFactory()
@@ -89,17 +87,16 @@ const userAnalyticsFactory = (
 const userAnalytics: UserAnalytics = userAnalyticsFactory()
 
 const userAnalyticsListFactory = (
-    length: number = 25, users: User[] = userList
+    length: number = 25, users?: User[]
 ): UserAnalytics[] =>
     Array.from(
         { length },
-        () => userAnalyticsFactory({ ...users.pop() }),
+        () => userAnalyticsFactory({ ...users?.pop() }),
     )
 
 
-const userAnalyticsList: UserAnalytics[] = userList.map(user => 
-    userAnalyticsFactory({ ...user })
-)
+const userAnalyticsList: UserAnalytics[] = userAnalyticsListFactory()
+
 
 
 

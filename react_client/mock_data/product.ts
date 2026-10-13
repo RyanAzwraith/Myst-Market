@@ -4,68 +4,92 @@ import type {
     Product,
     ProductAnalytics,
 } from "@/features/product/schema"
+import type { SaleSummary } from "@/features/sale/schema"
 
 export {
     productFactory,
-    productListFactory,
-    productAnalyticsFactory,
-    productAnalysticsListFactory,
-    
     product,
-    products,
+    productListFactory,
+    productList,
+    productAnalyticsFactory,
     productAnalytic,
-    productAnalytics,
+    productAnalyticsListFactory,
+    productAnalyticsList,
 }
 
 faker.seed(12345)
 
-const productFactory = (id: number): Product => ({
-    id,
-    name: faker.commerce.productName(),
-    categoryName: "artifacts",
-    rarityName: "rare",
-    priceAudCent: 1000 + id * 100,
-    slug: `mock-product-${id}`,
-    description: faker.commerce.productDescription(),
-    stock: 10,
-    discountedPrice: null,
-    sale: null,
-})
+const productFactory = (
+    overrides: Partial<Product> = {},
+    sale?: SaleSummary,
+): Product => {
+    const priceAudCent = faker.number.int({
+        min: 1000,
+        max: 100000,
+    })
 
-const product: Product = productFactory(1)
+    return {
+        id: 1,
+        name: faker.commerce.productName(),
+        categoryName: "artifacts",
+        rarityName: "rare",
+        priceAudCent,
+        slug: "mock-product-1",
+        description: faker.commerce.productDescription(),
+        stock: faker.number.int({ min: 0, max: 100 }),
+        discountedPrice: sale
+            ? Math.round(priceAudCent * (1 - sale.discountPerc / 100))
+            : null,
+        sale: sale ?? null,
+        ...overrides,
+    }
+}
 
-const  productListFactory = (
-    length: number = 25
-): Product[] => 
-    Array.from(
-        { length },
-        (_, index) => productFactory(index + 1),
-    )
+const product: Product = productFactory()
 
-const products: Product[] = productListFactory()
+const productListFactory = (
+    length: number = 25,
+    sales: SaleSummary[] = [],
+): Product[] => Array.from(
+    { length },
+    (_, index) => productFactory({}, sales[index]),
+)
+
+const productList: Product[] = productListFactory()
 
 const productAnalyticsFactory = (
-    value: Product,
+    overrides: Partial<ProductAnalytics> = {},
+    product?: Product,
 ): ProductAnalytics => ({
-    ...value,
+    ...(product ?? productFactory()),
     discontinuedAt: null,
     createdAt: "2026-01-01",
-    unitsSold: 10,
-    revenue: 10000,
-    orderCount: 5,
-    refunds: 0,
-    revenueLost: 0,
-    averageRating: 4,
-    reviews: 3,
+    unitsSold: faker.number.int({ min: 0, max: 100 }),
+    revenue: faker.number.int({ min: 0, max: 100000 }),
+    orderCount: faker.number.int({ min: 0, max: 100 }),
+    refunds: faker.number.int({ min: 0, max: 10 }),
+    revenueLost: faker.number.int({ min: 0, max: 10000 }),
+    averageRating: faker.number.float({
+        min: 1,
+        max: 5,
+        fractionDigits: 1,
+    }),
+    reviews: faker.number.int({ min: 0, max: 100 }),
+    ...overrides,
 })
 
 const productAnalytic: ProductAnalytics =
-    productAnalyticsFactory(product)
-    
-const productAnalysticsListFactory = (
-    length: number = 3, products: Product[] = productListFactory()
-): ProductAnalytics[] =>
-    products.slice(0, length).map(productAnalyticsFactory)
+    productAnalyticsFactory({})
 
-const productAnalytics: ProductAnalytics[] =
-    productAnalysticsListFactory()
+const productAnalyticsListFactory = (
+    length: number = 25,
+    products?: Product[],
+): ProductAnalytics[] => 
+    Array.from(
+        { length },
+        () => productAnalyticsFactory({}, products?.pop()),
+    )
+
+const productAnalyticsList: ProductAnalytics[] =
+    productAnalyticsListFactory()
+

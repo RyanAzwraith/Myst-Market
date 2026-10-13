@@ -7,33 +7,38 @@ import {
     stats,
 } from "../../../mock_data/app"
 import { mockAccessToken } from "../../../mock_data/auth"
-import { itemResolutions } from "../../../mock_data/item"
-import { media, medias } from "../../../mock_data/media"
+import { itemResolutionList } from "../../../mock_data/item"
+import {
+    media,
+    mediaList,
+    mediaFactory,
+} from "../../../mock_data/media"
 import {
     order,
-    orders,
-    orderSummaries,
+    orderList,
+    orderSummaryList,
 } from "../../../mock_data/order"
 import {
     product,
-    products,
-    productAnalytics,
+    productList,
+    productAnalyticsList,
     productAnalytic,
 } from "../../../mock_data/product"
-import { review, reviews } from "../../../mock_data/review"
+import {
+    reviewList,
+} from "../../../mock_data/review"
 import {
     sale,
-    sales,
+    saleList,
     saleAnalytics,
-    saleAnalytic,
+    saleAnalyticsList,
 } from "../../../mock_data/sale"
 import {
     user,
     userAnalytics,
     userDetail,
     userFactory,
-    userAnalytic,
-    users,
+    userAnalyticsList,
     adminUser,
 } from "../../../mock_data/user"
 
@@ -41,14 +46,14 @@ export {
     mockImplementation,
 }
 
-const app: Interface.App = {
+const appInterface: Interface.App = {
     getStats: async () => ({ stats }),
     getAttention: async () => ({ attention }),
     getGraph: async () => ({ graphPoints }),
     retrievePerformance: async () => ({ performance }),
 }
 
-const auth: Interface.Auth = {
+const authInterface: Interface.Auth = {
     refresh: async () => ({
         accessToken: mockAccessToken,
     }),
@@ -60,10 +65,10 @@ const auth: Interface.Auth = {
 }
 
 const userInterface: Interface.User = {
-    getReviews: async () => ({ reviews }),
+    getReviews: async () => ({ reviews: reviewList }),
     getOrder: async () => ({ order }),
-    getOrders: async () => ({ orders: orderSummaries }),
-    getAnalytics: async () => ({ user: userAnalytic }),
+    getOrders: async () => ({ orders: orderSummaryList }),
+    getAnalytics: async () => ({ user: userAnalytics }),
     create: async () => {},
     patch: async (req) => ({
         user: userFactory(req.userInput),
@@ -78,27 +83,30 @@ const userInterface: Interface.User = {
 
 const usersInterface: Interface.Users = {
     adminSearch: async () => ({
-        users: userAnalytics,
-        hasMore: false,
+        users: userAnalyticsList,
+        hasMore: true,
     }),
 }
 
 const saleInterface: Interface.Sale = {
     getBySlug: async () => ({ sale }),
     getImage: async () => ({ media }),
-    getMedias: async () => ({ medias }),
-    getAnalytics: async () => ({ sale: saleAnalytic }),
+    getMedias: async () => ({ medias: mediaList }),
+    getAnalytics: async () => ({ sale: saleAnalytics }),
     create: async () => {},
     patch: async () => {},
     delete: async () => {},
 }
 
 const salesInterface: Interface.Sales = {
-    getAll: async () => ({ sales }),
-    retrieveBiggest: async () => ({ sales, images: medias }),
+    getAll: async () => ({ sales: saleList }),
+    retrieveBiggest: async () => ({
+        sales: saleList,
+        images: saleList.map((p) => mediaFactory({}, { id: p.id, type: "sale" })),
+    }),
     adminSearch: async () => ({
-        sales: saleAnalytics,
-        hasMore: false,
+        sales: saleAnalyticsList,
+        hasMore: true,
     }),
     patch: async () => {},
     import: async () => ({
@@ -113,9 +121,9 @@ const salesInterface: Interface.Sales = {
 const productInterface: Interface.Product = {
     getBySlug: async () => ({ product }),
     getImage: async () => ({ media }),
-    getMedias: async () => ({ medias }),
+    getMedias: async () => ({ medias: mediaList }),
     getReviews: async () => ({
-        reviews,
+        reviews: reviewList,
         average: 4,
         userHasReview: false,
     }),
@@ -127,29 +135,29 @@ const productInterface: Interface.Product = {
 
 const productsInterface: Interface.Products = {
     retrieveFeatured: async () => ({
-        products,
-        images: medias,
+        products: productList,
+        images: productList.map((p) => mediaFactory({}, { id: p.id, type: "product" })),
     }),
     retrievePopular: async () => ({
-        products,
-        images: medias,
+        products: productList,
+        images: productList.map((p) => mediaFactory({}, { id: p.id, type: "product" })),
     }),
     retrieveNewest: async () => ({
-        products,
-        images: medias,
+        products: productList,
+        images: productList.map((p) => mediaFactory({}, { id: p.id, type: "product" })),
     }),
     retrieveMostSoldProducts: async () => ({
-        products: productAnalytics,
-        images: medias,
+        products: productAnalyticsList,
+        images: productAnalyticsList.map((p) => mediaFactory({}, { id: p.id, type: "product" })),
     }),
     search: async () => ({
-        products,
-        images: medias,
-        hasMore: false,
+        products: productList,
+        images: productList.map((p) => mediaFactory({}, { id: p.id, type: "product" })),
+        hasMore: true,
     }),
     adminSearch: async () => ({
-        products: productAnalytics,
-        hasMore: false,
+        products: productAnalyticsList,
+        hasMore: true,
     }),
     patch: async () => {},
     import: async () => ({
@@ -167,12 +175,12 @@ const reviewInterface: Interface.Review = {
 }
 
 const reviewsInterface: Interface.Reviews = {
-    retrieveTestimonials: async () => ({ reviews }),
+    retrieveTestimonials: async () => ({ reviews: reviewList }),
 }
 
 const itemsInterface: Interface.Items = {
     resolve: async () => ({
-        items: itemResolutions,
+        items: itemResolutionList,
         totalCent: 1000,
     }),
 }
@@ -189,17 +197,17 @@ const orderInterface: Interface.Order = {
 }
 
 const ordersInterface: Interface.Orders = {
-    getRecent: async () => ({ orders }),
+    getRecent: async () => ({ orders: orderList }),
     adminSearch: async () => ({
-        orders: orderSummaries,
-        hasMore: false,
+        orders: orderSummaryList,
+        hasMore: true,
     }),
     patchStatus: async () => {},
 }
 
 const mockImplementation: Interface.Server = {
-    app,
-    auth,
+    app: appInterface,
+    auth: authInterface,
     user: userInterface,
     users: usersInterface,
     sale: saleInterface,

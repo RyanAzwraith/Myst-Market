@@ -6,36 +6,67 @@ import type {
 } from "@/features/sale/schema"
 
 export {
+    saleFactory,
     sale,
-    sales,
+    saleListFactory,
+    saleList,
+    saleAnalyticsFactory,
+    saleAnalyticsListFactory,
     saleAnalytics,
+    sales,
     saleAnalytic,
+    saleAnalyticsList,
 }
 
 faker.seed(12345)
 
-const saleFactory = (id: number): Sale => ({
-    id,
+const saleFactory = (
+    overrides: Partial<Sale> = {},
+): Sale => ({
+    id: 1,
     name: faker.commerce.productAdjective(),
-    slug: `mock-sale-${id}`,
-    discountPerc: 20,
+    slug: "mock-sale-1",
+    discountPerc: faker.number.int({ min: 5, max: 50 }),
     description: faker.commerce.productDescription(),
     startAt: "2026-01-01",
     endAt: "2026-12-31",
+    ...overrides,
 })
 
-const sale: Sale = saleFactory(1)
-const sales: Sale[] = Array.from(
-    { length: 10 },
-    (_, index) => saleFactory(index + 1),
+const sale: Sale = saleFactory()
+
+const saleListFactory = (
+    length: number = 25,
+): Sale[] => Array.from(
+    { length },
+    () => saleFactory(),
 )
 
-const saleAnalyticsFactory = (value: Sale): SaleAnalytics => ({
-    ...value,
-    revenue: 10000,
-    orderCount: 5,
-    revenueLost: 1000,
+const saleList: Sale[] = saleListFactory()
+
+const saleAnalyticsFactory = (
+    overrides: Partial<SaleAnalytics> = {},
+): SaleAnalytics => ({
+    ...saleFactory(),
+    revenue: faker.number.int({ min: 0, max: 100000 }),
+    orderCount: faker.number.int({ min: 0, max: 100 }),
+    revenueLost: faker.number.int({ min: 0, max: 10000 }),
+    ...overrides,
 })
 
-const saleAnalytic: SaleAnalytics = saleAnalyticsFactory(sale)
-const saleAnalytics: SaleAnalytics[] = sales.map(saleAnalyticsFactory)
+const saleAnalytics: SaleAnalytics = saleAnalyticsFactory({
+    ...sale,
+})
+
+const saleAnalyticsListFactory = (
+    length: number = 25,
+    sales: Sale[] = saleListFactory(length),
+): SaleAnalytics[] => sales
+    .slice(0, length)
+    .map(sale => saleAnalyticsFactory({ ...sale }))
+
+const saleAnalyticsList: SaleAnalytics[] =
+    saleAnalyticsListFactory()
+
+const sales = saleList
+const saleAnalytic = saleAnalytics

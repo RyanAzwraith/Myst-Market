@@ -1,32 +1,41 @@
 
 import { faker } from "@faker-js/faker"
 
+import { recordValues } from "@/utils/funcs"
+
 import type {
     Order,
     OrderSummary,
     Status,
 } from "@/features/order/schema"
+import { status } from "@/features/order/schema"
 
-import { itemResolutions } from "@/features/item"
+import {
+    itemResolutionList,
+    itemResolutionListFactory,
+} from "./item"
 
 export {
+    orderFactory,
     order,
-    orders,
-    orderSummaries,
+    orderListFactory,
+    orderList,
+    orderSummaryFactory,
+    orderSummary,
+    orderSummaryListFactory,
+    orderSummaryList,
 }
 
 faker.seed(12345)
 
 const statuses: Status[] = [
-    "pending",
-    "processing",
-    "shipped",
-    "delivered",
-    "cancelled",
-    "error",
+    ...recordValues(status),
 ]
 
-const orderFactory = (id: number = 1): Order => {
+const orderFactory = (
+    overrides: Partial<Order> = {},
+    items = itemResolutionList,
+): Order => {
     const createdAt = faker.date
         .between({
             from: "2026-01-01",
@@ -36,33 +45,53 @@ const orderFactory = (id: number = 1): Order => {
         .split("T")[0]
 
     return {
-        id,
-        userId: id,
+        id: 1,
+        userId: 1,
         addressString: [
             faker.location.streetAddress(),
             faker.location.city(),
         ].join(", "),
-        items: itemResolutions,
+        items,
         costAudCent: faker.number.int({
             min: 1000,
             max: 100000,
         }),
         createdAt,
         status: faker.helpers.arrayElement(statuses),
+        ...overrides,
     }
 }
 
-const orderSummaryFactory = (value: Order): OrderSummary => ({
-    id: 1,
-    createdAt: value.createdAt,
-    totalCent: value.costAudCent,
-    status: value.status,
-})
-
 const order: Order = orderFactory()
-const orders: Order[] = Array.from(
-    { length: 25 },
+
+const orderListFactory = (
+    length: number = 25,
+): Order[] => Array.from(
+    { length },
     () => orderFactory(),
 )
 
-const orderSummaries: OrderSummary[] = orders.map(orderSummaryFactory)
+const orderList: Order[] = orderListFactory()
+
+const orderSummaryFactory = (
+    overrides: Partial<OrderSummary> = {},
+    order: Order = orderFactory(),
+): OrderSummary => ({
+    id: order.id,
+    createdAt: order.createdAt,
+    totalCent: order.costAudCent,
+    status: order.status,
+    ...overrides,
+})
+
+const orderSummary: OrderSummary = orderSummaryFactory({})
+
+const orderSummaryListFactory = (
+    length: number = 25,
+): OrderSummary[] => Array.from(
+    { length },
+    () => orderSummaryFactory(),
+)
+
+const orderSummaryList: OrderSummary[] =
+    orderSummaryListFactory()

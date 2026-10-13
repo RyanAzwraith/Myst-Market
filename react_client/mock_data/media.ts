@@ -1,38 +1,38 @@
 import { faker } from "@faker-js/faker"
 
-import type { MediaDetail } from "@/features/media/schema"
+import type { EntityType, MediaDetail } from "@/features/media/schema"
 
 export {
     mediaFactory,
     media,
     mediaListFactory,
-    medias,
+    mediaList,
 }
 
 faker.seed(12345)
 
 const mediaFactory = (
-    id: number = 1, 
-    entityId: number = 1, 
-    entityType: string = "product"
+    overrides: Partial<MediaDetail> = {},
+    entity?: { id: number; type: EntityType },
 ): MediaDetail => ({
-    id: id,
+    id: 1,
     mediaType: "image",
     mediaUrl: faker.image.url(),
-    entityId: entityId,
-    entityType: entityType,
+    entityId: entity?.id ?? 1,
+    entityType: entity?.type ?? "product",
     altText: faker.commerce.productName(),
     sortOrder: faker.number.int({ min: 0, max: 24 }),
+    ...overrides,
 })
 
 const media: MediaDetail = mediaFactory()
 
 const mediaListFactory = (
-    productIds: number[] = []
-): MediaDetail[] => 
-    Array.from(
-        { length: 25 },
-        () => mediaFactory(productIds.shift()),
-    )
+    length: number = 25,
+): MediaDetail[] => Array.from(
+    { length },
+    () => mediaFactory(),
+)
 
-const medias = mediaListFactory()
+
+const mediaList: MediaDetail[] = mediaListFactory()

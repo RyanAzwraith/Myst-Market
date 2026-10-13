@@ -1,26 +1,44 @@
 import { faker } from "@faker-js/faker"
 
 import type { Review } from "@/features/review/schema"
+import type { ProductSummary } from "@/features/product/schema"
 
 export {
+    reviewFactory,
     review,
-    reviews,
+    reviewListFactory,
+    reviewList,
 }
 
 faker.seed(12345)
 
-const reviewFactory = (id: number): Review => ({
-    id,
+const reviewFactory = (
+    overrides: Partial<Review> = {},
+    product?: ProductSummary,
+): Review => ({
+    id: 1,
     userName: faker.person.fullName(),
-    productId: 1,
-    productSlug: "mock-product-1",
-    createdAt: "2026-01-01",
-    rating: 4,
+    productId: product?.id ?? 1,
+    productSlug: product?.slug ?? "mock-product-1",
+    createdAt: faker.date
+        .between({
+            from: "2026-01-01",
+            to: "2026-12-31",
+        })
+        .toISOString()
+        .slice(0, 10),
+    rating: faker.number.int({ min: 1, max: 5 }),
     description: faker.lorem.sentence(),
+    ...overrides,
 })
 
-const review: Review = reviewFactory(1)
-const reviews: Review[] = Array.from(
-    { length: 10 },
-    (_, index) => reviewFactory(index + 1),
+const review: Review = reviewFactory()
+
+const reviewListFactory = (
+    length: number = 25,
+): Review[] => Array.from(
+    { length },
+    () => reviewFactory(),
 )
+
+const reviewList: Review[] = reviewListFactory()

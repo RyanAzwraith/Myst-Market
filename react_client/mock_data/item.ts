@@ -8,21 +8,29 @@ import type { ProductSummary } from "@/features/product/schema"
 
 export {
     itemSummaryFactory,
-    itemResolutionFactory,
+    itemSummary,
     itemSummaryListFactory,
-    itemResolutionsListFactory,
+    itemSummaryList,
+    itemResolutionFactory,
+    itemResolution,
+    itemResolutionListFactory,
+    itemResolutionList,
 }
 
 faker.seed(12345)
 
-const itemSummaryFactory = (productId: number = 1): ItemSummary => ({
-    productId: productId,
+const itemSummaryFactory = (
+    overrides: Partial<ItemSummary> = {},
+): ItemSummary => ({
+    productId: 1,
     quantity: faker.number.int({ min: 1, max: 5 }),
+    ...overrides,
 })
 
 const itemResolutionFactory = (
-    product?: ProductSummary, 
-) : ItemResolution => {
+    overrides: Partial<ItemResolution> = {},
+    product?: ProductSummary,
+): ItemResolution => {
     const unitPriceCent = faker.number.int({
         min: 1000,
         max: 100000,
@@ -41,23 +49,28 @@ const itemResolutionFactory = (
         unitPriceCent,
         lineTotalCent: unitPriceCent * quantity,
         onSale: faker.datatype.boolean(),
+        ...overrides,
     }
 }
 
+const itemSummary: ItemSummary = itemSummaryFactory()
+
 const itemSummaryListFactory = (
-    length: number = 8, productIds: number[] = []
-): ItemSummary[] => 
-    Array.from(
-        { length },
-        () => itemSummaryFactory(productIds.shift()),
-    )
+    length: number = 25,
+): ItemSummary[] => Array.from(
+    { length },
+    () => itemSummaryFactory(),
+)
 
+const itemSummaryList: ItemSummary[] = itemSummaryListFactory()
 
+const itemResolution: ItemResolution = itemResolutionFactory()
 
-const itemResolutionsListFactory = (
-    length: number = 8, products: ProductSummary[] = []
-): ItemResolution[] => 
-    Array.from(
-        { length },
-        () => itemResolutionFactory(products.shift()),
-    )
+const itemResolutionListFactory = (
+    length: number = 25,
+): ItemResolution[] => Array.from(
+    { length }
+)
+
+const itemResolutionList: ItemResolution[] =
+    itemResolutionListFactory()
