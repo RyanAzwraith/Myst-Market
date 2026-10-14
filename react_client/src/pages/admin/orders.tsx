@@ -28,7 +28,7 @@ function OrdersPage() {
 
             <LoadContent
             className="space-y-3"
-            hasMore={!searchQuery.hasNextPage}
+            hasMore={searchQuery.hasNextPage}
             onClick={searchQuery.fetchNextPage}
             content={(orders ?? []).map(o => 
                 <ItemRow

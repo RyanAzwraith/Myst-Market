@@ -201,7 +201,7 @@ function useStatusForm({ order }: {
             defaultValue: status.pending,
             options,
             labels: labelizeRecord(options),
-            initialValue: order.status,
+            initial: order.status,
         },
     } as FormInputsFieldDefs
 

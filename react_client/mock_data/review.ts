@@ -36,9 +36,10 @@ const review: Review = reviewFactory()
 
 const reviewListFactory = (
     length: number = 25,
-): Review[] => Array.from(
-    { length },
-    () => reviewFactory(),
-)
+): Review[] => 
+    Array.from(
+        { length },
+        () => reviewFactory(),
+    )
 
 const reviewList: Review[] = reviewListFactory()

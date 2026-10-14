@@ -83,11 +83,10 @@ const productAnalytic: ProductAnalytics =
 
 const productAnalyticsListFactory = (
     length: number = 25,
-    products?: Product[],
 ): ProductAnalytics[] => 
     Array.from(
         { length },
-        () => productAnalyticsFactory({}, products?.pop()),
+        () => productAnalyticsFactory(),
     )
 
 const productAnalyticsList: ProductAnalytics[] =

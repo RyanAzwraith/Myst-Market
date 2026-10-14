@@ -5,7 +5,7 @@ import {
     XMarkIcon 
 } from "@/shared";
 
-import { useCartState } from '../hook';
+import { useCartState } from '../state';
 import type { 
     Item, 
     ItemResolution 

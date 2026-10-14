@@ -40,32 +40,32 @@ const fields = (sale?: SaleAnalytics) => ({
     name: {
         kind: formInputsKind.text,
         label: 'Name',
-        initialValue: sale?.name,
+        initial: sale?.name,
     },
     slug: {
         kind: formInputsKind.text,
         label: 'Slug',
-        initialValue: sale?.slug,
+        initial: sale?.slug,
     },
     description: {
         kind: formInputsKind.text,
         label: 'Description',
-        initialValue: sale?.description,
+        initial: sale?.description,
     },
     startAt: { 
         kind: formInputsKind.text,
         label: 'Start date',
-        initialValue: sale?.startAt || today(),
+        initial: sale?.startAt || today(),
     },
     endAt: { 
         kind: formInputsKind.text,
         label: 'End date',
-        initialValue: sale?.endAt,
+        initial: sale?.endAt,
     },
     discountPerc: {
         kind: formInputsKind.number,
         label: 'Discount percent',
-        initialValue: sale?.discountPerc,
+        initial: sale?.discountPerc,
         validate: (value: number | null) => 
             value == null || (value >= 0 && value <= 100)
                 ? null : "Discount percent must be between 0 and 100",

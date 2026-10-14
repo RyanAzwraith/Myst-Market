@@ -63,11 +63,11 @@ const userDetailFactory = (
 const userDetail = userDetailFactory()
 
 const userDetailListFactory = (
-    length: number = 25, users?: User[]
+    length: number = 25
 ): UserDetail[] =>
     Array.from(
         { length },
-        () => userDetailFactory({ ...users?.pop() }),
+        () => userDetailFactory(),
     )
 
 const userDetailList: UserDetail[] = userDetailListFactory()
@@ -87,11 +87,11 @@ const userAnalyticsFactory = (
 const userAnalytics: UserAnalytics = userAnalyticsFactory()
 
 const userAnalyticsListFactory = (
-    length: number = 25, users?: User[]
+    length: number = 25
 ): UserAnalytics[] =>
     Array.from(
         { length },
-        () => userAnalyticsFactory({ ...users?.pop() }),
+        () => userAnalyticsFactory(),
     )
 
 

@@ -1,12 +1,17 @@
 import { faker } from "@faker-js/faker"
-
+import { productFactory } from "./product"
 import type {
     ItemResolution,
     ItemSummary,
-} from "@/features/item"
-import type { ProductSummary } from "@/features/product/schema"
+    Item,
+} from "@/features/item/schema"
+import type { Product, ProductSummary } from "@/features/product/schema"
 
 export {
+    itemFactory,
+    item,
+    itemListFactory,
+    itemList,
     itemSummaryFactory,
     itemSummary,
     itemSummaryListFactory,
@@ -19,6 +24,29 @@ export {
 
 faker.seed(12345)
 
+const itemFactory = (
+    overrides: Partial<Item> = {},
+    product?: Product,
+): Item => ({
+    product: product ?? productFactory(),
+    quantity: faker.number.int({ min: 1, max: 5 }),
+    priceCent: faker.number.int({ min: 1000, max: 100000 }),
+    onSale: faker.datatype.boolean(),
+    ...overrides,
+})
+
+const item: Item = itemFactory()
+
+const itemListFactory = (
+    length: number = 25,
+): Item[] => Array.from(
+    { length },
+    () => itemFactory(),
+)
+
+const itemList: Item[] = itemListFactory()
+
+
 const itemSummaryFactory = (
     overrides: Partial<ItemSummary> = {},
 ): ItemSummary => ({
@@ -26,6 +54,17 @@ const itemSummaryFactory = (
     quantity: faker.number.int({ min: 1, max: 5 }),
     ...overrides,
 })
+
+const itemSummary: ItemSummary = itemSummaryFactory()
+
+const itemSummaryListFactory = (
+    length: number = 25,
+): ItemSummary[] => Array.from(
+    { length },
+    () => itemSummaryFactory(),
+)
+
+const itemSummaryList: ItemSummary[] = itemSummaryListFactory()
 
 const itemResolutionFactory = (
     overrides: Partial<ItemResolution> = {},
@@ -52,17 +91,6 @@ const itemResolutionFactory = (
         ...overrides,
     }
 }
-
-const itemSummary: ItemSummary = itemSummaryFactory()
-
-const itemSummaryListFactory = (
-    length: number = 25,
-): ItemSummary[] => Array.from(
-    { length },
-    () => itemSummaryFactory(),
-)
-
-const itemSummaryList: ItemSummary[] = itemSummaryListFactory()
 
 const itemResolution: ItemResolution = itemResolutionFactory()
 

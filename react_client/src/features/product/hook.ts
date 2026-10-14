@@ -51,37 +51,37 @@ const updateFormFields = (product?: ProductFields) => ({
     name: { 
         kind: formInputsKind.text,
         label: "Name", 
-        initialValue: product?.name,
+        initial: product?.name,
     },
     categoryName: { 
         kind: formInputsKind.text,
         label: "Category",
-        initialValue: product?.categoryName,
+        initial: product?.categoryName,
     },
     rarityName: {
         kind: formInputsKind.text,
         label: "Rarity",
-        initialValue: product?.rarityName,
+        initial: product?.rarityName,
     },
     priceAudCent: {
         kind: formInputsKind.number,
         label: "Price (cents)",
-        initialValue: product?.priceAudCent,
+        initial: product?.priceAudCent,
     },
     slug: {
         kind: formInputsKind.text,
         label: "Slug",
-        initialValue: product?.slug,
+        initial: product?.slug,
     },
     description: {
         kind: formInputsKind.text,
         label: "Description",
-        initialValue: product?.description,
+        initial: product?.description,
     },
     stock: {
         kind: formInputsKind.number,
         label: "Stock",
-        initialValue: product?.stock,
+        initial: product?.stock,
     }
 } as FormFieldDefs)
 

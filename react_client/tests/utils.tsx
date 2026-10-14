@@ -1,15 +1,42 @@
-import { expect } from "vitest"
-import { cleanup } from "@testing-library/react"
 import { render } from "@testing-library/react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useAuthState } from '@/features/auth/service'
-import type { AuthState } from '@/features/auth/schema'
+import { 
+    QueryClient, 
+    QueryClientProvider 
+} from "@tanstack/react-query";
+import { 
+    MemoryRouter, 
+    Routes, 
+    Route, 
+    useLocation 
+} from "react-router-dom";
 
-import { screen } from "@testing-library/react"
-import { useCartState } from "@/features/item/service";
+import { useAuthState } from '@/features/auth/state'
+import type { AuthState } from '@/features/auth/state'
+import { useCartState } from "@/features/item/state";
 import type { Product } from "@/features/product/schema"
 
+
+export {
+    renderWithRouter, 
+    createWrapper,
+    resetAuthState, 
+    resetCartState,
+}
+
+
+function createTestQueryClient() {
+    return new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+                gcTime: Infinity,
+            },
+            mutations: {
+                retry: false,
+            },
+        },
+    })
+}
 
 function LocationDisplay() {
     const location = useLocation();
@@ -28,11 +55,7 @@ function renderWithRouter(
     } = {}
 
 ) {
-    cleanup()
-    localStorage.clear()
-    const queryClient = new QueryClient({
-        defaultOptions: {queries: { retry: false}},
-    })
+    const queryClient = createTestQueryClient()
     return render(
         <MemoryRouter initialEntries={[initialPath]} >
             <QueryClientProvider client={queryClient}>
@@ -49,9 +72,7 @@ function renderWithRouter(
 }
 
 function createWrapper(initialPath = "/") {
-    const client = new QueryClient({
-        defaultOptions: { queries: { retry: false } },
-    })
+    const client = createTestQueryClient()
 
     function Wrapper({ children }: { children: React.ReactNode }) {
         return (
@@ -62,7 +83,6 @@ function createWrapper(initialPath = "/") {
             </MemoryRouter>
         )
     }
-
     return { client, wrapper: Wrapper }
 }
 
@@ -79,12 +99,4 @@ function resetCartState (products: Product[]) {
     useCartState.setState({ items: [] })
     const cartState = useCartState.getState()
     products.forEach(e => cartState.addItem(e, 2))
-}
-
-
-export {
-    renderWithRouter, 
-    createWrapper,
-    resetAuthState, 
-    resetCartState,
 }

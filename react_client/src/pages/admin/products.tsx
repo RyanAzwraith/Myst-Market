@@ -69,7 +69,7 @@ function ProductsPage() {
 
             <LoadContent
             className="space-y-3"
-            hasMore={!searchQuery.hasNextPage}
+            hasMore={searchQuery.hasNextPage}
             onClick={searchQuery.fetchNextPage}
             content={(products ?? []).map(p => 
                 <ItemRow

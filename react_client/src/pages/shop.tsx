@@ -45,7 +45,7 @@ function ShopPage() {
             >
                 <LoadContent
                 className="contents"
-                hasMore={!searchQuery.hasNextPage}
+                hasMore={searchQuery.hasNextPage}
                 onClick={searchQuery.fetchNextPage}
                 content={(products ?? []).map(p => 
                     <ProductCard 

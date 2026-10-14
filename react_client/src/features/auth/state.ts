@@ -7,6 +7,7 @@ import type {
 } from './index'
 
 
+export type { AuthState }
 export {
     useAuthState,
 }

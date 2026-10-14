@@ -60,10 +60,11 @@ const saleAnalytics: SaleAnalytics = saleAnalyticsFactory({
 
 const saleAnalyticsListFactory = (
     length: number = 25,
-    sales: Sale[] = saleListFactory(length),
-): SaleAnalytics[] => sales
-    .slice(0, length)
-    .map(sale => saleAnalyticsFactory({ ...sale }))
+): SaleAnalytics[] => 
+    Array.from(
+        { length },
+        () => saleAnalyticsFactory(),
+    )
 
 const saleAnalyticsList: SaleAnalytics[] =
     saleAnalyticsListFactory()

@@ -13,7 +13,7 @@ import {
     Input
 } from "@/shared"
 
-import { useCartState } from '../hook';
+import { useCartState } from '../state';
 
 import type { Product } from '../index';
 

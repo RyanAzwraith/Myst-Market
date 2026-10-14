@@ -1,266 +1,342 @@
-import { describe, expect, it, vi } from "vitest"
+import userEvent from "@testing-library/user-event"
 import { render, screen } from "@testing-library/react"
-import { userEvent } from "@testing-library/user-event"
+import { useState } from "react"
+import { describe, expect, it } from "vitest"
 
 import {
     BooleanField,
-    QueryParamField,
-    QueryParamsContainer,
-    QueryParamsFields,
+    QueryParamFields,
     SelectMultipleField,
     SelectOneField,
+    SearchField,
     TextField,
 } from "@/hooks/QueryParams/components"
-import type { Bindings, FieldDefs } from "@/hooks/QueryParams/schema"
-import { makeBinding, queryFields } from "./QueryParamsMock"
+import {
+    kind,
+    type Binding,
+    type BooleanFieldDef,
+    type FieldDefs,
+    type QueryParams,
+    type SelectMultipleFieldDef,
+    type SelectOneFieldDef,
+    type TextFieldDef,
+} from "@/hooks/QueryParams/schema"
 
-describe("BooleanField", () => {
-    it("renders its label and checked state", () => {
-        const binding = makeBinding("enabled", queryFields.enabled, true)
+const sortOptions = {
+    newest: "newest",
+    price: "price",
+}
 
-        render(<BooleanField binding={binding} />)
+const categoryOptions = {
+    artifacts: "artifacts",
+    potions: "potions",
+}
 
-        expect(screen.getByLabelText("Enabled")).toBeChecked()
-    })
+function BooleanHarness() {
+    const [value, setValue] = useState(false)
+    const field: BooleanFieldDef = {
+        kind: kind.boolean,
+        label: "Enabled",
+    }
+    const binding: Binding<BooleanFieldDef> = {
+        ...field,
+        fieldKey: "enabled",
+        get: () => value,
+        set: next => setValue(current =>
+            typeof next === "function" ? next(current) : next,
+        ),
+    }
 
-    it("sets the binding when the checkbox changes", async () => {
+    return (
+        <>
+            <BooleanField binding={binding} />
+            <output data-testid="boolean-value">
+                {String(value)}
+            </output>
+        </>
+    )
+}
+
+function SelectOneHarness() {
+    const [value, setValue] = useState<
+        typeof sortOptions[keyof typeof sortOptions]
+    >("newest")
+    const field: SelectOneFieldDef<typeof sortOptions> = {
+        kind: kind.selectOne,
+        label: "Sort",
+        defaultValue: "newest",
+        options: sortOptions,
+        labels: {
+            newest: "Newest",
+            price: "Price",
+        },
+    }
+    const binding: Binding<typeof field> = {
+        ...field,
+        fieldKey: "sort",
+        get: () => value,
+        set: next => setValue(current =>
+            typeof next === "function" ? next(current) : next,
+        ),
+    }
+
+    return (
+        <>
+            <SelectOneField binding={binding} />
+            <output data-testid="sort-value">{value}</output>
+        </>
+    )
+}
+
+function SelectMultipleHarness() {
+    const [value, setValue] = useState<
+        (typeof categoryOptions)[keyof typeof categoryOptions][]
+    >([])
+    const field: SelectMultipleFieldDef<
+        typeof categoryOptions
+    > = {
+        kind: kind.selectMultiple,
+        label: "Categories",
+        options: categoryOptions,
+        labels: {
+            artifacts: "Artifacts",
+            potions: "Potions",
+        },
+    }
+    const binding: Binding<typeof field> = {
+        ...field,
+        fieldKey: "categories",
+        get: () => value,
+        set: next => setValue(current =>
+            typeof next === "function" ? next(current) : next,
+        ),
+    }
+
+    return (
+        <>
+            <SelectMultipleField binding={binding} />
+            <output data-testid="selected-values">
+                {value.join(",")}
+            </output>
+        </>
+    )
+}
+
+function TextHarness() {
+    const [value, setValue] = useState("")
+    const field: TextFieldDef = {
+        kind: kind.text,
+        label: "Search",
+        placeholder: "Search items",
+    }
+    const binding: Binding<TextFieldDef> = {
+        ...field,
+        fieldKey: "search",
+        get: () => value,
+        set: next => setValue(current =>
+            typeof next === "function" ? next(current) : next,
+        ),
+    }
+
+    return (
+        <>
+            <TextField binding={binding} />
+            <output data-testid="text-value">{value}</output>
+        </>
+    )
+}
+
+function SearchHarness() {
+    const [value, setValue] = useState("")
+    const field: TextFieldDef = {
+        kind: kind.text,
+        label: "Search",
+        placeholder: "Search items",
+    }
+    const binding: Binding<TextFieldDef> = {
+        ...field,
+        fieldKey: "search",
+        get: () => value,
+        set: next => setValue(current =>
+            typeof next === "function" ? next(current) : next,
+        ),
+    }
+
+    return (
+        <>
+            <SearchField binding={binding} />
+            <output data-testid="search-value">{value}</output>
+        </>
+    )
+}
+
+describe("BooleanField intimacy: low", () => {
+    it("functionality reflects and updates a boolean binding", async () => {
         const user = userEvent.setup()
-        const binding = makeBinding("enabled", queryFields.enabled, false)
+        render(<BooleanHarness />)
 
-        render(<BooleanField binding={binding} />)
-        await user.click(screen.getByLabelText("Enabled"))
+        const checkbox = screen.getByLabelText("Enabled")
+        expect(checkbox).not.toBeChecked()
 
-        expect(binding.set).toHaveBeenCalledWith(true)
+        await user.click(checkbox)
+
+        expect(checkbox).toBeChecked()
+        expect(screen.getByTestId("boolean-value"))
+            .toHaveTextContent("true")
     })
 })
 
-describe("SelectOneField", () => {
-    it("renders every option with its display label", () => {
-        const binding = makeBinding("sort", queryFields.sort, "name")
+describe("SelectOneField intimacy: low", () => {
+    it("functionality renders options and updates the selected value",
+        async () => {
+            const user = userEvent.setup()
+            render(<SelectOneHarness />)
 
-        render(<SelectOneField binding={binding} />)
+            const select = screen.getByLabelText("Sort")
+            expect(select).toHaveValue("newest")
+            expect(screen.getByRole("option", {
+                name: "Price",
+            })).toBeInTheDocument()
 
-        expect(screen.getByRole("option", { name: "Name" }))
-            .toBeInTheDocument()
-        expect(screen.getByRole("option", { name: "Price" }))
-            .toBeInTheDocument()
-    })
+            await user.selectOptions(select, "price")
 
-    it("sets the selected option", async () => {
+            expect(select).toHaveValue("price")
+            expect(screen.getByTestId("sort-value"))
+                .toHaveTextContent("price")
+        },
+    )
+})
+
+describe("SelectMultipleField intimacy: low", () => {
+    it("functionality selects, unselects, and clears options", async () => {
         const user = userEvent.setup()
-        const binding = makeBinding("sort", queryFields.sort, "name")
+        render(<SelectMultipleHarness />)
 
-        render(<SelectOneField binding={binding} />)
-        await user.selectOptions(screen.getByLabelText("Sort"), "price")
+        const artifacts = screen.getByLabelText("Artifacts")
+        const potions = screen.getByLabelText("Potions")
 
-        expect(binding.set).toHaveBeenCalledWith("price")
+        await user.click(artifacts)
+        await user.click(potions)
+        expect(screen.getByTestId("selected-values"))
+            .toHaveTextContent("artifacts,potions")
+
+        await user.click(artifacts)
+        expect(screen.getByTestId("selected-values"))
+            .toHaveTextContent("potions")
+
+        await user.click(screen.getByRole("button", {
+            name: "Clear Categories",
+        }))
+        expect(screen.getByTestId("selected-values"))
+            .toBeEmptyDOMElement()
+        expect(artifacts).not.toBeChecked()
+        expect(potions).not.toBeChecked()
     })
 })
 
-describe("SelectMultipleField", () => {
-    it("sets an option when it is checked", async () => {
+describe("TextField intimacy: low", () => {
+    it("functionality commits text on Enter and clears it", async () => {
         const user = userEvent.setup()
-        const binding = makeBinding(
-            "categories",
-            queryFields.categories,
-            [],
-        )
+        render(<TextHarness />)
 
-        render(<SelectMultipleField binding={binding} />)
-        await user.click(screen.getByLabelText("Magic"))
-
-        expect(binding.set).toHaveBeenCalledWith(["magic"])
-    })
-
-    it("removes an unchecked option from the current selection", async () => {
-        const user = userEvent.setup()
-        const binding = makeBinding(
-            "categories",
-            queryFields.categories,
-            ["magic", "weapon"],
-        )
-
-        render(<SelectMultipleField binding={binding} />)
-        await user.click(screen.getByLabelText("Magic"))
-
-        expect(binding.set).toHaveBeenCalledWith(["weapon"])
-    })
-
-    it("clears all selected options", async () => {
-        const user = userEvent.setup()
-        const binding = makeBinding(
-            "categories",
-            queryFields.categories,
-            ["magic"],
-        )
-
-        render(<SelectMultipleField binding={binding} />)
-        await user.click(screen.getByTestId("clear-button"))
-
-        expect(binding.set).toHaveBeenCalledTimes(1)
-        const [update] = vi.mocked(binding.set).mock.calls[0]
-        expect(typeof update).toBe("function")
-        if (typeof update === "function") {
-            expect(update(["magic"])).toEqual([])
-        }
-    })
-})
-
-describe("TextField", () => {
-    it("updates the binding when Enter is pressed", async () => {
-        const user = userEvent.setup()
-        const binding = makeBinding("search", queryFields.search, "")
-
-        render(<TextField binding={binding} />)
-        const input = screen.getByLabelText("Search")
-        await user.type(input, "moon")
+        const input = screen.getByPlaceholderText("Search items")
+        await user.type(input, "amulet")
         await user.keyboard("{Enter}")
 
-        expect(binding.set).toHaveBeenCalledTimes(1)
-        const [update] = vi.mocked(binding.set).mock.calls[0]
-        expect(typeof update).toBe("function")
-        if (typeof update === "function") {
-            expect(update("old")).toBe("moon")
-        }
-    })
+        expect(screen.getByTestId("text-value"))
+            .toHaveTextContent("amulet")
 
-    it("updates the binding when the input loses focus", async () => {
+        await user.click(screen.getByRole("button", {
+            name: "XMarkIcon",
+        }))
+        expect(screen.getByTestId("text-value"))
+            .toBeEmptyDOMElement()
+        expect(input).toHaveValue("")
+    })
+})
+
+describe("SearchField intimacy: low", () => {
+    it("functionality commits search text on blur", async () => {
         const user = userEvent.setup()
-        const binding = makeBinding("search", queryFields.search, "")
+        render(<SearchHarness />)
+
+        const input = screen.getByPlaceholderText("Search items")
+        await user.type(input, "orb")
+        await user.tab()
+
+        expect(screen.getByTestId("search-value"))
+            .toHaveTextContent("orb")
+    })
+})
+
+describe("QueryParamFields intimacy: medium", () => {
+    it("functionality renders every supported field component", () => {
+        const fields: FieldDefs = {
+            enabled: {
+                kind: kind.boolean,
+                label: "Enabled",
+            },
+            sort: {
+                kind: kind.selectOne,
+                label: "Sort",
+                defaultValue: "newest",
+                options: sortOptions,
+                labels: {
+                    newest: "Newest",
+                    price: "Price",
+                },
+            },
+            categories: {
+                kind: kind.selectMultiple,
+                label: "Categories",
+                options: categoryOptions,
+                labels: {
+                    artifacts: "Artifacts",
+                    potions: "Potions",
+                },
+            },
+            search: {
+                kind: kind.text,
+                label: "Search",
+                placeholder: "Search items",
+            },
+        }
+        const bindings = Object.fromEntries(
+            Object.entries(fields).map(([fieldKey, field]) => [
+                fieldKey,
+                {
+                    ...field,
+                    fieldKey,
+                    get: () => field.kind === kind.boolean
+                        ? false
+                        : field.kind === kind.selectOne
+                            ? field.defaultValue
+                            : field.kind === kind.selectMultiple
+                                ? []
+                                : "",
+                    set: () => {},
+                },
+            ]),
+        ) as QueryParams<FieldDefs>["bindings"]
 
         render(
-            <>
-                <TextField binding={binding} />
-                <button type="button">Outside</button>
-            </>,
+            <QueryParamFields
+            queryParams={{
+                bindings,
+                values: () => ({
+                    enabled: false,
+                    sort: "newest",
+                    categories: [],
+                    search: "",
+                }),
+            }}
+            />,
         )
-        const input = screen.getByLabelText("Search")
-        await user.type(input, "sword")
-        await user.click(
-            screen.getByRole("button", { name: "Outside" }),
-        )
-
-        expect(binding.set).toHaveBeenCalledTimes(1)
-    })
-
-    it("clears the input and binding", async () => {
-        const user = userEvent.setup()
-        const binding = makeBinding("search", queryFields.search, "moon")
-
-        render(<TextField binding={binding} />)
-        await user.click(screen.getByTestId("clear-button"))
-
-        expect(screen.getByLabelText("Search")).toHaveValue("")
-        expect(binding.set).toHaveBeenCalledTimes(1)
-        const [update] = vi.mocked(binding.set).mock.calls[0]
-        expect(typeof update).toBe("function")
-        if (typeof update === "function") {
-            expect(update("old")).toBe("")
-        }
-    })
-})
-
-describe("QueryParamsContainer", () => {
-    it("renders its children", () => {
-        render(
-            <QueryParamsContainer>
-                <span>Query content</span>
-            </QueryParamsContainer>,
-        )
-
-        expect(screen.getByText("Query content")).toBeInTheDocument()
-    })
-})
-
-describe("QueryParamField", () => {
-    it("renders a boolean field", () => {
-        const binding = makeBinding("enabled", queryFields.enabled, false)
-
-        render(<QueryParamField binding={binding} />)
-
-        expect(screen.getByLabelText("Enabled")).toBeInTheDocument()
-    })
-
-    it("renders a select-one field", () => {
-        const binding = makeBinding("sort", queryFields.sort, "name")
-
-        render(<QueryParamField binding={binding} />)
-
-        expect(screen.getByLabelText("Sort")).toBeInTheDocument()
-    })
-
-    it("renders a select-multiple field", () => {
-        const binding = makeBinding(
-            "categories",
-            queryFields.categories,
-            [],
-        )
-
-        render(<QueryParamField binding={binding} />)
-
-        expect(screen.getByText("Categories")).toBeInTheDocument()
-    })
-
-    it("renders a text field", () => {
-        const binding = makeBinding("search", queryFields.search, "")
-
-        render(<QueryParamField binding={binding} />)
-
-        expect(screen.getByLabelText("Search")).toBeInTheDocument()
-    })
-})
-
-describe("QueryParamsFields", () => {
-    it("renders a field component for every binding", () => {
-        const bindings = {
-            enabled: makeBinding("enabled", queryFields.enabled, false),
-            sort: makeBinding("sort", queryFields.sort, "name"),
-            categories: makeBinding(
-                "categories",
-                queryFields.categories,
-                [],
-            ),
-            search: makeBinding("search", queryFields.search, ""),
-        } as Bindings<FieldDefs>
-
-        render(<QueryParamsFields bindings={bindings} />)
 
         expect(screen.getByLabelText("Enabled")).toBeInTheDocument()
         expect(screen.getByLabelText("Sort")).toBeInTheDocument()
-        expect(screen.getByText("Categories")).toBeInTheDocument()
-        expect(screen.getByLabelText("Search")).toBeInTheDocument()
-    })
-})
-
-describe("SelectMultipleField handleChange", () => {
-    it("uses the current selected values when changing an option", async () => {
-        const user = userEvent.setup()
-        const binding = makeBinding(
-            "categories",
-            queryFields.categories,
-            ["magic"],
-        )
-
-        render(<SelectMultipleField binding={binding} />)
-        await user.click(screen.getByLabelText("Weapon"))
-
-        expect(binding.set).toHaveBeenCalledWith(["magic", "weapon"])
-    })
-})
-
-describe("TextField handleSearch", () => {
-    it("submits the local input value", async () => {
-        const user = userEvent.setup()
-        const binding = makeBinding("search", queryFields.search, "")
-
-        render(<TextField binding={binding} />)
-        await user.type(screen.getByLabelText("Search"), "potion")
-        await user.keyboard("{Enter}")
-
-        const [update] = vi.mocked(binding.set).mock.calls[0]
-        expect(typeof update).toBe("function")
-        if (typeof update === "function") {
-            expect(update("")).toBe("potion")
-        }
+        expect(screen.getByLabelText("Artifacts")).toBeInTheDocument()
+        expect(screen.getByPlaceholderText("Search items"))
+            .toBeInTheDocument()
     })
 })
