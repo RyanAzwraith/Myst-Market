@@ -31,15 +31,15 @@ function AdminSummaryInfo({ user }: {
     user: UserAnalytics
 }) {
     return (
-    <div className="grid w-full gap-2 sm:grid-cols-3 sm:items-center">
+    <div className="user-admin-summary-info">
         <div>
-            <Text className="font-semibold text-gray-900">{user.name}</Text>
-            <Text className="text-sm text-gray-600">{user.email}</Text>
+            <Text className="user-summary-name">{user.name}</Text>
+            <Text className="user-summary-email">{user.email}</Text>
         </div>
-        <Text className="text-sm text-gray-600">
+        <Text className="user-summary-role">
             {user.isRegistered ? 'Registered' : 'Guest'} · {user.orderCount} orders
         </Text>
-        <Text className="text-sm text-gray-600 sm:text-right">
+        <Text className="user-summary-status">
             <MoneyFormat amount={user.spent} /> · {user.reviewCount} reviews
         </Text>
     </div>
@@ -50,8 +50,8 @@ function AnalyticsInfo({ user }: {
     user: UserAnalytics
 }) {
     return (
-    <div className="space-y-4 text-gray-900">
-        <div className="grid gap-2 rounded-lg bg-gray-50 p-4 sm:grid-cols-2">
+    <div className="user-analytics-info">
+        <div className="user-analytics-grid">
             <Text>ID: {user.id}</Text>
             <Text>Name: {user.name}</Text>
             <Text>Email: {user.email}</Text>

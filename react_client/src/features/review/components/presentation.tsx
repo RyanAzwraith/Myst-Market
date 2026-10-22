@@ -14,26 +14,26 @@ function RatingFormat({ rating, onClick }: {
     onClick?: (value: number) => void
 } ) {
     return (
-    <div className="flex items-center gap-2">
-        <Span className="text-2xl font-semibold text-gray-700">
+    <div className="rating-format">
+        <Span className="rating-value">
             {rating.toFixed(1)}/5
         </Span>
-        <div className="flex items-center gap-0.5">
+        <div className="rating-stars">
             <List
             items={Array.from({ length: 5 })}
             render={(_, n) => 
                 n + 1 <= rating ? 
                 <StarSolidIcon
                 key={`rating-${n}`}
-                className="h-5 w-5 text-amber-400"
-                buttonClassName="transition hover:scale-110"
+                className="rating-star-icon"
+                buttonClassName="rating-star-button"
                 onClick={() => onClick?.(n + 1)}
                 /> 
                     : 
                 <StarOutlineIcon
                 key={`rating-${n}`}
-                className="h-5 w-5 text-amber-400"
-                buttonClassName="transition hover:scale-110"
+                className="rating-star-icon"
+                buttonClassName="rating-star-button"
                 onClick={() => onClick?.(n + 1)}
                 />
             }/>

@@ -2,6 +2,7 @@ import { type ReactNode } from "react"
 import { 
     ChevronDownIcon,
 } from "@/shared/presentation/icon"
+import { classNames } from "@/utils/classNames"
 
 
 export {
@@ -24,7 +25,7 @@ function LoadContent({
     iconButtonClassName?: string
 }) {
     return (
-    <div className={className}>
+    <div className={classNames("shared-load-content", className)}>
         {content}
         {hasMore && (
         <ChevronDownIcon 

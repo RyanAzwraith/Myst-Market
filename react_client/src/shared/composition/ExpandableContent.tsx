@@ -3,6 +3,7 @@ import {
     ChevronDownIcon,
     ChevronUpIcon,
 } from "@/shared/presentation/icon"
+import { classNames } from "@/utils/classNames"
 
 
 export {
@@ -12,6 +13,7 @@ export {
 function ExpandableContent({
     content,
     limit = 3,
+    className,
     iconClassName,
     iconButtonClassName,
 }: { 
@@ -28,7 +30,7 @@ function ExpandableContent({
     const isExpandable = content.length > limit
 
     return (
-    <>
+    <div className={classNames("shared-expandable-content", className)}>
         {shownChildren}
             
         {isExpandable && (
@@ -48,6 +50,6 @@ function ExpandableContent({
                 />
             )
         )}
-    </>
+    </div>
     )
 }

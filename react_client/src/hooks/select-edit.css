@@ -1,0 +1,87 @@
+.select-edit-container,
+.select-edit-boolean-field,
+.select-edit-text-field,
+.select-edit-number-field,
+.select-edit-select-one-field,
+.select-edit-select-multiple-field,
+.select-edit-item-row {
+    min-width: 0;
+}
+
+.select-edit-container {
+    display: flex;
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-muted);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-sm);
+}
+
+.select-edit-boolean-field,
+.select-edit-text-field,
+.select-edit-number-field,
+.select-edit-select-one-field {
+    display: flex;
+    min-width: 10rem;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.select-edit-number-field {
+    min-width: 8rem;
+}
+
+.select-edit-select-multiple-field {
+    display: flex;
+    min-width: 12rem;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.select-edit-legend {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.select-edit-option-label {
+    font-size: 0.875rem;
+}
+
+.select-edit-control {
+    min-width: 0;
+}
+
+.select-edit-item-row {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    padding: var(--space-2);
+    box-shadow: var(--shadow-sm);
+}
+
+.select-edit-select-all {
+    align-self: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.select-edit-submit {
+    align-self: center;
+}
+
+@media (min-width: 40rem) {
+    .select-edit-container {
+        padding: 1.5rem;
+    }
+}

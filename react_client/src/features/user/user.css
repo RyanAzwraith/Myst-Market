@@ -1,0 +1,77 @@
+.user-admin-summary-info,
+.user-analytics-info,
+.register-form,
+.set-password-form,
+.user-update-form {
+    min-width: 0;
+}
+
+.admin-mode-toggle {
+    white-space: nowrap;
+}
+
+.user-admin-summary-info {
+    display: grid;
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.user-summary-name {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.user-summary-email,
+.user-summary-role,
+.user-summary-status {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+}
+
+.user-summary-status {
+    text-align: right;
+}
+
+.user-analytics-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    color: var(--color-text);
+}
+
+.user-analytics-grid {
+    display: grid;
+    gap: var(--space-2);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-muted);
+    padding: var(--space-4);
+}
+
+.user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-password-fields,
+.user-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.user-password-fields {
+    align-items: flex-end;
+}
+
+@media (min-width: 40rem) {
+    .user-admin-summary-info {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: center;
+    }
+
+    .user-analytics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

@@ -58,10 +58,12 @@ function BooleanField({ binding }: {
     }
 
     return (
-    <Label className="min-w-40 text-xs font-semibold uppercase tracking-wide ">
+    <Label className={
+        "select-edit-boolean-field"
+    }>
         {label}
         <Select
-        className="mt-1 text-sm normal-case tracking-normal"
+        className="select-edit-control"
         value={value === null ? '' : String(value)}
         onChange={event => handleChange(event.target.value)}
         >
@@ -81,9 +83,9 @@ function TextField({ binding }: {
         <LabeledInput
         type="text"
         labelClassName={
-            "min-w-40 text-xs font-semibold uppercase tracking-wide"
+            "select-edit-text-field"
         }
-        className="mt-1 text-sm normal-case tracking-normal"
+        className="select-edit-control"
         placeholder={placeholder}
         value={get() ?? ''}
         onChange={event =>
@@ -116,9 +118,9 @@ function NumberField({ binding }: {
         <LabeledInput
         type="number"
         labelClassName={
-            "min-w-32 text-xs font-semibold uppercase tracking-wide"
+            "select-edit-number-field"
         }
-        className="mt-1 text-sm normal-case tracking-normal"
+        className="select-edit-control"
         step={step}
         value={value === null ? '' : value}
         onChange={event => handleChange(event)}
@@ -152,10 +154,12 @@ function SelectOneField({ binding }: {
     }
 
     return (
-    <Label className="min-w-40 text-xs font-semibold uppercase tracking-wide">
+    <Label className={
+        "select-edit-select-one-field"
+    }>
         {label}
         <Select
-        className="mt-1 text-sm normal-case tracking-normal"
+        className="select-edit-control"
         value={value === null ? '' : String(value)}
         onChange={event => handleChange(event.target.value)}
         >
@@ -187,15 +191,15 @@ function SelectMultipleField({ binding }: {
     }
 
     return (
-    <FieldSet className="min-w-48">
-        <Legend className="text-xs uppercase tracking-wide text-gray-500">
+    <FieldSet className="select-edit-select-multiple-field">
+        <Legend className="select-edit-legend">
             {label}
         </Legend>
 
         <LabeledInput
         before={false}
         type="checkbox"
-        labelClassName="text-sm"
+        labelClassName="select-edit-option-label"
         checked={currentValue === null}
         onChange={event =>
             set(event.target.checked ? null : [])
@@ -210,7 +214,7 @@ function SelectMultipleField({ binding }: {
             key={`option-${key}`}
             before={false}
             type="checkbox"
-            labelClassName="text-sm"
+            labelClassName="select-edit-option-label"
             checked={values.includes(value)}
             onChange={event =>
                 handleChange(value, event.target.checked)
@@ -230,7 +234,7 @@ function ItemRow({
     selectEdit: SelectEdit<any>,
 }) {    
     return (
-    <Row className="rounded-lg border bg-white p-2 shadow-sm">
+    <Row className="select-edit-item-row">
         <Input
         type="checkbox"
         checked={selectEdit.selectedIds.has(id)}
@@ -247,8 +251,7 @@ function SelectEditContainer({ children }:{
 }) {
     return (
     <FieldSet className={
-        "mb-6 flex flex-wrap items-end gap-3 rounded-xl border " +
-        "border-gray-200 bg-gray-50 p-4 shadow-sm sm:p-6"
+        "select-edit-container"
     }
     >
         {children}
@@ -281,8 +284,7 @@ function SelectEditDisplay<F extends FieldDefs>({
         before={false}
         type="checkbox"
         labelClassName={
-            "self-center rounded-lg border border-gray-200 " +
-            "px-3 py-2 text-sm font-medium"
+            "select-edit-select-all"
         }
         checked={isAllSelected}
         onChange={toggleSelectAll}
@@ -301,7 +303,7 @@ function SelectEditDisplay<F extends FieldDefs>({
 
         <Button
         type="button"
-        className="h-10"
+        className="select-edit-submit"
         onClick={submit}
         disabled={selectedIds.size === 0}
         >

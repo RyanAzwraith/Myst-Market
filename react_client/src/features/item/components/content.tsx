@@ -24,22 +24,22 @@ function ItemInfo({ item }: {
 }) {
     const product = item.product
     return (
-    <div className="flex items-center gap-3 text-gray-900">
+    <div className="item-info">
         <ProductImage
         productId={product.id}
-        className="h-16 w-16 shrink-0 rounded object-cover"
+        className="item-image"
         />
-        <div className="min-w-0 space-y-0.5">
-            <Heading level={2} className="truncate text-sm text-gray-900">
+        <div className="item-details">
+            <Heading level={2} className="item-name">
                 {product.name}
             </Heading>
-            <Text className="text-xs text-gray-600">
+            <Text className="item-price">
                 <MoneyFormat amount={item.priceCent} /> each
             </Text>
-            <Text className="text-xs text-gray-600">
+            <Text className="item-quantity">
                 {item.quantity}x
             </Text>
-            <Text className="text-sm font-semibold text-gray-900">
+            <Text className="item-total">
                 <MoneyFormat amount={item.priceCent * item.quantity} /> total
             </Text>
         </div>
@@ -52,26 +52,25 @@ function ResolutionInfo({ item }: {
 }) {
     const product = item.product
     return (
-    <div className="flex items-center gap-3 text-gray-900">
+    <div className="resolution-info">
         <ProductImage
         productId={product.id}
-        className="h-16 w-16 shrink-0 rounded object-cover"
+        className="item-image"
         />
-        <div className="min-w-0 space-y-0.5">
-            <Heading level={2} className="truncate text-sm text-gray-900">
+        <div className="item-details">
+            <Heading level={2} className="item-name">
                 {product.name}
             </Heading>
-            <Text className="text-xs text-gray-600">
+            <Text className="item-price">
                 <MoneyFormat amount={item.unitPriceCent} /> each
             </Text>
-            <Text className="text-xs text-gray-600">
+            <Text className="item-quantity">
                 {item.quantity}x
             </Text>
-            <Text className="text-sm font-semibold text-gray-900">
+            <Text className="item-total">
                 <MoneyFormat amount={item.lineTotalCent} /> total
             </Text>
         </div>
     </div>
     )
 }
-

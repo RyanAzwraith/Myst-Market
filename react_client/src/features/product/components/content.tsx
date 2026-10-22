@@ -51,8 +51,8 @@ function ProductCarousel({
         <MediaCarousel
         media={media ?? []}
         limit={limit}
-        className="w-full"
-        imageClassName="h-auto max-h-[36rem] max-w-full rounded-xl object-contain"
+        className="product-carousel"
+        imageClassName="product-carousel-image"
         />
     )
 }
@@ -66,7 +66,7 @@ function ProductImage({ productId, className }: {
     return (
         <Image
         media={media}
-        className={className}
+        className={`product-image ${className ?? ""}`}
         />
     )
 }
@@ -91,7 +91,7 @@ function DetailedInfo({ product, onSaleClick }: {
 }) {
     return (
     <>
-        <Heading level={1} className="text-3xl sm:text-4xl">
+        <Heading level={1} className="product-detail-title">
             {product.name}
         </Heading>
         <Text variant="muted">
@@ -99,7 +99,7 @@ function DetailedInfo({ product, onSaleClick }: {
         </Text>
         <PriceFormat product={product} onClick={onSaleClick} />
         <Text>Stock {product.stock}</Text>
-        <Text className="leading-7 text-gray-700">
+        <Text className="product-description">
             {product.description}
         </Text>
     </>
@@ -110,17 +110,17 @@ function AdminSummaryInfo({ product }: {
     product: Product, 
 }) {
     return (
-    <div className="grid w-full gap-2 px-3 py-2 sm:grid-cols-4 sm:items-center">
-        <Text className="font-semibold text-gray-900">
+    <div className="product-admin-summary-info">
+        <Text className="product-summary-name">
             {product.name}
         </Text>
-        <Text className="text-sm text-gray-600">
+        <Text className="product-summary-category">
             {product.categoryName} - {product.rarityName}
         </Text>
-        <Text className="font-medium text-gray-900">
+        <Text className="product-summary-price">
             <PriceFormat product={product} />
         </Text>
-        <Text className="text-sm text-gray-600 sm:text-right">
+        <Text className="product-summary-stock">
             Stock: {product.stock}
         </Text>
     </div>
@@ -133,10 +133,12 @@ function AnalyticsInfo({ productId }: {
     const { data: product} = useAnalyticsQuery(productId)
     if (!product) return <Loading />
     return (
-    <div className="space-y-4">
+    <div className="product-analytics-info">
         <ProductCarousel productId={product.id} limit={1} />
-        <Heading level={2} className="text-2xl">{product.name}</Heading>
-        <div className="grid gap-2 rounded-lg bg-gray-50 p-4 sm:grid-cols-2">
+        <Heading level={2} className="product-analytics-title">
+            {product.name}
+        </Heading>
+        <div className="product-analytics-grid">
             <Text>ID: {product.id}</Text>
             <Text>Slug: {product.slug}</Text>
             <Text>Category: {product.categoryName}</Text>
@@ -157,7 +159,7 @@ function AnalyticsInfo({ productId }: {
             <Text>Average Rating: {product.averageRating}</Text>
             <Text>Reviews: {product.reviews}</Text>
         </div>
-        <Text className="leading-6 text-gray-700">
+        <Text className="analytics-description">
             {product.description}
         </Text>
     </div>

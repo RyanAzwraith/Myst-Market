@@ -33,7 +33,7 @@ function LoginForm({ onSuccess, className }: {
         <FormInputsForm
         formInputs={form}
         submitLabel="Login"
-        className={className}
+        className={`login-form ${className ?? ""}`}
         />
     )
 }
@@ -46,25 +46,38 @@ function ProfileMenuButton({onSolidClick, onOutlineClick}: {
     const isLoggedIn = useAuthState(state => state.isLoggedIn);
 
     if (isLoggedIn()) return (
-        <UserCircleSolidIcon 
+        <UserCircleSolidIcon
+        buttonClassName="profile-menu-button"
         onClick={onSolidClick} 
         />
     )
     return (
         <ModalTrigger
 		dropdown
+        mobileFullScreen
+        wrapperClassName="profile-menu-button"
         button={
             <UserCircleOutlineIcon/>
         }
         dialogLabel="Sign in"
-        modalClassName="sm:w-96"
+        modalClassName="profile-menu-modal"
         render={onClose => 
-        <div className="space-y-4 text-gray-900">
-            <Heading level={2} className="text-xl">Sign in</Heading>
+        <div className="profile-menu-content">
+        <div className="profile-menu-header">
+            <Heading level={2} className="profile-menu-title">
+                Sign in
+            </Heading>
+            <Button
+            variant="secondary"
+            className="profile-menu-close-button"
+            onClick={onClose}>
+                Close
+            </Button>
+        </div>
             <LoginForm onSuccess={onClose}/>
-            <div className="flex flex-wrap gap-2">
+            <div className="profile-menu-actions">
                 <Button
-                className="flex-1"
+                className="profile-menu-action"
                 onClick={() => {
                 onClose()
                 onOutlineClick?.()
@@ -73,7 +86,7 @@ function ProfileMenuButton({onSolidClick, onOutlineClick}: {
                 </Button>
                 <Button
                 variant="secondary"
-                className="flex-1"
+                className="profile-menu-action"
                 onClick={onClose}
                 >
                     Cancel

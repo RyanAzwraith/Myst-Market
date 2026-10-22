@@ -10,20 +10,17 @@ export { LoginPage }
 function LoginPage() {
     const navigate = useNavigate()
     return (
-    <Page className="flex min-h-screen flex-col items-center justify-center gap-6 px-4">
-        <Heading className="text-3xl sm:text-4xl">Sign in</Heading>
+    <Page className="login-page auth-page">
+        <Heading className="auth-page-title">Sign in</Heading>
 
         <LoginForm
-        className={
-            "w-full max-w-md space-y-4 rounded-xl border " +
-            "border-gray-200 bg-white p-6 shadow-sm"
-        }
+        className="login-form-card"
         onSuccess={() => navigate(PageRoutes.profile)}
         />
 
         <Button
         variant="secondary"
-        className="w-full max-w-md"
+        className="auth-switch-button"
         onClick={() => {
             navigate(PageRoutes.register)
         }}>

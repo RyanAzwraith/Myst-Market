@@ -33,31 +33,37 @@ function StatsInfo() {
     const {data: stats} = useStatsQuery()
     if (!stats) return <Loading />
     return (
-    <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-3">
-        <Card className="flex min-h-28 flex-col justify-center text-center">
-            <Text className="text-3xl font-bold text-blue-600">
+    <div className="stats-info">
+        <Card className="stats-card stats-product-card">
+            <Text className="stats-value">
                 {stats.productCount}
             </Text>
             <Text variant="muted">Items discovered</Text>
         </Card>
-        <Card className="flex min-h-28 flex-col justify-center text-center">
-            <Text className="text-3xl font-bold text-blue-600">
+        <Card className="stats-card stats-customer-card">
+            <Text className="stats-value">
                 {stats.customerCount}
             </Text>
             <Text variant="muted">Adventurers served</Text>
         </Card>
-        <Card className="flex min-h-28 flex-col items-center justify-center">
-            <Text className="text-3xl font-bold text-blue-600">
+        <Card className="stats-card stats-rating-card">
+            <Text className="stats-value">
                 {stats.totalAverageRating.toFixed(1)}
             </Text>
-            <Inline>
+            <Inline className="stats-rating-stars">
                 <List
                 items={Array.from({ length: 5 })}
                 render={(_, n) => 
                     n + 1 <= stats.totalAverageRating ? 
-                    <StarSolidIcon key={`rating-${n}`} /> 
+                    <StarSolidIcon
+                    key={`rating-${n}`}
+                    className="stats-rating-icon"
+                    />
                         : 
-                    <StarOutlineIcon key={`rating-${n}`} />
+                    <StarOutlineIcon
+                    key={`rating-${n}`}
+                    className="stats-rating-icon"
+                    />
                 }/>
             </Inline>
             <Text variant="muted">Average rating</Text>
@@ -72,7 +78,11 @@ function Graph() {
 	if (!graphPoints) return <Loading />
 	return (
 	<>
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+    className="graph"
+    width="100%"
+    height="100%"
+    >
     <LineChart data={graphPoints}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="month" />
@@ -111,16 +121,16 @@ function AttentionInfo() {
 	if (!data) return <Loading />
 	return (
 	<>
-		<Text className="flex items-center gap-2 text-gray-700">
-			<ExclamationTriangleIcon className="h-5 w-5 text-amber-500" />
+		<Text className="attention-item">
+			<ExclamationTriangleIcon className="attention-icon" />
 			{data.pendingOrders} orders pending
 		</Text>
-		<Text className="flex items-center gap-2 text-gray-700">
-			<ExclamationTriangleIcon className="h-5 w-5 text-amber-500" />
+		<Text className="attention-item">
+			<ExclamationTriangleIcon className="attention-icon" />
 			{data.outOfStockProducts} out of stock products
 		</Text>
-		<Text className="flex items-center gap-2 text-gray-700">
-			<ExclamationTriangleIcon className="h-5 w-5 text-amber-500" />
+		<Text className="attention-item">
+			<ExclamationTriangleIcon className="attention-icon" />
 			{data.salesEnding} sales ending
 		</Text>
 	</>
@@ -131,7 +141,7 @@ function PerformanceDisplay({performance} : {
     performance: Performance
 }) {
 	return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="performance-display">
         <Metric
         label="Revenue"
         value={formatMoney(performance.revenue)}
@@ -176,16 +186,17 @@ function Metric({
     )
 
 	return (
-    <Card className="space-y-2">
+    <Card className="metric">
         <Text variant="muted">{label}</Text>
-        <Text className="text-2xl font-bold text-gray-900">{value}</Text>
+        <Text className="metric-value">{value}</Text>
         <Text className={
-            change >= 0 ? "text-sm text-green-600" : "text-sm text-red-600"
+            change >= 0 ? "metric-change metric-change-positive"
+                : "metric-change metric-change-negative"
         }>
             {change >= 0 ? 
-                <ArrowUpIcon className="mr-1 inline h-4 w-4" /> 
+                <ArrowUpIcon className="metric-change-icon" />
                     :   
-                <ArrowDownIcon className="mr-1 inline h-4 w-4" />
+                <ArrowDownIcon className="metric-change-icon" />
             } 
             {change}%
         </Text>

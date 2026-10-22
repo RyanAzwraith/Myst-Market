@@ -1,0 +1,102 @@
+.stats-info {
+    display: grid;
+    gap: 1rem;
+}
+
+.stats-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 3px solid var(--color-gold);
+}
+
+.stats-value {
+    font-size: 1.875rem;
+    font-weight: 700;
+}
+
+.stats-rating-stars {
+    gap: 0.125rem;
+}
+
+.stats-rating-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-star);
+}
+
+.graph {
+    min-height: 20rem;
+}
+
+.attention-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.attention-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-warning);
+}
+
+.performance-display {
+    display: grid;
+    gap: 1rem;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.metric-value {
+    color: var(--color-text);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.metric-change {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.metric-change-positive {
+    color: var(--color-success);
+}
+
+.metric-change-negative {
+    color: var(--color-danger);
+}
+
+.metric-change-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+@media (min-width: 40rem) {
+    .stats-info,
+    .performance-display {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .stats-rating-card {
+        grid-column: span 1;
+    }
+}
+
+@media (min-width: 48rem) {
+    .performance-display {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 40rem) {
+    .graph {
+        min-height: 16rem;
+    }
+}

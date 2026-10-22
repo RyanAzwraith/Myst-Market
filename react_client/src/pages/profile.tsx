@@ -23,8 +23,8 @@ export { ProfilePage }
 function ProfilePage() {
     const navigate = useNavigate()
     return (
-    <Page className="mx-auto max-w-4xl space-y-6 px-4 py-8">
-        <Heading className="text-center text-3xl sm:text-4xl">
+    <Page className="profile-page">
+        <Heading className="profile-title">
             Profile
         </Heading>
         <LogoutButton
@@ -32,18 +32,17 @@ function ProfilePage() {
         />
 
         <UpdateForm
-        className="space-y-4 rounded-xl border border-gray-200 bg-white p-6
-            shadow-sm"
+        className="profile-form"
         />
 
         <PasswordResetButton/>
         <DeleteUserButton/>
 
-        <Heading level={2} className="pt-4 text-2xl">Orders</Heading>
+        <Heading level={2} className="profile-section-title">Orders</Heading>
         <OrdersLoader 
         render={({orders}) => 
             <Stack
-            className="gap-3"
+            className="profile-list"
             children={
                 <ExpandableContent
                 content={orders.map((o) => (
@@ -58,11 +57,11 @@ function ProfilePage() {
             } />
         } />
 
-        <Heading level={2} className="pt-4 text-2xl">Reviews</Heading>
+        <Heading level={2} className="profile-section-title">Reviews</Heading>
         <ReviewsLoader 
         render={({reviews}) => 
             <Stack
-            className="gap-3"
+            className="profile-list"
             children={
                 <ExpandableContent
                 content={reviews.map((r) => (

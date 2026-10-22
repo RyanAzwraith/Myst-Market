@@ -10,7 +10,13 @@ import {
 } from "../hook";
 
 import { recordToList } from "@/utils/funcs"
-import { Button, List, Inline } from "@/shared"
+import {
+    Button,
+    ChevronDownIcon,
+    Inline,
+    List,
+    ModalTrigger,
+} from "@/shared"
 
 import { useSearchParams } from "../hook"
 
@@ -25,6 +31,7 @@ export {
     
     CategoryBar,
     DeleteButton,    
+    CategoryMenuButton,
 };
 
 
@@ -38,7 +45,7 @@ function UpdateForm({ product, onSuccess, className }: {
         <FormInputsForm
         formInputs={form}
         submitLabel="Update product"
-        className={className}
+        className={`product-update-form ${className ?? ""}`}
         />
     )
 }
@@ -52,7 +59,7 @@ function CreateForm({ onSuccess, className }: {
         <FormInputsForm
         formInputs={form}
         submitLabel="Create product"
-        className={className}
+        className={`product-create-form ${className ?? ""}`}
         />
     )
 }
@@ -61,15 +68,14 @@ function CreateForm({ onSuccess, className }: {
 function CategoryBar() {
     const { bindings: { categories } } = useSearchParams()
     return (
-    <Inline gap="none">
+    <Inline gap="none"     className="product-category-bar">
         <List
         items={recordToList(categories.options)}
         render={([k, v]) =>
             <Button 
             key={`category-${k}`}
             variant="secondary"
-            className="bg-slate-400 text-slate-900 border border-black 
-                rounded-t-md border-b-0 rounded-b-none"  
+            className="product-category-button"
             onClick={() => { 
                 categories.set([v])
             }}>
@@ -77,6 +83,45 @@ function CategoryBar() {
             </Button>
         } />
     </Inline>
+    )
+}
+
+function CategoryMenuButton() {
+    const { bindings: { categories } } = useSearchParams()
+
+    return (
+        <ModalTrigger
+        dropdown
+        wrapperClassName="app-bar-mobile-nav"
+        modalClassName="app-bar-mobile-nav-dialog"
+        dialogLabel="Product categories"
+        button={
+            <>
+                <span>Categories</span>
+                <ChevronDownIcon className="mobile-nav-trigger-icon" />
+            </>
+        }
+        render={onClose => (
+            <div className="mobile-nav-menu">
+                <List
+                items={recordToList(categories.options)}
+                render={([k, v]) => (
+                    <Button
+                    key={`mobile-category-${k}`}
+                    variant="secondary"
+                    className="mobile-nav-menu-item"
+                    onClick={() => {
+                        categories.set([v])
+                        onClose()
+                    }}
+                    >
+                        {categories.labels[k]}
+                    </Button>
+                )}
+                />
+            </div>
+        )}
+        />
     )
 }
 
@@ -95,6 +140,7 @@ function DeleteButton({ productId, onClick }: {
         variant="danger"
         type="button"
         disabled={isPending}
+        className="product-delete-button"
         onClick={handleClick}>
             Delete product
         </Button>

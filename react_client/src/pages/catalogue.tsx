@@ -38,20 +38,20 @@ function CataloguePage() {
     const navigate = useNavigate()
         
     return (
-    <Page>
-        <Section className="space-y-4 py-6 text-center">
-            <Heading className="text-4xl">Catalogue</Heading>
-            <Text className="mx-auto max-w-2xl">
+    <Page className="catalogue-page">
+        <Section className="catalogue-intro">
+            <Heading className="catalogue-title">Catalogue</Heading>
+            <Text className="catalogue-description">
                 Wow Such Wow About Us Wow
             </Text>
         </Section>
 
-        <Section className="px-4 py-6">
+        <Section className="catalogue-stats-section">
             <StatsInfo />
         </Section>
 
-        <Section className="py-6">
-            <Heading level={2} className="mb-6 text-center text-4xl">
+        <Section className="catalogue-section">
+            <Heading level={2} className="catalogue-section-title">
                 Featured Products
             </Heading>
             <FeaturedLoader
@@ -65,8 +65,8 @@ function CataloguePage() {
             }/>
         </Section>
 
-        <Section className="py-6">
-            <Heading level={2} className="mb-6 text-center text-4xl">
+        <Section className="catalogue-section">
+            <Heading level={2} className="catalogue-section-title">
                 Popular Products
             </Heading>
             <PopularLoader
@@ -80,8 +80,8 @@ function CataloguePage() {
             }/>
         </Section>
         
-        <Section className="py-6">
-            <Heading level={2} className="mb-6 text-center text-4xl">
+        <Section className="catalogue-section">
+            <Heading level={2} className="catalogue-section-title">
                 Newest Products
             </Heading>
             <NewestLoader
@@ -95,8 +95,8 @@ function CataloguePage() {
             }/>
         </Section>
 
-        <Section className="py-6">
-            <Heading level={2} className="mb-6 text-center text-4xl">
+        <Section className="catalogue-section">
+            <Heading level={2} className="catalogue-section-title">
                 Biggest Sales
             </Heading>
             <BiggestLoader
@@ -116,8 +116,8 @@ function CataloguePage() {
             )}/>
         </Section>
         
-        <Section className="py-6">
-            <Heading level={2} className="mb-6 text-center text-4xl">
+        <Section className="catalogue-section">
+            <Heading level={2} className="catalogue-section-title">
                 Testimonials
             </Heading>
             <TestimonialLoader

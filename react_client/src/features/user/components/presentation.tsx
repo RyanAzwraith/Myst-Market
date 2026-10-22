@@ -10,7 +10,9 @@ function AdminSearchTitle({ adminSearchParams }: {
     adminSearchParams: ReturnType<typeof useAdminSearchParams> 
 }) {
     const { bindings: { search, registration } } = adminSearchParams
-    return <SearchTitle possibleTitles={[
+    return <SearchTitle
+    className="user-admin-search-title"
+    possibleTitles={[
         search.get() && `Searching: ${search.get()}`,
         registration.get().join(', '),
         "All Users"

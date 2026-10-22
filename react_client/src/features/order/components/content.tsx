@@ -32,12 +32,12 @@ function OrderInfo({ order }: {
     order: Order 
 }) {
     return (
-        <Card className="space-y-2 bg-gray-50">
-            <Text className="font-medium text-gray-900">
+        <Card className="order-info">
+            <Text className="order-info-address">
                 Delivery address: {order.addressString}
             </Text>
             <Text variant="muted">Placed {order.createdAt}</Text>
-            <Text className="text-lg font-bold text-gray-900">
+            <Text className="order-info-total">
                 Total: <MoneyFormat amount={order.costAudCent} />
             </Text>
         </Card>
@@ -48,15 +48,15 @@ function AdminSummaryInfo({ order }: {
     order: OrderSummary 
 }) {
     return (
-    <div className="grid w-full gap-2 px-3 py-2 sm:grid-cols-3 sm:items-center">
-        <Text className="font-semibold text-gray-900">
+    <div className="order-admin-summary-info">
+        <Text className="order-summary-id">
             Order #{order.id}
         </Text>
-        <Text className="text-sm text-gray-600">
-            <span className="font-medium text-gray-700">Status:</span>{" "}
+        <Text className="order-summary-status">
+            <span className="order-summary-status-label">Status:</span>{" "}
             {order.status}
         </Text>
-        <Text className="font-semibold text-gray-900 sm:text-right">
+        <Text className="order-summary-total">
             <MoneyFormat amount={order.totalCent} />
         </Text>
     </div>
@@ -70,23 +70,29 @@ function AdminInfo({
     user: UserDetail
 }) {
     return (
-    <div className="grid gap-3 text-sm sm:grid-cols-2">
-        <div className="space-y-1">
-            <Text className="font-medium text-gray-900">
+    <div className="order-admin-info">
+        <div className="order-admin-info-column">
+            <Text className="order-admin-info-total">
                 Total: <MoneyFormat amount={order.costAudCent} />
             </Text>
-            <Text className="text-gray-600">
+            <Text className="order-admin-info-muted">
                 Items: {order.items.length}
             </Text>
-            <Text className="text-gray-600">
+            <Text className="order-admin-info-muted">
                 Address: {order.addressString}
             </Text>
         </div>
-        <div className="space-y-1">
-            <Text className="text-gray-600">User ID: {order.userId}</Text>
-            <Text className="text-gray-600">User: {user.name}</Text>
-            <Text className="text-gray-600">Email: {user.email}</Text>
-            <Text className="text-gray-600">
+        <div className="order-admin-info-column">
+            <Text className="order-admin-info-muted">
+                User ID: {order.userId}
+            </Text>
+            <Text className="order-admin-info-muted">
+                User: {user.name}
+            </Text>
+            <Text className="order-admin-info-muted">
+                Email: {user.email}
+            </Text>
+            <Text className="order-admin-info-muted">
                 Account: {user.isRegistered ? 'Registered' : 'Guest'}
             </Text>
         </div>

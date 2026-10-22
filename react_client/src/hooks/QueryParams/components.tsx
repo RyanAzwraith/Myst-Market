@@ -24,7 +24,7 @@ import type {
     QueryParams,
 } from './schema';
 import { kind } from './schema';
-import { twMerge } from 'tailwind-merge';
+import { classNames } from '@/utils/classNames';
 
 
 export {
@@ -46,7 +46,9 @@ function BooleanField({ binding }: {
         <LabeledInput
         before={false}
         type="checkbox"
-        labelClassName="rounded-lg border border-gray-200 bg-white px-3 py-2"
+        labelClassName={
+            "query-params-boolean-field"
+        }
         checked={binding.get()}
         onChange={(event) => {
             binding.set(event.target.checked);
@@ -63,12 +65,11 @@ function SelectOneField({ binding }: {
     return (
     <Label
     htmlFor={binding.fieldKey}
-    className="rounded-lg border border-gray-200 bg-white p-3"
+    className={
+        "query-params-select-one-field"
+    }
     >
-        <span className={
-            "mb-1 block text-xs font-semibold uppercase " +
-            "tracking-wide text-gray-500"
-        }>
+        <span className="query-params-label">
             {binding.label}
         </span>
         <Select
@@ -106,22 +107,19 @@ function SelectMultipleField({ binding }: {
     };
 
     return (
-    <div className="rounded-lg border border-gray-200 bg-white p-3">
-        <div className="mb-2 flex items-center justify-between">
-            <span className={
-                "text-xs font-semibold uppercase tracking-wide " +
-                "text-gray-500"
-            }>
+    <div className="query-params-select-multiple-field">
+        <div className="query-params-select-header">
+            <span className="query-params-label">
                 {binding.label}
             </span>
             <XMarkIcon 
-            className="h-5 w-5 text-gray-500"
-            buttonClassName="rounded p-1 hover:bg-gray-100"
+            className="query-params-clear-icon"
+            buttonClassName="query-params-clear-button"
             ariaLabel={`Clear ${binding.label}`}
             onClick={() => binding.set(() => [])} 
             />
         </div>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="query-params-options">
             <List
             items={recordToList(binding.options) as [string, string][]}
             render={([key, value]) => (
@@ -129,7 +127,7 @@ function SelectMultipleField({ binding }: {
                 key={`option-${key}`}
                 before={false}
                 type="checkbox"
-                labelClassName="text-sm"
+                labelClassName="query-params-option"
                 checked={selected.includes(value)}
                 onChange={(event) => handleChange(
                     value,
@@ -161,17 +159,17 @@ function TextField({ binding, className }: {
     }
     
     return (
-    <Label htmlFor={binding.fieldKey} className={className}>
+    <Label
+    htmlFor={binding.fieldKey}
+    className={`query-params-text-field ${className ?? ""}`}
+    >
         <Inline
         align="stretch"
         gap="sm"
         wrap
-        className="rounded-lg border border-gray-200 bg-white p-3"
+        className="query-params-text-field-control"
         >
-            <span className={
-                "shrink-0 self-center text-xs font-semibold " +
-                "uppercase tracking-wide text-gray-500"
-            }>
+            <span className="query-params-field-label">
                 {binding.label}
             </span>
             <Input
@@ -183,11 +181,11 @@ function TextField({ binding, className }: {
             onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
             onBlur={handleSearch}
             placeholder={binding.placeholder}
-            className="min-w-0 flex-1"
+            className="query-params-field-input"
             />
             <XMarkIcon
-            className="h-5 w-5 shrink-0 self-center text-gray-500"
-            buttonClassName="rounded p-1 hover:bg-gray-100"
+            className="query-params-field-clear-icon"
+            buttonClassName="query-params-clear-button"
             onClick={() => { 
                 setSearchInput('')
                 binding.set(() => '')
@@ -214,15 +212,12 @@ function SearchField({ binding, className }: {
     
     return (
     <Inline 
-    className={twMerge(
-        "w-full rounded-full border-2 border-gray-200 bg-white px-2",
-        className
-    )}
+    className={classNames("query-params-search-field", className)}
     gap="none"
     >
-        <MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
+        <MagnifyingGlassIcon className="query-params-search-icon" />
         <Input
-        className="min-w-0 flex-1 border-0 focus:ring-0"
+        className="query-params-search-input"
         id={binding.fieldKey}
         name={binding.fieldKey}
         type="text"
@@ -233,8 +228,8 @@ function SearchField({ binding, className }: {
         placeholder={binding.placeholder}
         />
         <XMarkIcon
-        className="h-5 w-5 text-gray-500"
-        buttonClassName="rounded p-1 hover:bg-gray-100"
+        className="query-params-search-clear-icon"
+        buttonClassName="query-params-clear-button"
         onClick={() => { 
             setSearchInput('')
             binding.set(() => '')
@@ -243,11 +238,15 @@ function SearchField({ binding, className }: {
     );
 }
 
-function QueryParamsContainer({ children }:{
+function QueryParamsContainer({ children, className }:{
     children: ReactNode
+    className?: string
 }) {
     return (
-    <Container className="rounded-xl bg-gray-50 p-4 shadow-sm sm:p-6">
+    <Container className={classNames(
+        "query-params-container",
+        className
+    )}>
         {children}
     </Container>
     )
@@ -270,8 +269,8 @@ function QueryParamFields ({queryParams} : {
 }) {
     const { bindings } = queryParams;
     return (
-    <QueryParamsContainer>
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+    <QueryParamsContainer className="query-param-fields">
+        <div className="query-param-fields-grid">
             <List
             items={recordValues(bindings)}
             render={(binding) => 

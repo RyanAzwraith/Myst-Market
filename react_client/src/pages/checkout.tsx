@@ -31,8 +31,8 @@ export { CheckoutPage }
 
 function CheckoutPage() {
     return (
-    <Page className="py-8 mx-auto max-w-4xl space-y-8">  
-        <Heading className="text-center text-3xl sm:text-4xl">
+    <Page className="checkout-page">
+        <Heading className="checkout-title">
             Checkout
         </Heading>
 
@@ -40,12 +40,12 @@ function CheckoutPage() {
         render={({ 
             form: {handleSubmit, errorMsg, bindings}, setItems 
         }) => 
-            <FormInputsContainer submit={handleSubmit} className="space-y-8">
-                <section className={
-                    "space-y-8 rounded-xl border " +
-                    "border-gray-200 bg-white p-5 shadow-sm"
-                }>
-                    <Heading level={2} className="text-xl">
+            <FormInputsContainer
+            submit={handleSubmit}
+            className="checkout-form"
+            >
+                <section className="checkout-section checkout-account-section">
+                    <Heading level={2} className="checkout-section-title">
                         Account Information
                     </Heading>
                         <LoggedInLoader 
@@ -62,18 +62,15 @@ function CheckoutPage() {
                         } />
                 </section>
     
-                <section className={
-                    "space-y-4 rounded-xl border " +
-                    "border-gray-200 bg-white p-5 shadow-sm"
-                }>
-                    <Heading level={2} className="text-xl">
+                <section className="checkout-section checkout-cart-section">
+                    <Heading level={2} className="checkout-section-title">
                         Cart
                     </Heading>
                     <ResolutionLoader 
                     onSuccess={setItems}
                     render={({items ,totalCent}) =>
                     <>
-                        <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="checkout-cart-grid">
                             <List
                             items={items}
                             render={o => 
@@ -83,27 +80,27 @@ function CheckoutPage() {
                                 />
                             }/>
                         </div>
-                        <Text className="font-semibold">
-                            Total <MoneyFormat className="text-lg font-bold" amount={totalCent} />
+                        <Text className="checkout-total">
+                            Total <MoneyFormat
+                            className="checkout-total-amount"
+                            amount={totalCent}
+                            />
                         </Text>
                     </>
                     } />
                 </section>
         
-                <section className={
-                    "space-y-4 rounded-xl border " +
-                    "border-gray-200 bg-white p-5 shadow-sm"
-                }>
-                    <Heading level={2} className="text-xl">
+                <section className="checkout-section checkout-delivery-section">
+                    <Heading level={2} className="checkout-section-title">
                         Delivery Information
                     </Heading>
-                    <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="checkout-delivery-grid">
                         <TextField binding={bindings.country_code} />
                         <TextField binding={bindings.postcode} />
                         <TextField binding={bindings.state} />
                         <TextField binding={bindings.city} />
                         <TextField binding={bindings.street} />
-                        <div className="sm:col-span-2">
+                        <div className="checkout-notes-field">
                             <TextField
                             binding={bindings.deliveryNotes}
                             />
@@ -113,7 +110,7 @@ function CheckoutPage() {
 
                 <ErrorMsg errorMsg={errorMsg} />
 
-                <Button type="submit" className="w-full py-3 text-base">
+                <Button type="submit" className="checkout-submit">
                     Pay with Stripe
                 </Button>
             </FormInputsContainer>

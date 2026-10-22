@@ -1,26 +1,40 @@
-@import "tailwindcss";
+@import "../styles/reset.css";
+@import "../styles/tokens.css";
+@import "../styles/globals.css";
 
-html {
-  scroll-behavior: smooth;
-}
+@import "../shared/composition.css";
+@import "../shared/interactive.css";
+@import "../shared/presentation.css";
+@import "../shared/icons.css";
 
-body {
-  background: #1f2937;
-  color: #000000;
-  margin: 0;
-  font-family: system-ui, sans-serif;
-}
+@import "../app/app-shell.css";
 
-:root {
-  --bg: #ffffff;
-  --text: #111111;
-  --primary: #4f46e5;
-  --border: #e5e7eb;
-}
+@import "../features/auth/auth.css";
+@import "../features/app/app.css";
+@import "../features/item/item.css";
+@import "../features/media/media.css";
+@import "../features/order/order.css";
+@import "../features/product/product.css";
+@import "../features/review/review.css";
+@import "../features/sale/sale.css";
+@import "../features/user/user.css";
 
-[data-theme="dark"] {
-  --bg: #0f0f0f;
-  --text: #f5f5f5;
-  --primary: #8b5cf6;
-  --border: #2a2a2a;
+@import "../hooks/form-inputs.css";
+@import "../hooks/query-params.css";
+@import "../hooks/select-edit.css";
+
+@import "../pages/public-pages.css";
+@import "../pages/admin-pages.css";
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none;
+        animation: none;
+    }
 }

@@ -26,13 +26,13 @@ function ShopPage() {
     const navigate = useNavigate()
 
     return (
-    <Page> 
+    <Page className="shop-page">
         <SearchLoader
         render={({ searchQuery, searchParams, products, images }) => 
-        <Container className="space-y-6 py-6">
+        <Container className="shop-content">
             <QueryParamFields queryParams={searchParams} />
             <ProductSearchTitle
-            className="text-center text-4xl pb-8"
+            className="shop-title"
             searchParams={searchParams}
             />
             <Grid
@@ -41,10 +41,10 @@ function ShopPage() {
             mdColumns={3}
             lgColumns={4}
             gap="lg"
-            className="items-stretch"
+            className="shop-grid"
             >
                 <LoadContent
-                className="contents"
+                className="shop-products"
                 hasMore={searchQuery.hasNextPage}
                 onClick={searchQuery.fetchNextPage}
                 content={(products ?? []).map(p => 

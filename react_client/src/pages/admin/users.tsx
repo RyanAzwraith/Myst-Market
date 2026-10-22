@@ -21,7 +21,7 @@ export { UsersPage }
 
 function UsersPage() {
     return (
-    <Page className="min-h-screen bg-slate-50 px-4 py-8">
+    <Page className="users-page admin-page">
         <AdminSearchLoader
         limit={20}
         render={({searchQuery, searchParams, users}) => 
@@ -29,16 +29,13 @@ function UsersPage() {
             <QueryParamFields queryParams={searchParams} />
             <AdminSearchTitle adminSearchParams={searchParams} />
             <LoadContent
-            className="space-y-3"
+            className="admin-user-list"
             hasMore={searchQuery.hasNextPage}
             onClick={searchQuery.fetchNextPage}
             content={users.map((user) => 
                 <ModalTrigger
-                className={
-                    "block w-full rounded-lg border bg-white p-4 text-left " +
-                    "shadow-sm transition hover:bg-gray-50"
-                }
-                modalClassName="max-h-[90vh] overflow-y-auto"
+                className="admin-user-trigger"
+                modalClassName="admin-modal-dialog"
                 button={
                     <AdminSummaryInfo user={user} />
                 }

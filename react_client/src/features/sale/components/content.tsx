@@ -40,8 +40,8 @@ function SaleCarousel({saleId, limit = 1 }: {
         <MediaCarousel
         media={media ?? []}
         limit={limit}
-        className="w-full"
-        imageClassName="h-auto max-h-[36rem] max-w-full rounded-xl object-contain"
+        className="sale-carousel"
+        imageClassName="sale-carousel-image"
         />
     )
 }
@@ -54,6 +54,7 @@ function SaleImage({ saleId }: {
     return (
         <Image
         media={media}
+        className="sale-image"
         />
     )
 }
@@ -78,21 +79,20 @@ function DetailedInfo({ sale  }: {
     sale: Sale, 
 }) {
     return (
-    <Container className="space-y-6  bg-white rounded-xl p-6
-        mx-auto max-w-3xl space-y-4 text-center">
-            <Heading level={1} className="text-3xl sm:text-4xl">
+    <Container className="sale-detailed-info">
+            <Heading level={1} className="sale-title">
                 {sale.name}
             </Heading>
             <Heading
             level={2}
-            className="text-2xl font-bold text-red-600 sm:text-3xl"
+            className="sale-discount"
             >
                 {sale.discountPerc}% off!
             </Heading>
             <Text variant="muted">
                 {sale.startAt} to {sale.endAt}
             </Text>
-            <Text className="leading-7 text-gray-700">
+            <Text className="sale-description">
                 {sale.description}
             </Text>
     </Container>
@@ -103,18 +103,18 @@ function AdminSummaryInfo({ sale }: {
     sale: SaleAnalytics 
 }) {
 	return (
-    <div className="grid w-full gap-2 px-3 py-2 sm:grid-cols-3 sm:items-center">
-        <Text className="font-semibold text-gray-900">{sale.name}</Text>
-        <Text className="font-medium text-red-600">
+    <div className="sale-admin-summary-info">
+        <Text className="sale-summary-name">{sale.name}</Text>
+        <Text className="sale-summary-discount">
             {sale.discountPerc}% off
         </Text>
-        <Text className="text-sm text-gray-600 sm:text-right">
+        <Text className="sale-summary-orders">
             {sale.orderCount} orders
         </Text>
-        <Text className="text-sm text-gray-500 sm:col-span-2">
+        <Text className="sale-summary-dates">
             {sale.startAt} to {sale.endAt}
         </Text>
-        <Text className="text-sm text-gray-600 sm:text-right">
+        <Text className="sale-summary-revenue">
             Revenue: {sale.revenue}
         </Text>
     </div>
@@ -125,12 +125,14 @@ function AnalyticsInfo({ sale }: {
     sale: SaleAnalytics
 }) {
     return (
-    <div className="space-y-4">
+    <div className="sale-analytics-info">
         <SaleCarousel saleId={sale.id} limit={1} />
-        <Heading level={2} className="text-2xl">{sale.name}</Heading>
-        <div className="grid gap-2 rounded-lg bg-gray-50 p-4 sm:grid-cols-2">
+        <Heading level={2} className="sale-analytics-title">
+            {sale.name}
+        </Heading>
+        <div className="sale-analytics-grid">
             <Text>ID: {sale.id}</Text>
-            <Text className="font-medium text-red-600">
+            <Text className="sale-analytics-discount">
                 Discount: {sale.discountPerc}% off
             </Text>
             <Text>Start at: {sale.startAt}</Text>

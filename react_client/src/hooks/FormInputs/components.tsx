@@ -54,6 +54,7 @@ function BooleanField({ binding }: {
         <LabeledInput
         before={false}
         type="checkbox"
+        labelClassName="form-inputs-boolean-field"
         checked={!!get()}
         onChange={event => set(event.target.checked)}
         >
@@ -63,17 +64,19 @@ function BooleanField({ binding }: {
 }
 
 function TextField({ 
-    binding, readOnly=false, type='text',
+    binding, readOnly=false, type='text', className,
 }: {
     binding: Binding<TextFieldDef | EmailFieldDef | PasswordFieldDef>
     readOnly?: boolean;
     type?: 'text' | 'email' | 'password';
+    className?: string;
 
 }) {
     const { label, placeholder, get, set } = binding;
     return (
         <LabeledInput
         type={type}
+        labelClassName={`form-inputs-text-field ${className ?? ''}`}
         placeholder={placeholder}
         value={get() ?? ''}
         readOnly={readOnly}
@@ -94,7 +97,7 @@ function TextAreaField({
 }) {
     const { label, placeholder, get, set } = binding;
     return (
-    <Label>
+    <Label className="form-inputs-text-area-field">
         {label}
         <TextArea
         placeholder={placeholder}
@@ -130,6 +133,7 @@ function NumberField({
         <LabeledInput
         before={false}
         type="number"
+        labelClassName="form-inputs-number-field"
         min={positiveInteger ? 0 : undefined}
         step={step}
         value={value === null ? '' : value}
@@ -152,6 +156,7 @@ function EmailField({
         binding={binding} 
         type="email" 
         readOnly={readOnly} 
+        className="form-inputs-email-field"
         />
     );
 }
@@ -167,6 +172,7 @@ function PasswordField({
         binding={binding} 
         type="password" 
         readOnly={readOnly} 
+        className="form-inputs-password-field"
         />
     );
 }
@@ -176,7 +182,7 @@ function SelectOneField({ binding }: {
 }) {
     const { label, options, get, set } = binding;
     return (
-    <Label>
+    <Label className="form-inputs-select-one-field">
         {label}
         <Select
         value={get() ?? ""}
@@ -209,7 +215,7 @@ function SelectMultipleField({ binding }: {
     }
 
     return (
-    <FieldSet>
+    <FieldSet className="form-inputs-select-multiple-field">
         <Legend>{label}</Legend>
         <List
         items={recordToList(options) as [string, any][]}
@@ -239,7 +245,7 @@ function FormInputsContainer({
     return (
         <Form 
         onSubmit={event => submit?.(event)}
-        className={className}
+        className={`form-inputs-container ${className ?? ''}`}
         >
             {children}
         </Form>
@@ -275,7 +281,7 @@ function FormInputsForm({
     return (
     <FormInputsContainer
     submit={handleSubmit}
-    className={className}
+    className={`form-inputs-form ${className ?? ''}`}
     >
         <List
         items={recordToList(bindings)}

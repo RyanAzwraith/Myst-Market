@@ -12,7 +12,9 @@ function AdminSearchTitle({ adminSearchParams }: {
     adminSearchParams: ReturnType<typeof useAdminSearchParams> 
 }) {
     const { bindings: { searchName, status } } = adminSearchParams
-    return <SearchTitle possibleTitles={[
+    return <SearchTitle
+    className="order-admin-search-title"
+    possibleTitles={[
         searchName.get() && `Searching: ${searchName.get() as string}`,
         status.get().join(', '),
         "All Orders"

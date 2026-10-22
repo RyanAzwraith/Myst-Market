@@ -25,13 +25,13 @@ function Image({ media, className }: {
 	media: MediaDetail | undefined
 	className?: string
 }) {
-	if (!media) return <Img alt="Image unavailable" />
+	if (!media) return <Img className="media-image" alt="Image unavailable" />
 	if (media.mediaType !== mediaType.image) return null
 	return (
 		<Img
 		src={media.mediaUrl}
 		alt={media.altText ?? ""}
-		className={className}
+		className={`media-image ${className ?? ""}`}
 		/>
 	)
 }
@@ -44,6 +44,7 @@ function Video({media}: {
 	return (
 		<Vid
 		src={media.mediaUrl}
+		className="media-video"
 		controls
 		playsInline
 		aria-label={media.altText ?? media.mediaUrl}
@@ -55,9 +56,12 @@ function Media({ media, className }: {
 	media?: MediaDetail
 	className?: string
 }) {
-	if (!media) return <Img alt="Image unavailable" />
+	if (!media) return 	<Img className="media-content" alt="Image unavailable" />
 	if (media.mediaType === mediaType.image) return (
-		<Image media={media} className={className} />
+		<Image
+		media={media}
+		className={`media-content ${className ?? ""}`}
+		/>
 	)
 	if (media.mediaType === mediaType.video) return (
 		<Video media={media} />
@@ -81,7 +85,7 @@ function MediaCarousel({
 	return (
 		<Carousel
 		limit={limit}
-		className={className}
+		className={`media-carousel ${className ?? ""}`}
 		content={media.map(item => (
 			<Media
 			key={item.id}

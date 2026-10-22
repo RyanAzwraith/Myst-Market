@@ -20,7 +20,7 @@ import {
     ExclamationTriangleIcon as HeroExclamationTriangleIcon,
 } from "@heroicons/react/24/outline"
 import type { ComponentType, SVGProps, MouseEvent } from "react"
-import { twMerge } from "tailwind-merge"
+import { classNames } from "@/utils/classNames"
 
 export {
     ChevronDownIcon,
@@ -62,11 +62,21 @@ function createIcon(
         ariaLabel,
     }: IconProps) {
         if (hidden) return null
+        const componentClassName =
+            name.charAt(0).toLowerCase() +
+            name.slice(1).replace(/[A-Z]/g, letter =>
+                `-${letter.toLowerCase()}`
+            )
 
         const icon = (
             <Icon
                 aria-label={ariaLabel ?? name}
-                className={twMerge("h-8 w-8", className)}
+                aria-hidden={onClick ? true : undefined}
+                className={classNames(
+                    !onClick && componentClassName,
+                    "shared-icon",
+                    className
+                )}
             />
         )
 
@@ -77,7 +87,11 @@ function createIcon(
             type="button"
             aria-label={ariaLabel ?? name}
             onClick={onClick}
-            className={buttonClassName}
+            className={classNames(
+                "shared-icon-button",
+                componentClassName,
+                buttonClassName
+            )}
             >
                 {icon}
             </button>

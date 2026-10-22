@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 
 import { PageRoutes } from '@/app/PageRoutes'
 import { ProfileMenuButton} from "@/features/auth";
-import { CategoryBar} from "@/features/product";
+import {
+	CategoryBar,
+	CategoryMenuButton,
+} from "@/features/product";
 import { CartMenuButton } from "@/features/item";
 
 import { useAuthState } from "@/features/user";
@@ -13,10 +16,12 @@ import { SearchField } from "@/hooks/QueryParams";
 
 import { 
 	Button, 
+	ChevronDownIcon,
 	Heading, 
 	Inline, 
 	LabeledInput, 
 	List, 
+	ModalTrigger,
 	Stack,
 } from "@/shared";
 
@@ -45,16 +50,16 @@ export function AppBar() {
 		justify="between"
 		align="center"
 		gap="sm"
-		className="bg-slate-800 px-4 pr-16 pt-4 shadow-sm text-slate-50 pt-4"
+		className="app-bar admin-app-bar"
 		>
 			<Button 
 			variant="ghost"
-			className="shrink-0 px-2"
+			className="app-bar-logo"
 			onClick={() => navigate(PageRoutes.admin)}
 			>
 				<Heading 
 				level={2} 
-				className="font-semibold"
+				className="app-bar-logo-heading"
 				>
 					Myst Market
 				</Heading>
@@ -63,7 +68,7 @@ export function AppBar() {
 			<Inline
 			gap="none"
 			align="end"
-			className="min-w-0 pt-4"
+			className="admin-app-bar-nav"
 			>
 				<List
 				items={adminPages}
@@ -72,8 +77,7 @@ export function AppBar() {
 					key={p.path}
 					type="button"
 					variant="ghost"
-					className="bg-slate-400 text-slate-900 border border-black 
-                		rounded-t-md border-b-0 rounded-b-none"  
+					className="admin-app-bar-link"
 					onClick={() => navigate(p.path)}
 					>
 						{p.label}
@@ -82,11 +86,14 @@ export function AppBar() {
 				/>
 			</Inline>
 
-			<Inline gap="sm" align="center" className="shrink-0">
+			<Inline gap="sm" align="center" className="app-bar-actions">
 				<AdminModeToggle
 				isAdmin={isAdmin}
 				showAdmin={showAdmin}
 				setShowAdmin={setShowAdmin}
+				/>
+				<AdminNavMenuButton
+				navigate={navigate}
 				/>
 				<CartMenuButton
 				onCheckoutClick={() => navigate(PageRoutes.checkout)}
@@ -105,34 +112,35 @@ export function AppBar() {
 	justify="between"
 	align="center"
 	gap="sm"
-	className="bg-slate-800 px-4 pr-16 pt-2 shadow-sm text-slate-50"
+	className="app-bar"
 	>
 		<Button 
 		variant="ghost"
-		className="px-2"
+		className="app-bar-logo"
 		onClick={() => navigate(PageRoutes.admin)}
 		>
 			<Heading 
 			level={2} 
-			className="font-semibold"
+			className="app-bar-logo-heading"
 			>
 				Myst Market
 			</Heading>
 		</Button>
 		
-		<Stack gap="sm" align="center" className="min-w-0 p-0">
+		<Stack gap="sm" align="center" className="app-bar-search">
 			<SearchField  
 			binding={search} 
 			/>
 			<CategoryBar/>
 		</Stack>
 
-		<Inline gap="sm" align="center" className="shrink-0">
+		<Inline gap="sm" align="center" className="app-bar-actions">
 			<AdminModeToggle
 			isAdmin={isAdmin}
 			showAdmin={showAdmin}
 			setShowAdmin={setShowAdmin}
 			/>
+			<CategoryMenuButton />
 			<CartMenuButton 
 			onCheckoutClick={() => navigate(PageRoutes.checkout)}
 			/>
@@ -143,6 +151,47 @@ export function AppBar() {
 		</Inline>
 	</Inline>
 	);
+}
+
+function AdminNavMenuButton({
+	navigate,
+}: {
+	navigate: (path: string) => void
+}) {
+	return (
+		<ModalTrigger
+		dropdown
+		wrapperClassName="app-bar-mobile-nav"
+		modalClassName="app-bar-mobile-nav-dialog"
+		dialogLabel="Admin navigation"
+		button={
+			<>
+				<span>Menu</span>
+				<ChevronDownIcon className="mobile-nav-trigger-icon" />
+			</>
+		}
+		render={onClose => (
+			<div className="mobile-nav-menu">
+				<List
+				items={adminPages}
+				render={page => (
+					<Button
+					key={`mobile-admin-${page.path}`}
+					variant="secondary"
+					className="mobile-nav-menu-item"
+					onClick={() => {
+						navigate(page.path)
+						onClose()
+					}}
+					>
+						{page.label}
+					</Button>
+				)}
+				/>
+			</div>
+		)}
+		/>
+	)
 }
 
 
@@ -159,6 +208,7 @@ function AdminModeToggle({
 		<LabeledInput
 		before={false}
 		type="checkbox"
+		labelClassName="admin-mode-toggle"
 		checked={showAdmin}
 		onChange={(e) => {
 			setShowAdmin(e.target.checked)

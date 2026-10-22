@@ -77,4 +77,5 @@ export {
     UpdateForm,
     DeleteButton,
     CategoryBar,
+    CategoryMenuButton,
 } from './components/interactive'

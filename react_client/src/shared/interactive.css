@@ -1,0 +1,195 @@
+.shared-button-wrapper,
+.shared-button,
+.shared-input,
+.shared-text-area,
+.shared-select,
+.shared-labeled-input {
+    min-width: 0;
+}
+
+.shared-button-wrapper,
+.shared-button {
+    cursor: pointer;
+}
+
+.shared-button-wrapper,
+.shared-button {
+    transition:
+        background-color 150ms ease,
+        box-shadow 150ms ease,
+        opacity 150ms ease,
+        transform 150ms ease;
+}
+
+.shared-button-wrapper:hover,
+.shared-button:hover:not(:disabled) {
+    filter: brightness(0.97);
+}
+
+.shared-button-wrapper:active,
+.shared-button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.shared-button:focus-visible,
+.shared-button-wrapper:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.shared-button:disabled {
+    cursor: not-allowed;
+}
+
+.shared-button-wrapper {
+    border: 0;
+    background: transparent;
+    padding: 0;
+}
+
+.shared-button {
+    border: 0;
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-4);
+    font-weight: 500;
+}
+
+.shared-button-primary {
+    background: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: 2px 2px 0 rgb(20 48 34 / 35%);
+}
+
+.shared-button-primary:hover {
+    background: var(--color-primary-hover);
+}
+
+.shared-button-secondary {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+.shared-button-secondary:hover {
+    background: var(--color-border-input);
+}
+
+.shared-button-danger {
+    background: var(--color-danger);
+    color: var(--color-white);
+}
+
+.shared-button-danger:hover {
+    background: var(--color-danger-hover);
+}
+
+.shared-button-ghost {
+    background: transparent;
+}
+
+.shared-button-ghost:hover {
+    background: var(--color-surface-muted);
+}
+
+.shared-button-disabled,
+.shared-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.shared-input,
+.shared-text-area,
+.shared-select {
+    background: var(--color-surface-raised);
+    min-height: 2.5rem;
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        background-color 150ms ease;
+}
+
+.shared-input-default,
+.shared-text-area,
+.shared-select {
+    width: 100%;
+}
+
+.shared-input-checkbox {
+    width: 1rem;
+    height: 1rem;
+    min-height: 1rem;
+    border-radius: var(--radius-sm);
+    padding: 0;
+}
+
+.shared-input:hover,
+.shared-text-area:hover,
+.shared-select:hover {
+    border-color: var(--color-primary);
+}
+
+.shared-input:focus,
+.shared-text-area:focus,
+.shared-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+    outline: 0;
+}
+
+.shared-input:active,
+.shared-text-area:active,
+.shared-select:active {
+    border-color: var(--color-gold);
+}
+
+.shared-input:disabled,
+.shared-text-area:disabled,
+.shared-select:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.shared-labeled-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shared-button-wrapper {
+    display: inline-flex;
+}
+
+.shared-button-sm {
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.875rem;
+}
+
+.shared-button-lg {
+    padding: var(--space-3) 1.25rem;
+    font-size: 1.125rem;
+}
+
+.shared-input-sm,
+.shared-select-sm {
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.875rem;
+}
+
+.shared-input-lg,
+.shared-select-lg {
+    padding: var(--space-3) var(--space-4);
+    font-size: 1.125rem;
+}
+
+.shared-input-error,
+.shared-text-area-error,
+.shared-select-error {
+    border-color: var(--color-danger);
+}
+
+.shared-text-area {
+    min-height: 6rem;
+    resize: vertical;
+}

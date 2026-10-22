@@ -10,7 +10,7 @@ function OnSaleDiv({
     children: React.ReactNode
 }) {
     return (
-    <div className={onSale ? "bg-red-200" : ""}>
+    <div className={`on-sale ${onSale ? "on-sale-active" : ""}`}>
         {children}
     </div>
     )

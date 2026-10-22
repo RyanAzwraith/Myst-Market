@@ -1,6 +1,6 @@
 import { type ReactNode } from "react"
 import { NavLink } from "react-router-dom"
-import { twMerge } from "tailwind-merge"
+import { classNames } from "@/utils/classNames"
 import { List } from "../composition"
 
 export { NavBar }
@@ -12,8 +12,8 @@ function NavBar<T>({
     onClick,
     className,
     linkClassName,
-    activeClassName = "border-b-2 font-semibold",
-    inactiveClassName = "text-gray-500",
+    activeClassName = "shared-nav-link-active",
+    inactiveClassName = "shared-nav-link-inactive",
 }: {
     items: T[]
     render: (item: T) => ReactNode
@@ -25,13 +25,13 @@ function NavBar<T>({
     inactiveClassName?: string
 }) {
     return (
-        <div className={twMerge("flex border-b", className)}>
+        <div className={classNames("shared-nav-bar", className)}>
             <List
                 items={items}
                 render={(item) => (
                     <NavLink
-                        className={({ isActive }) => twMerge(
-                            "px-4 py-2",
+                        className={({ isActive }) => classNames(
+                            "shared-nav-link",
                             isActive ? activeClassName : inactiveClassName,
                             linkClassName,
                         )}

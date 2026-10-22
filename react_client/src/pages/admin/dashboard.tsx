@@ -28,21 +28,21 @@ export { DashboardPage }
 
 function DashboardPage() {
     return (
-	<Page className="bg-slate-50 px-4 py-8">
-		<Container className="space-y-8">
-			<Heading className="text-center text-3xl sm:text-4xl">
+	<Page className="dashboard-page admin-page">
+		<Container className="dashboard-content">
+			<Heading className="dashboard-title">
 				Admin Dashboard
 			</Heading>
 
-			<section className="space-y-4">
+			<section className="dashboard-performance">
 				<PerformanceLoader
 				render={({ form, data }) => (
 					<>
-						<div className="flex flex-wrap items-end justify-between gap-4">
-							<Heading level={2} className="text-2xl">
+						<div className="dashboard-performance-header">
+							<Heading level={2} className="dashboard-section-title">
 								Performance
 							</Heading>
-							<div className="w-48">
+							<div className="dashboard-period">
 								<SelectOneField
 								binding={form.bindings.period}
 								/>
@@ -54,41 +54,38 @@ function DashboardPage() {
 				/>
 			</section>
 
-			<div className="grid gap-6 lg:grid-cols-3">
-				<section className="rounded-xl border bg-white p-5 shadow-sm lg:col-span-2">
-					<Heading level={2} className="mb-4 text-xl">
+			<div className="dashboard-overview-grid">
+				<section className="dashboard-panel dashboard-revenue-panel">
+					<Heading level={2} className="dashboard-panel-title">
 						Revenue / Orders
 					</Heading>
-					<div className="h-80">
+					<div className="dashboard-chart">
 						<Graph />
 					</div>
 				</section>
 
-				<section className="rounded-xl border bg-white p-5 shadow-sm">
-					<Heading level={2} className="mb-4 text-xl">
+				<section className="dashboard-panel">
+					<Heading level={2} className="dashboard-panel-title">
 						Requires Attention
 					</Heading>
-					<div className="space-y-3">
+					<div className="dashboard-attention-list">
 						<AttentionInfo />
 					</div>
 				</section>
 			</div>
 
-			<div className="grid gap-6 lg:grid-cols-2">
-				<section className="rounded-xl border bg-white p-5 shadow-sm">
-					<Heading level={2} className="mb-4 text-xl">
+			<div className="dashboard-lists-grid">
+				<section className="dashboard-panel">
+					<Heading level={2} className="dashboard-panel-title">
 						Recent Orders
 					</Heading>
-					<div className="space-y-2">
+					<div className="dashboard-list">
 						<RecentLoader 
 						render={({ orders }) => 
 							<List
 							items={orders}
 							render={(order) => (
-								<div className={
-									"grid grid-cols-2 rounded-lg bg-gray-50 " +
-									"px-3 py-2 text-sm"
-								}>
+								<div className="dashboard-list-row">
 									<OrderAdminPerformanceInfo 
 									order={order}
 									/>
@@ -98,21 +95,18 @@ function DashboardPage() {
 					</div>
 				</section>
 
-				<section className="rounded-xl border bg-white p-5 shadow-sm">
-					<Heading level={2} className="mb-4 text-xl">
+				<section className="dashboard-panel">
+					<Heading level={2} className="dashboard-panel-title">
 						Top Products
 					</Heading>
-					<div className="space-y-2">
+					<div className="dashboard-list">
 						<TopLoader 
 						limit={3}
 						render={({ products }) => 
 							<List
 							items={products}
 							render={(product) => (
-								<div className={
-									"grid grid-cols-2 rounded-lg bg-gray-50 " +
-									"px-3 py-2 text-sm"
-								}>
+								<div className="dashboard-list-row">
 									<ProductPerformanceInfo 
 									product={product as ProductAnalytics} 
 									/>

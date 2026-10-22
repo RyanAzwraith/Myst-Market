@@ -26,8 +26,8 @@ function OrderPage() {
     }, [id, navigate])
 
     return (
-    <Page className="mx-auto max-w-4xl space-y-6 px-4 py-8">
-        <Heading className="text-center text-3xl sm:text-4xl">
+    <Page className="order-page">
+        <Heading className="order-title">
             Order
         </Heading>  
 
@@ -37,7 +37,7 @@ function OrderPage() {
         <>
             <OrderInfo order={order} />
             <Stack
-            className="gap-3"
+            className="order-items"
             children={
                 <List
                 items={order.items}

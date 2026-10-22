@@ -4,7 +4,7 @@ import {
     type FormHTMLAttributes, 
     type ReactNode, 
  } from "react"
- import { twMerge } from "tailwind-merge"
+ import { classNames } from "@/utils/classNames"
 
 export {
     List,
@@ -41,7 +41,7 @@ function Page({children, className}: {
     className?: string
 }) {
     return (
-    <main className={twMerge("min-h-screen", className)}>
+    <main className={classNames("shared-page", className)}>
         {children}
     </main >
     )
@@ -53,10 +53,7 @@ function Container({ children, className }: {
 }) {
     return (
     <div 
-    className={twMerge(
-        "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8",
-        className
-    )}
+    className={classNames("shared-container", className)}
     >
         {children}
     </div>
@@ -74,25 +71,14 @@ function Stack({
     align?: "start" | "center" | "end" | "stretch"
     className?: string
 }) {
-    const stackClassName = [
-        "flex flex-col",
-        {
-            none: "gap-0",
-            sm: "gap-2",
-            md: "gap-4",
-            lg: "gap-6",
-            xl: "gap-8"
-        }[gap],
-        {
-            start: "items-start",
-            center: "items-center",
-            end: "items-end",
-            stretch: "items-stretch"
-        }[align]
-    ].join(" ")
+    const stackClassName = classNames(
+        "shared-stack",
+        `shared-stack-gap-${gap}`,
+        `shared-stack-align-${align}`,
+    )
 
     return (
-    <div className={twMerge(stackClassName, className)}>
+    <div className={classNames(stackClassName, className)}>
         {children}
     </div>
     )
@@ -113,33 +99,16 @@ function Inline({
     wrap?: boolean
     className?: string
 }) {
-    const style = [
-        "flex",
-        wrap && "flex-wrap",
-        {
-            none: "gap-0",
-            sm: "gap-2",
-            md: "gap-4",
-            lg: "gap-6",
-            xl: "gap-8"
-        }[gap],
-        {
-            start: "items-start",
-            center: "items-center",
-            end: "items-end",
-            stretch: "items-stretch"
-        }[align],
-        {
-            start: "justify-start",
-            center: "justify-center",
-            end: "justify-end",
-            between: "justify-between",
-            around: "justify-around"
-        }[justify]
-    ].join(" ")
+    const style = classNames(
+        "shared-inline",
+        `shared-inline-gap-${gap}`,
+        `shared-inline-align-${align}`,
+        `shared-inline-justify-${justify}`,
+        wrap && "shared-inline-wrap",
+    )
 
     return (
-        <div className={twMerge(style, className)}>
+        <div className={classNames(style, className)}>
             {children}
         </div>
     )
@@ -162,58 +131,17 @@ function Grid({
     mdColumns?: 1 | 2 | 3 | 4 | 5 | 6
     lgColumns?: 1 | 2 | 3 | 4 | 5 | 6
 }) {
-    const columnClasses = {
-        1: "grid-cols-1",
-        2: "grid-cols-2",
-        3: "grid-cols-3",
-        4: "grid-cols-4",
-        5: "grid-cols-5",
-        6: "grid-cols-6"
-    }
-    const responsiveColumnClasses = {
-        sm: {
-            1: "sm:grid-cols-1",
-            2: "sm:grid-cols-2",
-            3: "sm:grid-cols-3",
-            4: "sm:grid-cols-4",
-            5: "sm:grid-cols-5",
-            6: "sm:grid-cols-6"
-        },
-        md: {
-            1: "md:grid-cols-1",
-            2: "md:grid-cols-2",
-            3: "md:grid-cols-3",
-            4: "md:grid-cols-4",
-            5: "md:grid-cols-5",
-            6: "md:grid-cols-6"
-        },
-        lg: {
-            1: "lg:grid-cols-1",
-            2: "lg:grid-cols-2",
-            3: "lg:grid-cols-3",
-            4: "lg:grid-cols-4",
-            5: "lg:grid-cols-5",
-            6: "lg:grid-cols-6"
-        }
-    }
-
-    const gridClassName = [
-        "grid",
-        columnClasses[columns],
-        smColumns && responsiveColumnClasses.sm[smColumns],
-        mdColumns && responsiveColumnClasses.md[mdColumns],
-        lgColumns && responsiveColumnClasses.lg[lgColumns],
-        {
-            none: "gap-0",
-            sm: "gap-2",
-            md: "gap-4",
-            lg: "gap-6",
-            xl: "gap-8"
-        }[gap]
-    ].join(" ")
+    const gridClassName = classNames(
+        "shared-grid",
+        `shared-grid-columns-${columns}`,
+        smColumns && `shared-grid-sm-columns-${smColumns}`,
+        mdColumns && `shared-grid-md-columns-${mdColumns}`,
+        lgColumns && `shared-grid-lg-columns-${lgColumns}`,
+        `shared-grid-gap-${gap}`,
+    )
 
     return (
-        <div className={twMerge(gridClassName, className)}>
+        <div className={classNames(gridClassName, className)}>
             {children}
         </div>
     )
@@ -237,20 +165,14 @@ function Modal({
     }, [])
 
     return (
-    <div className={twMerge(
-        "fixed inset-0 flex items-center justify-center bg-black/40",
-        overlayClassName,
-    )}>
+    <div className={classNames("shared-modal", overlayClassName)}>
         <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}
         tabIndex={-1}
-        className={twMerge(
-            "w-full max-w-lg rounded bg-white p-4",
-            className
-        )}
+        className={classNames("shared-modal-dialog", className)}
         >
             {children}
         </div>
@@ -258,18 +180,43 @@ function Modal({
     )
 }
 
-function Card({ children, onClick, className }: { 
+function Card({
+    children,
+    onClick,
+    className,
+    variant = "default",
+    ariaLabel,
+}: { 
     children: ReactNode,
     className?: string,
     onClick?: () => void,
+    variant?: "default" | "compact",
+    ariaLabel?: string,
 }) {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+        if (
+            !onClick ||
+            event.target !== event.currentTarget ||
+            !["Enter", " "].includes(event.key)
+        ) return
+
+        event.preventDefault()
+        onClick()
+    }
+
     return (
     <article
-    className={twMerge(
-        "rounded-lg border bg-white p-4 shadow-sm",
+    className={classNames(
+        "shared-card",
+        `shared-card-${variant}`,
+        onClick && "shared-card-interactive",
         className
     )}
+    role={onClick ? "button" : undefined}
+    tabIndex={onClick ? 0 : undefined}
+    aria-label={ariaLabel}
     onClick={onClick}
+    onKeyDown={handleKeyDown}
     >
         {children}
     </article>
@@ -285,10 +232,7 @@ function Row({
 }) {
     return (
     <article 
-    className={twMerge(
-        "flex items-center gap-4 px-4 py-2 bg-white rounded-lg",
-        className
-    )}>
+    className={classNames("shared-row", className)}>
         {children}
     </article>
     )
@@ -299,7 +243,7 @@ function Menu({ children, className }: {
     className?: string
 }) {
     return (
-    <ul className={twMerge("flex items-center gap-4", className)}>
+    <ul className={classNames("shared-menu", className)}>
         {children}
     </ul>
     )
@@ -314,15 +258,12 @@ function Section({
     spacing?: "none" | "sm" | "md" | "lg"
     className?: string
 }) {
-    const spacingClasses = {
-        none: "",
-        sm: "py-2",
-        md: "py-4",
-        lg: "py-8"
-    }
-
     return (
-        <section className={twMerge(spacingClasses[spacing], className)}>
+        <section className={classNames(
+            "shared-section",
+            `shared-section-spacing-${spacing}`,
+            className
+        )}>
             {children}
         </section>
     )
@@ -335,7 +276,7 @@ function Form({
     children: ReactNode
 } ) {
     return (
-    <form {...props}>
+    <form {...props} className={classNames("shared-form", props.className)}>
         {children}
     </form>
     )
@@ -346,7 +287,7 @@ function Legend({ children, className }: {
     className?: string
 }) {
     return (
-    <legend className={twMerge("text-sm font-semibold", className)}>
+    <legend className={classNames("shared-legend", className)}>
         {children}
     </legend>
     )
@@ -357,7 +298,7 @@ function FieldSet({ children, className }: {
     className?: string
 }) {
     return (
-    <fieldset className={twMerge("text-sm font-semibold", className)}>
+    <fieldset className={classNames("shared-field-set", className)}>
         {children}
     </fieldset>
     )

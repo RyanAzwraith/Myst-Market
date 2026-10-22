@@ -33,12 +33,15 @@ function PriceFormat({ product, onClick }: {
 }) {
 
     if (!product.sale || !product.discountedPrice) return (
-        <Span><MoneyFormat amount={product.priceAudCent} /></Span>
+        <Span className="price-format">
+            <MoneyFormat amount={product.priceAudCent} />
+        </Span>
     )
 
     const sale = product.sale
     return (
         <Button
+        className="price-format"
         onClick={e => {
             e.stopPropagation()
             onClick?.(sale)
@@ -60,18 +63,22 @@ function ProductSearchTitle({ searchParams, className }: {
     className?: string
 }) {
     const { bindings: { categories, search } } = searchParams
-    return <SearchTitle possibleTitles={[
+    return <SearchTitle
+    className={`product-search-title ${className ?? ""}`}
+    possibleTitles={[
         search.get() && `Searching: ${search.get() as string}`,
         (categories.get() as string[]).join(', '),
         "All Products"
-    ]} className={className} />
+    ]} />
 }
 
 function AdminSearchTitle({ adminSearchParams }: { 
     adminSearchParams: ReturnType<typeof useAdminSearchParams> 
 }) {
     const { bindings: { categories, rarities, search } } = adminSearchParams
-    return <SearchTitle possibleTitles={[
+    return <SearchTitle
+    className="product-admin-search-title"
+    possibleTitles={[
         search.get() && `Searching: ${search.get() as string}`,
         (categories.get() as string[]).concat(rarities.get() as string[]).join(', '),
         "All Products"

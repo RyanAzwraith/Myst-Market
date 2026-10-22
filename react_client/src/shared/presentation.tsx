@@ -3,7 +3,7 @@ import type {
     LabelHTMLAttributes 
 } from "react"
 import type { JSX } from "react"
-import { twMerge } from "tailwind-merge"
+import { classNames } from "@/utils/classNames"
 
 export {
     Text,
@@ -27,15 +27,13 @@ function Text({
     variant?: "normal" | "muted" | "small"
     className?: string
 }) {
-    const variants = {
-        normal: "text-base",
-        muted: "text-base text-gray-500",
-        small: "text-sm",
-    }
-
     return (
         <p 
-        className={twMerge(variants[variant], className)}
+        className={classNames(
+            "shared-text",
+            `shared-text-${variant}`,
+            className
+        )}
         children={children}
         />
     )
@@ -48,15 +46,13 @@ function Span({
     variant?: "normal" | "muted" | "emphasis"
     className?: string
 }) {
-    const variants = {
-        normal: "",
-        muted: "text-gray-500",
-        emphasis: "font-semibold"
-    }
-
     return (
         <span 
-        className={twMerge(variants[variant], className)}
+        className={classNames(
+            "shared-span",
+            `shared-span-${variant}`,
+            className
+        )}
         children={children}
         />
     )
@@ -69,19 +65,14 @@ function Heading({
     level?: 1 | 2 | 3 | 4 | 5 | 6
     className?: string
 }) {
-    const classNames = {
-        1: "text-2xl font-bold",
-        2: "text-xl font-bold",
-        3: "text-lg font-semibold",
-        4: "text-base font-semibold",
-        5: "text-sm font-semibold",
-        6: "text-xs font-semibold"
-    }
-
     const Tag = `h${level}` as keyof JSX.IntrinsicElements
 
     return (
-    <Tag className={twMerge(classNames[level], className)}>
+    <Tag className={classNames(
+        "shared-heading",
+        `shared-heading-level-${level}`,
+        className
+    )}>
         {children}
     </Tag>
     )
@@ -96,22 +87,24 @@ const ErrorMsg = ({
     className?: string
 }) =>
     !errorMsg ? null : (
-        <p className={twMerge("text-sm text-red-600", className)}>
+        <p className={classNames("shared-error-msg", className)}>
             {errorMsg}
         </p>
     )
 
-const Loading = ({ isError, className }: { 
-    isError?: boolean, 
+const Loading = ({ isError, variant, className }: {
+    isError?: boolean,
+    variant?: "loading" | "error",
     className?: string
 }) => {
-    if (isError) return (
-        <p className={twMerge("text-sm text-red-600", className)}>
+    const loadingVariant = variant ?? (isError ? "error" : "loading")
+    if (loadingVariant === "error") return (
+        <p className={classNames("shared-loading shared-loading-error", className)}>
             Error loading data
         </p>
     )
     return (
-        <p className={twMerge("text-sm text-slate-600", className)}>
+        <p className={classNames("shared-loading", className)}>
             Loading...
         </p>
     )
@@ -125,7 +118,9 @@ const MoneyFormat = ({
 }) =>
     amount === null
         ? "N/A"
-        : <span className={className}>$ {amount.toFixed(2)}</span>
+        : <span className={classNames("shared-money-format", className)}>
+            $ {amount.toFixed(2)}
+        </span>
 
 const SearchTitle = ({ possibleTitles, className }: {
     possibleTitles: (string | null | undefined | false)[]
@@ -133,14 +128,14 @@ const SearchTitle = ({ possibleTitles, className }: {
 }) => {
     const title = possibleTitles.find(Boolean)
     return (
-        <h1 className={twMerge("mb-2 text-lg font-semibold", className)}>
+        <h1 className={classNames("shared-search-title", className)}>
             {title}
         </h1> 
     )
 }
 
 function Divider({ className }: { className?: string }) {
-    return <hr className={twMerge("border-t", className)} />
+    return <hr className={classNames("shared-divider", className)} />
 }
 
 function Label({
@@ -153,7 +148,7 @@ function Label({
     return (
     <label
     {...props}
-    className={twMerge("block text-sm font-medium", className)}
+    className={classNames("shared-label", className)}
     >
             {children}
     </label>
@@ -171,9 +166,8 @@ function Img({
             <div
             role="img"
             aria-label={alt || "Image unavailable"}
-            className={twMerge(
-                "flex min-h-48 w-full items-center justify-center " +
-                "bg-gray-100 text-sm text-gray-500",
+            className={classNames(
+                "shared-img shared-img-unavailable",
                 className
             )}
             >
@@ -184,10 +178,7 @@ function Img({
 
     return (
         <img
-		className={twMerge(
-            "max-h-96 max-w-full object-contain",
-            className
-        )}
+		className={classNames("shared-img", className)}
         src={src}
         alt={alt}
         {...props}
@@ -208,10 +199,7 @@ function Vid({
     return (
         <video
         src={src}
-        className={twMerge(
-            "max-h-96 max-w-full object-contain",
-            className
-        )}
+        className={classNames("shared-vid", className)}
         controls={controls}
         playsInline={playsInline}
         aria-label={ariaLabel}

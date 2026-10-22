@@ -16,7 +16,7 @@ function ReviewCard({ review, onClick, children }:  {
     children?: React.ReactNode,
 }) {
     return (
-    <Card className="min-h-0 w-full" onClick={onClick}>
+    <Card className="review-card" onClick={onClick}>
         <ReviewInfo review={review}/>
         {children}
     </Card>

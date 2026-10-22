@@ -28,24 +28,21 @@ export { SalesPage }
 
 function SalesPage() {
     return (
-    <Page className="min-h-screen bg-slate-50 px-4 py-8">
+    <Page className="sales-page admin-page">
         <ModalTrigger
-        className={
-            "rounded-lg bg-blue-600 px-4 py-2 font-medium text-white " +
-            "shadow-sm transition hover:bg-blue-500"
-        }
-        modalClassName="max-h-[90vh] overflow-y-auto"
+        className="admin-create-trigger"
+        modalClassName="admin-modal-dialog"
         button={
             <Span>Create sale</Span>
         }
         render={onClose => 
         <>
-            <Heading level={2} className="mb-4 text-xl">
+            <Heading level={2} className="admin-modal-title">
                 Create Sale
             </Heading>
             <CreateForm
             onSuccess={onClose}
-            className="space-y-3"
+            className="admin-form"
             />
         </>
         }/>
@@ -61,7 +58,7 @@ function SalesPage() {
             />
 
             <LoadContent
-            className="space-y-3"
+            className="admin-sale-list"
             hasMore={searchQuery.hasNextPage}
             onClick={searchQuery.fetchNextPage}
             content={(sales ?? []).map(s => 
@@ -71,11 +68,8 @@ function SalesPage() {
                 selectEdit={selectEdit}
                 >
                     <ModalTrigger
-                    className={
-                        "block w-full rounded-lg text-left transition " +
-                        "hover:bg-gray-50"
-                    }
-                    modalClassName="max-h-[90vh] overflow-y-auto"
+                    className="admin-sale-trigger"
+                    modalClassName="admin-modal-dialog"
                     button={
                         <AdminSummaryInfo sale={s} />
                     }
@@ -98,18 +92,18 @@ function SaleModal({ sale, onClose }: {
 }) {
     const [tog, setTog] = useState(true);
     return (
-    <div className="space-y-5 text-gray-900">
+    <div className="sale-modal admin-modal">
         { tog ? 
         <AnalyticsInfo sale={sale} />
             :
         <UpdateForm
         sale={sale}
         onSuccess={() => setTog(false)}
-        className="space-y-3"
+        className="admin-form"
         />
         }
 
-        <div className="flex flex-wrap gap-2 border-t border-gray-200 pt-4">
+        <div className="admin-modal-actions">
             <Button
             type="button"
             onClick={() => setTog(!tog)}

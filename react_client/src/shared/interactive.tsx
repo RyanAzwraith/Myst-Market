@@ -6,7 +6,7 @@ import type {
     SelectHTMLAttributes,
     MouseEvent,
 } from "react"
-import { twMerge } from "tailwind-merge"
+import { classNames } from "@/utils/classNames"
 
 export {
     ButtonWrapper,
@@ -30,7 +30,7 @@ function ButtonWrapper({
         <button
         type={type}
         onClick={onClick}
-        className={className}
+        className={classNames("shared-button-wrapper", className)}
         children={children}
         />
     )
@@ -42,7 +42,7 @@ function Button({
     type = "button",
     variant = "primary",
     disabled = false,
-    onClick
+    onClick,
 }: {
     className?: string
     children: ReactNode
@@ -51,22 +51,15 @@ function Button({
     disabled?: boolean
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void
 }) {
-    const variants = {
-        primary: "bg-blue-600 text-white hover:bg-blue-500",
-        secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
-        danger: "bg-red-600 text-white hover:bg-red-500",
-        ghost: "bg-transparent hover:bg-gray-100"
-    }
-
     return (
         <button
         type={type}
         disabled={disabled}
         onClick={onClick}
-        className={twMerge(
-            "rounded px-4 py-2 font-medium",
-            variants[variant],
-            disabled && "cursor-not-allowed opacity-50",
+        className={classNames(
+            "shared-button",
+            `shared-button-${variant}`,
+            disabled && "shared-button-disabled",
             className
         )}
         >
@@ -77,28 +70,29 @@ function Button({
 
 function Input({
     type = "text",
+    variant,
     className,
     ref,
     ...props
 }: InputHTMLAttributes<HTMLInputElement> & {
     type?: "text" | "email" | "password" | "number" | "file" | "checkbox"
+    variant?: "default" | "checkbox"
     ref?: Ref<HTMLInputElement>
 }) {
-    const styles = {
-        text: "w-full rounded border px-3 py-2",
-        email: "w-full rounded border px-3 py-2",
-        password: "w-full rounded border px-3 py-2",
-        number: "w-full rounded border px-3 py-2",
-        file: "w-full rounded border px-3 py-2",
-        checkbox: "size-4 rounded border",
-    }
+    const inputVariant = variant ?? (
+        type === "checkbox" ? "checkbox" : "default"
+    )
 
     return (
         <input
         ref={ref}
         {...props}
         type={type}
-        className={twMerge(styles[type] ?? styles.text, className)}
+        className={classNames(
+            "shared-input",
+            `shared-input-${inputVariant}`,
+            className
+        )}
         />
     )
 }
@@ -110,11 +104,7 @@ function TextArea({
     return (
         <textarea
         {...props}
-        className={twMerge(
-            "w-full rounded border px-3 py-2",
-            "focus:outline-none focus:ring-2",
-            className
-        )}
+        className={classNames("shared-text-area", className)}
         />
     )
 }
@@ -130,7 +120,7 @@ function LabeledInput({
 }) {
     return (
     <label 
-    className={twMerge("flex items-center gap-2", labelClassName)}
+    className={classNames("shared-labeled-input", labelClassName)}
     htmlFor={id}
     >
         {before && <span>{children}</span>}
@@ -153,11 +143,7 @@ function Select({
     return (
         <select
         {...props}
-        className={twMerge(
-            "w-full rounded border px-3 py-2",
-            "focus:outline-none focus:ring-2",
-            className
-        )}
+        className={classNames("shared-select", className)}
         children={children}
         />
     )

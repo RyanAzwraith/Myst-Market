@@ -27,15 +27,14 @@ function ProductPage() {
     }, [slug, navigate])
     
     return (
-    <Page> 
-        <Container className="space-y-4 py-8">
+    <Page className="product-page">
+        <Container className="product-content">
             <ProductLoader 
             slug={slug}
             render={(product) => 
             <>
                 <ProductCarousel productId={product.id} />
-                <Container className="space-y-6 bg-white mx-auto max-w-3xl 
-                space-y-3 text-center p-12 rounded-xl">
+                <Container className="product-detail">
                     <DetailedInfo 
                     product={product}
                     onSaleClick={(sale) => navigate(PageRoutes.sale(sale.slug))}

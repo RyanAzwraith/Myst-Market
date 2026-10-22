@@ -10,7 +10,6 @@ import type {
     Login,
 } from './schema'
 import { useAuthState } from './state'
-import { input } from '@testing-library/user-event/dist/cjs/event/index.js';
 
 export {
     useLoginMutation,

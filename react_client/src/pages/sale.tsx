@@ -22,8 +22,8 @@ function SalePage() {
 
     if (!slug) return null
     return (
-    <Page>
-        <Container className="py-8">
+    <Page className="sale-page">
+        <Container className="sale-content">
             <SaleLoader 
             slug={slug} 
             render={(sale) => (

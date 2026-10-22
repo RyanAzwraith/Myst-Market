@@ -38,6 +38,7 @@ function OrderCard({ order, onClick }:  {
 }) {
     return (
     <Card
+    className="order-card"
     onClick={onClick}
     >
         <OrderSummaryInfo order={order} />
@@ -50,8 +51,9 @@ function OrderRow({ order }: {
 }) {
     return (
     <ModalTrigger
-    className="block w-full rounded-lg text-left transition hover:bg-gray-50"
-    modalClassName="max-h-[90vh] overflow-y-auto"
+    wrapperClassName="order-row"
+    className="order-row-button"
+    modalClassName="order-modal-dialog"
     dialogLabel={`Order ${order.id}`}
     button={
         <AdminSummaryInfo order={order} />
@@ -71,21 +73,21 @@ function OrderModal({ orderId }: {
     
     const { order, user } = data
     return (
-    <div className="space-y-5 text-gray-900">
-        <Heading level={2} className="text-2xl">
+    <div className="order-modal">
+    <Heading level={2} className="order-modal-title">
             Order Details
         </Heading>
-        <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+        <div className="order-modal-info">
             <AdminInfo order={order} user={user} />
         </div>
 
         <StatusForm
         order={order}
-        className="space-y-3 rounded-lg border border-gray-200 p-4"
+        className="order-status-form"
         />
 
-        <Heading level={3} className="text-lg">Items</Heading>
-        <div className="space-y-3">
+        <Heading level={3} className="order-modal-items-title">Items</Heading>
+        <div className="order-modal-items">
             <List
             items={order.items}
             render={item => 

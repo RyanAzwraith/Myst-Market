@@ -16,7 +16,7 @@ export { OrdersPage }
 
 function OrdersPage() {
     return (
-    <Page className="min-h-screen bg-slate-50 px-4 py-8">
+    <Page className="orders-page admin-page">
         <AdminSearchLoader 
         render={({searchQuery, searchParams, selectEdit, orders}) => (
         <>
@@ -27,7 +27,7 @@ function OrdersPage() {
             />
 
             <LoadContent
-            className="space-y-3"
+            className="admin-order-list"
             hasMore={searchQuery.hasNextPage}
             onClick={searchQuery.fetchNextPage}
             content={(orders ?? []).map(o => 

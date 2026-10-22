@@ -15,7 +15,7 @@ function StatusForm({ order, className } : {
     return (
         <FormInputsForm
         formInputs={statusForm}
-        className={className}
+        className={`status-form ${className ?? ""}`}
         />
     )
 }

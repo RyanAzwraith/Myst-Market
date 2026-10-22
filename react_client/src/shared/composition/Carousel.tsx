@@ -6,7 +6,7 @@ import {
     ChevronLeftIcon,
     ChevronRightIcon,
 } from "@/shared/presentation/icon"
-import { twMerge } from "tailwind-merge"
+import { classNames } from "@/utils/classNames"
 import { Inline } from "../composition"
 
 export {
@@ -41,7 +41,7 @@ function Carousel({
     return (
     <Inline 
     justify="center"
-    className={twMerge("w-full min-w-0", className)}
+    className={classNames("shared-carousel", className)}
     children={ 
     <>
         <ChevronLeftIcon 
@@ -52,7 +52,9 @@ function Carousel({
             setOffset(o => o === 0 ? maxOffset : o - 1)
         }/>
 
-        {shownContent}
+        <div className="shared-carousel-items">
+            {shownContent}
+        </div>
 
         <ChevronRightIcon
         ariaLabel="Next items"

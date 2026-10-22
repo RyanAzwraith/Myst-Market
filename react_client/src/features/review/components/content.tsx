@@ -13,15 +13,15 @@ function ReviewInfo({ review }:  {
     review: Review,
 }) {
     return (
-    <div className="flex h-full flex-col gap-2">
+    <div className="review-info">
         <RatingFormat rating={review.rating}/>
-        <Text className="font-semibold text-gray-900">
+        <Text className="review-user-name">
             {review.userName}
         </Text>
-        <Text variant="small" className="text-gray-500">
+        <Text variant="small" className="review-date">
             {review.createdAt.toString()}
         </Text>
-        <Text className="line-clamp-4 text-gray-700">
+        <Text className="review-description">
             {review.description}
         </Text>
     </div>

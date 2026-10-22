@@ -33,7 +33,10 @@ function CreateForm({ productId }:{
     } = useCreateForm({ productId })
 
     return (
-    <FormInputsContainer submit={handleSubmit} >
+    <FormInputsContainer
+    className="review-create-form"
+    submit={handleSubmit}
+    >
         <RatingFormat 
         rating={rating.get() ?? 0} 
         onClick={(value) => rating.set(value)}
@@ -54,6 +57,8 @@ function DeleteButton({ reviewId }:  {
 
     return (  
     <ModalTrigger
+    wrapperClassName="review-delete-button"
+    className="review-delete-trigger"
     button={<XMarkIcon/>}
     render={onClose => <>
         <Heading level={2}>Are you sure you'd like to delete your Review?</Heading>

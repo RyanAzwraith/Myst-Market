@@ -30,7 +30,7 @@ function CreateForm({
     return (
         <FormInputsForm
         formInputs={createForm}
-        className={className}
+        className={`sale-create-form ${className ?? ""}`}
         />
     )
 }
@@ -43,7 +43,7 @@ function UpdateForm({sale, onSuccess, className}: {
     return (
         <FormInputsForm
         formInputs={updateForm}
-        className={className}
+        className={`sale-update-form ${className ?? ""}`}
         />
     )
 }
@@ -61,6 +61,7 @@ function DeleteButton({ saleId, onClick }: {
         variant="danger"
         type="button"
         disabled={isPending}
+        className="sale-delete-button"
         onClick={() => mutate()}
         >
             Delete sale

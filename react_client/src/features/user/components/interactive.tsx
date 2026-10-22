@@ -44,7 +44,7 @@ function RegisterForm({ onSuccess, className }: {
         <FormInputsForm 
         formInputs={formInputs}
         submitLabel="Send set password email"
-        className={className}
+        className={`register-form ${className ?? ""}`}
         />
     ) 
 };
@@ -58,7 +58,7 @@ function SetPasswordForm({ onSuccess, className }: {
         <FormInputsForm 
         formInputs={formInputs}
         submitLabel="Send set password email"
-        className={className}
+        className={`set-password-form ${className ?? ""}`}
         />
     ) 
 }
@@ -73,7 +73,7 @@ function UpdateForm({ onSuccess, className }: {
         formInputs={updateFormInputs}
         submitLabel="Save"
         hasResetButton={true}
-        className={className}
+        className={`user-update-form ${className ?? ""}`}
         />
     );
 }
@@ -85,7 +85,8 @@ function LogoutButton({ onSuccess } : {
 }) {
     const {mutate} = useLogoutMutation({ onSuccess });
     return (
-        <Button 
+        <Button
+        className="user-logout-button"
         onClick={() => mutate()}
         >
             Logout
@@ -99,6 +100,7 @@ function PasswordResetButton({ onSuccess } : {
     const { mutate } = useSendPasswordEmailMutation({onSuccess})
     return (
         <Button
+        className="user-password-reset-button"
         onClick={() => mutate()}>
             Set password with email
         </Button>
@@ -111,6 +113,8 @@ function DeleteUserButton({ onSuccess }: {
     const {mutate} = useDeleteMutation({onSuccess})
     return (
         <ModalTrigger
+        wrapperClassName="user-delete-button"
+        className="user-delete-trigger"
         button={
             <Span> Delete Profile</Span>
         }

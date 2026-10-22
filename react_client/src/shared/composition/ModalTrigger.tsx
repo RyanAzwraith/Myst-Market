@@ -8,7 +8,7 @@ import {
 import {
 	Modal
 } from '../composition'
-import { twMerge } from "tailwind-merge"
+import { classNames } from "@/utils/classNames"
 
 export { ModalTrigger };
 
@@ -16,22 +16,29 @@ function ModalTrigger({
 	button,
 	render,
 	className,
+	wrapperClassName,
 	modalClassName,
 	modalOverlayClassName,
 	dropdown = false,
+	mobileFullScreen = false,
+	variant,
 	dialogLabel = "Modal",
 }: {
 	button: ReactNode
 	render: (onClose: () => void) => ReactNode
 	className?: string
+	wrapperClassName?: string
 	modalClassName?: string
 	modalOverlayClassName?: string
 	dropdown?: boolean
+	mobileFullScreen?: boolean
+	variant?: "default" | "dropdown"
 	dialogLabel?: string
 }) {
 	const triggerRef = useRef<HTMLButtonElement | null>(null);
 	const wrapperRef = useRef<HTMLDivElement | null>(null);
 	const [open, setOpen] = useState(false);
+	const modalVariant = variant ?? (dropdown ? "dropdown" : "default");
 
 	const openModal = (e: MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
@@ -68,29 +75,31 @@ function ModalTrigger({
 	return (
 	<div
 	ref={wrapperRef}
-	className={dropdown ? "relative inline-block" : undefined}
+	className={classNames(
+		"shared-modal-trigger",
+		wrapperClassName,
+		modalVariant === "dropdown" && "shared-modal-trigger-dropdown",
+		mobileFullScreen &&
+			"shared-modal-trigger-mobile-fullscreen",
+	)}
 	>
 		<button 
 		ref={triggerRef} 
 		onClick={openModal}
-		className={className}
+		className={classNames("shared-modal-trigger-button", className)}
 		children={button}
 		/>
 
 		{open && (
 		<Modal 
-		className={twMerge(
-			dropdown && (
-				"w-80 max-w-[calc(100vw-2rem)] rounded-xl border " +
-				"border-gray-200 bg-white p-4 shadow-xl"
-			),
+		className={classNames(
+			modalVariant === "dropdown" &&
+                "shared-modal-trigger-dropdown-dialog",
 			modalClassName,
 		)}
-		overlayClassName={twMerge(
-			dropdown && (
-				"absolute inset-auto right-0 top-full z-50 mt-2 " +
-				"bg-transparent"
-			),
+		overlayClassName={classNames(
+			modalVariant === "dropdown" &&
+                "shared-modal-trigger-dropdown-overlay",
 			modalOverlayClassName,
 		)}
 		ariaLabel={dialogLabel}

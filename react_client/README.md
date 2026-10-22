@@ -2,6 +2,22 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Styling component roots
+
+DOM-producing components expose a stable class on their top-level element so
+the application can be styled with regular CSS. Shared primitives use the
+`shared-` prefix, while feature and page components use a domain-specific
+lowercase name. Existing utility classes remain in place during the CSS
+migration. Use component variant props, such as `Button`'s `variant` or
+`Card`'s `variant`, for supported style differences instead of adding a
+second root selector.
+
+Stylesheets are imported through
+[`src/app/app.css`](D:/Programming/Myst-Market/react_client/src/app/app.css)
+in this order: reset, design tokens, global rules, shared components, app
+shell, features, hooks, and pages. Feature and page styles are grouped by
+domain rather than split across every component source file.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

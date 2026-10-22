@@ -60,46 +60,38 @@ x Media
 
 Refactor
 24/8
-    Front
-    x create barrels
-    x Implement Interfaces
-    x Create Mock Implementation
-    x Redefine Features
-    x Seperate Pages
-    x Refactor Shared components
-    x Rewrite tests
-    Back
-    - Create barrels
-    - Implement Interfaces
-    - Create Mock Implementation
-    - Rewrite seed
-    - Redefine Features
-    - refactor database
-    - Rewrite tests
+
+
+Deploy
+
+- prevent logging senstive data
+- prevent exposing raw exceptions to client
 
 ---
 
 Loose Ends
 
-- tests: dependency, external
-- security: set-password-token, local storage
-- add loading circles
+- Responsive Layout
+- improve accessability
+- stock updates
+- add proper loading circles
+- improve authenitcation, stale states, implment states
+- improve health endpoint
 - add address autocomplete and mail fees, tax
-- improve success page
 - give item warnings for item resolutions in checkout
 - sort by rating
-- add parcel tacking
-- stock updates
+- add parcel tracking
 - allow bulk delete
-- allow media deletion and refactor delete routes
+- allow only users who bought product to review
 - Select Dates
 - improve ErrorMsgs and Loading
 - refactor form fields so it takes required
 - Make Performace periods work
-- Responsive Layout
 
 Bugs
 
-- user logged in without accessToken
-- order id and address id may not point to same user id
-- catalogue page shows same sale
+- format money
+- idempotency strip payments
+- queryClient creates a new one every render
+- cart can beomce stale after resolved
+- db removes leading zeros on postocode
