@@ -24,13 +24,13 @@ const user = {
     analytics: (userId: number) => `/users/${userId}/analytics`, // Admin
 } as const
 const users = {
-    search: "/users/search", // Admin
+    searchAdmin: "/users/search-admin", // Admin
 } as const
 
 const sale = {
     create: "/sale", // Admin
     byId: (id: number) => `/sale/${id}`, // Admin
-    bySlug: (id: string) => `/sale/${id}`,
+    bySlug: (slug: string) => `/sale/${slug}`,
     image: (id: number) => `/sale/${id}/image`,
     medias: (id: number) => `/sale/${id}/media`,
     analytics: (id: number) => `/sale/${id}/analytics`, // Admin
@@ -38,9 +38,7 @@ const sale = {
 const sales = {
     all: "/sales", // Admin
     biggest: "/sales/biggest",
-    search: "/sales/search", // Admin
-    import: "/sales/import", // Admin
-    export: "/sales/export", // Admin
+    searchAdmin: "/sales/search-admin", // Admin
 } as const
 
 const product = {
@@ -58,9 +56,9 @@ const products = {
     popular: "/products/popular",
     newest: "/products/newest",
     mostSold: "/products/most-sold",
-    search: "/products/search", // Admin and unauthenticated
-    import: "/products/import", // Admin
-    export: "/products/export", // Admin
+    search: "/products/search",
+    searchAdmin: "/products/search-admin", // Admin
+
 } as const
 
 const review = {
@@ -84,7 +82,7 @@ const order = {
 } as const
 const orders = {
     recent: "/orders/recent", // Admin
-    search: "/orders/search", // Admin
+    searchAdmin: "/orders/search-admin", // Admin
     status: "/orders/status", // Admin
 } as const
 

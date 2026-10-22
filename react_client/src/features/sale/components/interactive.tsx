@@ -4,15 +4,11 @@ import { Button } from "@/shared";
 import { FormInputsForm } from "@/hooks/FormInputs";
 import { useCreateForm, useUpdateForm } from "../hook";
 import {
-    ImportButton,
-    downloadCsv,
     type SaleAnalytics,
 } from "../index"
 
 import { 
     useDeleteMutation,
-    useExportMutation,
-    useImportMutation,
 } from "../service"
 
 
@@ -20,8 +16,6 @@ export {
     CreateForm,
     UpdateForm,
     DeleteButton,
-    ImportSalesButton,
-    ExportSalesButton,
 }
 
 
@@ -72,32 +66,4 @@ function DeleteButton({ saleId, onClick }: {
             Delete sale
         </Button>
     )
-}
-
-function ImportSalesButton() {
-	const mutation = useImportMutation()
-
-	return (
-		<ImportButton
-		label="Import Sales"
-		isPending={mutation.isPending}
-		onFileSelected={(file: File) => mutation.mutate(file)}
-		/>
-	)
-}
-
-function ExportSalesButton() {
-	const mutation = useExportMutation()
-	return (
-		<Button
-		type="button"
-		disabled={mutation.isPending}
-		onClick={() => void downloadCsv(
-			mutation.mutateAsync,
-			"sales.csv",
-		)}
-		>
-			{mutation.isPending ? "Exporting..." : "Export Sales"}
-		</Button>
-	)
 }

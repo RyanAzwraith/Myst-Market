@@ -44,9 +44,9 @@ function mockCatalogueData() {
     const getStats = vi.spyOn(server.app, "getStats")
         .mockResolvedValue({
             stats: {
-                product_count: 24,
-                customer_count: 18,
-                total_average_rating: 4.2,
+                productCount: 24,
+                customerCount: 18,
+                totalAverageRating: 4.2,
             },
         })
     const retrieveFeatured = vi.spyOn(

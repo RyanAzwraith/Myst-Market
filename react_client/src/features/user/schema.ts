@@ -54,6 +54,13 @@ type UserAnalytics = UserSummary & {
     reviewCount: number,
 }
 
+type AdminSearchParams = {
+    isAscending: boolean,
+    sortBy: AdminSort ,
+    search: string,
+    registration: Registration[],
+}
+
 
 // Enums
 
@@ -75,11 +82,4 @@ const registration  = {
 } as const
 
 type Registration = keyof typeof registration
-
-type AdminSearchParams = {
-    isAscending: boolean,
-    sortBy: AdminSort ,
-    search: string,
-    registration: Registration[],
-}
 

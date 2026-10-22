@@ -32,8 +32,6 @@ export {
     useNewestQuery,
     useTopQuery,
     usePatchManyMutation,
-    useImportMutation,
-    useExportMutation,
 }
 
 
@@ -259,23 +257,5 @@ function usePatchManyMutation() {
                 queryKey: ['admin', 'productAnalytics']
             })
         }
-    })
-}
-
-function useImportMutation() {
-    const { invalidateQueries } = useQueryClient()
-    return useMutation({
-        mutationFn: (file: File) => 
-            server.products.import({ file }),
-        onSuccess: () => invalidateQueries({
-            queryKey: ["products"],
-        })
-    })
-}
-
-function useExportMutation() {
-    return useMutation({
-        mutationFn: () => 
-            server.products.export(),
     })
 }

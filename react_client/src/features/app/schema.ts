@@ -8,9 +8,9 @@ export type {
 }
 
 type Stats = {
-    product_count: number,
-    customer_count: number,
-    total_average_rating: number,
+    productCount: number,
+    customerCount: number,
+    totalAverageRating: number,
 }
 
 type Performance = {

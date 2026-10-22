@@ -1,25 +1,33 @@
 from fastapi import APIRouter
 
-from app.api.test_api import router as test_router
-from app.features.user.user_api import router as user_router
-from app.features.shop.shop_api import router as shop_router
-from app.features.checkout.checkout_api import router as checkout_router
-from app.features.review.review_api import router as review_router
-from app.features.catalogue.catalogue_api import router as catalogue_router
-from app.features.admin.admin_api import router as admin_router
-from app.features.media.media_api import router as media_router
+from app.features.media.api import media_router
+from app.features.auth.api import auth_router
+from app.features.app.api import app_router
+from app.features.item.api import items_router
+from app.features.order.api import order_router, orders_router, stripe_router
+from app.features.product.api import product_router, products_router
+from app.features.review.api import review_router, reviews_router
+from app.features.sale.api import sale_router, sales_router
+from app.features.user.api import user_router
 
 router = APIRouter()
-router.include_router(test_router)
+router.include_router(auth_router)
+router.include_router(app_router)
+router.include_router(items_router)
+router.include_router(orders_router)
+router.include_router(order_router)
+router.include_router(stripe_router)
 router.include_router(user_router)
-router.include_router(shop_router)
-router.include_router(checkout_router)
+router.include_router(sale_router)
+router.include_router(sales_router)
+router.include_router(product_router)
+router.include_router(products_router)
 router.include_router(review_router)
-router.include_router(catalogue_router)
-router.include_router(admin_router, prefix="/admin")
+router.include_router(reviews_router)
 router.include_router(media_router)
-
 
 @router.get("/health")
 def getHealth():
     return 200
+
+

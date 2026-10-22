@@ -31,8 +31,10 @@ function Carousel({
 
     if (content.length === 0) return null
 
+    const visibleCount = Math.min(limit, content.length)
+    const maxOffset = content.length - visibleCount
     const shownContent = []
-    for (let i = 0; i < Math.min(limit, content.length); i++) {
+    for (let i = 0; i < visibleCount; i++) {
         shownContent.push(content[(offset + i) % content.length])
     }
 
@@ -47,7 +49,7 @@ function Carousel({
         className={iconClassName}
         buttonClassName={iconButtonClassName}
         onClick={() => 
-            setOffset(o => (o - 1 + content.length) % content.length)
+            setOffset(o => o === 0 ? maxOffset : o - 1)
         }/>
 
         {shownContent}
@@ -57,7 +59,7 @@ function Carousel({
         className={iconClassName}
         buttonClassName={iconButtonClassName}
         onClick={() => 
-            setOffset(o => (o + 1) % content.length)
+            setOffset(o => o === maxOffset ? 0 : o + 1)
         }/>
     </> 
     } />

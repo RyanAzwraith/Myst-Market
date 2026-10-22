@@ -14,9 +14,7 @@ import {
     useAnalyticsQuery,
     useBiggestQuery,
     useDeleteMutation,
-    useExportMutation,
     useImageQuery,
-    useImportMutation,
     useMediasQuery,
     usePatchManyMutation,
     usePatchMutation,
@@ -211,39 +209,5 @@ describe("useDeleteMutation intimacy: medium", () => {
         expect(invalidate).toHaveBeenCalledWith({
             queryKey: ["admin", "sales"],
         })
-    })
-})
-
-describe("useImportMutation intimacy: medium", () => {
-    it("functionality submits a file for import", async () => {
-        const file = new File(["sale"], "sales.csv", { type: "text/csv" })
-        const importSales = vi.spyOn(server.sales, "import")
-            .mockResolvedValue({
-                imported: 1,
-                updated: 0,
-                failed: 0,
-                errors: [],
-            })
-        const { wrapper } = createWrapper()
-        const { result } = renderHook(() => useImportMutation(), { wrapper })
-
-        result.current.mutate(file)
-
-        await waitFor(() => expect(importSales).toHaveBeenCalledWith({
-            file,
-        }))
-    })
-})
-
-describe("useExportMutation intimacy: medium", () => {
-    it("functionality returns the exported file", async () => {
-        const file = new Blob(["csv"])
-        const exportSales = vi.spyOn(server.sales, "export")
-            .mockResolvedValue(file)
-        const { wrapper } = createWrapper()
-        const { result } = renderHook(() => useExportMutation(), { wrapper })
-
-        await expect(result.current.mutateAsync()).resolves.toBe(file)
-        expect(exportSales).toHaveBeenCalledOnce()
     })
 })

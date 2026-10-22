@@ -17,9 +17,9 @@ export {
 faker.seed(12345)
 
 const statsFactory = (): Stats => ({
-    product_count: faker.number.int({ min: 1, max: 100 }),
-    customer_count: faker.number.int({ min: 1, max: 100 }),
-    total_average_rating: faker.number.float({
+    productCount: faker.number.int({ min: 1, max: 100 }),
+    customerCount: faker.number.int({ min: 1, max: 100 }),
+    totalAverageRating: faker.number.float({
         min: 1,
         max: 5,
         fractionDigits: 1,

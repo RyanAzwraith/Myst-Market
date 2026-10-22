@@ -15,14 +15,7 @@ import { Button, List, Inline } from "@/shared"
 import { useSearchParams } from "../hook"
 
 import { 
-    downloadCsv,
-    ImportButton,
-} from "../index"
-
-import { 
     useDeleteMutation,
-    useExportMutation,
-    useImportMutation,
 } from "../service";
 
 
@@ -32,8 +25,6 @@ export {
     
     CategoryBar,
     DeleteButton,    
-    ImportProductsButton,
-    ExportProductsButton,
 };
 
 
@@ -108,32 +99,4 @@ function DeleteButton({ productId, onClick }: {
             Delete product
         </Button>
     )
-}
-
-function ImportProductsButton() {
-	const mutation = useImportMutation()
-	return (
-		<ImportButton
-        label="Import Products"
-        isPending={mutation.isPending}
-        onFileSelected={(file: File) => mutation.mutate(file)}
-		/>
-	)
-}
-
-function ExportProductsButton() {
-	const mutation = useExportMutation()
-
-	return (
-		<Button
-        type="button"
-        disabled={mutation.isPending}
-        onClick={() => void downloadCsv(
-            mutation.mutateAsync,
-            "products.csv",
-        )}
-		>
-			{mutation.isPending ? "Exporting..." : "Export Products"}
-		</Button>
-	)
 }

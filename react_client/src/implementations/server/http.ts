@@ -81,7 +81,7 @@ const user: Interface.User = {
 
 const users: Interface.Users = {
     adminSearch: (req) =>
-        authRequest(serverRoutes.users.search, {
+        authRequest(serverRoutes.users.searchAdmin, {
             method: "POST",
             body: JSON.stringify(req),
         }),
@@ -129,7 +129,7 @@ const sales: Interface.Sales = {
             body: JSON.stringify(req),
         }),
     adminSearch: (req) =>
-        authRequest(serverRoutes.sales.search, {
+        authRequest(serverRoutes.sales.searchAdmin, {
             method: "POST",
             body: JSON.stringify(req),
         }),
@@ -137,21 +137,7 @@ const sales: Interface.Sales = {
         authRequest(serverRoutes.sales.all, {
             method: "PATCH",
             body: JSON.stringify(req),
-        }),
-    import: ({ file }) => {
-        const body = new FormData()
-        body.append("file", file, file.name)
-        return authRequest(
-            serverRoutes.sales.import, {
-                method: "POST",
-                body,
         })
-    },
-    export: () => 
-        authRequest(
-            serverRoutes.sales.export, {
-                responseType: "blob",
-        }),
 }
 
 const product: Interface.Product = {
@@ -225,7 +211,7 @@ const products: Interface.Products = {
         }),
     adminSearch: (req) =>
         authRequest(
-            serverRoutes.products.search, {
+            serverRoutes.products.searchAdmin, {
                 method: "POST",
                 body: JSON.stringify(req),
         }),
@@ -234,20 +220,6 @@ const products: Interface.Products = {
             serverRoutes.products.all, {
                 method: "PATCH",
                 body: JSON.stringify(req),
-        }),
-    import: ({ file }) => {
-        const body = new FormData()
-        body.append("file", file, file.name)
-        return authRequest(
-            serverRoutes.products.import, {
-                method: "POST",
-                body,
-        })
-    },
-    export: () => 
-        authRequest(
-        serverRoutes.products.export, {
-            responseType: "blob",
         }),
 }
 
@@ -309,7 +281,7 @@ const orders: Interface.Orders = {
     getRecent: () => authRequest(serverRoutes.orders.recent),
     adminSearch: (req) =>
         authRequest(
-            serverRoutes.orders.search, {
+            serverRoutes.orders.searchAdmin, {
                 method: "POST",
                 body: JSON.stringify(req),
             }),

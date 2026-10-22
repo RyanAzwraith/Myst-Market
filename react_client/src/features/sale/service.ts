@@ -26,8 +26,6 @@ export {
     useDeleteMutation,
     useAdminSearchQuery,
     useBiggestQuery,
-    useImportMutation,
-    useExportMutation,
 }
 
 
@@ -169,22 +167,3 @@ function useDeleteMutation({
     })
 }
 
-
-
-function useImportMutation() {
-    const { invalidateQueries } = useQueryClient()
-    return useMutation({
-        mutationFn: (file: File) => 
-            server.sales.import({ file }),
-        onSuccess: () => invalidateQueries({
-            queryKey: ["sales"],
-        })
-    })
-}
-
-function useExportMutation() {
-    return useMutation({
-        mutationFn: () => 
-            server.sales.export(),
-    })
-}

@@ -14,10 +14,8 @@ import {
     useAdminSearchQuery,
     useAnalyticsQuery,
     useDeleteMutation,
-    useExportMutation,
     useFeaturedQuery,
     useImageQuery,
-    useImportMutation,
     useMediasQuery,
     useNewestQuery,
     usePatchManyMutation,
@@ -438,46 +436,3 @@ describe("usePatchManyMutation intimacy: medium", () => {
     )
 })
 
-describe("useImportMutation intimacy: medium", () => {
-    it("functionality imports a product file and invalidates products",
-        async () => {
-            const file = new File(["product"], "products.csv", {
-                type: "text/csv",
-            })
-            const importProducts = vi.spyOn(server.products, "import")
-                .mockResolvedValue({
-                    imported: 1,
-                    updated: 0,
-                    failed: 0,
-                    errors: [],
-                })
-                const { client, wrapper } = createWrapper()
-                const invalidate = vi.spyOn(client, "invalidateQueries")
-                const { result } = renderHook(() => useImportMutation(), {
-                    wrapper,
-                })
-
-            await result.current.mutateAsync(file)
-
-            expect(importProducts).toHaveBeenCalledWith({ file })
-            expect(invalidate).toHaveBeenCalledWith({
-                queryKey: ["products"],
-            })
-        },
-    )
-})
-
-describe("useExportMutation intimacy: medium", () => {
-    it("functionality returns the exported product file", async () => {
-        const file = new Blob(["products"])
-        const exportProducts = vi.spyOn(server.products, "export")
-            .mockResolvedValue(file)
-        const { wrapper } = createWrapper()
-        const { result } = renderHook(() => useExportMutation(), {
-            wrapper,
-        })
-
-        await expect(result.current.mutateAsync()).resolves.toBe(file)
-        expect(exportProducts).toHaveBeenCalledOnce()
-    })
-})

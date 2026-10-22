@@ -1,169 +1,139 @@
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx [queued]
+ ❯ tests/features/auth/components/loader.test.tsx [queued]
+ ❯ tests/features/item/components/loader.test.tsx [queued]
+ ❯ tests/shared/composition/Carousel.test.tsx (3 tests | 1 failed) 473ms
+     ✓ functionality renders the initial content window 246ms
+     × moves the content window forward and wraps around 215ms
+     · renders nothing when there is no content
+ ↓ tests/features/sale/components/loader.test.tsx (3 tests)
 
-> client@0.0.0 test:run
-> vitest run --silent=passed-only /hooks/FormInputs
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx [queued]
+ ❯ tests/features/app/hooks.test.ts [queued]
+ ❯ tests/features/auth/components/loader.test.tsx [queued]
+ ↓ tests/features/item/components/loader.test.tsx (2 tests)
+ ✓ tests/shared/composition/LoadContent.test.tsx (3 tests | 2 skipped) 261ms
 
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx [queued]
+ ❯ tests/features/app/hooks.test.ts [queued]
+ ❯ tests/features/auth/components/loader.test.tsx [queued]
+ ↓ tests/features/review/components/loader.test.tsx (2 tests)
 
- RUN  v4.1.8 D:/Programming/Myst-Market/react_client
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx [queued]
+ ❯ tests/features/app/hooks.test.ts [queued]
+ ❯ tests/features/auth/components/loader.test.tsx [queued]
+ ↓ tests/pages/register.test.tsx (3 tests)
 
- ✓ tests/hooks/FormInputs/schema.test.ts (1 test) 4ms
- ❯ tests/hooks/FormInputs/services.test.ts (10 tests | 2 failed) 40ms
-     ✓ functionality initializes values and updates bindings 13ms
-     ✓ uses field defaults when validating missing values 3ms
-     ✓ returns and exposes custom field validation errors 4ms
-     × validates required and malformed email values 6ms
-     ✓ runs form-level validation with normalized values 3ms
-     ✓ resets values to initial or supplied values and clears errors 2ms
-     ✓ prevents invalid submission and does not call onSubmit 2ms
-     × submits valid values and resets the form 5ms
-     ✓ functionality exposes field metadata and reads its value 1ms
-     ✓ updates one field while preserving other values 0ms
- ❯ tests/hooks/FormInputs/components.test.tsx (12 tests | 3 failed) 1636ms
-     ✓ functionality reflects and updates a boolean binding 144ms
-     ✓ functionality updates text values and converts blank input to null 200ms
-     ✓ functionality updates and clears textarea values  352ms
-     ✓ functionality converts numeric input and clears to null 108ms
-     ✓ functionality renders an email input and updates its value 292ms     ✓ functionality renders a password input and updates its value 138ms
-     × functionality renders options and updates the selected value 14ms
-     ✓ functionality toggles multiple selected options 108ms
-     × functionality submits its children and forwards the class name 14ms
-     ✓ functionality renders the field control selected by each kind 4ms
-     × functionality renders, submits, and resets the form 199ms
-     ✓ shows validation errors and does not submit invalid values 60ms
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx [queued]
+ ❯ tests/features/app/hooks.test.ts [queued]
+ ❯ tests/features/auth/components/loader.test.tsx [queued]
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
- FAIL  tests/hooks/FormInputs/components.test.tsx > SelectOneField intimacy: low > functionality renders options and updates the selected value
-Error: expect(element).toHaveValue()
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx [queued]
+ ❯ tests/features/app/hooks.test.ts [queued]
+ ❯ tests/features/auth/components/loader.test.tsx [queued]
+ ↓ tests/pages/setPassword.test.tsx (2 tests)
+ ↓ tests/features/review/components/presentation.test.tsx (3 tests)
+ ↓ tests/features/order/components/interactive.test.tsx (2 tests)
 
-Expected the element to have value:
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx [queued]
+ ❯ tests/features/app/hooks.test.ts [queued]
+ ❯ tests/features/auth/components/loader.test.tsx 0/2
+ ↓ tests/features/auth/components/loader.test.tsx (2 tests)
+ ↓ tests/features/app/components/loader.test.tsx (2 tests)
+ ✓ tests/features/app/hooks.test.ts (2 tests) 22ms
 
-Received:
-  draft
- ❯ tests/hooks/FormInputs/components.test.tsx:421:28
-    419|
-    420|             const select = screen.getByLabelText("Status")
-    421|             expect(select).toHaveValue("")
-       |                            ^
-    422|             expect(screen.getByRole("option", {
-    423|                 name: "Published",
+ ❯ tests/app/Scaffold.test.tsx [queued]
+ ❯ tests/features/app/components/loader.test.tsx 2/2
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
- FAIL  tests/hooks/FormInputs/components.test.tsx > FormInputsContainer intimacy: low > functionality submits its children and forwards the class name
-TestingLibraryElementError: Unable to find an accessible element with the role "form"
+ ❯ tests/app/Scaffold.test.tsx 0/2
+ ❯ tests/features/app/components/loader.test.tsx 2/2
+ ↓ tests/app/Scaffold.test.tsx (2 tests)
+ ✓ tests/features/order/components/presentation.test.tsx (3 tests) 46ms
+ ✓ tests/features/review/components/composition.test.tsx (2 tests) 196ms
 
-Here are the accessible roles:
-
-  button:
-
-  Name "Save":
-  <button
-    type="submit"
-  />
-
-  --------------------------------------------------
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+ FAIL  tests/shared/composition/Carousel.test.tsx > Carousel intimacy: low > moves the content window forward and wraps around
+TestingLibraryElementError: Unable to find an element with the text: Item 2. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
 
 Ignored nodes: comments, script, style
 <body>
   <div>
-    <form
-      class="form-class"
+    <div
+      class="flex false gap-4 items-center justify-center w-full min-w-0"
     >
       <button
-        type="submit"
+        aria-label="Previous items"
+        type="button"
       >
-        Save
+        <svg
+          aria-hidden="true"
+          aria-label="Previous items"
+          class="h-8 w-8"
+          data-slot="icon"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
+            fill-rule="evenodd"
+          />
+        </svg>
       </button>
-    </form>
+      <span>
+        Item 4
+      </span>
+      <span>
+        Item 1
+      </span>
+      <button
+        aria-label="Next items"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          aria-label="Next items"
+          class="h-8 w-8"
+          data-slot="icon"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
 </body>
  ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
  ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
  ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
- ❯ getByRole node_modules/@testing-library/dom/dist/query-helpers.js:95:19
- ❯ tests/hooks/FormInputs/components.test.tsx:471:27
-    469|             )
-    470|
-    471|             expect(screen.getByRole("form"))
-       |                           ^
-    472|                 .toHaveClass("form-class")
-    473|
+ ❯ getByText node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/shared/composition/Carousel.test.tsx:62:23
+     60|
+     61|         expect(screen.getByText("Item 1")).toBeInTheDocument()
+     62|         expect(screen.getByText("Item 2")).toBeInTheDocument()
+       |                       ^
+     63|     })
+     64|
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
- FAIL  tests/hooks/FormInputs/components.test.tsx > FormInputsForm intimacy: high > functionality renders, submits, and resets the form
-AssertionError: expected "vi.fn()" to be called with arguments: [ { name: 'Moon Orb', …(1) } ]
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
 
-Received:
-
-  1st vi.fn() call:
-
-  [
-    {
-      "name": "Moon Orb",
--     "status": "draft",
-+     "status": null,
-    },
-  ]
+ Test Files  1 failed | 65 passed | 10 skipped (88)
+      Tests  1 failed | 419 passed | 2 skipped (446)
+   Start at  17:37:11
+   Duration  29.24s (transform 27.55s, setup 32.60s, import 143.94s, tests 41.72s, environment 179.15s)
 
 
-Number of calls: 1
-
- ❯ tests/hooks/FormInputs/components.test.tsx:500:26
-    498|         await user.click(screen.getByRole("button", { name: "…    499|
-    500|         expect(onSubmit).toHaveBeenCalledWith({
-       |                          ^
-    501|             name: "Moon Orb",
-    502|             status: "draft",
-
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
- FAIL  tests/hooks/FormInputs/services.test.ts > useFormInputs intimacy: high > validates required and malformed email values
-AssertionError: expected null to be 'Email required' // Object.is equality
-
-- Expected:
-"Email required"
-
-+ Received:
-null
-
- ❯ tests/hooks/FormInputs/services.test.ts:128:33
-    126|             validationError = result.current.validate()
-    127|         })
-    128|         expect(validationError).toBe("Email required")
-       |                                 ^
-    129|
-    130|         act(() => {
-
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
- FAIL  tests/hooks/FormInputs/services.test.ts > useFormInputs intimacy: high > submits valid values and resets the form
-AssertionError: expected "vi.fn()" to be called with arguments: [ { status: 'published' }, …(2) ]
-
-Received:
-
-  1st vi.fn() call:
-
-  [
-    {
--     "status": "published",
-+     "status": null,
-    },
--   Any<Function>,
--   Any<Function>,
-+   [Function bound dispatchSetState],
-+   [Function t2],
-  ]
-
-
-Number of calls: 1
-
- ❯ tests/hooks/FormInputs/services.test.ts:260:26
-    258|
-    259|         expect(preventDefault).toHaveBeenCalledOnce()
-    260|         expect(onSubmit).toHaveBeenCalledWith(
-       |                          ^
-    261|             { status: statusOptions.published },
-    262|             expect.any(Function),
-
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
-
- Test Files  2 failed | 1 passed (3)
-      Tests  5 failed | 18 passed (23)
-   Start at  19:40:47
-   Duration  4.32s (transform 1.54s, setup 1.10s, import 1.80s, tests 1.68s, environment 3.15s)
+D:\Programming\Myst-Market\react_client>

@@ -43,11 +43,7 @@ interface Server {
 
 interface App {
     getStats: () => Promise<{
-        stats: {
-            product_count: number,
-            customer_count: number,
-            total_average_rating: number,
-        }
+        stats: app.Stats
     }>
     getAttention: () => Promise<{ attention: app.Attention }>
     getGraph: () => Promise<{ graphPoints: app.GraphPoint[] }>
@@ -120,7 +116,7 @@ interface Sale {
 
     getAnalytics: (id: number) => Promise<{ sale: sale.SaleAnalytics }>
 
-    create: (req : Omit<sale.Sale, 'id'>) => Promise<void>
+    create: (req : sale.SaleInput) => Promise<void>
 
     patch: (id: number, req: Partial<sale.Sale>) => Promise<void>
 
@@ -142,7 +138,7 @@ interface Sales {
         searchParams: Partial<sale.AdminSearchParams> | null,
         limit: number | null,
         offset: number
-    }) => Promise<{ 
+    }) => Promise<{  
         sales: sale.SaleAnalytics[], 
         hasMore: boolean 
     }>
@@ -154,20 +150,6 @@ interface Sales {
         discountPercent: number | null
     }>) => Promise<void>
 
-    import: (req : { 
-        file: File 
-    }) => Promise<{
-        imported: number
-        updated: number
-        failed: number
-        errors: {
-            row: number
-            field: string | null
-            message: string
-        }[]
-    }>
-
-    export: () => Promise<Blob>
 }
 
 interface Product {
@@ -246,21 +228,7 @@ interface Products {
         priceAudCent: number | null
         stock: number | null
     }>) => Promise<void>
-    
-    import: (req : { 
-        file: File 
-    }) => Promise<{
-        imported: number
-        updated: number
-        failed: number
-        errors: {
-            row: number
-            field: string | null
-            message: string
-        }[]
-    }>
 
-    export: () => Promise<Blob>
 }
 
 interface Review {
@@ -325,4 +293,3 @@ interface Orders {
         status: order.Status
     }) => Promise<void>  
 }
-

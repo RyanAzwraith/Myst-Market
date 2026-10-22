@@ -109,13 +109,6 @@ const salesInterface: Interface.Sales = {
         hasMore: true,
     }),
     patch: async () => {},
-    import: async () => ({
-        imported: 0,
-        updated: 0,
-        failed: 0,
-        errors: [],
-    }),
-    export: async () => new Blob(),
 }
 
 const productInterface: Interface.Product = {
@@ -160,13 +153,6 @@ const productsInterface: Interface.Products = {
         hasMore: true,
     }),
     patch: async () => {},
-    import: async () => ({
-        imported: 0,
-        updated: 0,
-        failed: 0,
-        errors: [],
-    }),
-    export: async () => new Blob(),
 }
 
 const reviewInterface: Interface.Review = {

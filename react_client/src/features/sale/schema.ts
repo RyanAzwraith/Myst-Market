@@ -3,6 +3,7 @@ import type { DateStr } from '@/utils/DateStr'
 export type {
     SaleSummary,
     Sale,   
+    SaleInput,
     SaleAnalytics,
     AdminSearchParams,
 
@@ -30,6 +31,7 @@ type Sale =
     startAt: DateStr
     endAt: DateStr
 }
+type SaleInput = Omit<Sale, "id">
 
 type SaleAnalytics = 
     Sale & {

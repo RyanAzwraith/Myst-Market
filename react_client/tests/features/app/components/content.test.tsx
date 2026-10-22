@@ -15,9 +15,9 @@ describe("StatsInfo intimacy: medium", () => {
     it("functionality renders statistics and average rating", async () => {
         vi.spyOn(server.app, "getStats").mockResolvedValue({
             stats: {
-                product_count: 42,
-                customer_count: 18,
-                total_average_rating: 4.2,
+                productCount: 42,
+                customerCount: 18,
+                totalAverageRating: 4.2,
             },
         })
 

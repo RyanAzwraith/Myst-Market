@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import "./app.css";
 
 import { PageRoutesComponent } from '@/app/PageRoutes';
-import { ThemeProvider } from "@/app/ThemeProvider";
 import { Scaffold } from "@/app/Scaffold";
 
 

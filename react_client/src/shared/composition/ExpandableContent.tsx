@@ -31,21 +31,23 @@ function ExpandableContent({
     <>
         {shownChildren}
             
-        { isExpandable && isExpanded ? 
-        <ChevronUpIcon 
-        ariaLabel="Collapse content"
-        className={iconClassName}
-        buttonClassName={iconButtonClassName}
-        onClick={() => setIsExpanded((current) => !current)}
-        />
-            : 
-        <ChevronDownIcon 
-        ariaLabel="Expand content"
-        className={iconClassName}
-        buttonClassName={iconButtonClassName}
-        onClick={() => setIsExpanded((current) => !current)}
-        />
-        }
+        {isExpandable && (
+            isExpanded ? (
+                <ChevronUpIcon 
+                ariaLabel="Collapse content"
+                className={iconClassName}
+                buttonClassName={iconButtonClassName}
+                onClick={() => setIsExpanded((current) => !current)}
+                />
+            ) : (
+                <ChevronDownIcon 
+                ariaLabel="Expand content"
+                className={iconClassName}
+                buttonClassName={iconButtonClassName}
+                onClick={() => setIsExpanded((current) => !current)}
+                />
+            )
+        )}
     </>
     )
 }

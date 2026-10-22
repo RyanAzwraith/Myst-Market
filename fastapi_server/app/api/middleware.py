@@ -7,7 +7,7 @@ async def log_requests(request: Request, call_next):
     body = await request.body()
     response = await call_next(request)
     get_logger().requests.debug(
-        f"""req: {request.method} {request.url} - {dict(request.headers).get("Authorization")}
+        f"""req: {request.method} {request.url} - {request.headers.get("Authorization")}
         {body.decode(errors="replace")}
         res: {response.status_code}
         """
@@ -24,6 +24,5 @@ def init_middleware(app, cors_origins):
     )
 
     app.middleware("http")(log_requests)
-
 
 

@@ -15,10 +15,6 @@ import { ExclamationTriangleIcon } from '@/shared';
 import type { Performance } from '../schema';
 
 import {
-    RatingFormat,
-} from "../index"
-
-import {
     useStatsQuery,
 	useAttentionQuery,
 	useGraphQuery,
@@ -40,25 +36,25 @@ function StatsInfo() {
     <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-3">
         <Card className="flex min-h-28 flex-col justify-center text-center">
             <Text className="text-3xl font-bold text-blue-600">
-                {stats.product_count}
+                {stats.productCount}
             </Text>
             <Text variant="muted">Items discovered</Text>
         </Card>
         <Card className="flex min-h-28 flex-col justify-center text-center">
             <Text className="text-3xl font-bold text-blue-600">
-                {stats.customer_count}
+                {stats.customerCount}
             </Text>
             <Text variant="muted">Adventurers served</Text>
         </Card>
         <Card className="flex min-h-28 flex-col items-center justify-center">
             <Text className="text-3xl font-bold text-blue-600">
-                {stats.total_average_rating.toFixed(1)}
+                {stats.totalAverageRating.toFixed(1)}
             </Text>
             <Inline>
                 <List
                 items={Array.from({ length: 5 })}
                 render={(_, n) => 
-                    n + 1 <= stats.total_average_rating ? 
+                    n + 1 <= stats.totalAverageRating ? 
                     <StarSolidIcon key={`rating-${n}`} /> 
                         : 
                     <StarOutlineIcon key={`rating-${n}`} />

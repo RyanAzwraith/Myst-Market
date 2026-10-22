@@ -1,75 +1,102 @@
-import pytest
-from fastapi.testclient import TestClient
+
+import importlib
 import os
+from unittest.mock import MagicMock, patch
 
-from app.create_app import create_app
-from app.db.database import Base
-from app.api.dependencies import get_session
+os.environ["ENVIRONMENT"] = "test"
 
-from tests.user_feature.user_fixtures import *
-from tests.shop_feature.shop_fixtures import *
-from tests.review_feature.review_fixtures import *
-from tests.catalogue_feature.catalogue_fixtures import *
-from tests.admin_feature.admin_fixtures import *
-from tests.media_feature.media_fixtures import *
+import pytest
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
+pytest_plugins = (
+    "tests.features.user.fixtures",
+    "tests.features.auth.fixtures",
+    "tests.features.sale.fixtures",
+    "tests.features.product.fixtures",
+    "tests.features.review.fixtures",
+    "tests.features.item.fixtures",
+    "tests.features.order.fixtures",
+    "tests.features.media.fixtures",
+    "tests.features.app.fixtures",
+    "tests.api.fixtures",
+    "tests.core.fixtures",
+    "tests.create_app.fixtures",
+    "tests.implementations.media_system.fixtures",
+    "tests.implementations.database.sqlite.fixtures",
+)
 
-def pytest_configure():
-    os.environ["ENVIRONMENT"] = "test"
-
-
-@pytest.fixture(scope="session", autouse=True)
-def app():
-    app = create_app()
-    db = app.state.db
-
-    Base.metadata.drop_all(db.engine)
-    Base.metadata.create_all(db.engine)
-
-    yield app
-
-    Base.metadata.drop_all(db.engine)
-
-
-@pytest.fixture(scope="session")
-def client(app):
-    yield TestClient(app)
+from app.api.dependencies import get_db
+from app.interfaces.database import Database
+from app.interfaces.media_system import MediaSystem
 
 
-@pytest.fixture()
-def session(app):
-    connection = app.state.db.engine.connect()
-    transaction = connection.begin()
+@pytest.fixture
+def database():
+    db = MagicMock(spec=Database)
+    db.engine = MagicMock()
+    db.media = MagicMock()
 
-    session = app.state.db.make_session(bind=connection)
-    app.dependency_overrides[get_session] = lambda: session
+    def session_factory():
+        yield MagicMock(name="database_session")
 
-    try:
-        yield session
-    finally:
-        session.close()
-        transaction.rollback()
-        connection.close()
-        app.dependency_overrides.clear()
+    db.session_factory.side_effect = session_factory
+    db.with_session.return_value = db
+
+    return db
 
 
-@pytest.fixture(scope="class")
-def persistant_session(app):
-    connection = app.state.db.engine.connect()
-    transaction = connection.begin()
+@pytest.fixture
+def media_system():
+    return MagicMock(spec=MediaSystem)
 
-    session = app.state.db.make_session(bind=connection)
-    app.dependency_overrides[get_session] = lambda: session
 
-    try:
-        yield session
-    finally:
-        session.close()
-        transaction.rollback()
-        connection.close()
-        app.dependency_overrides.clear()
+@pytest.fixture
+def app(database, media_system) -> FastAPI:
+    create_app_module = importlib.import_module("app.create_app")
+    media_api_module = importlib.import_module(
+        "app.features.media.api"
+    )
+
+    with (
+        patch.object(
+            create_app_module,
+            "init_database",
+            return_value=database,
+        ),
+        patch.object(
+            create_app_module,
+            "init_media_system",
+            return_value=media_system,
+        ),
+        patch.object(
+            media_api_module,
+            "get_media_system",
+            return_value=media_system,
+        ),
+    ):
+        application = create_app_module.create_app()
+
+        def override_get_db():
+            yield database
+
+        application.dependency_overrides[get_db] = override_get_db
+
+        try:
+            yield application
+        finally:
+            application.dependency_overrides.clear()
+
+
+@pytest.fixture
+def client(app: FastAPI):
+    with TestClient(app) as test_client:
+        yield test_client
 
 
 @pytest.fixture(autouse=True)
 def mock_external_services(monkeypatch):
-    monkeypatch.setattr("resend.Emails.send", lambda *a, **k: None)
+    monkeypatch.setattr(
+        "resend.Emails.send",
+        lambda *args, **kwargs: None,
+    )

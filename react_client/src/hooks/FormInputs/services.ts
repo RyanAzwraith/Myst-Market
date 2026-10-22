@@ -59,21 +59,21 @@ function useFormInputs<
         setErrorMsg(null);
     };
 
-    const validate = () => {
-        const values = mapRecord(fields, (field, key) => 
+    const getValues = () => mapRecord(fields, (field, key) => 
             fieldValues[key] ??
             ("defaultValue" in field
                 ? field.defaultValue
                 : null)
         ) as FieldValues<F>
-        
+
+    const validateValues = (values: FieldValues<F>) => {
         let error = null;
         for (const [key, field] of Object.entries(fields)) {
             const value = values[key];
 
             if (field.kind === 'email') error = validateEmail(value);
 
-            error = field.validate?.(value);
+            error = error ?? field.validate?.(value) ?? null;
             if (error) {
                 setErrorMsg(error);
                 return error;
@@ -91,10 +91,13 @@ function useFormInputs<
         return null;
     }
 
+    const validate = () => validateValues(getValues());
+
     const handleSubmit = ( event: SubmitEvent<HTMLFormElement> ) => {
         event.preventDefault();
-        if (validate()) return;
-        onSubmit?.(fieldValues, setErrorMsg, reset);
+        const values = getValues();
+        if (validateValues(values)) return;
+        onSubmit?.(values, setErrorMsg, reset);
         reset()
     };
 

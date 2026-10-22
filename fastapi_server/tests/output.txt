@@ -1,0 +1,62 @@
+======================================================================= test session starts ========================================================================
+platform win32 -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
+rootdir: D:\Programming\Myst-Market\fastapi_server
+configfile: pytest.ini (WARNING: ignoring pytest config in pyproject.toml!)
+testpaths: tests
+plugins: anyio-4.13.0, Faker-40.21.0, asyncio-1.4.0, typeguard-4.5.2
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 321 items                                                                                                                                                 
+
+tests\api\dependencies_test.py ..........                                                                                                                     [  3%]
+tests\api\exception_handlers_test.py .....                                                                                                                    [  4%]
+tests\api\middleware_test.py ..                                                                                                                               [  5%]
+tests\api\paths_test.py ....                                                                                                                                  [  6%]
+tests\api\router_test.py ..                                                                                                                                   [  7%]
+tests\core\base_test.py ...                                                                                                                                   [  8%]
+tests\core\config_test.py .......                                                                                                                             [ 10%]
+tests\core\exceptions_test.py ..........                                                                                                                      [ 13%]
+tests\core\implementations_test.py ....                                                                                                                       [ 14%]
+tests\core\logger_test.py ....                                                                                                                                [ 15%]
+tests\create_app\create_app_test.py ...                                                                                                                       [ 16%]
+tests\features\app\api_test.py .......                                                                                                                        [ 19%]
+tests\features\app\schema_test.py ..........                                                                                                                  [ 22%]
+tests\features\auth\api_test.py .........                                                                                                                     [ 24%]
+tests\features\auth\schema_test.py ...                                                                                                                        [ 25%]
+tests\features\auth\service_test.py .............                                                                                                             [ 29%]
+tests\features\item\api_test.py ....                                                                                                                          [ 31%]
+tests\features\item\schema_test.py .....                                                                                                                      [ 32%]
+tests\features\media\api_test.py ....                                                                                                                         [ 33%]
+tests\features\media\schema_test.py .......                                                                                                                   [ 36%]
+tests\features\order\api_test.py ..............                                                                                                               [ 40%]
+tests\features\order\schema_test.py ......                                                                                                                    [ 42%]
+tests\features\order\service_test.py ...........                                                                                                              [ 45%]
+tests\features\product\api_test.py .................                                                                                                          [ 51%]
+tests\features\product\schema_test.py ......                                                                                                                  [ 52%]
+tests\features\review\api_test.py ......                                                                                                                      [ 54%]
+tests\features\review\schema_test.py ....                                                                                                                     [ 56%]
+tests\features\sale\api_test.py ............                                                                                                                  [ 59%]
+tests\features\sale\schema_test.py .......                                                                                                                    [ 61%]
+tests\features\user\api_test.py ...........                                                                                                                   [ 65%]
+tests\features\user\schema_test.py .........                                                                                                                  [ 68%]
+tests\features\user\service_test.py ..                                                                                                                        [ 68%]
+tests\implementations\database\sqlite\common_test.py ........                                                                                                 [ 71%]
+tests\implementations\database\sqlite\item_test.py ......                                                                                                     [ 73%]
+tests\implementations\database\sqlite\media_test.py .........                                                                                                 [ 76%]
+tests\implementations\database\sqlite\order_test.py ...........                                                                                               [ 79%]
+tests\implementations\database\sqlite\payment_test.py ..                                                                                                      [ 80%]
+tests\implementations\database\sqlite\product_test.py .........                                                                                               [ 82%]
+tests\implementations\database\sqlite\review_test.py ........                                                                                                 [ 85%]
+tests\implementations\database\sqlite\sale_test.py .........                                                                                                  [ 88%]
+tests\implementations\database\sqlite\sqlite_test.py ....                                                                                                     [ 89%]
+tests\implementations\database\sqlite\user_test.py ............                                                                                               [ 93%]
+tests\implementations\media_system\root_folder_test.py ......................                                                                                 [100%]
+
+========================================================================= warnings summary =========================================================================
+venv\Lib\site-packages\_pytest\config\__init__.py:858
+  D:\Programming\Myst-Market\fastapi_server\venv\Lib\site-packages\_pytest\config\__init__.py:858: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; tests.features.user.fixtures
+    self.import_plugin(import_spec)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================================================== 321 passed, 1 warning in 6.78s ==================================================================
+
+(venv) D:\Programming\Myst-Market\fastapi_server>

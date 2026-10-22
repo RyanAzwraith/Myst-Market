@@ -11,7 +11,3 @@ export {
 	Media,
 	MediaCarousel,
 } from './components/content'
-export {
-    ImportButton,
-    downloadCsv,
-} from './components/interactive'
