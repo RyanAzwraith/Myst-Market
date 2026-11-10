@@ -1,0 +1,38 @@
+.login-form,
+.profile-menu-content {
+    min-width: 0;
+}
+
+.profile-menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    color: var(--color-text);
+}
+
+.profile-menu-title {
+    font-size: 1.25rem;
+}
+
+.profile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.profile-menu-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.profile-menu-action {
+    flex: 1 1 0;
+}
+
+@media (max-width: 40rem) {
+    .profile-menu-content {
+        max-width: calc(100vw - 2rem);
+    }
+}

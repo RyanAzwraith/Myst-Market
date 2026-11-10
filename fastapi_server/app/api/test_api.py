@@ -1,69 +1,102 @@
 
-from fastapi import APIRouter, Depends, Request
-from pydantic import BaseModel, ConfigDict, EmailStr
+from fastapi import APIRouter, Depends
+from app.api.paths import Paths
 
-from app.core import get_config
-from app.core.exceptions import AuthorizationException, ConflictException
-from app.db.database import Base
-from app.features.user.user_service import create_user, update_user, get_user_by_email
-from app.features.user.user_api import LoginResponse
-from app.api.dependencies import get_session
-from app.features.user.auth_service import create_access_token, create_set_password_token, decode_token
-from app.utils.to_camel import to_camel
-from app.db.seeds.base_seed import base_seed
-from app.db.seeds.dev_seed import dev_seed
 
-router = APIRouter()
+from app.core import (
+    get_config,
+    AuthorizationException,
+    ConflictException,
+)
+from app.core.Base import Base
+from app.api.dependencies import get_db
+from app.features.auth import (
+    create_access_token, 
+    create_set_password_token, 
+    hash_password
+)
+from app.features.user import User
+from app.implementations.database.sqlite.seed import seed_database
 
+test_router = APIRouter()
 
 def isTestEnvironment():
     if get_config().environment != "test":
         raise AuthorizationException()
 
-@router.get("/health")
+
+# Health Check Route
+@test_router.get("/health")
 def getHealth():
     return 200
 
-@router.post("/test/reset-db", status_code=200)
-def reset_db(request: Request, session=Depends(get_session)):
+
+# Reset Database Route
+@test_router.post(
+    Paths.Test.resetDb, 
+    status_code=200
+)
+def reset_db():
     isTestEnvironment()
-    engine=request.app.state.db.engine
-    with engine.begin() as conn:
-        Base.metadata.drop_all(conn)
-        Base.metadata.create_all(conn)
-        dev_seed(session)
-        base_seed(session)
+    test_db_url = get_config().database_url
+    seed_database(test_db_url, 420)
 
-    return None
 
-class CreateUserRequest(BaseModel):
+# Create User Route
+class CreateUserRequest(Base):
     name:str
-    email: EmailStr
+    email: str
     password: str
-CreateUserResponse = LoginResponse
 
-@router.post("/test/create_user", status_code=201, response_model=CreateUserResponse)
-def create_user_route(req:CreateUserRequest, session= Depends(get_session)):
+class CreateUserResponse(Base):
+    access_token: str
+    user: User
+
+@test_router.post(
+    Paths.Test.createUser, 
+    status_code=201, 
+    response_model=CreateUserResponse
+)
+def create_user_route(
+    req:CreateUserRequest, 
+    db = Depends(get_db)
+):
     isTestEnvironment()
     try:
-        db_user = create_user(session, req)
-        db_user = update_user(session, db_user.id, req)
-
+        user = db.user.create(
+            email=req.email,
+            name=req.name,
+            is_registered=True,
+            password_hash=hash_password(req.password)
+        )
     except ConflictException:
-        db_user = get_user_by_email(session, req.email)
+        user = db.user.get_by_email(req.email)
 
-    access_token = create_access_token(db_user.id)
+    access_token = create_access_token(user.id)
+    return CreateUserResponse(
+        access_token=access_token, 
+        user=user
+    )
 
-    return CreateUserResponse(access_token=access_token, userResponse=db_user)
 
-class SetPasswordTokenRequest(BaseModel):
-    email:EmailStr
-class SetPasswordTokenResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True, populate_by_name=True, alias_generator=to_camel)
+# Set Password Token Route
+class SetPasswordTokenRequest(Base):
+    email:str
+
+class SetPasswordTokenResponse(Base):
     set_password_token:str
-@router.post("/test/set-password-token", response_model=SetPasswordTokenResponse)
-def set_password_token_route(req:SetPasswordTokenRequest, session=Depends(get_session)):
+
+@test_router.post(
+    Paths.Test.setPasswordToken, 
+    response_model=SetPasswordTokenResponse
+)
+def set_password_token_route(
+    req:SetPasswordTokenRequest, 
+    db=Depends(get_db)
+):
     isTestEnvironment()
-    db_user = get_user_by_email(session, req.email)
-    set_password_token = create_set_password_token(db_user.id)
-    return SetPasswordTokenResponse(set_password_token=set_password_token)
+    user = db.user.get_by_email(req.email)
+    set_password_token = create_set_password_token(user.id)
+    return SetPasswordTokenResponse(
+        set_password_token=set_password_token
+    )

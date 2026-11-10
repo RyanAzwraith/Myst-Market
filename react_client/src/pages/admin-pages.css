@@ -1,0 +1,387 @@
+.dashboard-page,
+.orders-page,
+.products-page,
+.sales-page,
+.users-page,
+.product-modal,
+.sale-modal {
+    min-width: 0;
+}
+
+.product-admin-search-title,
+.user-admin-search-title,
+.order-admin-search-title,
+.sale-admin-search-title {
+    font-size: 1.875rem;
+}
+
+.admin-search-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    width: 100%;
+}
+
+.admin-search-header .shared-search-title {
+    margin-bottom: 0;
+}
+
+.admin-search-header > .shared-modal-trigger {
+    position: absolute;
+    right: 0;
+}
+
+.admin-search-header .admin-create-trigger {
+    border: 1px solid var(--color-success);
+    border-radius: var(--radius-sm);
+    background: var(--color-success);
+    color: var(--color-white);
+    cursor: pointer;
+    font-weight: 500;
+    padding: var(--space-2) var(--space-4);
+    transition:
+        background-color 150ms ease,
+        box-shadow 150ms ease,
+        transform 150ms ease;
+}
+
+.admin-search-header .admin-create-trigger:hover {
+    background: var(--color-primary-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-search-header .admin-create-trigger:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 40rem) {
+    .dashboard-page,
+    .orders-page,
+    .products-page,
+    .sales-page,
+    .users-page {
+        overflow-x: hidden;
+    }
+
+}
+
+.admin-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+}
+
+.admin-page .select-edit-item-row {
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: nowrap;
+    padding: var(--space-1) var(--space-2);
+}
+
+.admin-page .select-edit-item-row > .shared-input-checkbox {
+    flex: 0 0 auto;
+}
+
+.admin-page .select-edit-item-row > .shared-modal-trigger {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.admin-page .product-admin-summary-info > .shared-text:not(:first-child),
+.admin-page .sale-admin-summary-info > .shared-text:not(:first-child),
+.admin-page .order-admin-summary-info > .shared-text:not(:first-child),
+.admin-page .user-summary-email,
+.admin-page .user-summary-role,
+.admin-page .user-summary-status {
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--space-2);
+}
+
+.admin-page .product-admin-summary-info,
+.admin-page .sale-admin-summary-info,
+.admin-page .order-admin-summary-info,
+.admin-page .user-admin-summary-info {
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+}
+
+.admin-page .product-admin-summary-info .shared-text,
+.admin-page .sale-admin-summary-info .shared-text,
+.admin-page .order-admin-summary-info .shared-text,
+.admin-page .user-admin-summary-info .shared-text {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-page .product-admin-summary-info {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+}
+
+.admin-page .sale-admin-summary-info {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+}
+
+.admin-page .sale-summary-dates {
+    grid-column: auto;
+}
+
+.admin-page .order-admin-summary-info {
+    grid-template-columns: minmax(8rem, 1fr) minmax(8rem, 1fr)
+        minmax(6rem, 0.75fr);
+    align-items: center;
+}
+
+.admin-page .user-admin-summary-info {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+}
+
+.admin-page .user-admin-summary-info > div {
+    display: contents;
+}
+
+@media (max-width: 40rem) {
+    .admin-page .product-admin-summary-info,
+    .admin-page .sale-admin-summary-info,
+    .admin-page .order-admin-summary-info,
+    .admin-page .user-admin-summary-info {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-raised);
+    padding: var(--space-6);
+}
+
+.dashboard-intro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-4);
+    text-align: center;
+}
+
+.dashboard-title {
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    color: var(--color-primary);
+}
+
+.dashboard-performance,
+.dashboard-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.dashboard-performance {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    padding: var(--space-6);
+}
+
+.dashboard-performance-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.dashboard-section-title,
+.dashboard-panel-title,
+.admin-modal-title {
+    font-size: 1.25rem;
+}
+
+.dashboard-overview-grid,
+.dashboard-lists-grid {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.dashboard-panel {
+    min-width: 0;
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.dashboard-panel-title,
+.dashboard-section-title {
+    margin: 0;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: var(--space-2);
+}
+
+.dashboard-chart {
+    min-height: 28rem;
+}
+
+.dashboard-attention-list,
+.dashboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.dashboard-list-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface-raised);
+    padding: var(--space-2) var(--space-3);
+}
+
+.dashboard-list-row .shared-text {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.dashboard-list-row .shared-text + .shared-text {
+    border-left: 1px solid var(--color-border-input);
+    padding-left: var(--space-2);
+}
+
+.dashboard-list-row:last-child {
+    border-bottom: 0;
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.admin-modal-dialog {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.admin-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.product-modal .admin-modal-actions {
+    justify-content: center;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+}
+
+.product-modal .product-delete-button {
+    min-width: 9rem;
+}
+
+.sale-modal .admin-modal-actions {
+    justify-content: center;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+}
+
+.sale-modal .sale-delete-button {
+    min-width: 9rem;
+}
+
+.admin-create-trigger {
+    align-self: flex-start;
+}
+
+.admin-product-list,
+.admin-sale-list,
+.admin-order-list,
+.admin-user-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.admin-product-trigger,
+.admin-sale-trigger,
+.admin-order-trigger,
+.admin-user-trigger {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin-user-trigger {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    padding: 0;
+}
+
+.admin-product-trigger:hover,
+.admin-sale-trigger:hover,
+.admin-order-trigger:hover,
+.admin-user-trigger:hover {
+    background: var(--color-surface-muted);
+}
+
+.admin-product-trigger:focus-visible,
+.admin-sale-trigger:focus-visible,
+.admin-order-trigger:focus-visible,
+.admin-user-trigger:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: -3px;
+}
+
+@media (min-width: 40rem) {
+    .admin-page {
+        padding-block: var(--space-8);
+    }
+
+    .dashboard-title {
+        font-size: 3.5rem;
+    }
+
+    .product-admin-search-title,
+    .user-admin-search-title,
+    .order-admin-search-title,
+    .sale-admin-search-title {
+        font-size: 2.25rem;
+    }
+
+    .admin-search-header {
+        gap: var(--space-6);
+    }
+
+    .dashboard-overview-grid,
+    .dashboard-lists-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-overview-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dashboard-lists-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}

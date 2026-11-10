@@ -4,25 +4,27 @@ import stripe
 
 from app.core.config import init_config
 from app.core.logger import init_logger
+from app.core.implementations import init_database, init_media_system
 from app.api.middleware import init_middleware
-from app.db.database import Database
 from app.api.exception_handlers import init_exception_handlers
 from app.api.router import router
-from app.features.media.media_service import cleanup_media
 import resend
+
 
 
 def create_app():
     config = init_config()
     init_logger(config.log_level, config.log_to_file)
-    db = Database(config.database_url)
+    media_system = init_media_system(config)
+    db = init_database(config)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        session_generator = db.get_session()
+        session_generator = db.session_factory()
         session = next(session_generator)
         try:
-            cleanup_media(session)
+            db.with_session(session).media.cleanup()
+            media_system.cleanup()
         finally:
             session_generator.close()
         yield
@@ -35,6 +37,7 @@ def create_app():
 
     stripe.api_key = config.stripe_key
     resend.api_key = config.resend_key
+
     app.state.db = db
 
     app.include_router(router)

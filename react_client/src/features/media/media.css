@@ -1,0 +1,20 @@
+.media-image,
+.media-video,
+.media-content,
+.media-carousel {
+    min-width: 0;
+}
+
+.media-image,
+.media-video {
+    max-width: 100%;
+}
+
+.media-content,
+.media-image {
+    image-rendering: pixelated;
+}
+
+.media-content {
+    border-radius: var(--radius-md);
+}

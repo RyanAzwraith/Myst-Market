@@ -1,0 +1,129 @@
+.review-card,
+.review-info,
+.review-create-form {
+    min-width: 0;
+}
+
+.rating-format {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.review-card {
+    position: relative;
+    min-height: 14rem;
+    width: 100%;
+    border-left: 3px solid var(--color-gold);
+    border-top: 1px solid var(--color-gold-light);
+}
+
+.review-delete-button {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    z-index: 1;
+}
+
+.review-delete-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--color-border-input);
+    border-radius: 50%;
+    background: var(--color-surface-raised);
+    color: var(--color-danger);
+}
+
+.review-delete-trigger:hover {
+    background: var(--color-danger-surface);
+    color: var(--color-danger-hover);
+}
+
+.review-delete-modal {
+    text-align: center;
+}
+
+.review-delete-confirmation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.review-delete-confirmation-title {
+    color: var(--color-danger);
+}
+
+.review-delete-confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+}
+
+.review-delete-confirmation-actions .shared-button {
+    min-width: 7rem;
+}
+
+.review-info {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.review-user-name {
+    margin: 0;
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.review-date {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: 0.75rem;
+}
+
+.review-description {
+    margin: auto 0 0;
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--color-text);
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+.rating-value {
+    color: var(--color-text);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.rating-star-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: var(--color-star);
+}
+
+.rating-star-button {
+    transition: transform 0.15s ease;
+}
+
+.rating-star-button:hover {
+    transform: scale(1.1);
+}
+
+.review-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

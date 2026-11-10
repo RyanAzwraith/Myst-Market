@@ -1,29 +1,31 @@
-const env =
-  typeof process !== 'undefined'
-    ? process.env
-    : (import.meta as any).env
+const env: Record<string, string | undefined> =
+    import.meta.env ??
+    (typeof process !== "undefined" ? process.env : {})
 
 function Evar(
-  name: Extract<keyof ImportMetaEnv, string>,
-  required: boolean = true, 
-  defaultValue?: string,
+    name: Extract<keyof ImportMetaEnv, string>,
+    required: boolean = true,
+    defaultValue?: string,
 ): [string, string] {
     const value = env[name] ?? defaultValue
 
     if (required && value == null) {
-        throw new Error(`Missing required environment variable: ${name}`)
+        throw new Error(
+            `Missing required environment variable: ${name}`,
+        )
     }
 
     return [name, value ?? ""]
 }
 
-const configEntries  = [
+const configEntries = [
     Evar("VITE_LAUNCH_TYPE", false, "DEV"),
     Evar("VITE_SERVER_URL"),
-] 
+    Evar("VITE_SERVER_IMPLEMENTATION"),
+] as const
 
 export const config = Object.fromEntries(
-    configEntries
+    configEntries,
 ) as Record<string, string>
 
 export type Config = typeof config

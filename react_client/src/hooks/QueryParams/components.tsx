@@ -1,0 +1,292 @@
+import { useEffect, useState, type ReactNode } from 'react'
+
+import { 
+    XMarkIcon, 
+    List, 
+    LabeledInput, 
+    Label,
+    Select,
+    Input,
+    Container,
+    Inline,
+    MagnifyingGlassIcon
+} from "@/shared";
+import { recordToList, recordValues } from '@/utils/funcs'
+
+import type { 
+    Binding,
+    BooleanFieldDef,
+    SelectOneFieldDef,
+    SelectMultipleFieldDef,
+    TextFieldDef,
+    FieldDef,
+    FieldDefs,
+    QueryParams,
+} from './schema';
+import { kind } from './schema';
+import { classNames } from '@/utils/classNames';
+
+
+export {
+    BooleanField,
+    SelectOneField,
+    SelectMultipleField,
+    TextField,
+    QueryParamsContainer,
+    QueryParamField,
+    QueryParamFields,
+    SearchField,
+};
+
+
+function BooleanField({ binding }: {
+    binding: Binding<BooleanFieldDef>;
+}) {
+    return (
+        <LabeledInput
+        before={false}
+        type="checkbox"
+        labelClassName={
+            "query-params-boolean-field"
+        }
+        checked={binding.get()}
+        onChange={(event) => {
+            binding.set(event.target.checked);
+        }}
+        >
+            <span>{binding.label}</span>
+        </LabeledInput>
+    );
+}
+
+function SelectOneField({ binding }: {
+    binding: Binding<SelectOneFieldDef<any>>;
+}) {
+    return (
+    <Label
+    htmlFor={binding.fieldKey}
+    className={
+        "query-params-select-one-field"
+    }
+    >
+        <span className="query-params-label">
+            {binding.label}
+        </span>
+        <Select
+        id={binding.fieldKey}
+        name={binding.fieldKey}
+        value={binding.get()}
+        onChange={(event) => {
+            event.currentTarget.blur();
+            binding.set(event.target.value);
+        }}
+        >
+            <List
+            items={recordToList(binding.options) as [string, string][]}
+            render={([key, value]) => (
+                <option key={key} value={value}>
+                    {binding.labels[key]}
+                </option>
+            )}
+            />
+        </Select>
+    </Label>
+    );
+}
+
+function SelectMultipleField({ binding }: {
+    binding: Binding<SelectMultipleFieldDef<any>>;
+}) {
+    const selected = binding.get()
+
+    const handleChange = (option: string, checked: boolean) => {
+        const nextValues = checked
+            ? [...selected, option]
+            : selected.filter((item) => item !== option);
+
+        binding.set(nextValues);
+    };
+
+    return (
+    <div className="query-params-select-multiple-field">
+        <div className="query-params-select-header">
+            <span className="query-params-label">
+                {binding.label}
+            </span>
+        </div>
+        <div className="query-params-options">
+            <List
+            items={recordToList(binding.options) as [string, string][]}
+            render={([key, value]) => (
+                <LabeledInput
+                key={`option-${key}`}
+                before={false}
+                type="checkbox"
+                labelClassName="query-params-option"
+                checked={selected.includes(value)}
+                onChange={(event) => handleChange(
+                    value,
+                    event.target.checked
+                )}
+                >
+                    {binding.labels[key]}
+                </LabeledInput>
+            )}
+            />
+            <XMarkIcon 
+            className="query-params-clear-icon"
+            buttonClassName="query-params-clear-button"
+            ariaLabel={`Clear ${binding.label}`}
+            onClick={() => binding.set(() => [])} 
+            />
+        </div>
+    </div>
+    );
+}
+
+function TextField({ binding, className }: {
+    binding: Binding<TextFieldDef>;
+    className?: string,
+}) {
+    const value = binding.get();
+    const [searchInput, setSearchInput] = useState(value);
+
+    useEffect(() => {
+        setSearchInput(value);
+    }, [value]);
+
+    function handleSearch() {
+        binding.set(() => searchInput)
+    }
+    
+    return (
+    <Label
+    htmlFor={binding.fieldKey}
+    className={`query-params-text-field ${className ?? ""}`}
+    >
+        <Inline
+        align="stretch"
+        gap="sm"
+        wrap
+        className="query-params-text-field-control"
+        >
+            <span className="query-params-field-label">
+                {binding.label}
+            </span>
+            <Input
+            id={binding.fieldKey}
+            name={binding.fieldKey}
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
+            onBlur={handleSearch}
+            placeholder={binding.placeholder}
+            className="query-params-field-input"
+            />
+            <XMarkIcon
+            className="query-params-field-clear-icon"
+            buttonClassName="query-params-clear-button"
+            onClick={() => { 
+                setSearchInput('')
+                binding.set(() => '')
+            }} />
+        </Inline>
+    </Label>
+    );
+}
+
+function SearchField({ binding, className }: {
+    binding: Binding<TextFieldDef>;
+    className?: string,
+}) {
+    const value = binding.get();
+    const [searchInput, setSearchInput] = useState(value);
+
+    useEffect(() => {
+        setSearchInput(value);
+    }, [value]);
+
+    function handleSearch() {
+        binding.set(() => searchInput)
+    }
+    
+    return (
+    <Inline 
+    className={classNames("query-params-search-field", className)}
+    gap="none"
+    >
+        <MagnifyingGlassIcon className="query-params-search-icon" />
+        <Input
+        className="query-params-search-input"
+        id={binding.fieldKey}
+        name={binding.fieldKey}
+        type="text"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        onKeyDown={({key}) => key==="Enter" ? handleSearch() : null}
+        onBlur={handleSearch}
+        placeholder={binding.placeholder}
+        />
+        <XMarkIcon
+        className="query-params-search-clear-icon"
+        buttonClassName="query-params-clear-button"
+        onClick={() => { 
+            setSearchInput('')
+            binding.set(() => '')
+        }} />
+    </Inline>
+    );
+}
+
+function QueryParamsContainer({ children, className }:{
+    children: ReactNode
+    className?: string
+}) {
+    return (
+    <Container className={classNames(
+        "query-params-container",
+        className
+    )}>
+        {children}
+    </Container>
+    )
+}
+
+function QueryParamField({ binding }: {
+  binding: Binding<FieldDef>;
+}) {
+  switch (binding.kind) {
+    case kind.boolean: return <BooleanField binding={binding} />;
+    case kind.selectOne: return <SelectOneField binding={binding} />;
+    case kind.selectMultiple: return <SelectMultipleField binding={binding} />;
+    case kind.text: return <TextField binding={binding} />;
+    default: throw new Error("Unsupported field kind");
+  }
+}
+
+function QueryParamFields ({
+    queryParams,
+    exclude = [],
+}: {
+    queryParams: QueryParams<FieldDefs>
+    exclude?: string[]
+}) {
+    const { bindings } = queryParams;
+    return (
+    <QueryParamsContainer className="query-param-fields">
+        <div className="query-param-fields-grid">
+            <List
+            items={recordValues(bindings).filter(
+                binding => !exclude.includes(binding.fieldKey)
+            )}
+            render={(binding) => 
+                <QueryParamField 
+                binding={binding} 
+                key={binding.fieldKey} 
+                />
+            }/>
+        </div>
+    </QueryParamsContainer>
+    )
+}

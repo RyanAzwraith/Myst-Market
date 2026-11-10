@@ -1,14 +1,21 @@
-import "@testing-library/jest-dom"
 
+import "@testing-library/jest-dom/vitest"
+
+import { afterEach, beforeEach, vi } from "vitest"
 import { cleanup } from "@testing-library/react"
-import { describe, it, expect, vi, beforeEach, test, afterEach } from "vitest"
 
 beforeEach(() => {
     vi.clearAllMocks()
 })
 
 afterEach(() => {
-    vi.resetAllMocks()
     cleanup()
     localStorage.clear()
+    vi.restoreAllMocks()
 })
+
+vi.stubGlobal("fetch", vi.fn(() => {
+    throw new Error(
+        "Unexpected fetch request. Mock the request in this test."
+    )
+}))

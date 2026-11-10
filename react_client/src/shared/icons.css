@@ -1,0 +1,19 @@
+.chevron-up-icon,
+.chevron-down-icon,
+.chevron-right-icon,
+.chevron-left-icon,
+.x-mark-icon,
+.magnifying-glass-icon,
+.user-circle-solid-icon,
+.user-circle-outline-icon,
+.shopping-cart-outline-icon,
+.shopping-cart-solid-icon,
+.minus-icon,
+.plus-icon,
+.star-solid-icon,
+.star-outline-icon,
+.exclamation-triangle-icon,
+.arrow-down-icon,
+.arrow-up-icon {
+    flex: 0 0 auto;
+}

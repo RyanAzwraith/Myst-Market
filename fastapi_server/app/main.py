@@ -6,5 +6,5 @@ app = create_app()
 
 # uvicorn app.main:app --reload
 # python -m uvicorn app.main:app --reload
-# - runs server
+
 
