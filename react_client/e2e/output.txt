@@ -1,0 +1,240 @@
+Starting backend...
+RES: http://localhost:8000/health OK
+RES: http://localhost:8000/test/reset-db OK
+Backend Connected
+
+——————————————————————————————————————————————————————————————————  [4:52:03 PM]
+Running 7 tests using 1 worker
+[1/7] [chromium] › e2e\admin.spec.ts:20:5 › admin › redirects guests away from a
+  1) [chromium] › e2e\admin.spec.ts:28:5 › admin › renders the admin dashboard ─────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('UserCircleSolidIcon')
+    Expected: visible
+    Error: strict mode violation: getByLabel('UserCircleSolidIcon') resolved to 2 elements:
+        1) <button type="button" aria-label="UserCircleSolidIcon" class="shared-icon-button user-circle-solid-icon profile-menu-button">…</button> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+        2) <svg data-slot="icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" class="shared-icon" aria-label="UserCircleSolidIcon" xmlns="http://www.w3.org/2000/svg">…</svg> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByLabel('UserCircleSolidIcon')
+
+
+       at fixtures.tsx:77
+
+      75 |     await expect(
+      76 |         page.getByLabel("UserCircleSolidIcon")
+    > 77 |     ).toBeVisible()
+         |       ^
+      78 | }
+      79 |
+      80 | async function addToCart (
+        at login (D:\Programming\Myst-Market\react_client\e2e\fixtures.tsx:77:7)
+        at D:\Programming\Myst-Market\react_client\e2e\admin.spec.ts:29:9
+
+    Error Context: test-results\admin-admin-renders-the-admin-dashboard-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\admin-admin-renders-the-admin-dashboard-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\admin-admin-renders-the-admin-dashboard-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+[3/7] [chromium] › e2e\admin.spec.ts:52:5 › admin › navigates between admin sect
+  2) [chromium] › e2e\admin.spec.ts:52:5 › admin › navigates between admin sections ────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('UserCircleSolidIcon')
+    Expected: visible
+    Error: strict mode violation: getByLabel('UserCircleSolidIcon') resolved to 2 elements:
+        1) <button type="button" aria-label="UserCircleSolidIcon" class="shared-icon-button user-circle-solid-icon profile-menu-button">…</button> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+        2) <svg data-slot="icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" class="shared-icon" aria-label="UserCircleSolidIcon" xmlns="http://www.w3.org/2000/svg">…</svg> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByLabel('UserCircleSolidIcon')
+
+
+       at fixtures.tsx:77
+
+      75 |     await expect(
+      76 |         page.getByLabel("UserCircleSolidIcon")
+    > 77 |     ).toBeVisible()
+         |       ^
+      78 | }
+      79 |
+      80 | async function addToCart (
+        at login (D:\Programming\Myst-Market\react_client\e2e\fixtures.tsx:77:7)
+        at D:\Programming\Myst-Market\react_client\e2e\admin.spec.ts:53:9
+
+    Error Context: test-results\admin-admin-navigates-between-admin-sections-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\admin-admin-navigates-between-admin-sections-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\admin-admin-navigates-between-admin-sections-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e\admin.spec.ts:74:5 › admin › searches admin products ─────────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('UserCircleSolidIcon')
+    Expected: visible
+    Error: strict mode violation: getByLabel('UserCircleSolidIcon') resolved to 2 elements:
+        1) <button type="button" aria-label="UserCircleSolidIcon" class="shared-icon-button user-circle-solid-icon profile-menu-button">…</button> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+        2) <svg data-slot="icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" class="shared-icon" aria-label="UserCircleSolidIcon" xmlns="http://www.w3.org/2000/svg">…</svg> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByLabel('UserCircleSolidIcon')
+
+
+       at fixtures.tsx:77
+
+      75 |     await expect(
+      76 |         page.getByLabel("UserCircleSolidIcon")
+    > 77 |     ).toBeVisible()
+         |       ^
+      78 | }
+      79 |
+      80 | async function addToCart (
+        at login (D:\Programming\Myst-Market\react_client\e2e\fixtures.tsx:77:7)
+        at D:\Programming\Myst-Market\react_client\e2e\admin.spec.ts:75:9
+
+    Error Context: test-results\admin-admin-searches-admin-products-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\admin-admin-searches-admin-products-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\admin-admin-searches-admin-products-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+[5/7] [chromium] › e2e\admin.spec.ts:89:5 › admin › opens the create product for
+  4) [chromium] › e2e\admin.spec.ts:89:5 › admin › opens the create product form ───────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('UserCircleSolidIcon')
+    Expected: visible
+    Error: strict mode violation: getByLabel('UserCircleSolidIcon') resolved to 2 elements:
+        1) <button type="button" aria-label="UserCircleSolidIcon" class="shared-icon-button user-circle-solid-icon profile-menu-button">…</button> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+        2) <svg data-slot="icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" class="shared-icon" aria-label="UserCircleSolidIcon" xmlns="http://www.w3.org/2000/svg">…</svg> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByLabel('UserCircleSolidIcon')
+
+
+       at fixtures.tsx:77
+
+      75 |     await expect(
+      76 |         page.getByLabel("UserCircleSolidIcon")
+    > 77 |     ).toBeVisible()
+         |       ^
+      78 | }
+      79 |
+      80 | async function addToCart (
+        at login (D:\Programming\Myst-Market\react_client\e2e\fixtures.tsx:77:7)
+        at D:\Programming\Myst-Market\react_client\e2e\admin.spec.ts:90:9
+
+    Error Context: test-results\admin-admin-opens-the-create-product-form-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\admin-admin-opens-the-create-product-form-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\admin-admin-opens-the-create-product-form-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › e2e\admin.spec.ts:109:5 › admin › opens the create sale form ─────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('UserCircleSolidIcon')
+    Expected: visible
+    Error: strict mode violation: getByLabel('UserCircleSolidIcon') resolved to 2 elements:
+        1) <button type="button" aria-label="UserCircleSolidIcon" class="shared-icon-button user-circle-solid-icon profile-menu-button">…</button> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+        2) <svg data-slot="icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" class="shared-icon" aria-label="UserCircleSolidIcon" xmlns="http://www.w3.org/2000/svg">…</svg> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByLabel('UserCircleSolidIcon')
+
+
+       at fixtures.tsx:77
+
+      75 |     await expect(
+      76 |         page.getByLabel("UserCircleSolidIcon")
+    > 77 |     ).toBeVisible()
+         |       ^
+      78 | }
+      79 |
+      80 | async function addToCart (
+        at login (D:\Programming\Myst-Market\react_client\e2e\fixtures.tsx:77:7)
+        at D:\Programming\Myst-Market\react_client\e2e\admin.spec.ts:110:9
+
+    Error Context: test-results\admin-admin-opens-the-create-sale-form-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\admin-admin-opens-the-create-sale-form-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\admin-admin-opens-the-create-sale-form-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium] › e2e\admin.spec.ts:127:5 › admin › searches admin users ───────────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('UserCircleSolidIcon')
+    Expected: visible
+    Error: strict mode violation: getByLabel('UserCircleSolidIcon') resolved to 2 elements:
+        1) <button type="button" aria-label="UserCircleSolidIcon" class="shared-icon-button user-circle-solid-icon profile-menu-button">…</button> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+        2) <svg data-slot="icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" class="shared-icon" aria-label="UserCircleSolidIcon" xmlns="http://www.w3.org/2000/svg">…</svg> aka getByRole('button', { name: 'UserCircleSolidIcon' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByLabel('UserCircleSolidIcon')
+
+
+       at fixtures.tsx:77
+
+      75 |     await expect(
+      76 |         page.getByLabel("UserCircleSolidIcon")
+    > 77 |     ).toBeVisible()
+         |       ^
+      78 | }
+      79 |
+      80 | async function addToCart (
+        at login (D:\Programming\Myst-Market\react_client\e2e\fixtures.tsx:77:7)
+        at D:\Programming\Myst-Market\react_client\e2e\admin.spec.ts:128:9
+
+    Error Context: test-results\admin-admin-searches-admin-users-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\admin-admin-searches-admin-users-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\admin-admin-searches-admin-users-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    [chromium] › e2e\admin.spec.ts:28:5 › admin › renders the admin dashboard ──────────────────────
+    [chromium] › e2e\admin.spec.ts:52:5 › admin › navigates between admin sections ─────────────────
+    [chromium] › e2e\admin.spec.ts:74:5 › admin › searches admin products ──────────────────────────
+    [chromium] › e2e\admin.spec.ts:89:5 › admin › opens the create product form ────────────────────
+    [chromium] › e2e\admin.spec.ts:109:5 › admin › opens the create sale form ──────────────────────
+    [chromium] › e2e\admin.spec.ts:127:5 › admin › searches admin users ────────────────────────────
+  1 passed (1.1m)

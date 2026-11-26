@@ -1,0 +1,38 @@
+from __future__ import annotations
+from datetime import date
+from sqlalchemy import Text, Integer, text, func, Boolean, Date
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import TYPE_CHECKING
+
+from ..Base import Base
+
+if TYPE_CHECKING:
+    from .address import Address
+    from .order import Order
+    from .review import Review
+    from .payment import Payment
+
+
+class User(Base):
+    __tablename__ = "user"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    email: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+
+    is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    is_registered: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    name: Mapped[str | None] = mapped_column(Text)
+
+    password_hash: Mapped[str | None] = mapped_column(Text)
+
+    created_at: Mapped[date] = mapped_column(Date, nullable=False, default=date.today)
+
+    deleted_at: Mapped[date | None] = mapped_column(Date, nullable=True)
+
+    addresses: Mapped[list["Address"]] = relationship("Address", back_populates="user")
+    orders: Mapped[list["Order"]] = relationship("Order", back_populates="user")
+    reviews: Mapped[list["Review"]] = relationship("Review", back_populates="user")
+    payments: Mapped[list["Payment"]] = relationship("Payment", back_populates="user")

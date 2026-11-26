@@ -1,0 +1,11 @@
+from __future__ import annotations
+from sqlalchemy import Table, Column, Integer, ForeignKey, Index
+from ..Base import Base
+
+sale_product = Table(
+    "sale_product",
+    Base.metadata,
+    Column("product_id", Integer, ForeignKey("product.id", ondelete="CASCADE", onupdate="CASCADE"), primary_key=True),
+    Column("sale_id", Integer, ForeignKey("sale.id", ondelete="CASCADE", onupdate="CASCADE"), primary_key=True),
+    Index("ix_sale_product_sale_id", "sale_id", "product_id"),
+)

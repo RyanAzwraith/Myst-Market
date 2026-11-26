@@ -1,0 +1,40 @@
+
+ ❯ tests/features/item/components/presentation.test.tsx 1/2
+ ❯ tests/pages/login.test.tsx [queued]
+ ❯ tests/features/item/components/presentation.test.tsx (2 tests | 1 failed) 36ms
+     × functionality marks sale content with the sale style 34ms
+     · does not add sale styling to regular content
+ ✓ tests/shared/composition/NavBar.test.tsx (3 tests | 2 skipped) 132ms
+
+Not implemented: navigation to another Document
+
+
+ ↓ tests/pages/login.test.tsx (3 tests)
+ ↓ tests/pages/setPassword.test.tsx (2 tests)
+ ↓ tests/pages/register.test.tsx (3 tests)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+ FAIL  tests/features/item/components/presentation.test.tsx > OnSaleDiv intimacy: low > functionality marks sale content with the sale style
+Error: expect(element).toHaveClass("bg-red-200")
+
+Expected the element to have class:
+  bg-red-200
+Received:
+  on-sale on-sale-active
+ ❯ tests/features/item/components/presentation.test.tsx:16:39
+     14|
+     15|         const content = screen.getByText("Sale content")
+     16|         expect(content.parentElement).toHaveClass("bg-red-200")
+       |                                       ^
+     17|     })
+     18|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 84 passed | 3 skipped (88)
+      Tests  1 failed | 453 passed | 2 skipped (465)
+   Start at  18:01:07
+   Duration  30.75s (transform 26.54s, setup 32.79s, import 140.97s, tests 43.54s, environment 190.25s)
+
+
+D:\Programming\Myst-Market\react_client>

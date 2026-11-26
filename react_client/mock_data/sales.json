@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "discount_perc": 15,
+        "start_at": "2026-10-01",
+        "end_at": "2099-12-31",
+        "name": "The Lantern Festival",
+        "slug": "the-lantern-festival",
+        "description": "Warm amber lanterns mark a season of gathering, with fifteen percent taken from treasured arms, travel leathers, and camp-ready charms."
+    },
+    {
+        "id": 2,
+        "discount_perc": 25,
+        "start_at": "2026-11-15",
+        "end_at": "2099-12-08",
+        "name": "Moonlit Relics",
+        "slug": "moonlit-relics",
+        "description": "For three weeks, relics recovered beneath the pale moon are offered at a quarter less, from whispering rings to bottled starlight."
+    },
+    {
+        "id": 3,
+        "discount_perc": 10,
+        "start_at": "2099-12-01",
+        "end_at": "2099-12-31",
+        "name": "Winterhold Provisioning",
+        "slug": "winterhold-provisioning",
+        "description": "Prepare for the long road north with ten percent off woolens, warded armour, and restorative draughts chosen by Winterhold guides."
+    },
+    {
+        "id": 4,
+        "discount_perc": 30,
+        "start_at": "2026-09-01",
+        "end_at": "2026-10-15",
+        "name": "Emberwake Clearance",
+        "slug": "emberwake-clearance",
+        "description": "The last emberwake caravans have departed. Their remaining fire-forged curios and scarlet tonics were marked down thirty percent before the roads closed."
+    },
+    {
+        "id": 5,
+        "discount_perc": 20,
+        "start_at": "2099-02-01",
+        "end_at": "2099-03-15",
+        "name": "The Verdant Court",
+        "slug": "the-verdant-court",
+        "description": "A spring court of herbalists and fae traders will bring twenty percent savings on green remedies, living wood, and garden-born accessories."
+    },
+    {
+        "id": 6,
+        "discount_perc": 35,
+        "start_at": "2026-08-01",
+        "end_at": "2026-08-21",
+        "name": "Founders' Vault",
+        "slug": "founders-vault",
+        "description": "A short archive release opened the oldest vaults for thirty-five percent less, giving collectors one final chance at retired masterpieces."
+    }
+]

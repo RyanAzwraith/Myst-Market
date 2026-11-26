@@ -1,0 +1,40 @@
+@import "../styles/reset.css";
+@import "../styles/tokens.css";
+@import "../styles/globals.css";
+
+@import "../shared/composition.css";
+@import "../shared/interactive.css";
+@import "../shared/presentation.css";
+@import "../shared/icons.css";
+
+@import "../app/app-shell.css";
+
+@import "../features/auth/auth.css";
+@import "../features/app/app.css";
+@import "../features/item/item.css";
+@import "../features/media/media.css";
+@import "../features/order/order.css";
+@import "../features/product/product.css";
+@import "../features/review/review.css";
+@import "../features/sale/sale.css";
+@import "../features/user/user.css";
+
+@import "../hooks/form-inputs.css";
+@import "../hooks/query-params.css";
+@import "../hooks/select-edit.css";
+
+@import "../pages/public-pages.css";
+@import "../pages/admin-pages.css";
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none;
+        animation: none;
+    }
+}

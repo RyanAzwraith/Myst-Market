@@ -1,0 +1,45 @@
+html,
+body,
+#root {
+    min-height: 100%;
+}
+
+body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    background-image:
+        radial-gradient(
+            circle at 20% 20%,
+            rgb(255 250 240 / 28%) 0,
+            transparent 35%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgb(106 76 37 / 3%) 0,
+            rgb(106 76 37 / 3%) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+a {
+    color: inherit;
+    transition: color 150ms ease;
+}
+
+a:hover {
+    color: var(--color-primary);
+}
+
+a:focus-visible {
+    border-radius: var(--radius-sm);
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
