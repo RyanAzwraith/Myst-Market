@@ -24,10 +24,10 @@ def create_stripe_session(order, items) -> str:
                 for item in items
             ],
             success_url=(
-                f"{get_config().cors_origins[0]}/success"
+                f"{get_config().cors_origins[0]}/Myst-Market/success"
             ),
             cancel_url=(
-                f"{get_config().cors_origins[0]}/checkout"
+                f"{get_config().cors_origins[0]}/Myst-Market/checkout"
             ),
             client_reference_id=str(order.user_id),
             metadata={"order_id": str(order.id)},

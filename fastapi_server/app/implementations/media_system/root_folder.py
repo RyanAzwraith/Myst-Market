@@ -18,7 +18,7 @@ class RootFolder(MediaSystem):
         self.root = (
             Path(root).expanduser().resolve()
             if root is not None
-            else Path(__file__).resolve().parents[4] / "media"
+            else Path(__file__).resolve().parents[4] / "Media"
         )
         self.root.mkdir(parents=True, exist_ok=True)
 

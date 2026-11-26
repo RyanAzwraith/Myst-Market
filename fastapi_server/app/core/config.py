@@ -39,6 +39,7 @@ def create_config():
         files_url=validate_env_var("FILES_URL", required=True),
         log_level=validate_env_var("LOG_LEVEL", required=False, default="WARNING"),
         log_to_file=to_bool(validate_env_var("LOG_TO_FILE", required=False, default="false")),
+        seed_db=to_bool(validate_env_var("SEED_DB", required=False, default="false")),
     )
 
 

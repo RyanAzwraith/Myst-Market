@@ -339,7 +339,7 @@ def _create_media(
 
 
 def _ensure_media_file() -> None:
-    media_root = Path(__file__).resolve().parents[5] / "media"
+    media_root = Path(__file__).resolve().parents[5] / "Media"
     source = media_root / "test_media" / MEDIA_FILE_NAME
     if not source.is_file():
         raise FileNotFoundError(

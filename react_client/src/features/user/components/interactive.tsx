@@ -59,7 +59,7 @@ function SetPasswordForm({ onSuccess, className }: {
     return (
         <FormInputsForm 
         formInputs={formInputs}
-        submitLabel="Send set password email"
+        submitLabel="Set password"
         className={`set-password-form ${className ?? ""}`}
         />
     ) 

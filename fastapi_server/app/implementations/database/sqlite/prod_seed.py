@@ -30,7 +30,7 @@ from app.implementations.database.sqlite.sqlite import SqliteDatabase
 
 
 DATA_DIRECTORY = Path(__file__).resolve().with_name("data")
-MEDIA_DIRECTORY = Path(__file__).resolve().parents[5] / "media"
+MEDIA_DIRECTORY = Path(__file__).resolve().parents[5] / "Media"
 MEDIA_FILENAME_PATTERN = re.compile(r"^(?P<slug>.+)-(?P<sort_order>\d+)$")
 DATA_FILES = (
     "users.json",
@@ -166,6 +166,8 @@ def seed_database(database_url: str) -> None:
     database = SqliteDatabase(database_url)
 
     try:
+        Base.metadata.drop_all(database.engine)
+
         Base.metadata.create_all(database.engine)
 
         with database.make_session() as session:
