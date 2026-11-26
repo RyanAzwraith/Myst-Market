@@ -19,7 +19,7 @@ pip install -r requirements.txt
 Copy-Item .env.example .dev.env
 ```
 
-Edit `fastapi_server/.dev.env` and provide the required keys. The default development configuration uses SQLite and stores the database in `sqlite_database/myst_market_database.db`. 
+Edit `fastapi_server/.dev.env` and provide the required keys. The default development configuration uses SQLite and stores the database in `sqlite_database/myst_market_database.db`.
 
 Start the API from `fastapi_server`:
 

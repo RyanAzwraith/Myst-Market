@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from app.utils.create_singleton import create_singleton
 
 environment = os.getenv("ENVIRONMENT", "dev")
-load_dotenv(f".{environment}.env")
+load_dotenv(f".env.{environment}")
 
 def validate_env_var(name:str, required:bool=True, default:str|bool=None):
     var = os.getenv(name, default)
