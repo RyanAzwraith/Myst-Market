@@ -1,4 +1,5 @@
 import type { 
+    AriaRole,
     ReactNode, 
     LabelHTMLAttributes,
 } from "react"
@@ -70,11 +71,12 @@ function SaleBadge({
 
 
 function Text({
-    children, variant = "normal", className
+    children, variant = "normal", className, role
 }: {
     children: ReactNode
     variant?: "normal" | "muted" | "small"
     className?: string
+    role?: AriaRole
 }) {
     return (
         <p 
@@ -83,6 +85,7 @@ function Text({
             `shared-text-${variant}`,
             className
         )}
+        role={role}
         children={children}
         />
     )

@@ -4,7 +4,7 @@ import {
     kind,
 } from "@/hooks/FormInputs"
 import { useCreateMutation } from "./service"
-import type { ReviewInput } from "../product"
+import type { ReviewInput } from "./schema"
 import { isDemoEnvironment, mockFormData } from '@/app/formAutoFillData'
 
 
@@ -17,7 +17,7 @@ const createFormFields = {
         kind: kind.number,
         label: "Rating",
         initial: isDemoEnvironment ? mockFormData.review.rating : undefined,
-        validate: (value) => 
+        validate: (value: number | null) => 
             value && 1 <= value && value <= 5 ? null : "Select Rating"
         
     },

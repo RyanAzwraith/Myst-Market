@@ -46,7 +46,7 @@ export {
 
 function useCheckoutFormFields({ items, user,  }: { 
     items: ItemSummary[] | null
-    user?: User,
+    user?: User | null,
 }) {
     const fields = {
         name: {

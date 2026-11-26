@@ -8,5 +8,6 @@ env/
 .*.env
 *.env
 !.env.example
-
+!.env.production
 *.db
+react_client/.env.development

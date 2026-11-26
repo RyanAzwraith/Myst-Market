@@ -458,7 +458,7 @@ const orderInterface: Interface.Order = {
         }
     },
     create: async () => ({
-        stripeSessionUrl: "mock-stripe-session-url",
+        stripeSessionUrl: "/Myst-Market/mock-stripe-session-url",
     }),
     patchStatus: async () => {},
 }

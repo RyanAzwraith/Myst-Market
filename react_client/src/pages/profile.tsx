@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 import {
-    List,
     Page,
     Heading,
     Stack,

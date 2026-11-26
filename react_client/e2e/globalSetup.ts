@@ -2,8 +2,6 @@
 import { spawn } from 'child_process'
 import { request, expect } from '@playwright/test'
 
-let backendProcess: any
-
 function sleep(ms: number) {
   return new Promise(res => setTimeout(res, ms))
 }
@@ -11,7 +9,7 @@ function sleep(ms: number) {
 export default async function globalSetup() {
   console.log('Starting backend...')
 
-  backendProcess = spawn(
+  spawn(
     '..\\fastapi_server\\venv\\Scripts\\python.exe',
     [
       '-m',

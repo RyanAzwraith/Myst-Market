@@ -133,10 +133,7 @@ type FieldValue<F extends FieldDef> =
                             : never;
 
 
-type FormInputs<
-    F extends FieldDefs,
-    S extends FieldValues<F>
-> = {
+type FormInputs<F extends FieldDefs> = {
     bindings: Bindings<F>;
     values: FieldValues<F>,
     errorMsg: string | null,

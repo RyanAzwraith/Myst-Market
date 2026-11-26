@@ -60,7 +60,7 @@ function ResolutionCard({ item, onClick}: {
 }) {
     return (
     <Card
-    className={`resolution-card product-card-theme-${item.product.rarityName}`}
+    className="resolution-card"
     onClick={() => onClick?.(item)}
     >
         <ResolutionInfo item={item} />

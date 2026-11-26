@@ -18,7 +18,6 @@ import {
 } from "@/hooks/QueryParams";
 
 import { 
-    type ProductAnalytics,
     type Product,
     AdminSearchTitle,
     AdminSummaryInfo,

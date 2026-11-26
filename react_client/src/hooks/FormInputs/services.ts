@@ -28,17 +28,14 @@ export {
 }
 
 
-function useFormInputs<
-    F extends FieldDefs, 
-    S extends FieldValues<F>
->({ 
+function useFormInputs<F extends FieldDefs>({ 
     fields, onValidate, onSubmit, resetOnSubmit = true
 }:{
     fields: F,
     onValidate?: (values: FieldValues<F>) =>  string | null;
     onSubmit?: OnSubmit<F>
     resetOnSubmit?: boolean
-}): FormInputs<F, S> {
+}): FormInputs<F> {
 
     const initialValues = useMemo( () =>
         mapRecord(fields, 
@@ -88,7 +85,7 @@ function useFormInputs<
             return error;
         } 
         setErrorMsg(null);
-        setFieldValues(values as S);
+        setFieldValues(values);
         return null;
     }
 

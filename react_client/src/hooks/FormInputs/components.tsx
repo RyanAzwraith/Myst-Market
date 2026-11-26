@@ -26,7 +26,6 @@ import type {
     FormInputs,
     PasswordFieldDef,
     EmailFieldDef,
-    FieldValues,
 } from './schema';
 import { kind } from './schema';
 
@@ -270,7 +269,7 @@ function FormInputsField({ binding }: {
 function FormInputsForm({
     formInputs, submitLabel="Submit", hasResetButton=false, className
 }: {
-    formInputs: FormInputs<FieldDefs, FieldValues<FieldDefs>>
+    formInputs: FormInputs<FieldDefs>
     submitLabel?: string,
     hasResetButton?: boolean,
     className?: string,
