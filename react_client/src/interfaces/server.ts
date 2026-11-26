@@ -81,7 +81,9 @@ interface User {
 
     create: (req: {
         userInput: user.UserInput
-    }) => Promise<void>
+    }) => Promise<{
+        setPasswordToken: string | null
+    }>
 
     patch: (req: {
         userInput: Partial<user.UserInput>

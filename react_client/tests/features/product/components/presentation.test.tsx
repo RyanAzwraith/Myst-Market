@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { productFactory } from "../../../../mock_data/product"
+import { productFactory } from "../../../factories/product"
 import {
     AdminSearchTitle,
     PriceFormat,

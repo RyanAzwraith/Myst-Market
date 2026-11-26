@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { reviewFactory } from "../../../../mock_data/review"
+import { reviewFactory } from "../../../factories/review"
 import { ReviewInfo } from "@/features/review/components/content"
 
 describe("ReviewInfo intimacy: low", () => {

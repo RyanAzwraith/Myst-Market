@@ -97,13 +97,15 @@ function useOrdersQuery() {
 function useCreateMutation({
     onSuccess, onError
 }: {
-    onSuccess?: () => void,
+    onSuccess?: (response: {
+        setPasswordToken: string | null
+    }) => void,
     onError?: (error: unknown) => void
 }) {
     return useMutation({
         mutationFn: (userInput: UserInput) => 
             server.user.create({ userInput }),
-        onSuccess: () => onSuccess?.(),
+        onSuccess: (response) => onSuccess?.(response),
         onError: (error) => {
             logger.error("Unexpected server error, unable to create user");
             onError?.(error)

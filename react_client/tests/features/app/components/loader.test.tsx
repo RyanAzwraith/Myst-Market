@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { performance } from "../../../../mock_data/app"
+import { performance } from "../../../factories/app"
 import { server } from "@/core"
 import { PerformanceLoader } from "@/features/app/components/loader"
 

@@ -2,7 +2,7 @@ import { renderHook, waitFor } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { createWrapper } from "../../utils"
-import { reviewFactory } from "../../../mock_data/review"
+import { reviewFactory } from "../../factories/review"
 import { server } from "@/core"
 import {
     useCreateMutation,

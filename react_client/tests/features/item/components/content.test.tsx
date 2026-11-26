@@ -2,8 +2,8 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { itemResolutionFactory } from "../../../../mock_data/item"
-import { productFactory } from "../../../../mock_data/product"
+import { itemResolutionFactory } from "../../../factories/item"
+import { productFactory } from "../../../factories/product"
 import { server } from "@/core"
 import {
     ItemInfo,

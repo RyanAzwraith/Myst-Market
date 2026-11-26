@@ -5,12 +5,12 @@ import { createWrapper, resetAuthState } from "../../utils"
 import {
     orderFactory,
     orderSummaryFactory,
-} from "../../../mock_data/order"
-import { reviewFactory } from "../../../mock_data/review"
+} from "../../factories/order"
+import { reviewFactory } from "../../factories/review"
 import {
     userAnalyticsFactory,
     userFactory,
-} from "../../../mock_data/user"
+} from "../../factories/user"
 import { server } from "@/core"
 import type { AdminSearchParams } from "@/features/user/schema"
 import {

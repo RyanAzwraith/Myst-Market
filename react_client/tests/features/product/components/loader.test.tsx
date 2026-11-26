@@ -2,11 +2,11 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { mediaFactory } from "../../../../mock_data/media"
+import { mediaFactory } from "../../../factories/media"
 import {
     productAnalyticsFactory,
     productFactory,
-} from "../../../../mock_data/product"
+} from "../../../factories/product"
 import { server } from "@/core"
 import {
     AdminSearchLoader,

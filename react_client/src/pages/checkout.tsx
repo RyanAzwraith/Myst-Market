@@ -113,6 +113,11 @@ function CheckoutPage() {
 
                 <ErrorMsg errorMsg={errorMsg} />
 
+                <Text className="checkout-stripe-hint">
+                    Stripe test card: 4242 4242 4242 4242. Any future expiry,
+                    CVC, and postcode will work.
+                </Text>
+
                 <Button type="submit" className="checkout-submit">
                     Pay with Stripe
                 </Button>

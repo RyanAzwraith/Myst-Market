@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest"
 import { renderWithRouter } from "../../../utils"
 import {
     saleAnalyticsFactory,
-} from "../../../../mock_data/sale"
+} from "../../../factories/sale"
 import { server } from "@/core"
 import {
     CreateForm,

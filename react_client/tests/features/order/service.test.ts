@@ -5,9 +5,11 @@ import { createWrapper } from "../../utils"
 import {
     orderFactory,
     orderSummaryFactory,
-} from "../../../mock_data/order"
-import { userDetailFactory } from "../../../mock_data/user"
+} from "../../factories/order"
+import { userDetailFactory } from "../../factories/user"
+import { productFactory } from "../../factories/product"
 import { server } from "@/core"
+import { useCartState } from "@/features/item/state"
 import type { AdminSearchParams, Address } from "@/features/order/schema"
 import {
     useAdminSearchQuery,
@@ -196,6 +198,34 @@ describe("useCreateMutation intimacy: medium", () => {
 
         act(() => result.current.mutate(request))
         await waitFor(() => expect(create).toHaveBeenCalledWith(request))
+    })
+
+    it("clears the cart after creating a Stripe checkout session", async () => {
+        const product = productFactory({ id: 21 })
+        useCartState.getState().addItem(product, 1)
+        vi.spyOn(server.order, "create")
+            .mockResolvedValue({ stripeSessionUrl: "/checkout" })
+        const { wrapper } = createWrapper()
+        const { result } = renderHook(() => useCreateMutation(), {
+            wrapper,
+        })
+
+        act(() => result.current.mutate({
+            items: [{ productId: product.id, quantity: 1 }],
+            address: {
+                countryCode: "AU",
+                postcode: "3000",
+                state: "VIC",
+                city: "Melbourne",
+                street: "Main Street",
+            },
+            deliveryNote: "",
+            user: null,
+            isCreatingAccount: false,
+        }))
+
+        await waitFor(() => expect(useCartState.getState().items)
+            .toEqual([]))
     })
 })
 

@@ -2,7 +2,7 @@ import { act, renderHook } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { createWrapper } from "../../utils"
-import { saleAnalyticsFactory } from "../../../mock_data/sale"
+import { saleAnalyticsFactory } from "../../factories/sale"
 import { server } from "@/core"
 import {
     useAdminSearchParams,

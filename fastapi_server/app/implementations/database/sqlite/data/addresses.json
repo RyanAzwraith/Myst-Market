@@ -1,0 +1,218 @@
+[
+    {
+        "id": 1,
+        "user_id": 1,
+        "country_code": "AU",
+        "state": "VIC",
+        "city": "Melbourne",
+        "street": "14 Lantern Row",
+        "postcode": 3000
+    },
+    {
+        "id": 2,
+        "user_id": 1,
+        "country_code": "AU",
+        "state": "NSW",
+        "city": "Newcastle",
+        "street": "8 Copperleaf Crescent",
+        "postcode": 2300
+    },
+    {
+        "id": 3,
+        "user_id": 2,
+        "country_code": "AU",
+        "state": "VIC",
+        "city": "Ballarat",
+        "street": "27 Wattleglass Lane",
+        "postcode": 3350
+    },
+    {
+        "id": 4,
+        "user_id": 3,
+        "country_code": "AU",
+        "state": "NSW",
+        "city": "Sydney",
+        "street": "91 Moonstone Parade",
+        "postcode": 2000
+    },
+    {
+        "id": 5,
+        "user_id": 4,
+        "country_code": "AU",
+        "state": "QLD",
+        "city": "Brisbane",
+        "street": "3 Sunspire Terrace",
+        "postcode": 4000
+    },
+    {
+        "id": 6,
+        "user_id": 5,
+        "country_code": "AU",
+        "state": "SA",
+        "city": "Adelaide",
+        "street": "42 Silverfern Street",
+        "postcode": 5000
+    },
+    {
+        "id": 7,
+        "user_id": 6,
+        "country_code": "AU",
+        "state": "WA",
+        "city": "Perth",
+        "street": "16 Starling Quay",
+        "postcode": 6000
+    },
+    {
+        "id": 8,
+        "user_id": 7,
+        "country_code": "AU",
+        "state": "TAS",
+        "city": "Hobart",
+        "street": "5 Hearthwood Road",
+        "postcode": 7000
+    },
+    {
+        "id": 9,
+        "user_id": 8,
+        "country_code": "AU",
+        "state": "NSW",
+        "city": "Wollongong",
+        "street": "63 Tideglass Avenue",
+        "postcode": 2500
+    },
+    {
+        "id": 10,
+        "user_id": 9,
+        "country_code": "AU",
+        "state": "QLD",
+        "city": "Toowoomba",
+        "street": "18 Briarbell Court",
+        "postcode": 4350
+    },
+    {
+        "id": 11,
+        "user_id": 10,
+        "country_code": "AU",
+        "state": "VIC",
+        "city": "Geelong",
+        "street": "7 Rosequartz Drive",
+        "postcode": 3220
+    },
+    {
+        "id": 12,
+        "user_id": 11,
+        "country_code": "AU",
+        "state": "SA",
+        "city": "Mount Gambier",
+        "street": "22 Emberfall Street",
+        "postcode": 5290
+    },
+    {
+        "id": 13,
+        "user_id": 12,
+        "country_code": "AU",
+        "state": "WA",
+        "city": "Fremantle",
+        "street": "11 Mariner's Walk",
+        "postcode": 6160
+    },
+    {
+        "id": 14,
+        "user_id": 13,
+        "country_code": "AU",
+        "state": "NSW",
+        "city": "Bathurst",
+        "street": "38 Foxglove Close",
+        "postcode": 2795
+    },
+    {
+        "id": 15,
+        "user_id": 14,
+        "country_code": "AU",
+        "state": "QLD",
+        "city": "Cairns",
+        "street": "4 Rainshadow Esplanade",
+        "postcode": 4870
+    },
+    {
+        "id": 16,
+        "user_id": 15,
+        "country_code": "AU",
+        "state": "VIC",
+        "city": "Bendigo",
+        "street": "76 Goldleaf Road",
+        "postcode": 3550
+    },
+    {
+        "id": 17,
+        "user_id": 16,
+        "country_code": "AU",
+        "state": "NSW",
+        "city": "Armidale",
+        "street": "9 Frostwillow Street",
+        "postcode": 2350
+    },
+    {
+        "id": 18,
+        "user_id": 17,
+        "country_code": "AU",
+        "state": "QLD",
+        "city": "Mackay",
+        "street": "31 Coralwind Way",
+        "postcode": 4740
+    },
+    {
+        "id": 19,
+        "user_id": 18,
+        "country_code": "AU",
+        "state": "WA",
+        "city": "Albany",
+        "street": "2 Southern Cross Lane",
+        "postcode": 6330
+    },
+    {
+        "id": 20,
+        "user_id": 19,
+        "country_code": "AU",
+        "state": "TAS",
+        "city": "Launceston",
+        "street": "45 Peppermoon Street",
+        "postcode": 7250
+    },
+    {
+        "id": 21,
+        "user_id": 20,
+        "country_code": "AU",
+        "state": "VIC",
+        "city": "Castlemaine",
+        "street": "19 Velvet Moss Road",
+        "postcode": 3450
+    },
+    {
+        "id": 22,
+        "user_id": 2,
+        "country_code": "AU",
+        "state": "NSW",
+        "city": "Katoomba",
+        "street": "12 Bluefire Rise",
+        "postcode": 2780
+    },
+    {
+        "id": 23,
+        "user_id": 7,
+        "country_code": "AU",
+        "state": "VIC",
+        "city": "Melbourne",
+        "street": "88 Nightjar Lane",
+        "postcode": 3008
+    },
+    {
+        "id": 24,
+        "user_id": 14,
+        "country_code": "AU",
+        "state": "QLD",
+        "city": "Port Douglas",
+        "street": "6 Pearlcurrent Court",
+        "postcode": 4877
+    }
+]

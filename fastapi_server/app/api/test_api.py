@@ -16,7 +16,7 @@ from app.features.auth import (
     hash_password
 )
 from app.features.user import User
-from app.implementations.database.sqlite.seed import seed_database
+from app.implementations.database.sqlite.dev_seed import seed_database
 
 test_router = APIRouter()
 

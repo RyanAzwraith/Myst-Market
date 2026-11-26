@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { reviewFactory } from "../../../../mock_data/review"
+import { reviewFactory } from "../../../factories/review"
 import { server } from "@/core"
 import { TestimonialLoader } from "@/features/review/components/loader"
 

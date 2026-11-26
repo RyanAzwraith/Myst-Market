@@ -6,7 +6,7 @@ import {
     PageRoutesComponent,
     ProtectedRoute,
 } from "@/app/PageRoutes"
-import { userFactory } from "../../mock_data/user"
+import { userFactory } from "../factories/user"
 import { renderWithRouter, resetAuthState } from "../utils"
 
 vi.mock("@/pages/catalogue", () => ({

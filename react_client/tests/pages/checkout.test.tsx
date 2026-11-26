@@ -7,10 +7,10 @@ import {
     resetAuthState,
     resetCartState,
 } from "../utils"
-import { mockAccessToken } from "../../mock_data/auth"
-import { itemResolutionFactory } from "../../mock_data/item"
-import { productFactory } from "../../mock_data/product"
-import { userFactory } from "../../mock_data/user"
+import { mockAccessToken } from "../factories/auth"
+import { itemResolutionFactory } from "../factories/item"
+import { productFactory } from "../factories/product"
+import { userFactory } from "../factories/user"
 import { server } from "@/core"
 import { useAuthState } from "@/features/auth/state"
 import { CheckoutPage } from "@/pages/checkout"
@@ -262,6 +262,9 @@ describe("CheckoutPage intimacy: high", () => {
                 screen.getByLabelText("Email"),
                 "guest@example.com",
             )
+            await user.click(screen.getByLabelText(
+                "Would you like to create an account?",
+            ))
             await user.type(
                 screen.getByPlaceholderText("country code"),
                 "AU",

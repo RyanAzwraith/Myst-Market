@@ -33,6 +33,7 @@ import {
     usePatchStatusMutation,
 } from "./service"
 import { ServerException } from "@/core"
+import { isDemoEnvironment, mockFormData } from '@/app/formAutoFillData'
 
 
 export {
@@ -52,53 +53,59 @@ function useCheckoutFormFields({ items, user,  }: {
             kind: formInputsKind.text,
             label: "Name",
             validate: value => value ? null : "Name Required",
-            initial: user?.name,
+            initial: user?.name ?? (isDemoEnvironment ? mockFormData.name : undefined),
         },
         email: {
             kind: formInputsKind.email,
             label: "Email",
-            initial: user?.email,
+            initial: user?.email ?? (isDemoEnvironment ? mockFormData.email : undefined),
         },
         isCreatingAccount: {
             kind: formInputsKind.boolean,
             label: "Would you like to create an account?",
             defaultValue: false,
-            initial: !user,
+            initial: !user && isDemoEnvironment,
         },
         country_code: {
             kind: formInputsKind.text,
             label: "Country code",
             placeholder: "country code",
+            initial: isDemoEnvironment ? mockFormData.address.countryCode : undefined,
             validate: value => value ? null : "Country Code Required",
         },
         postcode: {
             kind: formInputsKind.text,
             label: "Postcode",
             placeholder: "postcode",
+            initial: isDemoEnvironment ? mockFormData.address.postcode : undefined,
             validate: value => value ? null : "Postcode Required",
         },
         state: {
             kind: formInputsKind.text,
             label: "State",
             placeholder: "state",
+            initial: isDemoEnvironment ? mockFormData.address.state : undefined,
             validate: value => value ? null : "State Required",
         },
         city: {
             kind: formInputsKind.text,
             label: "City",
             placeholder: "city",
+            initial: isDemoEnvironment ? mockFormData.address.city : undefined,
             validate: value => value ? null : "City Required",
         },
         street: {
             kind: formInputsKind.text,
             label: "Street",
             placeholder: "street",
+            initial: isDemoEnvironment ? mockFormData.address.street : undefined,
             validate: value => value ? null : "Street Required",
         },
         deliveryNotes: {
             kind: formInputsKind.text,
             label: "Delivery note",
             placeholder: "delivery note",
+            initial: isDemoEnvironment ? mockFormData.address.deliveryNotes : undefined,
         }
     } satisfies FormInputsFieldDefs
 

@@ -28,6 +28,7 @@ import {
     usePatchManyMutation, 
     usePostMutation 
 } from "./service"
+import { isDemoEnvironment, mockFormData } from '@/app/formAutoFillData'
  
 export { 
     useUpdateForm,
@@ -40,32 +41,32 @@ const fields = (sale?: SaleAnalytics) => ({
     name: {
         kind: formInputsKind.text,
         label: 'Name',
-        initial: sale?.name,
+        initial: sale?.name ?? (isDemoEnvironment ? mockFormData.sale.name : undefined),
     },
     slug: {
         kind: formInputsKind.text,
         label: 'Slug',
-        initial: sale?.slug,
+        initial: sale?.slug ?? (isDemoEnvironment ? mockFormData.sale.slug : undefined),
     },
     description: {
         kind: formInputsKind.text,
         label: 'Description',
-        initial: sale?.description,
+        initial: sale?.description ?? (isDemoEnvironment ? mockFormData.sale.description : undefined),
     },
     startAt: { 
         kind: formInputsKind.text,
         label: 'Start date',
-        initial: sale?.startAt || today(),
+        initial: sale?.startAt || (isDemoEnvironment ? mockFormData.sale.startAt : today()),
     },
     endAt: { 
         kind: formInputsKind.text,
         label: 'End date',
-        initial: sale?.endAt,
+        initial: sale?.endAt ?? (isDemoEnvironment ? mockFormData.sale.endAt : undefined),
     },
     discountPerc: {
         kind: formInputsKind.number,
         label: 'Discount percent',
-        initial: sale?.discountPerc,
+        initial: sale?.discountPerc ?? (isDemoEnvironment ? mockFormData.sale.discountPerc : undefined),
         validate: (value: number | null) => 
             value == null || (value >= 0 && value <= 100)
                 ? null : "Discount percent must be between 0 and 100",

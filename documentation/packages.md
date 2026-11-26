@@ -1,4 +1,4 @@
-react-client
+# react-client
 
 - axios
 - react-router-dom
@@ -13,7 +13,6 @@ react-client
 - @testing-library/react
 - @testing-library/jest-dom jsdom
 - typescript
-- @tailwindcss/vite
 - @heroicons/react
 - jsdom
 - @testing-library/user-event
@@ -22,7 +21,11 @@ react-client
 - dotenv
 - recharts
 - @faker-js/faker
-- `tailwind-merge`fastapi-server
+
+
+
+# fastapi-server
+
 - fastapi
 - uvicorn
 - sqlalchemy

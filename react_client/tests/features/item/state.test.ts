@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest"
 
 import { resetCartState } from "../../utils"
-import { productFactory } from "../../../mock_data/product"
+import { productFactory } from "../../factories/product"
 import { useCartState } from "@/features/item/state"
 
 describe("useCartState intimacy: medium", () => {

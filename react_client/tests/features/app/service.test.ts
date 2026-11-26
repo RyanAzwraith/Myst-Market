@@ -7,7 +7,7 @@ import {
     graphPoints,
     performance,
     stats,
-} from "../../../mock_data/app"
+} from "../../factories/app"
 import { server } from "@/core"
 import {
     useAttentionQuery,

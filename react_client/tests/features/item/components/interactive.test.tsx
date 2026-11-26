@@ -3,7 +3,7 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter, resetCartState } from "../../../utils"
-import { productFactory } from "../../../../mock_data/product"
+import { productFactory } from "../../../factories/product"
 import { server } from "@/core"
 import {
     AddToCartButton,

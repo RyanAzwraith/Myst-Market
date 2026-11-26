@@ -111,6 +111,7 @@ function CataloguePage() {
                     onClick={(sale) => navigate(PageRoutes.sale(sale.slug))}
                     />
                 )}
+                className="catalogue-sale-carousel"
                 limit={3}
                 />
             )}/>

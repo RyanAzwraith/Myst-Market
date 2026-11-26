@@ -2,9 +2,9 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { itemResolutionFactory } from "../../../../mock_data/item"
-import { orderFactory, orderSummaryFactory } from "../../../../mock_data/order"
-import { userDetailFactory } from "../../../../mock_data/user"
+import { itemResolutionFactory } from "../../../factories/item"
+import { orderFactory, orderSummaryFactory } from "../../../factories/order"
+import { userDetailFactory } from "../../../factories/user"
 import {
     AdminInfo,
     AdminPerformanceInfo,

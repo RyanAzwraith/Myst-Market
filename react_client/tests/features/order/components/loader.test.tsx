@@ -3,8 +3,8 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { orderFactory, orderSummaryFactory } from "../../../../mock_data/order"
-import { userDetailFactory } from "../../../../mock_data/user"
+import { orderFactory, orderSummaryFactory } from "../../../factories/order"
+import { userDetailFactory } from "../../../factories/user"
 import { server } from "@/core"
 import {
     AdminSearchLoader,

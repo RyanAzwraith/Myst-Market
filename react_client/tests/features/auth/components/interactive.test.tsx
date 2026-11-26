@@ -3,8 +3,8 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter, resetAuthState } from "../../../utils"
-import { mockAccessToken } from "../../../../mock_data/auth"
-import { userFactory } from "../../../../mock_data/user"
+import { mockAccessToken } from "../../../factories/auth"
+import { userFactory } from "../../../factories/user"
 import { server } from "@/core"
 import {
     LoginForm,

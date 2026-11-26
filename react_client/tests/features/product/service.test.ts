@@ -2,9 +2,9 @@ import { act, renderHook, waitFor } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { createWrapper } from "../../utils"
-import { mediaFactory } from "../../../mock_data/media"
-import { productAnalyticsFactory, productFactory } from "../../../mock_data/product"
-import { reviewFactory } from "../../../mock_data/review"
+import { mediaFactory } from "../../factories/media"
+import { productAnalyticsFactory, productFactory } from "../../factories/product"
+import { reviewFactory } from "../../factories/review"
 import { server } from "@/core"
 import type {
     AdminSearchParams,

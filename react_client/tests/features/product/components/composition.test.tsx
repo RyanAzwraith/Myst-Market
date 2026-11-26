@@ -7,11 +7,11 @@ import {
     resetAuthState,
     resetCartState,
 } from "../../../utils"
-import { mockAccessToken } from "../../../../mock_data/auth"
-import { mediaFactory } from "../../../../mock_data/media"
-import { productFactory } from "../../../../mock_data/product"
-import { reviewFactory } from "../../../../mock_data/review"
-import { userFactory } from "../../../../mock_data/user"
+import { mockAccessToken } from "../../../factories/auth"
+import { mediaFactory } from "../../../factories/media"
+import { productFactory } from "../../../factories/product"
+import { reviewFactory } from "../../../factories/review"
+import { userFactory } from "../../../factories/user"
 import { server } from "@/core"
 import {
     CardCarousel,

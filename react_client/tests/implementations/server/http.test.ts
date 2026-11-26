@@ -4,7 +4,7 @@ import { config } from "@/core"
 import { useAuthState } from "@/features/auth"
 import { httpImplementation } from "@/implementations/server/http"
 import { serverRoutes } from "@/implementations/server/http/serverRoutes"
-import { userFactory } from "../../../mock_data/user"
+import { userFactory } from "../../factories/user"
 
 function jsonResponse(body: unknown, status = 200) {
     return new Response(JSON.stringify(body), {

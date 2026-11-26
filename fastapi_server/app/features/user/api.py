@@ -8,8 +8,12 @@ from app.api.dependencies import (
     get_db,
     get_set_password_user,
 )
-from app.core.exceptions import AuthorizationException
-from app.features.auth import hash_password, issue_tokens
+from app.core.exceptions import AppError, AuthorizationException
+from app.features.auth import (
+    create_set_password_token,
+    hash_password,
+    issue_tokens,
+)
 
 from app.features.order.schema import Order, OrderSummary
 from app.features.review.schema import Review
@@ -117,6 +121,9 @@ async def get_user_analytics_handler(
 class CreateUserRequest(Base):
     user_input: UserInput
 
+class CreateUserResponse(Base):
+    set_password_token: str | None = None
+
 @user_router.post(
     Paths.User.create,
     status_code=201,
@@ -130,7 +137,16 @@ async def create_user_handler(
         name=req.user_input.name,
         is_registered=True,
     )
-    send_set_password_email(user)
+    try:
+        # Keep the email attempt for real deployments; the portfolio demo uses
+        # the fallback token when Resend is unavailable.
+        send_set_password_email(user)
+    except AppError:
+        set_password_token = create_set_password_token(user.id)
+    else:
+        set_password_token = None
+
+    return CreateUserResponse(set_password_token=set_password_token)
 
 
 # Patch User

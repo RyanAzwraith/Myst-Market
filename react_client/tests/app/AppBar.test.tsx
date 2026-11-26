@@ -3,7 +3,7 @@ import { screen, waitFor } from "@testing-library/react"
 import { beforeEach, describe, expect, it } from "vitest"
 
 import { AppBar } from "@/app/AppBar"
-import { userFactory } from "../../mock_data/user"
+import { userFactory } from "../factories/user"
 import {
     renderWithRouter,
     resetAuthState,

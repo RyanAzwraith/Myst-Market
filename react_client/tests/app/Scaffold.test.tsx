@@ -5,7 +5,7 @@ import { Scaffold } from "@/app/Scaffold"
 import { server } from "@/core"
 import { renderWithRouter, resetAuthState } from "../utils"
 import { useAuthState } from "@/features/user"
-import { userFactory } from "../../mock_data/user"
+import { userFactory } from "../factories/user"
 
 describe("Scaffold intimacy: high", () => {
     beforeEach(() => {
@@ -27,6 +27,13 @@ describe("Scaffold intimacy: high", () => {
             )
 
             expect(screen.getByText("Application content"))
+                .toBeInTheDocument()
+            expect(screen.getByRole("note", {
+                name: "Demo website notice",
+            })).toHaveTextContent(
+                "No real charges will be made.",
+            )
+            expect(screen.getByText("Mock server implementation is active."))
                 .toBeInTheDocument()
             expect(refresh).not.toHaveBeenCalled()
         },

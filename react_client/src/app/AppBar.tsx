@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/a11y/useButtonType: <explanation> */
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 

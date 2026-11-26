@@ -24,7 +24,7 @@ def create_app():
         session = next(session_generator)
         try:
             db.with_session(session).media.cleanup()
-            media_system.cleanup()
+            # media_system.cleanup() # commented out for demo so images dont get deleted accidently
         finally:
             session_generator.close()
         yield

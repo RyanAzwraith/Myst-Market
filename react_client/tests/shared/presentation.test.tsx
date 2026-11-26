@@ -2,7 +2,7 @@ import userEvent from "@testing-library/user-event"
 import { render, screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
-import { saleFactory } from "../../mock_data/sale"
+import { saleFactory } from "../factories/sale"
 import { SaleBadge } from "@/shared/presentation"
 
 describe("SaleBadge intimacy: low", () => {

@@ -3,14 +3,12 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { productFactory } from "../../../../mock_data/product"
+import { productFactory } from "../../../factories/product"
 import { server } from "@/core"
 import {
     CategoryBar,
     CreateForm,
     DeleteButton,
-    ExportProductsButton,
-    ImportProductsButton,
     UpdateForm,
 } from "@/features/product/components/interactive"
 

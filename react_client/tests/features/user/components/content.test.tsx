@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { userAnalyticsFactory, userFactory } from "../../../../mock_data/user"
+import { userAnalyticsFactory, userFactory } from "../../../factories/user"
 import {
     AdminSummaryInfo,
     AnalyticsInfo,

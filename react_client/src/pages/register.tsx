@@ -17,7 +17,15 @@ function RegisterPage() {
 
 		<RegisterForm 
 		className="register-form-card"
-		onSuccess={() => navigate(PageRoutes.login)}
+		onSuccess={({ setPasswordToken }) => {
+			if (setPasswordToken) {
+				navigate(
+					`${PageRoutes.setPassword}?token=${encodeURIComponent(setPasswordToken)}&demo=true`,
+				)
+				return
+			}
+			navigate(PageRoutes.login)
+		}}
 		/>
 
 		<Button 

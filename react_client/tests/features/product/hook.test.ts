@@ -2,7 +2,7 @@ import { act, renderHook, waitFor } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { createWrapper } from "../../utils"
-import { productAnalyticsFactory, productFactory } from "../../../mock_data/product"
+import { productAnalyticsFactory, productFactory } from "../../factories/product"
 import { server } from "@/core"
 import {
     adminSelectEditFields,

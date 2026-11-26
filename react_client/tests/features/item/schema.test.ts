@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 
-import { itemResolutionFactory } from "../../../mock_data/item"
-import { productFactory } from "../../../mock_data/product"
+import { itemResolutionFactory } from "../../factories/item"
+import { productFactory } from "../../factories/product"
 import type { Item } from "@/features/item/schema"
 import { itemSummary } from "@/features/item/schema"
 

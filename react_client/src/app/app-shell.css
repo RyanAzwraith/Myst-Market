@@ -17,6 +17,22 @@
     min-width: 0;
 }
 
+.demo-banner {
+    border-bottom: 1px solid var(--color-gold);
+    background: var(--color-gold-light);
+    color: var(--color-black);
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-accent);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.demo-banner-server-status {
+    display: block;
+    font-size: 0.8rem;
+}
+
 .admin-app-bar {
     position: relative;
     z-index: 1;
@@ -114,8 +130,8 @@
     color: var(--color-white);
 }
 
-.app-bar-actions .cart-menu-button > .shared-modal-trigger-button,
-.app-bar-actions .profile-menu-button > .shared-modal-trigger-button {
+.app-bar-actions .cart-menu-button>.shared-modal-trigger-button,
+.app-bar-actions .profile-menu-button>.shared-modal-trigger-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -125,10 +141,8 @@
     color: var(--color-white);
 }
 
-.app-bar-actions .cart-menu-button
-    > .shared-modal-trigger-button:hover,
-.app-bar-actions .profile-menu-button
-    > .shared-modal-trigger-button:hover {
+.app-bar-actions .cart-menu-button>.shared-modal-trigger-button:hover,
+.app-bar-actions .profile-menu-button>.shared-modal-trigger-button:hover {
     background: var(--color-slate-surface);
     color: var(--color-white);
 }
@@ -239,6 +253,10 @@
 
 @media (min-width: 40rem) {
     .app-bar {
+        padding-inline: var(--space-6);
+    }
+
+    .demo-banner {
         padding-inline: var(--space-6);
     }
 }

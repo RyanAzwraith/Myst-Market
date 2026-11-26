@@ -2,9 +2,9 @@ import { screen, waitFor } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../utils"
-import { performance } from "../../../mock_data/app"
-import { orderFactory } from "../../../mock_data/order"
-import { productAnalyticsFactory } from "../../../mock_data/product"
+import { performance } from "../../factories/app"
+import { orderFactory } from "../../factories/order"
+import { productAnalyticsFactory } from "../../factories/product"
 import { server } from "@/core"
 import { DashboardPage } from "@/pages/admin/dashboard"
 

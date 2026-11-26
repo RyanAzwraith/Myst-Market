@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { AppBar } from "./AppBar";
 import { Container } from "@/shared/composition";
 import { useRefreshMutation, useAuthState } from "@/features/auth";
+import { config } from "@/core/config";
 
 
 export function Scaffold({children}: {children: React.ReactNode}) {
@@ -60,6 +61,14 @@ export function Scaffold({children}: {children: React.ReactNode}) {
     return (
     <div className="scaffold">
         <AppBar />
+		<aside className="demo-banner" role="note" aria-label="Demo website notice">
+			<strong>Demo website:</strong> Feel free to explore, log in, and check out. No real charges will be made.
+			{config.VITE_SERVER_IMPLEMENTATION === "mock" && (
+				<span className="demo-banner-server-status">
+					Mock server implementation is active.
+				</span>
+			)}
+		</aside>
         <Container>
             {authReady && children}
         </Container>

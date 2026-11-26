@@ -7,8 +7,8 @@ import {
     resetAuthState,
     resetCartState,
 } from "../utils"
-import { mediaFactory } from "../../mock_data/media"
-import { productFactory } from "../../mock_data/product"
+import { mediaFactory } from "../factories/media"
+import { productFactory } from "../factories/product"
 import { server } from "@/core"
 import { ProductPage } from "@/pages/product"
 

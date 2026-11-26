@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query"
 
 import { server } from "@/core/server"
+import { useCartState } from "@/features/item/state"
 
 import type {
     UserInput,
@@ -88,6 +89,7 @@ function useCreateMutation()  {
             isCreatingAccount: boolean  | null
         }) => server.order.create(req),
         onSuccess: (data) => { 
+            useCartState.getState().clearCart()
             window.location.href = data.stripeSessionUrl
         }
     })

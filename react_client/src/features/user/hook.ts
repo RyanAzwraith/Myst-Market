@@ -32,6 +32,7 @@ import {
     usePatchPasswordMutation,
     usePatchMutation,
 } from './service';
+import { isDemoEnvironment, mockFormData } from '@/app/formAutoFillData';
 
 
 export {
@@ -48,18 +49,20 @@ const userFields = (user?: UserSummary ) => ({
         label: "Name",
         placeholder: "Name",
         validate: (v) => !v?.trim() ? "Name required" : null,
-        initial: user?.name
+        initial: user?.name ?? (isDemoEnvironment ? mockFormData.name : undefined),
     },
     email: {
         kind: formInputsKind.email,
         label: "Email",
         placeholder: "Email",
-        initial: user?.email
+        initial: user?.email ?? (isDemoEnvironment ? mockFormData.email : undefined),
     },
 } satisfies FormInputsFieldDefs)
 
 function useRegisterFormInputs({onSuccess}: {
-    onSuccess?: () => void
+    onSuccess?: (response: {
+        setPasswordToken: string | null
+    }) => void
 }) {
     const { mutate } = useCreateMutation({onSuccess});
     return useFormInputs({
@@ -102,11 +105,13 @@ function useSetPasswordFormInputs({onSuccess}: {
         password: {
             kind: formInputsKind.password,
             label: "Password",
+            initial: isDemoEnvironment ? mockFormData.password : undefined,
             validate: (v) => !v ? "Password required" : null
         },
         rePassword: {
             kind: formInputsKind.password,
             label: "Re-enter Password",
+            initial: isDemoEnvironment ? mockFormData.password : undefined,
             validate: (v) => !v ? "Re-enter Password required" : null
         }
     } satisfies FormInputsFieldDefs

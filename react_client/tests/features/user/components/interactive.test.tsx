@@ -3,8 +3,8 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter, resetAuthState } from "../../../utils"
-import { mockAccessToken } from "../../../../mock_data/auth"
-import { userFactory } from "../../../../mock_data/user"
+import { mockAccessToken } from "../../../factories/auth"
+import { userFactory } from "../../../factories/user"
 import { server } from "@/core"
 import {
     DeleteUserButton,
@@ -33,7 +33,7 @@ describe("RegisterForm intimacy: high", () => {
 
     it("submits registration details and calls onSuccess", async () => {
         const create = vi.spyOn(server.user, "create")
-            .mockResolvedValue(undefined)
+            .mockResolvedValue({ setPasswordToken: null })
         const onSuccess = vi.fn()
         const userActions = userEvent.setup()
 

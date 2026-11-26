@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter, resetCartState } from "../../../utils"
-import { itemResolutionFactory } from "../../../../mock_data/item"
+import { itemResolutionFactory } from "../../../factories/item"
 import { server } from "@/core"
 import { ResolutionLoader } from "@/features/item/components/loader"
 

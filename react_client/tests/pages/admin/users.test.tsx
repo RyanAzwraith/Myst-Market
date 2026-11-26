@@ -3,7 +3,7 @@ import { screen, waitFor } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../utils"
-import { userAnalyticsFactory } from "../../../mock_data/user"
+import { userAnalyticsFactory } from "../../factories/user"
 import { server } from "@/core"
 import { UsersPage } from "@/pages/admin/users"
 

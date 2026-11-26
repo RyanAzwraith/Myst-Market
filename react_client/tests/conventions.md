@@ -1,7 +1,7 @@
 # Vitest Conventions
 
 - do not run the tests. test output will be supplied when needed
-- Reuse the utilies in the /tests/utils.tsx file and the object factories in the /mock_data folder
+- Reuse the utilities in the /tests/utils.tsx file and the object factories in the /tests/factories folder
 - always mocked the server implementation, avoid mocking other dependencies unless necessary
 - Focusing on high value tests of meaningful behaviour, important edge cases, error states and likely sources of bugs.  Use judgement, do not be pedantic.
 - do not retesting the behave of child elements or dependencies, only test behaviour directly controlled from the component

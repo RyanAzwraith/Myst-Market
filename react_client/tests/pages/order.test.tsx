@@ -3,9 +3,9 @@ import { screen, waitFor } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../utils"
-import { mediaFactory } from "../../mock_data/media"
-import { itemResolutionFactory } from "../../mock_data/item"
-import { orderFactory } from "../../mock_data/order"
+import { mediaFactory } from "../factories/media"
+import { itemResolutionFactory } from "../factories/item"
+import { orderFactory } from "../factories/order"
 import { server } from "@/core"
 import { OrderPage } from "@/pages/order"
 

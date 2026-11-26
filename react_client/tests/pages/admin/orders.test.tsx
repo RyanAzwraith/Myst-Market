@@ -3,7 +3,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../utils"
-import { orderSummaryFactory } from "../../../mock_data/order"
+import { orderSummaryFactory } from "../../factories/order"
 import { server } from "@/core"
 import { OrdersPage } from "@/pages/admin/orders"
 

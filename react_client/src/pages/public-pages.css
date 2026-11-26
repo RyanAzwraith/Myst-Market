@@ -13,6 +13,7 @@
 }
 
 @media (max-width: 40rem) {
+
     .checkout-page,
     .profile-page,
     .order-page {
@@ -60,7 +61,7 @@
 
 .catalogue-title {
     color: var(--color-primary);
-font-size: clamp(3rem, 10vw, 6rem);
+    font-size: clamp(3rem, 10vw, 6rem);
     letter-spacing: 0.02em;
 }
 
@@ -77,6 +78,10 @@ font-size: clamp(3rem, 10vw, 6rem);
     border-bottom: 2px solid var(--color-gold);
     font-size: 1.25rem;
     padding-bottom: var(--space-2);
+}
+
+.catalogue-sale-carousel .shared-carousel-items {
+    justify-items: stretch;
 }
 
 .shop-content,
@@ -243,7 +248,7 @@ font-size: clamp(3rem, 10vw, 6rem);
     width: 100%;
 }
 
-.profile-record-section .profile-list > .shared-icon-button {
+.profile-record-section .profile-list>.shared-icon-button {
     grid-column: 1 / -1;
     justify-self: center;
 }
@@ -317,11 +322,11 @@ font-size: clamp(3rem, 10vw, 6rem);
     gap: var(--space-1);
 }
 
-.checkout-account-section .form-inputs-text-field > span {
+.checkout-account-section .form-inputs-text-field>span {
     text-align: center;
 }
 
-.checkout-account-section .form-inputs-text-field > .shared-input {
+.checkout-account-section .form-inputs-text-field>.shared-input {
     align-self: center;
     flex: 0 0 auto;
     width: 18rem;
@@ -438,12 +443,26 @@ font-size: clamp(3rem, 10vw, 6rem);
     text-align: center;
 }
 
+.checkout-stripe-hint {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
 .auth-page {
     align-items: center;
 }
 
 .auth-page-title {
     font-size: 1.875rem;
+}
+
+.demo-email-message {
+    max-width: 28rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    text-align: center;
 }
 
 .login-form-card,
@@ -463,7 +482,7 @@ font-size: clamp(3rem, 10vw, 6rem);
 
 .success-card {
     width: min(100%, 32rem);
-    margin: auto;
+    margin: var(--space-8) auto auto;
     text-align: center;
 }
 
@@ -477,6 +496,7 @@ font-size: clamp(3rem, 10vw, 6rem);
 }
 
 @media (min-width: 40rem) {
+
     .catalogue-page,
     .profile-page,
     .order-page,

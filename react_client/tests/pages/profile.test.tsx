@@ -6,10 +6,10 @@ import {
     renderWithRouter,
     resetAuthState,
 } from "../utils"
-import { mockAccessToken } from "../../mock_data/auth"
-import { orderSummaryFactory } from "../../mock_data/order"
-import { reviewFactory } from "../../mock_data/review"
-import { userFactory } from "../../mock_data/user"
+import { mockAccessToken } from "../factories/auth"
+import { orderSummaryFactory } from "../factories/order"
+import { reviewFactory } from "../factories/review"
+import { userFactory } from "../factories/user"
 import { server } from "@/core"
 import { useAuthState } from "@/features/auth/state"
 import { ProfilePage } from "@/pages/profile"

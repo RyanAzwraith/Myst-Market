@@ -1,0 +1,506 @@
+[
+    {
+        "order_id": 1,
+        "product_id": 1,
+        "sale_id": 1,
+        "quantity": 2,
+        "unit_price_aud_cent": 5780
+    },
+    {
+        "order_id": 1,
+        "product_id": 4,
+        "sale_id": 2,
+        "quantity": 1,
+        "unit_price_aud_cent": 14025
+    },
+    {
+        "order_id": 1,
+        "product_id": 69,
+        "sale_id": 1,
+        "quantity": 3,
+        "unit_price_aud_cent": 1530
+    },
+    {
+        "order_id": 2,
+        "product_id": 2,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 7990
+    },
+    {
+        "order_id": 2,
+        "product_id": 19,
+        "sale_id": 1,
+        "quantity": 2,
+        "unit_price_aud_cent": 2720
+    },
+    {
+        "order_id": 2,
+        "product_id": 70,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 2295
+    },
+    {
+        "order_id": 3,
+        "product_id": 3,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 3315
+    },
+    {
+        "order_id": 3,
+        "product_id": 20,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 7395
+    },
+    {
+        "order_id": 3,
+        "product_id": 53,
+        "sale_id": 1,
+        "quantity": 2,
+        "unit_price_aud_cent": 7480
+    },
+    {
+        "order_id": 4,
+        "product_id": 9,
+        "sale_id": 4,
+        "quantity": 1,
+        "unit_price_aud_cent": 5740
+    },
+    {
+        "order_id": 4,
+        "product_id": 10,
+        "sale_id": 4,
+        "quantity": 1,
+        "unit_price_aud_cent": 8120
+    },
+    {
+        "order_id": 4,
+        "product_id": 28,
+        "sale_id": 4,
+        "quantity": 1,
+        "unit_price_aud_cent": 29050
+    },
+    {
+        "order_id": 5,
+        "product_id": 14,
+        "sale_id": 6,
+        "quantity": 1,
+        "unit_price_aud_cent": 14820
+    },
+    {
+        "order_id": 5,
+        "product_id": 15,
+        "sale_id": 6,
+        "quantity": 1,
+        "unit_price_aud_cent": 22685
+    },
+    {
+        "order_id": 5,
+        "product_id": 16,
+        "sale_id": 6,
+        "quantity": 2,
+        "unit_price_aud_cent": 11440
+    },
+    {
+        "order_id": 6,
+        "product_id": 36,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 4100
+    },
+    {
+        "order_id": 6,
+        "product_id": 37,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 5800
+    },
+    {
+        "order_id": 6,
+        "product_id": 43,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 2700
+    },
+    {
+        "order_id": 7,
+        "product_id": 45,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 15700
+    },
+    {
+        "order_id": 7,
+        "product_id": 47,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 3600
+    },
+    {
+        "order_id": 7,
+        "product_id": 69,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 1800
+    },
+    {
+        "order_id": 8,
+        "product_id": 54,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 16400
+    },
+    {
+        "order_id": 8,
+        "product_id": 55,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 4500
+    },
+    {
+        "order_id": 8,
+        "product_id": 61,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 5600
+    },
+    {
+        "order_id": 9,
+        "product_id": 72,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 4900
+    },
+    {
+        "order_id": 9,
+        "product_id": 73,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 3200
+    },
+    {
+        "order_id": 9,
+        "product_id": 76,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 9200
+    },
+    {
+        "order_id": 10,
+        "product_id": 85,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 21900
+    },
+    {
+        "order_id": 10,
+        "product_id": 86,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 13400
+    },
+    {
+        "order_id": 10,
+        "product_id": 87,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 6400
+    },
+    {
+        "order_id": 11,
+        "product_id": 11,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 2600
+    },
+    {
+        "order_id": 11,
+        "product_id": 12,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 9900
+    },
+    {
+        "order_id": 11,
+        "product_id": 56,
+        "sale_id": null,
+        "quantity": 3,
+        "unit_price_aud_cent": 1900
+    },
+    {
+        "order_id": 12,
+        "product_id": 18,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 48900
+    },
+    {
+        "order_id": 12,
+        "product_id": 24,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 10300
+    },
+    {
+        "order_id": 12,
+        "product_id": 68,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 38500
+    },
+    {
+        "order_id": 13,
+        "product_id": 25,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 12800
+    },
+    {
+        "order_id": 13,
+        "product_id": 30,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 6900
+    },
+    {
+        "order_id": 13,
+        "product_id": 78,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 2100
+    },
+    {
+        "order_id": 14,
+        "product_id": 38,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 9900
+    },
+    {
+        "order_id": 14,
+        "product_id": 44,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 4900
+    },
+    {
+        "order_id": 14,
+        "product_id": 82,
+        "sale_id": null,
+        "quantity": 3,
+        "unit_price_aud_cent": 1400
+    },
+    {
+        "order_id": 15,
+        "product_id": 5,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 12100
+    },
+    {
+        "order_id": 15,
+        "product_id": 21,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 11200
+    },
+    {
+        "order_id": 15,
+        "product_id": 57,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 7100
+    },
+    {
+        "order_id": 16,
+        "product_id": 6,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 7300
+    },
+    {
+        "order_id": 16,
+        "product_id": 22,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 7600
+    },
+    {
+        "order_id": 16,
+        "product_id": 70,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 2700
+    },
+    {
+        "order_id": 17,
+        "product_id": 19,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 3200
+    },
+    {
+        "order_id": 17,
+        "product_id": 27,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 2900
+    },
+    {
+        "order_id": 17,
+        "product_id": 69,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 1800
+    },
+    {
+        "order_id": 18,
+        "product_id": 1,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 6800
+    },
+    {
+        "order_id": 18,
+        "product_id": 36,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 4100
+    },
+    {
+        "order_id": 18,
+        "product_id": 43,
+        "sale_id": null,
+        "quantity": 2,
+        "unit_price_aud_cent": 2700
+    },
+    {
+        "order_id": 19,
+        "product_id": 2,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 9400
+    },
+    {
+        "order_id": 19,
+        "product_id": 19,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 3200
+    },
+    {
+        "order_id": 19,
+        "product_id": 53,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 8800
+    },
+    {
+        "order_id": 20,
+        "product_id": 3,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 3900
+    },
+    {
+        "order_id": 20,
+        "product_id": 20,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 8700
+    },
+    {
+        "order_id": 20,
+        "product_id": 69,
+        "sale_id": null,
+        "quantity": 1,
+        "unit_price_aud_cent": 1800
+    },
+    {
+        "order_id": 21,
+        "product_id": 5,
+        "sale_id": 2,
+        "quantity": 1,
+        "unit_price_aud_cent": 9075
+    },
+    {
+        "order_id": 21,
+        "product_id": 22,
+        "sale_id": 2,
+        "quantity": 1,
+        "unit_price_aud_cent": 5700
+    },
+    {
+        "order_id": 21,
+        "product_id": 72,
+        "sale_id": 2,
+        "quantity": 2,
+        "unit_price_aud_cent": 3675
+    },
+    {
+        "order_id": 22,
+        "product_id": 1,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 5780
+    },
+    {
+        "order_id": 22,
+        "product_id": 38,
+        "sale_id": 2,
+        "quantity": 2,
+        "unit_price_aud_cent": 7425
+    },
+    {
+        "order_id": 22,
+        "product_id": 55,
+        "sale_id": 2,
+        "quantity": 1,
+        "unit_price_aud_cent": 3375
+    },
+    {
+        "order_id": 23,
+        "product_id": 69,
+        "sale_id": 1,
+        "quantity": 2,
+        "unit_price_aud_cent": 1530
+    },
+    {
+        "order_id": 23,
+        "product_id": 70,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 1530
+    },
+    {
+        "order_id": 23,
+        "product_id": 86,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 11390
+    },
+    {
+        "order_id": 24,
+        "product_id": 3,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 3315
+    },
+    {
+        "order_id": 24,
+        "product_id": 4,
+        "sale_id": 2,
+        "quantity": 1,
+        "unit_price_aud_cent": 14025
+    },
+    {
+        "order_id": 24,
+        "product_id": 85,
+        "sale_id": 1,
+        "quantity": 1,
+        "unit_price_aud_cent": 18615
+    }
+]

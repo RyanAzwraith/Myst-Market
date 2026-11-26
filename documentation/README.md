@@ -1,85 +1,90 @@
 # Myst-Market
+
 You one-stop shop for everything magical, dangerous, and mildly questionable.
 
----
+## Tech Stack
 
-# Tech Stack
-- /fastAPI_Server: python fastapi, SQLAlchemy, Alembic, stripe, resend
-    - Stripe is in test mode
-    - Resend only works with my email
-    - SQLite is used by default
-- /react_client: typescript, React, Vite, playwright
+- `fastapi_server`: FastAPI, SQLAlchemy, Alembic, SQLite, Stripe, and Resend
+- `react_client`: React, TypeScript, Vite, Vitest, Testing Library, and Playwright
 
----
+Stripe is configured for test mode. Resend email delivery is tied to the configured account and may not work for arbitrary recipients.
 
-# Setup and Run
+## Backend Setup
 
-## fastAPI_Server
-Setup:
-1. > cd fastapi_server
-2. > python -m venv venv
-3. > venv\Scripts\activate
-4. > pip install -r requirements.txt
-5. create .env file
+```powershell
+cd fastapi_server
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .dev.env
+```
 
-Run server:
-> uvicorn app.main:app --reload
+Edit `fastapi_server/.dev.env` and provide the required keys. The default development configuration uses SQLite and stores the database in `sqlite_database/myst_market_database.db`. 
 
-migratation:
-> alembic revision --autogenerate -m "message"
-> alembic upgrade head
+Start the API from `fastapi_server`:
 
-seeding:
-1. edit run_seed.py
-2. > python -m app.db.seeds.run_seed --clear
-    - --clear is optional
+```powershell
+uvicorn app.main:app --reload
+```
 
-testing:
-> python -m pytest
+The API is available at `http://localhost:8000`.
 
-## /react_client
-Setup:
-1. > cd react_client
-2. > npm install
-3. create .env file
+### Database
 
-Run Server:
-> npm run dev
+Apply existing migrations:
 
-test Strip card number: 4242 4242 4242 4242
+```powershell
+alembic upgrade head
+```
 
-testing:
-> npm run test
+Generate a migration after changing the SQLAlchemy models:
 
-Playwright testing:
-> npx playwright test --ui
-- automatically runs backend server
+```powershell
+alembic revision --autogenerate -m "describe the change"
+```
 
+For development data, run the SQLite seed script from `fastapi_server`:
 
+```powershell
+python -m app.implementations.database.sqlite.dev_seed
+```
 
-# Architecture
+### Backend Tests
 
-## Problem
+```powershell
+python -m pytest
+```
 
-The original application organised frontend features around
-pages. This caused substantial coupling between features because
-pages often represented workflows spanning multiple business
-responsibilities.
+## Frontend Setup
 
-## Decision
+```powershell
+cd react_client
+npm install
+Copy-Item .env.example .env.development
+```
 
-Features are now organised around business responsibilities,
-while pages act primarily as composition/presentation layers.
+Set `VITE_SERVER_URL=http://localhost:8000` and a test `VITE_STRIPE_PUBLIC_KEY` in `.env.development`.
 
-## Dependencies
+Start the frontend:
 
-Features should not access another feature's internal
-implementation.
+```powershell
+npm run dev
+```
 
-Shared schemas and explicitly defined interfaces are permitted.
+The app is available at `http://localhost:5173`.
 
-## External dependencies
+### Frontend Checks and Tests
 
-External services are accessed through adapters so that the
-application can use alternative implementations for testing
-and development.
+```powershell
+npm run typecheck
+npm run test
+npm run build
+```
+
+Run the end-to-end suite with the backend and frontend configuration in `.env.e2e`:
+
+```powershell
+npx playwright test
+```
+
+Playwright starts the Vite frontend and the test backend automatically. The test Stripe card number is `4242 4242 4242 4242`.

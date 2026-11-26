@@ -42,9 +42,9 @@ describe("RegisterPage intimacy: high", () => {
             .toHaveTextContent("/login")
     })
 
-    it("submits registration details and navigates to login", async () => {
+    it("submits registration details and navigates to set password", async () => {
         const create = vi.spyOn(server.user, "create")
-            .mockResolvedValue(undefined)
+            .mockResolvedValue({ setPasswordToken: "demo-token" })
         const user = userEvent.setup()
 
         renderWithRouter(<RegisterPage />, {
@@ -72,7 +72,9 @@ describe("RegisterPage intimacy: high", () => {
                 },
             })
             expect(screen.getByTestId("location"))
-                .toHaveTextContent("/login")
+                .toHaveTextContent(
+                    "/set-password?token=demo-token&demo=true",
+                )
         })
     })
 })

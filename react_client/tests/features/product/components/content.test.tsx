@@ -2,8 +2,8 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { mediaFactory } from "../../../../mock_data/media"
-import { productAnalyticsFactory, productFactory } from "../../../../mock_data/product"
+import { mediaFactory } from "../../../factories/media"
+import { productAnalyticsFactory, productFactory } from "../../../factories/product"
 import { server } from "@/core"
 import {
     AdminSummaryInfo,
@@ -24,6 +24,27 @@ describe("ProductCarousel intimacy: medium", () => {
         renderWithRouter(<ProductCarousel productId={4} />)
 
         expect(await screen.findByAltText("Product gallery"))
+            .toBeInTheDocument()
+    })
+
+    it("shows one product media item at a time", async () => {
+        const media = [
+            mediaFactory({ id: 1, altText: "Product image one" }),
+            mediaFactory({ id: 2, altText: "Product image two" }),
+            mediaFactory({ id: 3, altText: "Product image three" }),
+        ]
+        vi.spyOn(server.product, "getMedias")
+            .mockResolvedValue({ medias: media })
+
+        renderWithRouter(<ProductCarousel productId={4} />)
+
+        expect(await screen.findByAltText("Product image one"))
+            .toBeInTheDocument()
+        expect(screen.queryByAltText("Product image two"))
+            .not.toBeInTheDocument()
+        expect(screen.queryByAltText("Product image three"))
+            .not.toBeInTheDocument()
+        expect(screen.getByRole("button", { name: "Next items" }))
             .toBeInTheDocument()
     })
 

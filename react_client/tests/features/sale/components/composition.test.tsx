@@ -2,8 +2,8 @@ import { fireEvent, screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { saleFactory } from "../../../../mock_data/sale"
-import { mediaFactory } from "../../../../mock_data/media"
+import { saleFactory } from "../../../factories/sale"
+import { mediaFactory } from "../../../factories/media"
 import { SaleCard } from "@/features/sale/components/composition"
 
 describe("SaleCard intimacy: low", () => {

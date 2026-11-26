@@ -31,6 +31,7 @@ import {
     usePatchManyMutation, 
     usePostMutation
 } from './service';
+import { isDemoEnvironment, mockFormData } from '@/app/formAutoFillData';
 
 
 export {
@@ -51,37 +52,37 @@ const updateFormFields = (product?: ProductFields) => ({
     name: { 
         kind: formInputsKind.text,
         label: "Name", 
-        initial: product?.name,
+        initial: product?.name ?? (isDemoEnvironment ? mockFormData.product.name : undefined),
     },
     categoryName: { 
         kind: formInputsKind.text,
         label: "Category",
-        initial: product?.categoryName,
+        initial: product?.categoryName ?? (isDemoEnvironment ? mockFormData.product.categoryName : undefined),
     },
     rarityName: {
         kind: formInputsKind.text,
         label: "Rarity",
-        initial: product?.rarityName,
+        initial: product?.rarityName ?? (isDemoEnvironment ? mockFormData.product.rarityName : undefined),
     },
     priceAudCent: {
         kind: formInputsKind.number,
         label: "Price (cents)",
-        initial: product?.priceAudCent,
+        initial: product?.priceAudCent ?? (isDemoEnvironment ? mockFormData.product.priceAudCent : undefined),
     },
     slug: {
         kind: formInputsKind.text,
         label: "Slug",
-        initial: product?.slug,
+        initial: product?.slug ?? (isDemoEnvironment ? mockFormData.product.slug : undefined),
     },
     description: {
         kind: formInputsKind.text,
         label: "Description",
-        initial: product?.description,
+        initial: product?.description ?? (isDemoEnvironment ? mockFormData.product.description : undefined),
     },
     stock: {
         kind: formInputsKind.number,
         label: "Stock",
-        initial: product?.stock,
+        initial: product?.stock ?? (isDemoEnvironment ? mockFormData.product.stock : undefined),
     }
 } as FormFieldDefs)
 

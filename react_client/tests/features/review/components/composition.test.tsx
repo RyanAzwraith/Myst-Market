@@ -3,7 +3,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { reviewFactory } from "../../../../mock_data/review"
+import { reviewFactory } from "../../../factories/review"
 import { ReviewCard } from "@/features/review/components/composition"
 
 describe("ReviewCard intimacy: medium", () => {

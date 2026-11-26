@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
 
 import { renderWithRouter } from "../../../utils"
-import { mediaFactory } from "../../../../mock_data/media"
+import { mediaFactory } from "../../../factories/media"
 import {
     Image,
     Media,

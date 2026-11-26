@@ -6,10 +6,10 @@ import {
     renderWithRouter,
     resetCartState,
 } from "../utils"
-import { mediaFactory } from "../../mock_data/media"
-import { productFactory } from "../../mock_data/product"
-import { reviewFactory } from "../../mock_data/review"
-import { saleFactory } from "../../mock_data/sale"
+import { mediaFactory } from "../factories/media"
+import { productFactory } from "../factories/product"
+import { reviewFactory } from "../factories/review"
+import { saleFactory } from "../factories/sale"
 import { server } from "@/core"
 import { CataloguePage } from "@/pages/catalogue"
 

@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest"
 
 import { resetAuthState } from "../../utils"
-import { mockAccessToken } from "../../../mock_data/auth"
-import { userFactory } from "../../../mock_data/user"
+import { mockAccessToken } from "../../factories/auth"
+import { userFactory } from "../../factories/user"
 import { useAuthState } from "@/features/auth/state"
 
 describe("useAuthState intimacy: low", () => {

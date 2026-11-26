@@ -151,12 +151,10 @@
 
 .product-card-rarity-rare {
     border: 1px solid var(--color-gold);
-    background: linear-gradient(
-        110deg,
-        #d5ad59 0%,
-        #fff3b0 45%,
-        #d5ad59 70%
-    );
+    background: linear-gradient(110deg,
+            #d5ad59 0%,
+            #fff3b0 45%,
+            #d5ad59 70%);
     background-size: 220% 100%;
     color: #5d3b06;
     box-shadow: 0 0 0 1px rgb(213 173 89 / 30%);
@@ -172,13 +170,11 @@
 
 .product-card-rarity-legendary {
     border: 1px solid #d45a24;
-    background: linear-gradient(
-        120deg,
-        #8d3030 0%,
-        #f0782e 42%,
-        #ffd35a 58%,
-        #b53a1e 100%
-    );
+    background: linear-gradient(120deg,
+            #8d3030 0%,
+            #f0782e 42%,
+            #ffd35a 58%,
+            #b53a1e 100%);
     background-size: 180% 180%;
     color: #fffaf0;
     text-shadow: 0 1px 2px rgb(61 20 8 / 70%);
@@ -276,7 +272,7 @@
     text-decoration: line-through;
 }
 
-.price-format-sale > .shared-money-format {
+.price-format-sale>.shared-money-format {
     color: var(--color-primary);
     font-weight: 600;
 }
@@ -292,6 +288,7 @@
 
 .product-image,
 .product-carousel {
+    width: 100%;
     max-width: 100%;
 }
 
@@ -366,7 +363,7 @@
     margin-top: var(--space-1);
 }
 
-.product-modal .product-update-form > .shared-button {
+.product-modal .product-update-form>.shared-button {
     justify-self: center;
 }
 
@@ -388,6 +385,10 @@
     border-radius: 0.75rem;
     object-fit: contain;
     image-rendering: pixelated;
+}
+
+.product-carousel.shared-carousel .shared-carousel-items {
+    grid-template-columns: minmax(0, 1fr);
 }
 
 .product-admin-summary-info {
@@ -520,7 +521,7 @@
         align-items: end;
     }
 
-    .product-modal .product-update-form > .shared-button {
+    .product-modal .product-update-form>.shared-button {
         grid-column: 1 / -1;
         justify-self: center;
     }

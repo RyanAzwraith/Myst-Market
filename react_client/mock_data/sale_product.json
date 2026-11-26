@@ -1,0 +1,386 @@
+[
+    {
+        "sale_id": 1,
+        "product_id": 1
+    },
+    {
+        "sale_id": 1,
+        "product_id": 2
+    },
+    {
+        "sale_id": 1,
+        "product_id": 3
+    },
+    {
+        "sale_id": 1,
+        "product_id": 18
+    },
+    {
+        "sale_id": 1,
+        "product_id": 19
+    },
+    {
+        "sale_id": 1,
+        "product_id": 20
+    },
+    {
+        "sale_id": 1,
+        "product_id": 21
+    },
+    {
+        "sale_id": 1,
+        "product_id": 36
+    },
+    {
+        "sale_id": 1,
+        "product_id": 37
+    },
+    {
+        "sale_id": 1,
+        "product_id": 53
+    },
+    {
+        "sale_id": 1,
+        "product_id": 54
+    },
+    {
+        "sale_id": 1,
+        "product_id": 69
+    },
+    {
+        "sale_id": 1,
+        "product_id": 70
+    },
+    {
+        "sale_id": 1,
+        "product_id": 71
+    },
+    {
+        "sale_id": 1,
+        "product_id": 85
+    },
+    {
+        "sale_id": 1,
+        "product_id": 86
+    },
+    {
+        "sale_id": 2,
+        "product_id": 4
+    },
+    {
+        "sale_id": 2,
+        "product_id": 5
+    },
+    {
+        "sale_id": 2,
+        "product_id": 6
+    },
+    {
+        "sale_id": 2,
+        "product_id": 22
+    },
+    {
+        "sale_id": 2,
+        "product_id": 23
+    },
+    {
+        "sale_id": 2,
+        "product_id": 24
+    },
+    {
+        "sale_id": 2,
+        "product_id": 38
+    },
+    {
+        "sale_id": 2,
+        "product_id": 40
+    },
+    {
+        "sale_id": 2,
+        "product_id": 55
+    },
+    {
+        "sale_id": 2,
+        "product_id": 57
+    },
+    {
+        "sale_id": 2,
+        "product_id": 72
+    },
+    {
+        "sale_id": 2,
+        "product_id": 75
+    },
+    {
+        "sale_id": 2,
+        "product_id": 87
+    },
+    {
+        "sale_id": 2,
+        "product_id": 89
+    },
+    {
+        "sale_id": 3,
+        "product_id": 7
+    },
+    {
+        "sale_id": 3,
+        "product_id": 8
+    },
+    {
+        "sale_id": 3,
+        "product_id": 25
+    },
+    {
+        "sale_id": 3,
+        "product_id": 26
+    },
+    {
+        "sale_id": 3,
+        "product_id": 27
+    },
+    {
+        "sale_id": 3,
+        "product_id": 41
+    },
+    {
+        "sale_id": 3,
+        "product_id": 42
+    },
+    {
+        "sale_id": 3,
+        "product_id": 43
+    },
+    {
+        "sale_id": 3,
+        "product_id": 58
+    },
+    {
+        "sale_id": 3,
+        "product_id": 60
+    },
+    {
+        "sale_id": 3,
+        "product_id": 73
+    },
+    {
+        "sale_id": 3,
+        "product_id": 74
+    },
+    {
+        "sale_id": 3,
+        "product_id": 76
+    },
+    {
+        "sale_id": 3,
+        "product_id": 90
+    },
+    {
+        "sale_id": 3,
+        "product_id": 91
+    },
+    {
+        "sale_id": 4,
+        "product_id": 9
+    },
+    {
+        "sale_id": 4,
+        "product_id": 10
+    },
+    {
+        "sale_id": 4,
+        "product_id": 28
+    },
+    {
+        "sale_id": 4,
+        "product_id": 29
+    },
+    {
+        "sale_id": 4,
+        "product_id": 44
+    },
+    {
+        "sale_id": 4,
+        "product_id": 45
+    },
+    {
+        "sale_id": 4,
+        "product_id": 61
+    },
+    {
+        "sale_id": 4,
+        "product_id": 62
+    },
+    {
+        "sale_id": 4,
+        "product_id": 77
+    },
+    {
+        "sale_id": 4,
+        "product_id": 78
+    },
+    {
+        "sale_id": 4,
+        "product_id": 92
+    },
+    {
+        "sale_id": 4,
+        "product_id": 93
+    },
+    {
+        "sale_id": 5,
+        "product_id": 11
+    },
+    {
+        "sale_id": 5,
+        "product_id": 12
+    },
+    {
+        "sale_id": 5,
+        "product_id": 13
+    },
+    {
+        "sale_id": 5,
+        "product_id": 30
+    },
+    {
+        "sale_id": 5,
+        "product_id": 31
+    },
+    {
+        "sale_id": 5,
+        "product_id": 32
+    },
+    {
+        "sale_id": 5,
+        "product_id": 46
+    },
+    {
+        "sale_id": 5,
+        "product_id": 47
+    },
+    {
+        "sale_id": 5,
+        "product_id": 48
+    },
+    {
+        "sale_id": 5,
+        "product_id": 63
+    },
+    {
+        "sale_id": 5,
+        "product_id": 64
+    },
+    {
+        "sale_id": 5,
+        "product_id": 79
+    },
+    {
+        "sale_id": 5,
+        "product_id": 80
+    },
+    {
+        "sale_id": 5,
+        "product_id": 94
+    },
+    {
+        "sale_id": 5,
+        "product_id": 95
+    },
+    {
+        "sale_id": 6,
+        "product_id": 14
+    },
+    {
+        "sale_id": 6,
+        "product_id": 15
+    },
+    {
+        "sale_id": 6,
+        "product_id": 16
+    },
+    {
+        "sale_id": 6,
+        "product_id": 17
+    },
+    {
+        "sale_id": 6,
+        "product_id": 33
+    },
+    {
+        "sale_id": 6,
+        "product_id": 34
+    },
+    {
+        "sale_id": 6,
+        "product_id": 35
+    },
+    {
+        "sale_id": 6,
+        "product_id": 49
+    },
+    {
+        "sale_id": 6,
+        "product_id": 50
+    },
+    {
+        "sale_id": 6,
+        "product_id": 51
+    },
+    {
+        "sale_id": 6,
+        "product_id": 52
+    },
+    {
+        "sale_id": 6,
+        "product_id": 65
+    },
+    {
+        "sale_id": 6,
+        "product_id": 66
+    },
+    {
+        "sale_id": 6,
+        "product_id": 67
+    },
+    {
+        "sale_id": 6,
+        "product_id": 68
+    },
+    {
+        "sale_id": 6,
+        "product_id": 81
+    },
+    {
+        "sale_id": 6,
+        "product_id": 82
+    },
+    {
+        "sale_id": 6,
+        "product_id": 83
+    },
+    {
+        "sale_id": 6,
+        "product_id": 84
+    },
+    {
+        "sale_id": 6,
+        "product_id": 96
+    },
+    {
+        "sale_id": 6,
+        "product_id": 97
+    },
+    {
+        "sale_id": 6,
+        "product_id": 98
+    },
+    {
+        "sale_id": 6,
+        "product_id": 99
+    },
+    {
+        "sale_id": 6,
+        "product_id": 100
+    }
+]

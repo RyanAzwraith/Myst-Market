@@ -1,73 +1,19 @@
-Plan
-x Initiliazation
-x Desgin
-x User feature
-x Shop feature
-x Cart feature
-x Checkout feature
-x Orders feature
-x Reviews feature
-x Catalogue feature
-x Admin feature
-x Media
+# Plan
 
-- Refactor
-- Styling
-- Deploy
-
----
-
-Initilization
-31/5 - 8/6
-x Setup github
-x Install modules
-x Initialize fast api
-x Initialize react
-x Create database connection
-x Setup a hello world routes
-x Finalize folder structure
-x Finalize env config
-x Setup litting/formating
-x Setup logging
-x Setup error handling
-x setup testing
-x Initialize strip, cors
-x make themes
-x initialize migrations
-x Document
-
-Desgin and Scaffold
-8/6
-x Customer flow
-x Website desgin
-x Database design
-x core React models
-x Shared Components
-x sqlalchemy modelling
-x migration
-x dev seeding
-
-Features
-9/6
-x User
-x Shop
-x Cart
-x Checkout
-x Reviews
-x Catalogue
-x Admin
-x Media
-
-Refactor
-24/8
-
-Deploy
-
-- prevent logging senstive data
-- prevent exposing raw exceptions to client
-- improve documentation
-- seed database
-- images
+* [X] Initiliazation
+* [X] Desgin
+* [X] User feature
+* [X] Shop feature
+* [X] Cart feature
+* [X] Checkout feature
+* [X] Orders feature
+* [X] Reviews feature
+* [X] Catalogue feature
+* [X] Admin feature
+* [X] Media
+* [X] Refactor
+* [X] Styling
+* [ ] Deploy
 
 ---
 

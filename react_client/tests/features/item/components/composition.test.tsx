@@ -3,8 +3,8 @@ import { screen } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { renderWithRouter, resetCartState } from "../../../utils"
-import { itemResolutionFactory, itemFactory } from "../../../../mock_data/item"
-import { productFactory } from "../../../../mock_data/product"
+import { itemResolutionFactory, itemFactory } from "../../../factories/item"
+import { productFactory } from "../../../factories/product"
 import { server } from "@/core"
 import {
     ItemCard,

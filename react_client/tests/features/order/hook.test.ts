@@ -2,9 +2,9 @@ import { act, renderHook, waitFor } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
 import { createWrapper } from "../../utils"
-import { itemSummaryFactory } from "../../../mock_data/item"
-import { orderFactory, orderSummaryFactory } from "../../../mock_data/order"
-import { userFactory } from "../../../mock_data/user"
+import { itemSummaryFactory } from "../../factories/item"
+import { orderFactory, orderSummaryFactory } from "../../factories/order"
+import { userFactory } from "../../factories/user"
 import { ServerException, server } from "@/core"
 import {
     useAdminSearchParams,

@@ -35,7 +35,9 @@ export {
 
 // Forms
 function RegisterForm({ onSuccess, className }: { 
-    onSuccess?: () => void
+    onSuccess?: (response: {
+        setPasswordToken: string | null
+    }) => void
     className?: string
 }
 ) {

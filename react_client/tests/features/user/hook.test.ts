@@ -2,7 +2,7 @@ import { act, renderHook, waitFor } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { createWrapper, resetAuthState } from "../../utils"
-import { userFactory } from "../../../mock_data/user"
+import { userFactory } from "../../factories/user"
 import { ServerException, server } from "@/core"
 import {
     userFields,
@@ -45,7 +45,7 @@ describe("useRegisterFormInputs intimacy: medium", () => {
 
     it("functionality submits user details and calls onSuccess", async () => {
         const create = vi.spyOn(server.user, "create")
-            .mockResolvedValue(undefined)
+            .mockResolvedValue({ setPasswordToken: null })
         const onSuccess = vi.fn()
         const { wrapper } = createWrapper()
         const { result } = renderHook(

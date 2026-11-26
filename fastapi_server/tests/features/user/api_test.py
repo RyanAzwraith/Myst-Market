@@ -142,6 +142,40 @@ class CreateUserHandler_test:
         )
         send_email.assert_called_once_with(created_user)
 
+    def resend_failure_returns_set_password_token_test(
+        self,
+        user_client,
+        database,
+        monkeypatch,
+    ):
+        created_user = user_record_factory()
+        database.user.create.return_value = created_user
+        monkeypatch.setattr(
+            user_api_module,
+            "send_set_password_email",
+            Mock(side_effect=user_api_module.AppError("Resend not working")),
+        )
+        create_token = Mock(return_value="set-password-token")
+        monkeypatch.setattr(
+            user_api_module,
+            "create_set_password_token",
+            create_token,
+        )
+
+        response = user_client.post(
+            "/user",
+            json={
+                "userInput": {
+                    "email": created_user.email,
+                    "name": created_user.name,
+                },
+            },
+        )
+
+        assert response.status_code == 201
+        assert response.json()["setPasswordToken"] == "set-password-token"
+        create_token.assert_called_once_with(created_user.id)
+
 
 @pytest.mark.medium
 class PatchUserHandler_test:
