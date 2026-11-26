@@ -17,7 +17,7 @@ export function App() {
 
 	return (
 	<QueryClientProvider client={queryClient}>
-		<BrowserRouter>
+		<BrowserRouter basename="/Myst-Market/">
 			<Scaffold>
 				<PageRoutesComponent />
 			</Scaffold>
